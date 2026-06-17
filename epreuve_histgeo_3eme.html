@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Épreuve Hist-Géo — 3ème</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Serif+4:wght@300;400;600&family=Space+Grotesk:wght@400;500;600&display=swap');
+  :root{
+    --ink:#1a1a2e;--bg:#f5f2ec;--warm:#fefcf8;--accent-h:#7a4a10;--accent-g:#1a5a3a;
+    --h-light:#c08040;--g-light:#3a9a6a;--h-soft:#fdf4e8;--g-soft:#e8f5ee;
+    --green:#1a6b3a;--green-light:#e6f4ee;--red:#8b1a1a;
+    --gold:#7a6000;--gold-light:#fdf6e0;--border:#d8d0c0;--muted:#7a7060;--shadow:rgba(26,26,46,0.07);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Source Serif 4',Georgia,serif;background:var(--bg);color:var(--ink);font-size:16px;line-height:1.78;}
+  header{background:linear-gradient(135deg,#1a1a2e 0%,#3a2808 50%,#0a3a20 100%);color:#fff;padding:2.2rem 2rem 1.8rem;text-align:center;}
+  .eyebrow{font-family:'Space Grotesk',sans-serif;font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:#d0b888;margin-bottom:.5rem;}
+  header h1{font-family:'Playfair Display',serif;font-size:clamp(1.5rem,4vw,2.2rem);color:#fff;}
+  .hmeta{display:flex;justify-content:center;flex-wrap:wrap;gap:1.8rem;margin-top:1rem;font-family:'Space Grotesk',sans-serif;font-size:.8rem;color:#b8b0a0;letter-spacing:.05em;}
+  .tab-bar{display:flex;background:var(--warm);border-bottom:2px solid var(--border);overflow-x:auto;position:sticky;top:0;z-index:50;scrollbar-width:none;}
+  .tab-bar::-webkit-scrollbar{display:none;}
+  .tab-btn{font-family:'Space Grotesk',sans-serif;font-size:.74rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:.85rem 1.2rem;border:none;background:transparent;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap;transition:all .2s;}
+  .tab-btn.hist.active{color:var(--accent-h);border-bottom-color:var(--accent-h);}
+  .tab-btn.geo.active{color:var(--accent-g);border-bottom-color:var(--accent-g);}
+  .tab-btn.corr.active{color:#444;border-bottom-color:#444;}
+  .tab-btn:hover:not(.active){color:var(--ink);background:#f0ece0;}
+  main{max-width:860px;margin:0 auto;padding:2rem 1.5rem 5rem;}
+  .tab-panel{display:none;}.tab-panel.active{display:block;}
+  .card{background:var(--warm);border:1px solid var(--border);border-radius:4px;padding:1.8rem 2rem;margin-bottom:1.6rem;box-shadow:0 2px 8px var(--shadow);}
+  .card-label{font-family:'Space Grotesk',sans-serif;font-size:.65rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;margin-bottom:.4rem;}
+  .card-label.h{color:var(--h-light);}
+  .card-label.g{color:var(--g-light);}
+  .card h2{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--ink);border-bottom:1px solid var(--border);padding-bottom:.6rem;margin-bottom:1rem;}
+
+  /* BANNERS */
+  .part-banner{color:#fff;font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:.65rem 1.2rem;border-radius:4px;margin-bottom:1rem;display:flex;justify-content:space-between;align-items:center;}
+  .part-banner.h{background:var(--accent-h);}
+  .part-banner.g{background:var(--accent-g);}
+  .part-pts{background:rgba(255,255,255,0.22);padding:.15rem .6rem;border-radius:10px;font-size:.76rem;}
+
+  /* CRITÈRES */
+  .criteres-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.2rem;}
+  @media(max-width:580px){.criteres-grid{grid-template-columns:1fr;}}
+  .crit-box{background:var(--h-soft);border:1px solid #e0c8a0;border-radius:4px;padding:.85rem 1rem;font-size:.86rem;}
+  .crit-box.g{background:var(--g-soft);border-color:#a8d8b8;}
+  .crit-title{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.4rem;}
+  .crit-title.h{color:var(--accent-h);}
+  .crit-title.g{color:var(--accent-g);}
+  .crit-box ul{padding-left:1.1rem;}
+  .crit-box li{margin-bottom:.25rem;}
+
+  /* TEXTE */
+  .texte-box{background:var(--h-soft);border-left:4px solid var(--accent-h);border-radius:0 4px 4px 0;padding:1.3rem 1.5rem;font-size:.94rem;line-height:1.85;margin-bottom:1rem;}
+  .texte-box p{margin-bottom:.75rem;}.texte-box p:last-child{margin-bottom:0;}
+  .texte-box .source{font-family:'Space Grotesk',sans-serif;font-size:.74rem;color:var(--muted);margin-top:.9rem;font-style:italic;border-top:1px solid #e0c8a0;padding-top:.5rem;text-align:right;}
+
+  /* GEO CONTEXTE */
+  .geo-ctx{background:var(--g-soft);border-left:4px solid var(--accent-g);border-radius:0 4px 4px 0;padding:1.1rem 1.3rem;font-size:.93rem;line-height:1.8;margin-bottom:1rem;}
+
+  /* QUESTIONS */
+  .q-block{background:var(--warm);border:1px solid var(--border);border-radius:4px;padding:1.2rem 1.5rem;margin-bottom:1rem;}
+  .q-head{display:flex;align-items:flex-start;gap:.8rem;margin-bottom:.7rem;}
+  .q-num-h{background:var(--accent-h);color:#fff;font-family:'Space Grotesk',sans-serif;font-size:.74rem;font-weight:700;min-width:1.8rem;height:1.8rem;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:.1rem;}
+  .q-num-g{background:var(--accent-g);color:#fff;font-family:'Space Grotesk',sans-serif;font-size:.74rem;font-weight:700;min-width:1.8rem;height:1.8rem;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:.1rem;}
+  .q-txt{flex:1;font-size:.94rem;line-height:1.62;}
+  .pts{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:600;color:var(--gold);background:var(--gold-light);border:1px solid #dfc96a;padding:.1rem .5rem;border-radius:10px;white-space:nowrap;flex-shrink:0;}
+  textarea.rep{width:100%;min-height:100px;border:1.5px solid var(--border);border-radius:4px;padding:.7rem .9rem;font-family:'Source Serif 4',serif;font-size:.93rem;line-height:1.7;background:#fdfbf5;color:var(--ink);resize:vertical;transition:border-color .2s;}
+  textarea.rep:focus{outline:none;background:#fff;}
+  textarea.rep.h:focus{border-color:var(--h-light);}
+  textarea.rep.g:focus{border-color:var(--g-light);}
+  textarea.rep.large{min-height:200px;}
+  .wc{font-family:'Space Grotesk',sans-serif;font-size:.7rem;color:var(--muted);text-align:right;margin-top:.28rem;}
+
+  /* SUBMIT */
+  .btn-h{display:block;width:100%;padding:.9rem;background:var(--accent-h);color:#fff;font-family:'Space Grotesk',sans-serif;font-size:.86rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;border:none;border-radius:4px;cursor:pointer;transition:background .2s;margin-top:1.3rem;}
+  .btn-h:hover{background:#4a2a08;}.btn-h:disabled{background:#c0a080;cursor:not-allowed;}
+  .btn-g{display:block;width:100%;padding:.9rem;background:var(--accent-g);color:#fff;font-family:'Space Grotesk',sans-serif;font-size:.86rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;border:none;border-radius:4px;cursor:pointer;transition:background .2s;margin-top:1.3rem;}
+  .btn-g:hover{background:#0a3a20;}.btn-g:disabled{background:#80b898;cursor:not-allowed;}
+
+  /* FEEDBACK */
+  .fb-box{display:none;margin-top:1.2rem;border-radius:4px;overflow:hidden;}
+  .fb-box.visible{display:block;}
+  .fb-head{background:var(--ink);color:#fff;padding:.7rem 1.2rem;font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;}
+  .fb-body{background:var(--warm);border:1px solid var(--border);border-top:none;padding:1.2rem 1.5rem;font-size:.92rem;line-height:1.75;}
+  .fb-body.loading{display:flex;align-items:center;gap:.7rem;color:var(--muted);font-style:italic;font-size:.84rem;}
+  .spinner{width:1rem;height:1rem;border:2px solid var(--border);border-top-color:var(--accent-h);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .fb-body h4{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:1rem 0 .35rem;padding-bottom:.2rem;border-bottom:1px solid var(--border);}
+  .fb-body h4:first-child{margin-top:0;}
+  .fb-body p{margin-bottom:.55rem;}.fb-body ul{padding-left:1.2rem;}.fb-body li{margin-bottom:.28rem;}
+  .fb-body strong{color:var(--accent-h);}
+  .fb-body.geo strong{color:var(--accent-g);}
+
+  /* CORRIGÉ */
+  .cor-block-h{background:#fdf4e8;border:1px solid #e0c0a0;border-left:4px solid var(--accent-h);border-radius:4px;padding:1.2rem 1.5rem;margin-bottom:1rem;font-size:.92rem;line-height:1.78;}
+  .cor-block-g{background:var(--g-soft);border:1px solid #a8d8b8;border-left:4px solid var(--accent-g);border-radius:4px;padding:1.2rem 1.5rem;margin-bottom:1rem;font-size:.92rem;line-height:1.78;}
+  .cor-block-h h3{font-family:'Playfair Display',serif;font-size:1rem;color:var(--accent-h);margin-bottom:.6rem;}
+  .cor-block-g h3{font-family:'Playfair Display',serif;font-size:1rem;color:var(--accent-g);margin-bottom:.6rem;}
+  .cor-block-h p,.cor-block-g p{margin-bottom:.45rem;}
+  .cor-block-h ul,.cor-block-g ul{padding-left:1.2rem;margin-bottom:.4rem;}
+  .cor-block-h li,.cor-block-g li{margin-bottom:.28rem;}
+  .locked{background:var(--warm);border:2px dashed var(--border);border-radius:4px;padding:2.5rem;text-align:center;color:var(--muted);font-family:'Space Grotesk',sans-serif;font-size:.86rem;}
+  .locked .icon{font-size:2rem;margin-bottom:.5rem;}
+  @media(max-width:600px){main{padding:1.2rem .9rem 4rem;}.card{padding:1.2rem 1rem;}.q-block{padding:1rem .9rem;}.hmeta{gap:1rem;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">Premier Devoir Surveillé · Premier Semestre · Année scolaire 2024-2025</div>
+  <h1>Histoire — Géographie</h1>
+  <div class="hmeta">
+    <span>🗺️ Classe : 3ème</span>
+    <span>⏱ Durée : 2 heures</span>
+    <span>📊 Total : 20 points</span>
+  </div>
+</header>
+
+<div class="tab-bar">
+  <button class="tab-btn hist active" onclick="switchTab('hist',event)">📜 I — Histoire (10 pts)</button>
+  <button class="tab-btn geo" onclick="switchTab('geo',event)">🌍 II — Géographie (10 pts)</button>
+  <button class="tab-btn corr" onclick="switchTab('corrige',event)">✅ Corrigé</button>
+</div>
+
+<main>
+
+<!-- ══ HISTOIRE ══ -->
+<div class="tab-panel active" id="panel-hist">
+  <div class="card">
+    <div class="card-label h">Compétences disciplinaires</div>
+    <div class="criteres-grid">
+      <div class="crit-box">
+        <div class="crit-title h">Critères minimaux</div>
+        <ul>
+          <li>Interprétation correcte de la situation</li>
+          <li>Utilisation correcte des outils de la discipline</li>
+          <li>Cohérence interne</li>
+        </ul>
+      </div>
+      <div class="crit-box">
+        <div class="crit-title h">Critère de perfectionnement</div>
+        <ul>
+          <li>Originalité de la production</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="part-banner h">
+      I — Histoire : Explication de texte
+      <span class="part-pts">10 pts</span>
+    </div>
+
+    <div style="background:var(--h-soft);border:1px solid #e0c8a0;border-radius:4px;padding:.9rem 1.1rem;margin-bottom:1rem;font-size:.88rem;font-family:'Space Grotesk',sans-serif;">
+      <strong>Contexte d'évaluation :</strong> La mise en œuvre des découvertes et inventions a donné un nouveau visage à l'agriculture en Europe aux XIX<sup>e</sup> et XX<sup>e</sup> siècles.<br>
+      <strong>Tâche :</strong> À partir de tes savoirs construits et du support, explique les mutations connues par l'agriculture européenne aux XIX<sup>e</sup> et XX<sup>e</sup> siècles.
+    </div>
+
+    <div class="texte-box">
+      <p>À partir du XIX<sup>e</sup> et au XX<sup>e</sup> siècles en Europe occidentale, en Angleterre, mais aussi en Belgique, dans le nord et à l'Est de la France, en Italie du Nord, de grand perfectionnement ont été apportés peu à peu à l'agriculture : les rendements ont été accrus par l'emploi de graines et de bétails sélectionnés. La jachère, qui laissait un tiers ou la moitié des champs au repos chaque année, a été abandonnée grâce à l'usage d'engrais importés comme le nitrate, ou le guano d'Amérique du Sud, qui restituent au sol sa fertilité.</p>
+      <p>Cette culture devenue plus intensive, et pour laquelle le paysan aux XIX<sup>e</sup> et XX<sup>e</sup> siècles dispose de machines nouvelles comme la batteuse à vapeur, obtient des rendements bien supérieurs : les campagnes désormais de larges excédents pour les marchés urbains.</p>
+      <div class="source">Histoire 3è, <em>Le monde du début aux XIX<sup>e</sup> à nos jours</em>, IPAM, Edicef, Paris, pp. 172-173.</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-head">
+        <div class="q-num-h">1</div>
+        <div class="q-txt"><strong>Présente le texte</strong> en insistant sur la source et l'idée générale.</div>
+        <div class="pts">~2 pts</div>
+      </div>
+      <textarea class="rep h" id="h1" rows="5" placeholder="Source : Ce texte est extrait de...&#10;&#10;Idée générale : Ce texte traite de..."></textarea>
+      <div class="wc" id="wc-h1">0 mot</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-head">
+        <div class="q-num-h">2</div>
+        <div class="q-txt"><strong>Explique les mutations intervenues</strong> dans l'agriculture en Europe aux XIX<sup>e</sup> et XX<sup>e</sup> siècles.</div>
+        <div class="pts">~6 pts</div>
+      </div>
+      <textarea class="rep h large" id="h2" rows="14" placeholder="Les mutations de l'agriculture européenne aux XIXe et XXe siècles :&#10;&#10;A. Les mutations techniques...&#10;&#10;B. Les mutations des méthodes culturales...&#10;&#10;C. Les conséquences sur la production..."></textarea>
+      <div class="wc" id="wc-h2">0 mot</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-head">
+        <div class="q-num-h">3</div>
+        <div class="q-txt"><strong>Donne l'intérêt de l'étude</strong> de ce texte.</div>
+        <div class="pts">~2 pts</div>
+      </div>
+      <textarea class="rep h" id="h3" rows="4" placeholder="L'intérêt de l'étude de ce texte est...&#10;&#10;Sur le plan historique...&#10;Sur le plan économique..."></textarea>
+      <div class="wc" id="wc-h3">0 mot</div>
+    </div>
+
+    <button class="btn-h" id="btn-hist" onclick="submitHist()">✦ Soumettre Histoire — Obtenir la correction IA</button>
+    <div class="fb-box" id="fb-hist">
+      <div class="fb-head">✦ Correction IA · Histoire — Explication de texte</div>
+      <div class="fb-body" id="fb-hist-body"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ GÉOGRAPHIE ══ -->
+<div class="tab-panel" id="panel-geo">
+  <div class="card">
+    <div class="card-label g">Géographie — Dissertation</div>
+    <div class="part-banner g">
+      II — Géographie : Dissertation
+      <span class="part-pts">10 pts</span>
+    </div>
+
+    <div class="geo-ctx">
+      <strong>Contexte d'évaluation :</strong> Le Bénin dispose d'importantes ressources favorables à son décollage économique. Pourtant, il peine à se développer.<br><br>
+      <strong>Tâche :</strong> Pour la contribution au réel décollage économique du Bénin, tu es invité(e) à proposer des solutions pour une bonne gestion des ressources halieutiques en vue d'accroître la production.
+    </div>
+
+    <div style="background:#fff;border:1px solid #a8d8b8;border-radius:4px;padding:.85rem 1.1rem;margin-bottom:1rem;font-size:.86rem;font-family:'Space Grotesk',sans-serif;color:var(--muted);">
+      💡 <strong>Rappel :</strong> Les ressources halieutiques désignent l'ensemble des ressources animales aquatiques exploitables : poissons, crustacés, mollusques des eaux marines, lagunaires et fluviales.
+    </div>
+
+    <div class="q-block">
+      <div class="q-head">
+        <div class="q-num-g">1</div>
+        <div class="q-txt"><strong>Présente les ressources halieutiques</strong> disponibles au Bénin.</div>
+        <div class="pts">~3 pts</div>
+      </div>
+      <textarea class="rep g" id="g1" rows="7" placeholder="Le Bénin possède diverses ressources halieutiques :&#10;&#10;A. Les ressources maritimes (côte atlantique)...&#10;&#10;B. Les ressources lagunaires (lac Nokoué, lagune de Porto-Novo...)...&#10;&#10;C. Les ressources fluviales (fleuve Ouémé, Niger...)..."></textarea>
+      <div class="wc" id="wc-g1">0 mot</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-head">
+        <div class="q-num-g">2</div>
+        <div class="q-txt"><strong>Expose les menaces</strong> qui pèsent sur les ressources halieutiques du Bénin.</div>
+        <div class="pts">~3 pts</div>
+      </div>
+      <textarea class="rep g" id="g2" rows="7" placeholder="Les menaces qui pèsent sur les ressources halieutiques du Bénin sont :&#10;&#10;1. La surpêche et la pêche illégale...&#10;2. La pollution des eaux...&#10;3. Le changement climatique...&#10;4. Les techniques de pêche destructrices..."></textarea>
+      <div class="wc" id="wc-g2">0 mot</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-head">
+        <div class="q-num-g">3</div>
+        <div class="q-txt"><strong>Propose deux solutions</strong> permettant d'accroître la production halieutique au Bénin.</div>
+        <div class="pts">~4 pts</div>
+      </div>
+      <textarea class="rep g" id="g3" rows="7" placeholder="Pour accroître la production halieutique au Bénin, on peut proposer :&#10;&#10;Solution 1 : ...&#10;&#10;Solution 2 : ..."></textarea>
+      <div class="wc" id="wc-g3">0 mot</div>
+    </div>
+
+    <button class="btn-g" id="btn-geo" onclick="submitGeo()">✦ Soumettre Géographie — Obtenir la correction IA</button>
+    <div class="fb-box" id="fb-geo">
+      <div class="fb-head">✦ Correction IA · Géographie — Dissertation</div>
+      <div class="fb-body geo" id="fb-geo-body"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CORRIGÉ ══ -->
+<div class="tab-panel" id="panel-corrige">
+  <div id="corrige-locked" class="locked">
+    <div class="icon">🔒</div>
+    <p><strong>Le corrigé se déverrouille après soumission d'au moins une partie.</strong></p>
+    <p style="margin-top:.4rem">Traite les exercices d'abord, puis reviens ici.</p>
+  </div>
+  <div id="corrige-content" style="display:none">
+
+    <div class="card">
+      <div class="card-label h">Corrigé type</div>
+      <h2>I — Histoire : Explication de texte (10 pts)</h2>
+
+      <div class="cor-block-h">
+        <h3>1 — Présentation du texte (~2 pts)</h3>
+        <p><strong>Source :</strong> Ce texte est extrait de l'ouvrage <em>Histoire 3è — Le monde du début aux XIX<sup>e</sup> à nos jours</em>, publié par IPAM/Edicef, Paris, pages 172-173.</p>
+        <p><strong>Idée générale :</strong> Ce texte traite des <strong>mutations agricoles</strong> survenues en Europe occidentale aux XIX<sup>e</sup> et XX<sup>e</sup> siècles, caractérisées par l'introduction de nouvelles techniques et méthodes qui ont profondément transformé la production agricole et amélioré les rendements.</p>
+      </div>
+
+      <div class="cor-block-h">
+        <h3>2 — Les mutations de l'agriculture européenne (~6 pts)</h3>
+        <p><strong>A. La révolution des méthodes culturales</strong></p>
+        <ul>
+          <li>Abandon de la <strong>jachère</strong> (pratique qui laissait 1/3 à 1/2 des terres au repos chaque année) → remplacement par la rotation des cultures</li>
+          <li>Utilisation d'<strong>engrais importés</strong> : nitrate, guano d'Amérique du Sud → restauration de la fertilité des sols sans mise en repos</li>
+          <li>Emploi de <strong>graines et bétails sélectionnés</strong> → amélioration génétique des semences et du cheptel</li>
+        </ul>
+        <p><strong>B. La mécanisation agricole</strong></p>
+        <ul>
+          <li>Apparition de <strong>machines agricoles nouvelles</strong> : batteuse à vapeur, faucheuse mécanique → remplacement du travail manuel</li>
+          <li>La révolution industrielle fournit à l'agriculture ses outils → agriculture plus productive et moins dépendante de la main d'œuvre</li>
+        </ul>
+        <p><strong>C. Les conséquences : une agriculture intensive et excédentaire</strong></p>
+        <ul>
+          <li>Les rendements s'accroissent considérablement → les campagnes produisent des <strong>larges excédents</strong></li>
+          <li>Ces excédents alimentent les <strong>marchés urbains</strong> en pleine croissance grâce à l'industrialisation</li>
+          <li>Régions pionnières : Angleterre, Belgique, nord et est de la France, Italie du Nord</li>
+        </ul>
+      </div>
+
+      <div class="cor-block-h">
+        <h3>3 — Intérêt de l'étude (~2 pts)</h3>
+        <p>L'étude de ce texte présente un double intérêt :</p>
+        <ul>
+          <li><strong>Sur le plan historique :</strong> il permet de comprendre comment la révolution agricole du XIXe siècle a accompagné et rendu possible la révolution industrielle en Europe, en libérant de la main d'œuvre pour les usines et en nourrissant la population ouvrière croissante.</li>
+          <li><strong>Sur le plan économique :</strong> il montre que l'innovation technique et scientifique (sélection, engrais, mécanisation) est un moteur essentiel du développement agricole, une leçon applicable aux pays africains comme le Bénin pour améliorer leur propre agriculture.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label g">Corrigé type</div>
+      <h2>II — Géographie : Dissertation (10 pts)</h2>
+
+      <div class="cor-block-g">
+        <h3>1 — Les ressources halieutiques du Bénin (~3 pts)</h3>
+        <p>Le Bénin dispose de trois types de ressources halieutiques :</p>
+        <ul>
+          <li><strong>Ressources maritimes :</strong> la façade atlantique (125 km de côte) offre des eaux poissonneuses riches en thons, sardinelles, crevettes, homards. La pêche artisanale en mer est pratiquée à partir des ports de Cotonou et Grand-Popo.</li>
+          <li><strong>Ressources lagunaires :</strong> le lac Nokoué, la lagune de Porto-Novo et le lac Ahémé constituent d'importants bassins de pêche. Les acadjas (parcs à poissons) y sont une technique traditionnelle de pisciculture artisanale.</li>
+          <li><strong>Ressources fluviales :</strong> le fleuve Ouémé et ses affluents, la Pendjari et le fleuve Niger (au nord) fournissent des poissons d'eau douce (carpes, silures, tilapias) exploités par les communautés riveraines.</li>
+        </ul>
+      </div>
+
+      <div class="cor-block-g">
+        <h3>2 — Les menaces pesant sur les ressources halieutiques (~3 pts)</h3>
+        <ul>
+          <li><strong>La surpêche :</strong> exploitation intensive des ressources sans respect des périodes de reproduction → épuisement des stocks halieutiques</li>
+          <li><strong>La pollution des eaux :</strong> rejets industriels, déchets plastiques, produits chimiques agricoles → dégradation des écosystèmes aquatiques et mortalité des poissons</li>
+          <li><strong>Les techniques de pêche destructrices :</strong> usage de filets à mailles trop fines, pêche à l'électricité, produits chimiques → capture des juvéniles et destruction des fonds</li>
+          <li><strong>Les changements climatiques :</strong> hausse des températures, élévation du niveau de la mer, perturbation des écosystèmes côtiers et lagunaires</li>
+          <li><strong>L'ensablement et la déforestation :</strong> réduction des zones humides, envasement des cours d'eau</li>
+        </ul>
+      </div>
+
+      <div class="cor-block-g">
+        <h3>3 — Deux solutions pour accroître la production halieutique (~4 pts)</h3>
+        <p><strong>Solution 1 : Développer l'aquaculture et la pisciculture moderne</strong></p>
+        <p>La création de fermes piscicoles modernes (étangs, cages flottantes) permettrait de produire des poissons en quantité contrôlée sans pression sur les stocks naturels. L'État doit former des pisciculteurs, subventionner l'achat d'alevins sélectionnés et d'aliments pour poissons, et créer des infrastructures de stockage et de transformation (chaîne du froid, fumoirs améliorés).</p>
+        <p><strong>Solution 2 : Renforcer la réglementation et la gestion durable de la pêche</strong></p>
+        <p>Il est indispensable d'instaurer des périodes de repos biologique (saisons de pêche fermée), d'interdire les pratiques destructrices, de contrôler les tailles de mailles des filets et de créer des zones marines protégées. Des coopératives de pêcheurs dotées de moyens modernes (bateaux motorisés, GPS, chambres froides) permettraient également d'améliorer la productivité et la commercialisation du poisson.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</main>
+
+<script>
+function switchTab(name,e){
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('panel-'+name).classList.add('active');
+  const btn=e.currentTarget;
+  btn.classList.add('active');
+}
+function countWords(s){return s.trim().split(/\s+/).filter(w=>w.length>0).length;}
+document.querySelectorAll('textarea.rep').forEach(ta=>{
+  const wc=document.getElementById('wc-'+ta.id);
+  if(!wc)return;
+  ta.addEventListener('input',()=>{const n=countWords(ta.value);wc.textContent=n+(n>1?' mots':' mot');});
+});
+let unlocked=false;
+function unlockCorrige(){
+  if(unlocked)return;unlocked=true;
+  document.getElementById('corrige-locked').style.display='none';
+  document.getElementById('corrige-content').style.display='block';
+}
+async function callClaude(system,userMsg,bodyEl){
+  bodyEl.innerHTML='<div class="spinner"></div> L\'IA analyse ta réponse…';
+  bodyEl.classList.add('loading');
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1200,system,messages:[{role:'user',content:userMsg}]})
+    });
+    const data=await res.json();
+    const text=data.content.map(i=>i.text||'').join('\n');
+    bodyEl.classList.remove('loading');bodyEl.innerHTML=text;
+  }catch{
+    bodyEl.classList.remove('loading');
+    bodyEl.innerHTML='<p style="color:#8b1a1a">Erreur de connexion. Réessaie.</p>';
+  }
+}
+
+async function submitHist(){
+  const v1=document.getElementById('h1').value.trim();
+  const v2=document.getElementById('h2').value.trim();
+  const v3=document.getElementById('h3').value.trim();
+  if(!v1&&!v2&&!v3){alert('Merci de rédiger au moins une réponse avant de soumettre.');return;}
+  document.getElementById('btn-hist').disabled=true;
+  const fb=document.getElementById('fb-hist');fb.classList.add('visible');
+
+  const system=`Tu es un professeur d'Histoire expert au niveau 3ème au Bénin. Tu corriges une explication de texte (10 pts) sur les mutations de l'agriculture européenne aux XIXe et XXe siècles.
+Texte source : extrait de "Histoire 3è - Le monde du début aux XIXe à nos jours", IPAM/Edicef, Paris, pp.172-173.
+Idées principales : abandon de la jachère, engrais importés (nitrate, guano), graines et bétails sélectionnés, mécanisation (batteuse à vapeur), culture intensive, excédents pour marchés urbains. Régions pionnières : Angleterre, Belgique, nord-est France, Italie du Nord.
+Critères : présentation (source + idée générale) ~2pts, explication des mutations (techniques, méthodes, conséquences) ~6pts, intérêt du texte ~2pts.
+Réponds UNIQUEMENT en HTML simple (p,h4,ul,li,strong). Pas de markdown.
+Structure : <h4>📊 Score estimé</h4>(sur 10 pts) <h4>1 — Présentation (2 pts)</h4> <h4>2 — Mutations agricoles (6 pts)</h4> <h4>3 — Intérêt du texte (2 pts)</h4> <h4>💡 Conseils</h4>
+Sois précis, bienveillant, pédagogique. Cite les réponses de l'élève.`;
+
+  await callClaude(system,
+    `1 (Présentation):\n${v1||'(vide)'}\n\n2 (Mutations):\n${v2||'(vide)'}\n\n3 (Intérêt):\n${v3||'(vide)'}`,
+    document.getElementById('fb-hist-body'));
+  unlockCorrige();
+}
+
+async function submitGeo(){
+  const v1=document.getElementById('g1').value.trim();
+  const v2=document.getElementById('g2').value.trim();
+  const v3=document.getElementById('g3').value.trim();
+  if(!v1&&!v2&&!v3){alert('Merci de rédiger au moins une réponse avant de soumettre.');return;}
+  document.getElementById('btn-geo').disabled=true;
+  const fb=document.getElementById('fb-geo');fb.classList.add('visible');
+
+  const system=`Tu es un professeur de Géographie expert au niveau 3ème au Bénin. Tu corriges une dissertation (10 pts) sur les ressources halieutiques du Bénin.
+Éléments attendus :
+Q1 (3pts) - Ressources halieutiques du Bénin : maritimes (façade atlantique 125km, thons, crevettes, pêche artisanale), lagunaires (lac Nokoué, lagune Porto-Novo, lac Ahémé, acadjas), fluviales (Ouémé, Pendjari, Niger, tilapias, silures, carpes).
+Q2 (3pts) - Menaces : surpêche, pollution des eaux (rejets industriels, plastiques), techniques destructrices (filets fins, pêche chimique), changements climatiques, ensablement.
+Q3 (4pts) - Solutions : aquaculture/pisciculture moderne + réglementation et gestion durable (périodes de repos biologique, zones protégées, modernisation des équipements).
+Réponds UNIQUEMENT en HTML simple. Structure : <h4>📊 Score estimé</h4>(sur 10 pts) <h4>Q1 — Ressources halieutiques (3 pts)</h4> <h4>Q2 — Menaces (3 pts)</h4> <h4>Q3 — Solutions (4 pts)</h4> <h4>💡 Conseils</h4>
+Sois précis, bienveillant. Vérifie l'exactitude géographique et cite les réponses de l'élève.`;
+
+  await callClaude(system,
+    `Q1 (ressources):\n${v1||'(vide)'}\n\nQ2 (menaces):\n${v2||'(vide)'}\n\nQ3 (solutions):\n${v3||'(vide)'}`,
+    document.getElementById('fb-geo-body'));
+  unlockCorrige();
+}
+</script>
+</body>
+</html>

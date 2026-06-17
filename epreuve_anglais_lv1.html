@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English LV1 Exam</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Serif+4:wght@300;400;600&family=Space+Grotesk:wght@400;500;600&display=swap');
+  :root{
+    --ink:#1a2030;--bg:#f4f6fb;--warm:#fefcf8;--accent:#1a5c8a;--accent-light:#4a8ec4;
+    --accent-soft:#e8f2fb;--green:#1a6b3a;--green-light:#e6f4ee;--red:#8b1a1a;
+    --gold:#7a6000;--gold-light:#fdf6e0;--border:#ccd8e8;--muted:#607080;--shadow:rgba(26,32,48,0.07);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Source Serif 4',Georgia,serif;background:var(--bg);color:var(--ink);font-size:16px;line-height:1.78;}
+  header{background:linear-gradient(135deg,#1a2030 0%,#1a5c8a 100%);color:#fff;padding:2.2rem 2rem 1.8rem;text-align:center;}
+  .eyebrow{font-family:'Space Grotesk',sans-serif;font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent-light);margin-bottom:.5rem;}
+  header h1{font-family:'Playfair Display',serif;font-size:clamp(1.5rem,4vw,2.2rem);color:#fff;}
+  .hmeta{display:flex;justify-content:center;flex-wrap:wrap;gap:1.8rem;margin-top:1rem;font-family:'Space Grotesk',sans-serif;font-size:.8rem;color:#a0bcd0;letter-spacing:.05em;}
+  .tab-bar{display:flex;background:var(--warm);border-bottom:2px solid var(--border);overflow-x:auto;position:sticky;top:0;z-index:50;scrollbar-width:none;}
+  .tab-bar::-webkit-scrollbar{display:none;}
+  .tab-btn{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:.82rem 1.1rem;border:none;background:transparent;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap;transition:all .2s;}
+  .tab-btn.active{color:var(--accent);border-bottom-color:var(--accent);}
+  .tab-btn:hover:not(.active){color:var(--ink);background:#edf2f7;}
+  main{max-width:860px;margin:0 auto;padding:2rem 1.5rem 5rem;}
+  .tab-panel{display:none;}.tab-panel.active{display:block;}
+  .card{background:var(--warm);border:1px solid var(--border);border-radius:4px;padding:1.8rem 2rem;margin-bottom:1.6rem;box-shadow:0 2px 8px var(--shadow);}
+  .card-label{font-family:'Space Grotesk',sans-serif;font-size:.65rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--accent-light);margin-bottom:.4rem;}
+  .card h2{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--ink);border-bottom:1px solid var(--border);padding-bottom:.6rem;margin-bottom:1rem;}
+
+  /* PASSAGE */
+  .passage{background:var(--accent-soft);border-left:4px solid var(--accent);border-radius:0 4px 4px 0;padding:1.3rem 1.5rem;font-size:.94rem;line-height:1.85;}
+  .passage p{margin-bottom:.7rem;}.passage p:last-child{margin-bottom:0;}
+  .passage ol{padding-left:1.5rem;}.passage ol li{margin-bottom:.65rem;}
+  .passage .source{font-family:'Space Grotesk',sans-serif;font-size:.76rem;color:var(--muted);margin-top:.9rem;font-style:italic;border-top:1px solid var(--border);padding-top:.5rem;text-align:right;}
+
+  /* ITEMS */
+  .item-block{background:var(--warm);border:1px solid var(--border);border-radius:4px;padding:1.3rem 1.6rem;margin-bottom:1.2rem;}
+  .item-hdr{font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;color:var(--accent);margin-bottom:.8rem;padding-bottom:.4rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+  .pts{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:600;color:var(--gold);background:var(--gold-light);border:1px solid #dfc96a;padding:.1rem .5rem;border-radius:10px;}
+
+  /* RIGHT/WRONG */
+  .rw-row{display:flex;align-items:flex-start;gap:.9rem;padding:.55rem 0;border-bottom:1px solid #edf2f7;font-size:.92rem;}
+  .rw-row:last-child{border-bottom:none;}
+  .rw-stmt{flex:1;line-height:1.55;}
+  .rw-choices{display:flex;gap:.5rem;flex-shrink:0;margin-top:.05rem;}
+  .rw-choices label{display:flex;align-items:center;gap:.25rem;font-family:'Space Grotesk',sans-serif;font-size:.76rem;font-weight:600;cursor:pointer;padding:.22rem .65rem;border:1.5px solid var(--border);border-radius:4px;transition:all .15s;white-space:nowrap;}
+  .rw-choices input[type=radio]{display:none;}
+  .rw-choices label:has(input:checked){background:var(--accent);color:#fff;border-color:var(--accent);}
+
+  /* SHORT ANSWERS */
+  .qa-row{margin-bottom:.9rem;}
+  .qa-row label{display:block;font-size:.91rem;font-weight:600;margin-bottom:.3rem;color:var(--ink);}
+  input.sa{width:100%;border:1.5px solid var(--border);border-radius:4px;padding:.6rem .85rem;font-family:'Source Serif 4',serif;font-size:.92rem;background:#fdfaf5;color:var(--ink);transition:border-color .2s;}
+  input.sa:focus{outline:none;border-color:var(--accent-light);background:#fff;}
+  textarea.rep{width:100%;min-height:90px;border:1.5px solid var(--border);border-radius:4px;padding:.7rem .9rem;font-family:'Source Serif 4',serif;font-size:.92rem;line-height:1.7;background:#fdfaf5;color:var(--ink);resize:vertical;transition:border-color .2s;}
+  textarea.rep:focus{outline:none;border-color:var(--accent-light);background:#fff;}
+  textarea.rep.large{min-height:180px;}
+  .wc{font-family:'Space Grotesk',sans-serif;font-size:.7rem;color:var(--muted);text-align:right;margin-top:.28rem;}
+  .wc.ok{color:var(--green);font-weight:600;}.wc.warn{color:var(--red);font-weight:600;}
+
+  /* REPHRASE */
+  .reph-row{background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:.85rem 1rem;margin-bottom:.8rem;}
+  .reph-orig{font-style:italic;font-size:.88rem;color:var(--ink);margin-bottom:.4rem;}
+  .reph-prompt{font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:600;color:var(--accent);margin-bottom:.35rem;}
+
+  /* MULTISELECT */
+  .ms-row{margin-bottom:.7rem;font-size:.92rem;}
+  .ms-row label{display:block;font-weight:600;margin-bottom:.25rem;}
+  select.ms{width:100%;border:1.5px solid var(--border);border-radius:4px;padding:.5rem .8rem;font-family:'Space Grotesk',sans-serif;font-size:.88rem;background:#fdfaf5;color:var(--ink);}
+  select.ms:focus{outline:none;border-color:var(--accent-light);}
+
+  /* SUBMIT */
+  .btn-submit{display:block;width:100%;padding:.9rem;background:var(--accent);color:#fff;font-family:'Space Grotesk',sans-serif;font-size:.86rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;border:none;border-radius:4px;cursor:pointer;transition:background .2s;margin-top:1.4rem;}
+  .btn-submit:hover{background:#124570;}.btn-submit:disabled{background:#9ab0c8;cursor:not-allowed;}
+
+  /* FEEDBACK */
+  .fb-box{display:none;margin-top:1.3rem;border-radius:4px;overflow:hidden;}
+  .fb-box.visible{display:block;}
+  .fb-head{background:var(--ink);color:#fff;padding:.7rem 1.2rem;font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;}
+  .fb-body{background:var(--warm);border:1px solid var(--border);border-top:none;padding:1.2rem 1.5rem;font-size:.92rem;line-height:1.75;}
+  .fb-body.loading{display:flex;align-items:center;gap:.7rem;color:var(--muted);font-style:italic;font-size:.84rem;}
+  .spinner{width:1rem;height:1rem;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .fb-body h4{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:1rem 0 .35rem;padding-bottom:.2rem;border-bottom:1px solid var(--border);}
+  .fb-body h4:first-child{margin-top:0;}
+  .fb-body p{margin-bottom:.55rem;}.fb-body ul{padding-left:1.2rem;}.fb-body li{margin-bottom:.28rem;}
+  .fb-body strong{color:var(--accent);}
+
+  /* CORRIGÉ */
+  .cor-block{background:var(--green-light);border:1px solid #a8cfb8;border-left:4px solid var(--green);border-radius:4px;padding:1.2rem 1.5rem;margin-bottom:1.1rem;font-size:.92rem;line-height:1.78;}
+  .cor-block h3{font-family:'Playfair Display',serif;font-size:1rem;color:var(--green);margin-bottom:.6rem;}
+  .cor-block p{margin-bottom:.4rem;}.cor-block ul{padding-left:1.2rem;}.cor-block li{margin-bottom:.28rem;}
+  .locked{background:var(--warm);border:2px dashed var(--border);border-radius:4px;padding:2.5rem;text-align:center;color:var(--muted);font-family:'Space Grotesk',sans-serif;font-size:.86rem;}
+  .locked .icon{font-size:2rem;margin-bottom:.5rem;}
+
+  @media(max-width:600px){
+    main{padding:1.2rem .9rem 4rem;}
+    .card{padding:1.2rem 1rem;}
+    .item-block{padding:1rem .9rem;}
+    .hmeta{gap:1rem;}
+    .rw-row{flex-direction:column;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">Épreuve du Second Semestre · Anglais LV1</div>
+  <h1>English — LV1 Exam</h1>
+  <div class="hmeta">
+    <span>📘 English LV1</span>
+    <span>⏱ Duration: 3 hours</span>
+    <span>⚖️ Coefficient: 3</span>
+  </div>
+</header>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('text',event)">📄 Text</button>
+  <button class="tab-btn" onclick="switchTab('partA',event)">Part A — Reaction</button>
+  <button class="tab-btn" onclick="switchTab('partB',event)">Part B — Writing</button>
+  <button class="tab-btn" onclick="switchTab('corrige',event)">✅ Answer Key</button>
+</div>
+
+<main>
+
+<!-- ══ TEXT ══ -->
+<div class="tab-panel active" id="panel-text">
+  <div class="card">
+    <div class="card-label">Context</div>
+    <p style="margin-bottom:1rem;font-size:.94rem">La langue anglaise est considérée, de nos jours, comme celle de la mondialisation par excellence. C'est pourquoi elle prend de plus en plus le dessus sur les autres langues en Afrique. Ici, tu auras à réagir par rapport à la montée fulgurante de cette langue, même dans les pays dits francophones.</p>
+
+    <div class="passage">
+      <div style="font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;margin-bottom:.9rem;color:var(--ink)">English on the Rise in Africa</div>
+      <ol>
+        <li>Today, 26 countries in Sub-Saharan Africa use English either as an official language exclusively (like Nigeria and Ghana) or as an official language alongside another African language (like in Kenya or South Africa). Several of those countries are traditionally Francophone nations (like Cameroon and Seychelles). However, English is used for communicative purposes in some 53 countries in Africa.</li>
+        <li>Only nine percent of the global population is native English speakers, but almost one third of the population speaks English. Some countries have more than one official language. Africa currently has at least 2,400 languages. Many of these languages are local, tribal languages with limited utility beyond their local region. Of these estimated languages, only 50 have more than 500,000 speakers and only 10 have more than one million speakers. Key regional Sub-Saharan African languages include Afrikaans and Xhosa in the South; Fulani; Yoruba; Hausa and Igbo in the West; Amharic and Oromo in the East; and Kiswahili in the East.</li>
+        <li>While researchers continue to emphasize the increasing role of English in Africa, it is also notable that French is on the decline. While the decline of the French language can be seen throughout the Francophone world, the most striking examples are found in Africa: "South of the Sahara", countries which formerly had large French-speaking populations are making the switch to English due to its relevance in Southern Africa, as well as internationally. English, meanwhile, is becoming the most important Western language in Africa. It has been argued that in two decades, French may not be spoken in Africa at all.</li>
+        <li>English is used as a medium of education in many African countries, from primary school up to the tertiary level. In the former French colonies of Ivory Coast, Mali and Senegal, English is the first compulsory foreign language taught. While courses at tertiary institutions have, in many countries, been taught in English for some time, countries are now recognizing the value of introducing English language learning in the early primary years.</li>
+        <li>Francophone countries seeking economic development often turn to English as a means to engage foreign markets. In order to attract foreign investments, develop international trade opportunities and create tourism campaigns, countries in Africa often see English as an essential tool. As African economies look to increase their commodity exports, the security of millions of African farmers depends on the negotiation and marketing skills — including their command of English — possessed by the leaders and exporters who represent them.</li>
+      </ol>
+      <div class="source">Patrick Plonski, African Studies Association Annual Conference, November 23, 2013, Baltimore, Maryland.</div>
+    </div>
+
+    <div style="background:var(--gold-light);border:1px solid #e0c87a;border-radius:4px;padding:1rem 1.3rem;margin-top:1.2rem;font-size:.88rem;">
+      <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;color:var(--gold);font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.5rem">Evaluation Criteria</div>
+      After reading the text carefully, you will show your understanding by:
+      <ul style="padding-left:1.2rem;margin-top:.4rem">
+        <li>Saying whether statements are Right or Wrong</li>
+        <li>Answering questions on the text</li>
+        <li>Finding synonyms of certain words</li>
+        <li>Translating a passage into French</li>
+        <li>Choosing the correct word to complete sentences</li>
+        <li>Rephrasing sentences independently</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PART A ══ -->
+<div class="tab-panel" id="panel-partA">
+
+  <!-- ITEM 1 -->
+  <div class="item-block">
+    <div class="item-hdr">Item 1 — Say whether these statements are "Right" or "Wrong" <span class="pts">5 pts</span></div>
+    <div class="rw-row">
+      <div class="rw-stmt">1. Nigeria and Ghana use English as official language alongside another African one.</div>
+      <div class="rw-choices">
+        <label><input type="radio" name="rw1" value="Right"><span>Right</span></label>
+        <label><input type="radio" name="rw1" value="Wrong"><span>Wrong</span></label>
+      </div>
+    </div>
+    <div class="rw-row">
+      <div class="rw-stmt">2. Only fifteen African languages have more than 500,000 speakers.</div>
+      <div class="rw-choices">
+        <label><input type="radio" name="rw2" value="Right"><span>Right</span></label>
+        <label><input type="radio" name="rw2" value="Wrong"><span>Wrong</span></label>
+      </div>
+    </div>
+    <div class="rw-row">
+      <div class="rw-stmt">3. Many Francophone countries in Africa are more and more adopting English as official language.</div>
+      <div class="rw-choices">
+        <label><input type="radio" name="rw3" value="Right"><span>Right</span></label>
+        <label><input type="radio" name="rw3" value="Wrong"><span>Wrong</span></label>
+      </div>
+    </div>
+    <div class="rw-row">
+      <div class="rw-stmt">4. In Ivory Coast, Mali and Senegal, English is taught as optional foreign language.</div>
+      <div class="rw-choices">
+        <label><input type="radio" name="rw4" value="Right"><span>Right</span></label>
+        <label><input type="radio" name="rw4" value="Wrong"><span>Wrong</span></label>
+      </div>
+    </div>
+    <div class="rw-row">
+      <div class="rw-stmt">5. English is considered to be the key to boost business in the African continent.</div>
+      <div class="rw-choices">
+        <label><input type="radio" name="rw5" value="Right"><span>Right</span></label>
+        <label><input type="radio" name="rw5" value="Wrong"><span>Wrong</span></label>
+      </div>
+    </div>
+  </div>
+
+  <!-- ITEM 2 -->
+  <div class="item-block">
+    <div class="item-hdr">Item 2 — Answer the following questions on the text <span class="pts">4 pts</span></div>
+    <div class="qa-row">
+      <label>1. What proportion of the world's population has English as mother tongue?</label>
+      <input class="sa" id="q2_1" type="text" placeholder="Answer in a complete sentence…">
+    </div>
+    <div class="qa-row">
+      <label>2. How many local languages are spoken in Sub-Saharan Africa?</label>
+      <input class="sa" id="q2_2" type="text" placeholder="Answer in a complete sentence…">
+    </div>
+    <div class="qa-row">
+      <label>3. What could be the future of French in Africa in twenty years?</label>
+      <input class="sa" id="q2_3" type="text" placeholder="Answer in a complete sentence…">
+    </div>
+    <div class="qa-row">
+      <label>4. Why do some Francophone countries seeking economic development adopt English? (Give only two reasons.)</label>
+      <textarea class="rep" id="q2_4" rows="3" placeholder="Reason 1: …&#10;Reason 2: …"></textarea>
+    </div>
+  </div>
+
+  <!-- ITEM 3 -->
+  <div class="item-block">
+    <div class="item-hdr">Item 3 — Find synonyms in the text <span class="pts">5 pts</span></div>
+    <div class="qa-row">
+      <label>1. "At this time" → synonym in <strong>paragraph 2</strong></label>
+      <input class="sa" id="q3_1" type="text" placeholder="Find the word in paragraph 2…">
+    </div>
+    <div class="qa-row">
+      <label>2. "Accentuate" → synonym in <strong>paragraph 3</strong></label>
+      <input class="sa" id="q3_2" type="text" placeholder="Find the word in paragraph 3…">
+    </div>
+    <div class="qa-row">
+      <label>3. "Unavoidable" → synonym in <strong>paragraph 4</strong></label>
+      <input class="sa" id="q3_3" type="text" placeholder="Find the word in paragraph 4…">
+    </div>
+    <div class="qa-row">
+      <label>4. "Overseas" → synonym in <strong>paragraph 5</strong></label>
+      <input class="sa" id="q3_4" type="text" placeholder="Find the word in paragraph 5…">
+    </div>
+    <div class="qa-row">
+      <label>5. "Instrument" → synonym in <strong>paragraph 5</strong></label>
+      <input class="sa" id="q3_5" type="text" placeholder="Find the word in paragraph 5…">
+    </div>
+  </div>
+
+  <!-- ITEM 4 -->
+  <div class="item-block">
+    <div class="item-hdr">Item 4 — Translate into French <span class="pts">4 pts</span></div>
+    <div style="background:var(--accent-soft);border-left:3px solid var(--accent);padding:.9rem 1.1rem;border-radius:0 4px 4px 0;margin-bottom:.9rem;font-size:.92rem;font-style:italic;">
+      "Francophone countries seeking economic development often turn to English as a means to engage foreign markets. In order to attract foreign investments, develop international trade opportunities and create tourism campaigns, countries in Africa often see English as an essential tool. As African economies look to increase their commodity exports, the security of millions of African farmers depends on the negotiation and marketing skills — including their command of English — possessed by the leaders and exporters who represent them." (Paragraph 5)
+    </div>
+    <textarea class="rep" id="q4_trans" rows="6" placeholder="Traduction en français…"></textarea>
+    <div class="wc" id="wc-q4">0 mot</div>
+  </div>
+
+  <!-- ITEM 5 -->
+  <div class="item-block">
+    <div class="item-hdr">Item 5 — Make the best choice from the brackets. Do not copy the sentences. <span class="pts">4 pts</span></div>
+    <div class="ms-row">
+      <label>1. Maxwell has recently come from England. He can speak ______ local language. <span style="font-size:.8rem;color:var(--muted)">(some / any / no / a lot of)</span></label>
+      <select class="ms" id="q5_1">
+        <option value="">— Choose —</option>
+        <option>some</option><option>any</option><option>no</option><option>a lot of</option>
+      </select>
+    </div>
+    <div class="ms-row">
+      <label>2. Young people don't often read ______ English books. <span style="font-size:.8rem;color:var(--muted)">(much / many / a lot of / a lot)</span></label>
+      <select class="ms" id="q5_2">
+        <option value="">— Choose —</option>
+        <option>much</option><option>many</option><option>a lot of</option><option>a lot</option>
+      </select>
+    </div>
+    <div class="ms-row">
+      <label>3. Only ______ students are interested in English. <span style="font-size:.8rem;color:var(--muted)">(few / a few / little / a little)</span></label>
+      <select class="ms" id="q5_3">
+        <option value="">— Choose —</option>
+        <option>few</option><option>a few</option><option>little</option><option>a little</option>
+      </select>
+    </div>
+    <div class="ms-row">
+      <label>4. Is there ______ hope for French language to invade the whole continent? <span style="font-size:.8rem;color:var(--muted)">(a lot of / much / many / a few)</span></label>
+      <select class="ms" id="q5_4">
+        <option value="">— Choose —</option>
+        <option>a lot of</option><option>much</option><option>many</option><option>a few</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- ITEM 6 -->
+  <div class="item-block">
+    <div class="item-hdr">Item 6 — Rephrase these sentences using the prompts given <span class="pts">5 pts</span></div>
+
+    <div class="reph-row">
+      <div class="reph-orig">"English will be the most respectable language in the world in the next century" Predicted John Adam.</div>
+      <div class="reph-prompt">John Adam predicted…</div>
+      <input class="sa" id="q6_1" type="text" placeholder="John Adam predicted that …">
+    </div>
+    <div class="reph-row">
+      <div class="reph-orig">Go where you want, people will speak English to you.</div>
+      <div class="reph-prompt">No matter…</div>
+      <input class="sa" id="q6_2" type="text" placeholder="No matter …">
+    </div>
+    <div class="reph-row">
+      <div class="reph-orig">If you don't speak English nowadays, you will be seen as an illiterate.</div>
+      <div class="reph-prompt">Unless…</div>
+      <input class="sa" id="q6_3" type="text" placeholder="Unless …">
+    </div>
+    <div class="reph-row">
+      <div class="reph-orig">Just as Karim went to New York he started speaking English fluently.</div>
+      <div class="reph-prompt">No sooner…</div>
+      <input class="sa" id="q6_4" type="text" placeholder="No sooner …">
+    </div>
+    <div class="reph-row">
+      <div class="reph-orig">Janet doesn't speak Yoruba, she doesn't speak Hausa either.</div>
+      <div class="reph-prompt">Janet speaks neither…</div>
+      <input class="sa" id="q6_5" type="text" placeholder="Janet speaks neither …">
+    </div>
+  </div>
+
+  <button class="btn-submit" id="btn-partA" onclick="submitPartA()">✦ Submit Part A — Get my score & feedback</button>
+  <div class="fb-box" id="fb-partA">
+    <div class="fb-head">✦ AI Feedback · Part A — Reaction to Text</div>
+    <div class="fb-body" id="fb-partA-body"></div>
+  </div>
+
+</div><!-- /partA -->
+
+<!-- ══ PART B — WRITING ══ -->
+<div class="tab-panel" id="panel-partB">
+  <div class="card">
+    <div class="card-label">Part B — La Production d'un texte de type particulier</div>
+    <h2>Writing Task</h2>
+
+    <div style="background:var(--accent-soft);border-left:3px solid var(--accent);border-radius:0 4px 4px 0;padding:1.1rem 1.3rem;margin-bottom:1.2rem;font-size:.93rem;">
+      <p><strong>Context:</strong> Pour parler couramment l'anglais, certains apprenants des pays francophones, avec l'aide de leurs enseignants, prennent l'initiative de créer des clubs d'anglais. Ainsi, le club d'anglais du CS DANSON a eu à organiser la <strong>« Journée de langue Anglaise »</strong> au sein du collège. En tant que représentant des élèves, tu es invité(e) à présenter un discours sur l'importance de cette langue anglaise.</p>
+      <p style="margin-top:.7rem"><strong>Task:</strong> Your School English Club has organised the "English Speaker's Day" in the school. You are invited to <strong>make a speech about the importance of English</strong>.</p>
+    </div>
+
+    <div style="font-family:'Space Grotesk',sans-serif;font-size:.78rem;color:var(--muted);margin-bottom:.4rem;font-weight:600;letter-spacing:.05em">YOUR SPEECH</div>
+    <textarea class="rep large" id="writing" rows="18" placeholder="Write your speech here…&#10;&#10;(Remember to include: greeting the audience, your thesis on the importance of English, at least 2-3 supporting arguments with examples, and a conclusion)"></textarea>
+    <div class="wc" id="wc-writing">0 words · Target: at least 150 words</div>
+
+    <button class="btn-submit" id="btn-partB" onclick="submitPartB()">✦ Submit Part B — Get my score & feedback</button>
+    <div class="fb-box" id="fb-partB">
+      <div class="fb-head">✦ AI Feedback · Part B — Speech Writing</div>
+      <div class="fb-body" id="fb-partB-body"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ ANSWER KEY ══ -->
+<div class="tab-panel" id="panel-corrige">
+  <div id="corrige-locked" class="locked">
+    <div class="icon">🔒</div>
+    <p><strong>The Answer Key unlocks after you submit your work.</strong></p>
+    <p style="margin-top:.4rem">Complete Part A or Part B first, then come back here.</p>
+  </div>
+  <div id="corrige-content" style="display:none">
+
+    <div class="card">
+      <div class="card-label">Answer Key</div>
+      <h2>Part A — Reaction to Text</h2>
+
+      <div class="cor-block">
+        <h3>Item 1 — Right or Wrong (5 pts)</h3>
+        <ul>
+          <li><strong>1. Wrong</strong> — Nigeria and Ghana use English <em>exclusively</em> as official language, not alongside another African language (§1).</li>
+          <li><strong>2. Wrong</strong> — Only <em>50</em> African languages have more than 500,000 speakers, not fifteen (§2).</li>
+          <li><strong>3. Right</strong> — "countries which formerly had large French-speaking populations are making the switch to English" (§3).</li>
+          <li><strong>4. Wrong</strong> — English is the first <em>compulsory</em> (not optional) foreign language taught (§4).</li>
+          <li><strong>5. Right</strong> — "countries in Africa often see English as an essential tool" for business and exports (§5).</li>
+        </ul>
+      </div>
+
+      <div class="cor-block">
+        <h3>Item 2 — Questions (4 pts)</h3>
+        <ul>
+          <li><strong>1.</strong> Only nine percent of the world's population has English as their mother tongue.</li>
+          <li><strong>2.</strong> Africa currently has at least 2,400 local languages in Sub-Saharan Africa.</li>
+          <li><strong>3.</strong> French may not be spoken in Africa at all in twenty years / French could disappear from Africa.</li>
+          <li><strong>4.</strong> Two reasons: (i) to attract foreign investments and develop international trade; (ii) to create tourism campaigns and engage foreign markets.</li>
+        </ul>
+      </div>
+
+      <div class="cor-block">
+        <h3>Item 3 — Synonyms (5 pts)</h3>
+        <ul>
+          <li><strong>1.</strong> "At this time" → <em>currently</em> (§2)</li>
+          <li><strong>2.</strong> "Accentuate" → <em>emphasize</em> (§3)</li>
+          <li><strong>3.</strong> "Unavoidable" → <em>compulsory</em> (§4)</li>
+          <li><strong>4.</strong> "Overseas" → <em>international</em> (§5)</li>
+          <li><strong>5.</strong> "Instrument" → <em>tool</em> (§5)</li>
+        </ul>
+      </div>
+
+      <div class="cor-block">
+        <h3>Item 4 — Translation (4 pts) — Proposition</h3>
+        <p>« Les pays francophones qui cherchent un développement économique se tournent souvent vers l'anglais comme moyen d'accéder aux marchés étrangers. Afin d'attirer les investissements étrangers, de développer les opportunités commerciales internationales et de créer des campagnes touristiques, les pays d'Afrique voient souvent l'anglais comme un outil essentiel. Alors que les économies africaines cherchent à augmenter leurs exportations de matières premières, la sécurité de millions d'agriculteurs africains dépend des compétences de négociation et de marketing — y compris leur maîtrise de l'anglais — que possèdent les dirigeants et les exporteurs qui les représentent. »</p>
+      </div>
+
+      <div class="cor-block">
+        <h3>Item 5 — Best Choice (4 pts)</h3>
+        <ul>
+          <li><strong>1. no</strong> — Maxwell can speak no local language (he just arrived from England).</li>
+          <li><strong>2. many</strong> — "books" is countable → many (not much).</li>
+          <li><strong>3. few</strong> — Negative connotation (very small number) → few (not a few).</li>
+          <li><strong>4. much</strong> — "hope" is uncountable → much.</li>
+        </ul>
+      </div>
+
+      <div class="cor-block">
+        <h3>Item 6 — Rephrasing (5 pts)</h3>
+        <ul>
+          <li><strong>1.</strong> John Adam predicted that English would be the most respectable language in the world in the next century.</li>
+          <li><strong>2.</strong> No matter where you go, people will speak English to you.</li>
+          <li><strong>3.</strong> Unless you speak English nowadays, you will be seen as an illiterate.</li>
+          <li><strong>4.</strong> No sooner had Karim gone to New York than he started speaking English fluently.</li>
+          <li><strong>5.</strong> Janet speaks neither Yoruba nor Hausa.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label">Answer Key</div>
+      <h2>Part B — Model Speech</h2>
+      <div class="cor-block">
+        <h3>Model Speech</h3>
+        <p>Good morning/afternoon, distinguished guests, teachers, and fellow students,</p>
+        <p>It is my great honour to stand before you today on this English Speaker's Day to share my thoughts on the importance of the English language in our lives and in our future.</p>
+        <p>First and foremost, English is the global language of communication. With over one billion speakers worldwide, it connects people across cultures, nations and continents. Whether you are doing business, travelling, or pursuing higher education, English opens doors that would otherwise remain closed.</p>
+        <p>Secondly, English is the language of opportunity. As we have seen in our own continent, African countries are increasingly adopting English to attract foreign investment and grow their economies. Mastering English gives us, the youth of francophone Africa, a competitive advantage in the international job market.</p>
+        <p>Furthermore, English is the language of science, technology, and innovation. Most of the world's scientific research, technological advances, and digital content are produced in English. Without English, we risk being left behind in an ever-changing world.</p>
+        <p>In conclusion, English is not a threat to our identity — it is a bridge to the world. Let us embrace it with pride and determination. Thank you.</p>
+        <p style="margin-top:.7rem;font-family:'Space Grotesk',sans-serif;font-size:.78rem;color:var(--muted)">Criteria: Context & task relevance (2pts) · Structure of speech (2pts) · Grammar & vocabulary (3pts) · Spelling & punctuation (1pt) · Originality (2pts)</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</main>
+
+<script>
+function switchTab(name,e){
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('panel-'+name).classList.add('active');
+  e.currentTarget.classList.add('active');
+}
+function countWords(s){return s.trim().split(/\s+/).filter(w=>w.length>0).length;}
+
+const writingEl=document.getElementById('writing');
+const wcW=document.getElementById('wc-writing');
+writingEl.addEventListener('input',()=>{
+  const n=countWords(writingEl.value);
+  wcW.textContent=n+' word'+(n!==1?'s':'')+' · Target: at least 150 words';
+  wcW.className='wc'+(n>=150?' ok':n>0?' warn':'');
+});
+const transEl=document.getElementById('q4_trans');
+const wcT=document.getElementById('wc-q4');
+transEl.addEventListener('input',()=>{
+  const n=countWords(transEl.value);
+  wcT.textContent=n+' mot'+(n>1?'s':'');
+});
+
+let unlocked=false;
+function unlockCorrige(){
+  if(unlocked)return;unlocked=true;
+  document.getElementById('corrige-locked').style.display='none';
+  document.getElementById('corrige-content').style.display='block';
+}
+
+async function callClaude(system,userMsg,bodyEl){
+  bodyEl.innerHTML='<div class="spinner"></div> The AI is reviewing your answers…';
+  bodyEl.classList.add('loading');
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1200,system,messages:[{role:'user',content:userMsg}]})
+    });
+    const data=await res.json();
+    const text=data.content.map(i=>i.text||'').join('\n');
+    bodyEl.classList.remove('loading');bodyEl.innerHTML=text;
+  }catch{
+    bodyEl.classList.remove('loading');
+    bodyEl.innerHTML='<p style="color:var(--red)">Connection error. Please try again.</p>';
+  }
+}
+
+async function submitPartA(){
+  const rw=[1,2,3,4,5].map(i=>{const s=document.querySelector(`input[name="rw${i}"]:checked`);return s?s.value:'Not answered';});
+  const q2=[document.getElementById('q2_1').value||'(empty)',document.getElementById('q2_2').value||'(empty)',document.getElementById('q2_3').value||'(empty)',document.getElementById('q2_4').value||'(empty)'];
+  const q3=[1,2,3,4,5].map(i=>document.getElementById('q3_'+i).value||'(empty)');
+  const q4=document.getElementById('q4_trans').value||'(empty)';
+  const q5=[1,2,3,4].map(i=>document.getElementById('q5_'+i).value||'(not chosen)');
+  const q6=[1,2,3,4,5].map(i=>document.getElementById('q6_'+i).value||'(empty)');
+  document.getElementById('btn-partA').disabled=true;
+  const fb=document.getElementById('fb-partA');fb.classList.add('visible');
+
+  const system=`You are an experienced English teacher correcting a LV1 English exam for senior secondary school students in a francophone African country (Benin/Côte d'Ivoire level). The text is "English on the Rise in Africa" by Patrick Plonski (2013).
+
+ANSWER KEY:
+Item1 (Right/Wrong): 1=Wrong(Nigeria&Ghana use English exclusively), 2=Wrong(50 languages not 15), 3=Right, 4=Wrong(compulsory not optional), 5=Right
+Item2: 1=9% of world pop; 2=at least 2400 languages; 3=French may not be spoken in Africa at all; 4=attract foreign investments + develop trade/tourism
+Item3 synonyms: 1=currently(§2), 2=emphasize(§3), 3=compulsory(§4), 4=international(§5), 5=tool(§5)
+Item4: Full paragraph 5 translated into French (check fidelity and quality)
+Item5 best choice: 1=no, 2=many, 3=few, 4=much
+Item6 rephrasing: 1=John Adam predicted that English would be...; 2=No matter where you go...; 3=Unless you speak English...; 4=No sooner had Karim gone to NY than he started...; 5=Janet speaks neither Yoruba nor Hausa.
+
+Respond ONLY in plain HTML (p,h4,ul,li,strong). No markdown, no backticks.
+Structure:
+<h4>📊 Estimated Score</h4> (out of 22 pts, with mention)
+<h4>Item 1 — Right or Wrong (5 pts)</h4>
+<h4>Item 2 — Questions (4 pts)</h4>
+<h4>Item 3 — Synonyms (5 pts)</h4>
+<h4>Item 4 — Translation (4 pts)</h4>
+<h4>Item 5 — Best Choice (4 pts)</h4>
+<h4>Item 6 — Rephrasing (5 pts)</h4>
+<h4>💡 General Advice</h4>
+Be precise, constructive, and encouraging. Quote student's own answers when giving feedback.`;
+
+  const user=`Item 1 (R/W): 1=${rw[0]}, 2=${rw[1]}, 3=${rw[2]}, 4=${rw[3]}, 5=${rw[4]}
+
+Item 2 (Questions):
+1. ${q2[0]}
+2. ${q2[1]}
+3. ${q2[2]}
+4. ${q2[3]}
+
+Item 3 (Synonyms):
+1. ${q3[0]}
+2. ${q3[1]}
+3. ${q3[2]}
+4. ${q3[3]}
+5. ${q3[4]}
+
+Item 4 (Translation):
+${q4}
+
+Item 5 (Best choice):
+1. ${q5[0]}  2. ${q5[1]}  3. ${q5[2]}  4. ${q5[3]}
+
+Item 6 (Rephrasing):
+1. ${q6[0]}
+2. ${q6[1]}
+3. ${q6[2]}
+4. ${q6[3]}
+5. ${q6[4]}`;
+
+  await callClaude(system,user,document.getElementById('fb-partA-body'));
+  unlockCorrige();
+}
+
+async function submitPartB(){
+  const writing=document.getElementById('writing').value.trim();
+  if(!writing||countWords(writing)<20){alert('Please write at least a few sentences before submitting.');return;}
+  document.getElementById('btn-partB').disabled=true;
+  const fb=document.getElementById('fb-partB');fb.classList.add('visible');
+
+  const system=`You are an experienced English teacher evaluating a speech written by a senior secondary school student in francophone Africa. The task was to write a speech about the importance of the English language for the school's "English Speaker's Day".
+
+Marking criteria (total ~8 pts):
+- Content & relevance to the task (2 pts): addresses importance of English, speech format
+- Structure (2 pts): greeting/intro, body with arguments, conclusion
+- Grammar & vocabulary (3 pts): sentence accuracy, appropriate register, range of vocabulary
+- Spelling & punctuation (1 pt)
+
+Respond ONLY in plain HTML (p,h4,ul,li,strong). No markdown, no backticks.
+Structure:
+<h4>📊 Estimated Score</h4> (out of 8 pts, with mention)
+<h4>✅ Strengths</h4>
+<h4>⚠️ Areas to Improve</h4> (grammar, structure, vocabulary — with specific corrections)
+<h4>💡 Tips for a Better Speech</h4>
+Be encouraging, precise, and constructive. Quote the student's own sentences.`;
+
+  await callClaude(system,`Student's speech:\n\n${writing}`,document.getElementById('fb-partB-body'));
+  unlockCorrige();
+}
+</script>
+</body>
+</html>

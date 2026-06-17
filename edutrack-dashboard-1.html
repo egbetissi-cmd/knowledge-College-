@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>EduTrack Pro — Dashboard Élève</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --nuit: #0D1B2A;
+    --or: #F4A825;
+    --or-light: #FFF0CC;
+    --vert: #2ECC71;
+    --vert-dark: #1a9e52;
+    --rouge: #E74C3C;
+    --bleu: #3498DB;
+    --bleu-light: #EBF5FB;
+    --blanc: #F8F5EE;
+    --gris: #8E9BAE;
+    --gris-light: #F0F2F5;
+    --card: #FFFFFF;
+    --violet: #9B59B6;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Nunito',sans-serif; background:var(--blanc); color:var(--nuit); min-height:100vh; }
+
+  /* LOGIN */
+  #loginScreen {
+    min-height:100vh;
+    background:linear-gradient(145deg,var(--nuit) 0%,#1a3a5c 60%,#0f4c3a 100%);
+    display:flex; align-items:center; justify-content:center; padding:20px;
+  }
+  .login-box {
+    background:white; border-radius:24px; padding:40px 32px;
+    width:100%; max-width:400px; text-align:center;
+    box-shadow:0 30px 80px rgba(0,0,0,0.4);
+  }
+  .login-logo {
+    width:80px; height:80px;
+    background:linear-gradient(135deg,var(--or),#e8961a);
+    border-radius:20px; display:flex; align-items:center; justify-content:center;
+    font-size:36px; margin:0 auto 16px;
+    box-shadow:0 8px 24px rgba(244,168,37,0.4);
+  }
+  .login-title { font-family:'Fredoka One',cursive; font-size:28px; color:var(--nuit); margin-bottom:4px; }
+  .login-subtitle { color:var(--gris); font-size:13px; margin-bottom:32px; }
+  .login-field { margin-bottom:16px; text-align:left; }
+  .login-field label { display:block; font-weight:700; font-size:13px; color:var(--nuit); margin-bottom:6px; }
+  .login-field input, .login-field select {
+    width:100%; padding:13px 16px; border:2px solid #E8ECF0; border-radius:12px;
+    font-family:'Nunito',sans-serif; font-size:15px; color:var(--nuit);
+    transition:border-color 0.2s; background:white;
+  }
+  .login-field input:focus, .login-field select:focus { outline:none; border-color:var(--or); }
+  .btn-primary {
+    width:100%; padding:15px;
+    background:linear-gradient(135deg,var(--or),#e8961a);
+    color:white; border:none; border-radius:14px;
+    font-family:'Fredoka One',cursive; font-size:18px; cursor:pointer; margin-top:8px;
+    box-shadow:0 6px 20px rgba(244,168,37,0.4);
+    transition:transform 0.2s,box-shadow 0.2s;
+  }
+  .btn-primary:hover { transform:translateY(-2px); box-shadow:0 10px 28px rgba(244,168,37,0.5); }
+  .login-footer { margin-top:20px; font-size:12px; color:var(--gris); }
+  .login-footer span { color:var(--or); font-weight:700; }
+
+  /* APP */
+  #appScreen { display:none; }
+  .topnav {
+    background:var(--nuit); padding:14px 20px;
+    display:flex; align-items:center; justify-content:space-between;
+    position:sticky; top:0; z-index:100;
+    box-shadow:0 4px 16px rgba(13,27,42,0.3);
+  }
+  .topnav-brand { font-family:'Fredoka One',cursive; color:var(--or); font-size:22px; }
+  .topnav-brand span { color:white; }
+  .topnav-right { display:flex; align-items:center; gap:12px; }
+  .topnav-avatar {
+    width:38px; height:38px;
+    background:linear-gradient(135deg,var(--or),#e8961a);
+    border-radius:50%; display:flex; align-items:center; justify-content:center;
+    font-weight:800; color:white; font-size:15px; cursor:pointer;
+  }
+  .btn-logout {
+    background:rgba(255,255,255,0.1); color:white; border:none;
+    border-radius:8px; padding:7px 14px;
+    font-family:'Nunito',sans-serif; font-size:13px; cursor:pointer;
+    transition:background 0.2s;
+  }
+  .btn-logout:hover { background:rgba(255,255,255,0.2); }
+
+  .main { padding:20px 16px 100px; max-width:520px; margin:0 auto; }
+
+  /* GREETING */
+  .greeting-banner {
+    background:linear-gradient(135deg,var(--nuit) 0%,#1a3a5c 100%);
+    border-radius:20px; padding:24px 20px; margin-bottom:20px;
+    position:relative; overflow:hidden;
+  }
+  .greeting-banner::after {
+    content:'🎓'; position:absolute; right:20px; top:50%;
+    transform:translateY(-50%); font-size:52px; opacity:0.12;
+  }
+  .greeting-top { font-size:12px; color:var(--or); font-weight:700; text-transform:uppercase; letter-spacing:1px; margin-bottom:4px; }
+  .greeting-name { font-family:'Fredoka One',cursive; font-size:26px; color:white; margin-bottom:10px; }
+  .greeting-info { display:flex; gap:8px; flex-wrap:wrap; }
+  .badge-info { background:rgba(255,255,255,0.12); color:white; padding:4px 12px; border-radius:20px; font-size:12px; font-weight:600; }
+  .badge-code { background:var(--or); color:var(--nuit); padding:4px 12px; border-radius:20px; font-size:12px; font-weight:800; font-family:monospace; }
+
+  /* PROGRESS */
+  .progress-hero {
+    background:white; border-radius:20px; padding:20px; margin-bottom:20px;
+    box-shadow:0 4px 16px rgba(0,0,0,0.06);
+  }
+  .section-title {
+    font-family:'Fredoka One',cursive; font-size:18px; color:var(--nuit);
+    margin-bottom:16px; display:flex; align-items:center; gap:8px;
+  }
+  .progress-week { display:flex; flex-direction:column; gap:10px; }
+  .progress-label { display:flex; justify-content:space-between; font-size:13px; font-weight:700; margin-bottom:4px; }
+  .progress-bar-bg { background:var(--gris-light); border-radius:30px; height:12px; overflow:hidden; }
+  .progress-bar-fill { height:100%; border-radius:30px; transition:width 1.2s cubic-bezier(.4,0,.2,1); }
+  .fill-or { background:linear-gradient(90deg,var(--or),#e8961a); }
+  .fill-vert { background:linear-gradient(90deg,var(--vert),var(--vert-dark)); }
+  .fill-bleu { background:linear-gradient(90deg,var(--bleu),#1a78c2); }
+
+  /* TABS */
+  .tabs {
+    display:flex; gap:8px; overflow-x:auto; padding-bottom:4px;
+    margin-bottom:20px; scrollbar-width:none;
+  }
+  .tabs::-webkit-scrollbar { display:none; }
+  .tab {
+    flex-shrink:0; padding:9px 18px; border-radius:30px;
+    border:2px solid #E8ECF0; background:white;
+    font-family:'Nunito',sans-serif; font-size:13px; font-weight:700;
+    color:var(--gris); cursor:pointer; transition:all 0.2s; white-space:nowrap;
+  }
+  .tab.active { background:var(--nuit); color:var(--or); border-color:var(--nuit); }
+
+  .module-section { display:none; }
+  .module-section.active { display:block; }
+
+  /* PLANNER */
+  .planner-week { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:16px; }
+  .day-card {
+    background:white; border-radius:16px; padding:14px 10px;
+    text-align:center; box-shadow:0 3px 10px rgba(0,0,0,0.06);
+    border:2px solid transparent; cursor:pointer; transition:all 0.2s;
+  }
+  .day-card.today { border-color:var(--or); background:var(--or-light); }
+  .day-card.done { border-color:var(--vert); }
+  .day-name { font-size:11px; font-weight:800; text-transform:uppercase; color:var(--gris); margin-bottom:4px; }
+  .day-num { font-family:'Fredoka One',cursive; font-size:22px; color:var(--nuit); margin-bottom:6px; }
+  .day-tasks { font-size:11px; color:var(--gris); }
+  .task-item {
+    display:flex; align-items:center; gap:12px;
+    background:white; border-radius:14px; padding:14px 16px;
+    margin-bottom:10px; box-shadow:0 2px 8px rgba(0,0,0,0.05);
+    cursor:pointer; transition:transform 0.15s;
+  }
+  .task-item:hover { transform:translateX(4px); }
+  .task-check {
+    width:24px; height:24px; border-radius:50%;
+    border:2.5px solid #E0E4EA; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center; transition:all 0.2s;
+  }
+  .task-item.checked .task-check { background:var(--vert); border-color:var(--vert); color:white; font-size:13px; }
+  .task-text { font-size:14px; font-weight:600; flex:1; }
+  .task-item.checked .task-text { text-decoration:line-through; color:var(--gris); }
+  .task-matiere { font-size:11px; font-weight:700; padding:3px 10px; border-radius:20px; background:var(--bleu-light); color:var(--bleu); }
+
+  /* TESTS */
+  .series-filter { display:flex; gap:8px; overflow-x:auto; padding-bottom:8px; margin-bottom:16px; scrollbar-width:none; }
+  .series-filter::-webkit-scrollbar { display:none; }
+  .serie-btn {
+    flex-shrink:0; padding:6px 16px; border-radius:20px;
+    border:2px solid #E8ECF0; background:white;
+    font-weight:700; font-size:13px; color:var(--gris); cursor:pointer; transition:all 0.2s;
+  }
+  .serie-btn.active { background:var(--or); border-color:var(--or); color:var(--nuit); }
+  .matiere-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .matiere-card {
+    background:white; border-radius:18px; padding:18px 14px;
+    box-shadow:0 3px 12px rgba(0,0,0,0.06); cursor:pointer;
+    transition:all 0.2s; border:2px solid transparent; text-align:center;
+  }
+  .matiere-card:hover { transform:translateY(-4px); box-shadow:0 8px 24px rgba(0,0,0,0.12); }
+  .matiere-icon { font-size:30px; margin-bottom:8px; display:block; }
+  .matiere-name { font-family:'Fredoka One',cursive; font-size:15px; color:var(--nuit); margin-bottom:6px; }
+  .matiere-score { font-size:12px; font-weight:700; padding:3px 10px; border-radius:20px; display:inline-block; }
+  .score-none { background:#F0F2F5; color:var(--gris); }
+  .score-low { background:#FDECEA; color:var(--rouge); }
+  .score-mid { background:#FFF8E1; color:#F39C12; }
+  .score-high { background:#E8F8F0; color:var(--vert-dark); }
+
+  /* SUIVI */
+  .stats-row { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:20px; }
+  .stat-card { background:white; border-radius:16px; padding:16px 10px; text-align:center; box-shadow:0 3px 10px rgba(0,0,0,0.06); }
+  .stat-num { font-family:'Fredoka One',cursive; font-size:28px; margin-bottom:2px; }
+  .stat-label { font-size:11px; color:var(--gris); font-weight:600; }
+  .moy-table { background:white; border-radius:18px; overflow:hidden; box-shadow:0 3px 12px rgba(0,0,0,0.06); }
+  .moy-header {
+    background:var(--nuit); color:white;
+    display:grid; grid-template-columns:1fr auto auto;
+    padding:12px 16px; font-size:12px; font-weight:800;
+    text-transform:uppercase; letter-spacing:0.5px;
+  }
+  .moy-row {
+    display:grid; grid-template-columns:1fr auto auto;
+    padding:12px 16px; border-bottom:1px solid #F0F2F5; align-items:center;
+  }
+  .moy-row:last-child { border-bottom:none; }
+  .moy-matiere { font-weight:700; font-size:14px; }
+  .moy-note { font-family:'Fredoka One',cursive; font-size:18px; text-align:right; min-width:40px; }
+  .moy-trend { font-size:16px; text-align:center; min-width:30px; }
+
+  /* ÉPREUVES */
+  .epreuve-list { display:flex; flex-direction:column; gap:12px; }
+  .epreuve-card {
+    background:white; border-radius:16px; padding:16px;
+    box-shadow:0 3px 10px rgba(0,0,0,0.06);
+    display:flex; align-items:center; gap:14px;
+    cursor:pointer; transition:all 0.2s;
+  }
+  .epreuve-card:hover { transform:translateX(4px); box-shadow:0 6px 20px rgba(0,0,0,0.1); }
+  .epreuve-icon {
+    width:48px; height:48px; border-radius:14px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:22px; flex-shrink:0;
+  }
+  .bg-or { background:var(--or-light); }
+  .bg-vert { background:#E8F8F0; }
+  .bg-bleu { background:var(--bleu-light); }
+  .bg-rose { background:#FDE8E8; }
+  .bg-violet { background:#F3E8FF; }
+  .epreuve-info { flex:1; }
+  .epreuve-title { font-weight:800; font-size:14px; margin-bottom:3px; }
+  .epreuve-meta { font-size:12px; color:var(--gris); }
+  .epreuve-status { font-size:11px; font-weight:700; padding:4px 10px; border-radius:20px; }
+  .status-new { background:#E8F8F0; color:var(--vert-dark); }
+  .status-done { background:#F0F2F5; color:var(--gris); }
+  .status-progress { background:#FFF8E1; color:#F39C12; }
+
+  /* ACADEMIABOOST */
+  .boost-hero {
+    background:linear-gradient(135deg,#1a0533,#3d0a6e,#1a3a5c);
+    border-radius:20px; padding:28px 20px; margin-bottom:20px;
+    text-align:center; position:relative; overflow:hidden;
+  }
+  .boost-hero::before {
+    content:'✨'; position:absolute; font-size:120px;
+    top:-30px; right:-20px; opacity:0.07;
+  }
+  .boost-tagline { font-size:11px; color:#c084fc; font-weight:800; text-transform:uppercase; letter-spacing:2px; margin-bottom:8px; }
+  .boost-title { font-family:'Fredoka One',cursive; font-size:32px; color:white; margin-bottom:8px; }
+  .boost-title span { color:#e879f9; }
+  .boost-desc { color:rgba(255,255,255,0.7); font-size:13px; line-height:1.6; }
+  .boost-categories { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:20px; }
+  .boost-cat {
+    background:white; border-radius:18px; padding:20px 14px;
+    text-align:center; box-shadow:0 3px 12px rgba(0,0,0,0.06);
+    cursor:pointer; transition:all 0.2s; border:2px solid transparent;
+  }
+  .boost-cat:hover { transform:translateY(-4px); box-shadow:0 10px 28px rgba(0,0,0,0.12); border-color:var(--or); }
+  .boost-cat-icon { font-size:32px; margin-bottom:10px; display:block; }
+  .boost-cat-name { font-family:'Fredoka One',cursive; font-size:15px; color:var(--nuit); margin-bottom:4px; }
+  .boost-cat-count { font-size:12px; color:var(--gris); }
+  .boost-featured { background:white; border-radius:18px; overflow:hidden; box-shadow:0 3px 12px rgba(0,0,0,0.06); margin-bottom:16px; }
+  .boost-featured-header {
+    background:linear-gradient(135deg,#3d0a6e,#1a3a5c);
+    padding:14px 16px; color:white;
+    font-family:'Fredoka One',cursive; font-size:16px;
+    display:flex; align-items:center; gap:8px;
+  }
+  .boost-item {
+    padding:14px 16px; border-bottom:1px solid #F0F2F5;
+    display:flex; align-items:center; gap:12px;
+    cursor:pointer; transition:background 0.15s;
+  }
+  .boost-item:hover { background:#FAFBFC; }
+  .boost-item:last-child { border-bottom:none; }
+  .boost-item-icon {
+    width:42px; height:42px; border-radius:12px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:20px; flex-shrink:0;
+  }
+  .boost-item-info { flex:1; }
+  .boost-item-title { font-weight:700; font-size:14px; margin-bottom:2px; }
+  .boost-item-sub { font-size:12px; color:var(--gris); }
+  .boost-locked { font-size:18px; color:var(--gris); }
+  .boost-new { font-size:10px; font-weight:800; padding:2px 8px; background:#E8F8F0; color:var(--vert-dark); border-radius:20px; }
+
+  /* COMMUNICATION */
+  .comm-cards { display:flex; flex-direction:column; gap:12px; }
+  .comm-card { background:white; border-radius:18px; padding:18px 16px; box-shadow:0 3px 10px rgba(0,0,0,0.06); }
+  .comm-card-title { font-family:'Fredoka One',cursive; font-size:17px; margin-bottom:12px; display:flex; align-items:center; gap:8px; }
+  .btn-whatsapp {
+    width:100%; padding:13px;
+    background:linear-gradient(135deg,#25D366,#128C7E);
+    color:white; border:none; border-radius:14px;
+    font-family:'Fredoka One',cursive; font-size:16px; cursor:pointer;
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    transition:transform 0.2s; margin-bottom:8px;
+  }
+  .btn-whatsapp:hover { transform:translateY(-2px); }
+  .btn-pdf {
+    width:100%; padding:13px;
+    background:linear-gradient(135deg,#E74C3C,#c0392b);
+    color:white; border:none; border-radius:14px;
+    font-family:'Fredoka One',cursive; font-size:16px; cursor:pointer;
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    transition:transform 0.2s;
+  }
+  .btn-pdf:hover { transform:translateY(-2px); }
+  .msg-item {
+    background:#F8F9FC; border-left:3px solid var(--or);
+    border-radius:0 12px 12px 0; padding:10px 14px; margin-bottom:8px; font-size:13px;
+  }
+  .msg-from { font-weight:800; font-size:11px; color:var(--or); margin-bottom:3px; }
+  .msg-time { font-size:11px; color:var(--gris); margin-top:3px; }
+
+  /* BOTTOM NAV */
+  .bottomnav {
+    position:fixed; bottom:0; left:0; right:0;
+    background:white; border-top:1px solid #EEF0F3;
+    display:flex; padding:8px 0 12px; z-index:100;
+    box-shadow:0 -4px 20px rgba(0,0,0,0.06);
+  }
+  .nav-item {
+    flex:1; display:flex; flex-direction:column;
+    align-items:center; gap:3px; cursor:pointer; padding:4px 0; transition:transform 0.15s;
+  }
+  .nav-item:hover { transform:translateY(-2px); }
+  .nav-icon {
+    width:36px; height:36px; border-radius:12px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:18px; transition:all 0.2s; background:transparent;
+  }
+  .nav-item.active .nav-icon { background:var(--nuit); }
+  .nav-label { font-size:10px; font-weight:700; color:var(--gris); text-transform:uppercase; letter-spacing:0.3px; }
+  .nav-item.active .nav-label { color:var(--nuit); }
+
+  /* MODAL */
+  .modal-overlay {
+    display:none; position:fixed; inset:0;
+    background:rgba(13,27,42,0.7); z-index:200;
+    align-items:flex-end; justify-content:center;
+  }
+  .modal-overlay.open { display:flex; }
+  .modal-box {
+    background:white; border-radius:24px 24px 0 0;
+    padding:28px 20px 40px; width:100%; max-width:520px;
+    animation:slideUp 0.3s ease;
+  }
+  @keyframes slideUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
+  .modal-handle { width:40px; height:4px; background:#E0E4EA; border-radius:4px; margin:0 auto 20px; }
+  .modal-title { font-family:'Fredoka One',cursive; font-size:22px; margin-bottom:16px; text-align:center; }
+  .btn-close-modal {
+    width:100%; padding:13px; background:var(--gris-light);
+    color:var(--nuit); border:none; border-radius:14px;
+    font-family:'Fredoka One',cursive; font-size:16px; cursor:pointer; margin-top:12px;
+  }
+
+  /* TOAST */
+  .toast {
+    position:fixed; bottom:90px; left:50%;
+    transform:translateX(-50%) translateY(20px);
+    background:var(--nuit); color:white;
+    padding:12px 24px; border-radius:30px;
+    font-weight:700; font-size:14px; opacity:0;
+    transition:all 0.3s; z-index:300; white-space:nowrap;
+    max-width:90vw; text-align:center;
+  }
+  .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+
+  .color-or{color:var(--or)} .color-vert{color:var(--vert)} .color-rouge{color:var(--rouge)} .color-bleu{color:var(--bleu)}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo">🎓</div>
+    <div class="login-title">EduTrack Pro</div>
+    <div class="login-subtitle">Votre espace personnel de réussite scolaire — Bénin 🇧🇯</div>
+    <div class="login-field">
+      <label>Ton prénom</label>
+      <input type="text" id="inputNom" placeholder="Ex: Kofi"/>
+    </div>
+    <div class="login-field">
+      <label>Ton code élève</label>
+      <input type="text" id="inputCode" placeholder="Ex: TLD-CEG1-2026-042"/>
+    </div>
+    <div class="login-field">
+      <label>Ta promotion / série</label>
+      <select id="inputSerie">
+        <option value="">-- Choisir --</option>
+        <optgroup label="Terminales">
+          <option value="A1">Terminale A1</option>
+          <option value="A2">Terminale A2</option>
+          <option value="B">Terminale B</option>
+          <option value="C">Terminale C</option>
+          <option value="D">Terminale D</option>
+          <option value="E">Terminale E</option>
+        </optgroup>
+        <optgroup label="Premières">
+          <option value="1A">1ère A</option>
+          <option value="1C">1ère C</option>
+          <option value="1D">1ère D</option>
+        </optgroup>
+        <optgroup label="Secondes">
+          <option value="2A">2nde A</option>
+          <option value="2C">2nde C</option>
+        </optgroup>
+        <optgroup label="Troisième">
+          <option value="3e">3ème</option>
+        </optgroup>
+      </select>
+    </div>
+    <div class="login-field">
+      <label>Établissement</label>
+      <input type="text" id="inputEcole" placeholder="Ex: CEG1 Porto-Novo"/>
+    </div>
+    <div class="login-field">
+      <label>Code PIN (4 chiffres)</label>
+      <input type="password" id="inputPin" maxlength="4" placeholder="••••"/>
+    </div>
+    <button class="btn-primary" onclick="doLogin()">Accéder à mon espace 🚀</button>
+    <div class="login-footer">Propulsé par <span>KNOWLEDGE SARL</span> • Porto-Novo, Bénin</div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="appScreen">
+  <nav class="topnav">
+    <div class="topnav-brand">Edu<span>Track</span> Pro</div>
+    <div class="topnav-right">
+      <div class="topnav-avatar" id="avatarInitial">K</div>
+      <button class="btn-logout" onclick="doLogout()">⏏ Quitter</button>
+    </div>
+  </nav>
+
+  <div class="main">
+
+    <!-- GREETING -->
+    <div class="greeting-banner">
+      <div class="greeting-top">📍 Bénin — BAC 2026</div>
+      <div class="greeting-name" id="greetingName">Bonjour, Champion !</div>
+      <div class="greeting-info">
+        <span class="badge-info" id="badgeSerie">Terminale D</span>
+        <span class="badge-info" id="badgeEcole">Établissement</span>
+        <span class="badge-code" id="badgeCode">CODE-2026</span>
+      </div>
+    </div>
+
+    <!-- TABS -->
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab('planner',this)">📅 Planner</div>
+      <div class="tab" onclick="switchTab('tests',this)">🧪 Tests</div>
+      <div class="tab" onclick="switchTab('suivi',this)">📊 Suivi</div>
+      <div class="tab" onclick="switchTab('epreuves',this)">📄 Épreuves</div>
+      <div class="tab" onclick="switchTab('boost',this)">⚡ AcadémiaBoost</div>
+      <div class="tab" onclick="switchTab('comm',this)">📱 Contact</div>
+    </div>
+
+    <!-- PLANNER -->
+    <div class="module-section active" id="mod-planner">
+      <div class="progress-hero" style="margin-bottom:16px;">
+        <div class="section-title">📅 Ma semaine en cours</div>
+        <div class="progress-week">
+          <div>
+            <div class="progress-label"><span>Tâches accomplies</span><span id="pct-tasks">0%</span></div>
+            <div class="progress-bar-bg"><div class="progress-bar-fill fill-or" id="bar-tasks" style="width:0%"></div></div>
+          </div>
+          <div>
+            <div class="progress-label"><span>Leçons apprises</span><span id="pct-lessons">0%</span></div>
+            <div class="progress-bar-bg"><div class="progress-bar-fill fill-vert" id="bar-lessons" style="width:0%"></div></div>
+          </div>
+          <div>
+            <div class="progress-label"><span>Révisions effectuées</span><span id="pct-revisions">0%</span></div>
+            <div class="progress-bar-bg"><div class="progress-bar-fill fill-bleu" id="bar-revisions" style="width:0%"></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="planner-week" id="weekDays"></div>
+      <div class="section-title" style="margin-top:16px;">✅ Mes tâches du jour</div>
+      <div id="taskList"></div>
+      <button class="btn-primary" style="margin-top:16px;" onclick="showToast('🖨️ Préparation impression...');setTimeout(()=>window.print(),800)">
+        🖨️ Imprimer mon planning
+      </button>
+    </div>
+
+    <!-- TESTS -->
+    <div class="module-section" id="mod-tests">
+      <div class="section-title">🧪 Tests interactifs — 150 questions</div>
+      <div class="series-filter" id="seriesFilter"></div>
+      <div class="matiere-grid" id="matiereGrid"></div>
+    </div>
+
+    <!-- SUIVI -->
+    <div class="module-section" id="mod-suivi">
+      <div class="stats-row">
+        <div class="stat-card"><div class="stat-num color-vert" id="statTests">0</div><div class="stat-label">Tests faits</div></div>
+        <div class="stat-card"><div class="stat-num color-or" id="statMoy">—</div><div class="stat-label">Moy. générale</div></div>
+        <div class="stat-card"><div class="stat-num color-bleu" id="statAssid">—</div><div class="stat-label">Assiduité</div></div>
+      </div>
+      <div class="section-title">📈 Moyennes par matière</div>
+      <div class="moy-table">
+        <div class="moy-header"><span>Matière</span><span>Note /20</span><span>Évol.</span></div>
+        <div id="moyTable"></div>
+      </div>
+      <div class="section-title" style="margin-top:20px;">🔴 Matières à renforcer</div>
+      <div id="weakPoints"></div>
+    </div>
+
+    <!-- ÉPREUVES -->
+    <div class="module-section" id="mod-epreuves">
+      <div class="section-title">📄 Épreuves corrigées par l'IA</div>
+      <div class="series-filter" id="seriesFilter2"></div>
+      <div class="epreuve-list" id="epreuveList"></div>
+    </div>
+
+    <!-- ACADEMIABOOST -->
+    <div class="module-section" id="mod-boost">
+      <div class="boost-hero">
+        <div class="boost-tagline">✨ Ta bibliothèque de puissance</div>
+        <div class="boost-title">Academia<span>Boost</span></div>
+        <div class="boost-desc">Manuels numériques, fiches méthodes, techniques de mémorisation et outils premium pour propulser tes résultats au niveau supérieur 🚀</div>
+      </div>
+
+      <div class="boost-categories">
+        <div class="boost-cat" onclick="openBoostCat('Manuels Numériques','📚','8 matières disponibles en version interactive')">
+          <span class="boost-cat-icon">📚</span>
+          <div class="boost-cat-name">Manuels Numériques</div>
+          <div class="boost-cat-count">8 matières • PDF interactifs</div>
+        </div>
+        <div class="boost-cat" onclick="openBoostCat('Fiches Méthodes','🗂️','150+ fiches de méthode par matière et par type d\'exercice')">
+          <span class="boost-cat-icon">🗂️</span>
+          <div class="boost-cat-name">Fiches Méthodes</div>
+          <div class="boost-cat-count">150+ fiches classées</div>
+        </div>
+        <div class="boost-cat" onclick="openBoostCat('Cours Résumés','🧠','Résumés condensés de toutes les leçons du programme')">
+          <span class="boost-cat-icon">🧠</span>
+          <div class="boost-cat-name">Cours Résumés</div>
+          <div class="boost-cat-count">Tout le programme BAC</div>
+        </div>
+        <div class="boost-cat" onclick="openBoostCat('Techniques de Mémorisation','🎯','Méthodes éprouvées : mind maps, répétition espacée, mnémotechnique')">
+          <span class="boost-cat-icon">🎯</span>
+          <div class="boost-cat-name">Mémorisation Pro</div>
+          <div class="boost-cat-count">Techniques avancées</div>
+        </div>
+        <div class="boost-cat" onclick="openBoostCat('Réussir son Examen','💡','Gestion du stress, organisation le jour J, stratégies de réponse')">
+          <span class="boost-cat-icon">💡</span>
+          <div class="boost-cat-name">Réussir son Exam</div>
+          <div class="boost-cat-count">Guide complet • Jour J</div>
+        </div>
+        <div class="boost-cat" onclick="openBoostCat('Orientation Post-BAC','🌍','Filières universitaires, bourses, grandes écoles en Afrique et ailleurs')">
+          <span class="boost-cat-icon">🌍</span>
+          <div class="boost-cat-name">Orientation Post-BAC</div>
+          <div class="boost-cat-count">Filières & débouchés</div>
+        </div>
+        <div class="boost-cat" onclick="openBoostCat('Formules & Aide-mémoire','📐','Formulaires de Maths, Physique, Chimie, SVT à portée de main')">
+          <span class="boost-cat-icon">📐</span>
+          <div class="boost-cat-name">Aide-mémoire Scientifique</div>
+          <div class="boost-cat-count">Formules essentielles</div>
+        </div>
+        <div class="boost-cat" onclick="openBoostCat('Vocabulaire & Langues','🗣️','Fiches de vocabulaire Anglais, Espagnol, listes de verbes irréguliers')">
+          <span class="boost-cat-icon">🗣️</span>
+          <div class="boost-cat-name">Langues Vivantes</div>
+          <div class="boost-cat-count">Anglais • Espagnol</div>
+        </div>
+      </div>
+
+      <div class="boost-featured">
+        <div class="boost-featured-header">⭐ Ressources à la une cette semaine</div>
+        <div class="boost-item" onclick="openBoostItem('Méthode de dissertation complète','Philosophie & Français — 12 pages illustrées')">
+          <div class="boost-item-icon bg-or">📖</div>
+          <div class="boost-item-info">
+            <div class="boost-item-title">Méthode de dissertation complète</div>
+            <div class="boost-item-sub">Philosophie & Français — 12 pages</div>
+          </div>
+          <span class="boost-new">Nouveau</span>
+        </div>
+        <div class="boost-item" onclick="openBoostItem('Résumés SVT Terminale D','Génétique, Écologie, Géologie — fiches condensées')">
+          <div class="boost-item-icon bg-vert">🔬</div>
+          <div class="boost-item-info">
+            <div class="boost-item-title">Résumés SVT Terminale D</div>
+            <div class="boost-item-sub">Génétique, Écologie, Géologie</div>
+          </div>
+          <span class="boost-new">Nouveau</span>
+        </div>
+        <div class="boost-item" onclick="openBoostItem('Formulaire Maths — Toutes séries','Toutes les formules essentielles du BAC en 4 pages')">
+          <div class="boost-item-icon bg-bleu">📐</div>
+          <div class="boost-item-info">
+            <div class="boost-item-title">Formulaire Maths — Toutes séries</div>
+            <div class="boost-item-sub">Formules BAC essentielles</div>
+          </div>
+          <div class="boost-locked">🔒</div>
+        </div>
+        <div class="boost-item" onclick="openBoostItem('Guide de rédaction en anglais','Essays, comprehension, grammar rules — niveau BAC')">
+          <div class="boost-item-icon bg-rose">🇬🇧</div>
+          <div class="boost-item-info">
+            <div class="boost-item-title">Guide de rédaction anglaise</div>
+            <div class="boost-item-sub">Essays, comprehension, grammar</div>
+          </div>
+          <div class="boost-locked">🔒</div>
+        </div>
+        <div class="boost-item" onclick="openBoostItem('Techniques anti-stress pour les examens','Respiration, visualisation, organisation mentale')">
+          <div class="boost-item-icon bg-violet">🧘</div>
+          <div class="boost-item-info">
+            <div class="boost-item-title">Anti-stress Examens</div>
+            <div class="boost-item-sub">Techniques mentales éprouvées</div>
+          </div>
+          <span class="boost-new">Nouveau</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- COMMUNICATION -->
+    <div class="module-section" id="mod-comm">
+      <div class="comm-cards">
+        <div class="comm-card">
+          <div class="comm-card-title">📊 Envoyer mon rapport de progression</div>
+          <button class="btn-whatsapp" onclick="sendWhatsApp()">📲 Envoyer à mon parent — WhatsApp</button>
+          <button class="btn-pdf" onclick="showToast('📄 Génération du rapport PDF en cours...')">📄 Générer rapport PDF</button>
+        </div>
+        <div class="comm-card">
+          <div class="comm-card-title">👨‍🏫 Contacter mon Professeur Principal</div>
+          <button class="btn-whatsapp" onclick="contactPP()">💬 Écrire à mon PP via WhatsApp</button>
+        </div>
+        <div class="comm-card">
+          <div class="comm-card-title">📬 Messages reçus</div>
+          <div id="msgList">
+            <div class="msg-item">
+              <div class="msg-from">PP — M. AGOSSOU Jean</div>
+              Bravo pour tes efforts cette semaine ! Continue, tu progresses bien en Maths. 💪
+              <div class="msg-time">Il y a 2 jours</div>
+            </div>
+            <div class="msg-item">
+              <div class="msg-from">EduTrack Pro 🤖</div>
+              Tu as complété 3 tests cette semaine. Ta moyenne est en hausse. Félicitations ! 🎉
+              <div class="msg-time">Aujourd'hui</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /main -->
+
+  <!-- BOTTOM NAV -->
+  <nav class="bottomnav">
+    <div class="nav-item active" onclick="switchNav('planner',this)">
+      <div class="nav-icon">📅</div><div class="nav-label">Planner</div>
+    </div>
+    <div class="nav-item" onclick="switchNav('tests',this)">
+      <div class="nav-icon">🧪</div><div class="nav-label">Tests</div>
+    </div>
+    <div class="nav-item" onclick="switchNav('suivi',this)">
+      <div class="nav-icon">📊</div><div class="nav-label">Suivi</div>
+    </div>
+    <div class="nav-item" onclick="switchNav('epreuves',this)">
+      <div class="nav-icon">📄</div><div class="nav-label">Épreuves</div>
+    </div>
+    <div class="nav-item" onclick="switchNav('boost',this)">
+      <div class="nav-icon">⚡</div><div class="nav-label">Boost</div>
+    </div>
+    <div class="nav-item" onclick="switchNav('comm',this)">
+      <div class="nav-icon">📱</div><div class="nav-label">Contact</div>
+    </div>
+  </nav>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal" onclick="closeModal(event)">
+  <div class="modal-box">
+    <div class="modal-handle"></div>
+    <div class="modal-title" id="modalTitle"></div>
+    <div id="modalBody"></div>
+    <button class="btn-close-modal" onclick="closeModal()">Fermer</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const SERIES_LABELS = {
+  A1:'Terminale A1',A2:'Terminale A2',B:'Terminale B',C:'Terminale C',
+  D:'Terminale D',E:'Terminale E','1A':'1ère A','1C':'1ère C','1D':'1ère D',
+  '2A':'2nde A','2C':'2nde C','3e':'3ème'
+};
+
+const MATIERES = {
+  A1:[{n:'Philosophie',i:'🧠',s:null},{n:'Français',i:'✍️',s:14},{n:'Histoire-Géo',i:'🌍',s:12},
+      {n:'Anglais',i:'🇬🇧',s:15},{n:'Espagnol',i:'🇪🇸',s:null},{n:'Maths',i:'📐',s:11},
+      {n:'EPS',i:'⚽',s:16},{n:'ECM',i:'⚖️',s:13}],
+  A2:[{n:'Philosophie',i:'🧠',s:null},{n:'Français',i:'✍️',s:14},{n:'Histoire-Géo',i:'🌍',s:13},
+      {n:'Anglais',i:'🇬🇧',s:15},{n:'Allemand',i:'🇩🇪',s:null},{n:'Maths',i:'📐',s:11},
+      {n:'Littérature',i:'📖',s:13},{n:'ECM',i:'⚖️',s:12}],
+  B:[{n:'Philosophie',i:'🧠',s:null},{n:'Français',i:'✍️',s:13},{n:'Histoire-Géo',i:'🌍',s:14},
+     {n:'Économie',i:'💹',s:null},{n:'Maths',i:'📐',s:12},{n:'Comptabilité',i:'🧾',s:9},
+     {n:'Anglais',i:'🇬🇧',s:15},{n:'ECM',i:'⚖️',s:13}],
+  C:[{n:'Maths',i:'📐',s:15},{n:'Physique-Chimie',i:'⚗️',s:14},{n:'SVT',i:'🔬',s:null},
+     {n:'Philosophie',i:'🧠',s:11},{n:'Français',i:'✍️',s:12},{n:'Anglais',i:'🇬🇧',s:14},
+     {n:'Histoire-Géo',i:'🌍',s:null},{n:'EPS',i:'⚽',s:16}],
+  D:[{n:'Maths',i:'📐',s:13},{n:'SVT',i:'🔬',s:15},{n:'Physique-Chimie',i:'⚗️',s:null},
+     {n:'Philosophie',i:'🧠',s:11},{n:'Français',i:'✍️',s:14},{n:'Anglais',i:'🇬🇧',s:16},
+     {n:'Histoire-Géo',i:'🌍',s:12},{n:'EPS',i:'⚽',s:null}],
+  E:[{n:'Maths',i:'📐',s:16},{n:'Physique',i:'⚡',s:14},{n:'Chimie',i:'⚗️',s:13},
+     {n:'Technologie',i:'⚙️',s:null},{n:'Français',i:'✍️',s:12},{n:'Anglais',i:'🇬🇧',s:13},
+     {n:'ECM',i:'⚖️',s:null},{n:'EPS',i:'⚽',s:15}],
+  '1A':[{n:'Français',i:'✍️',s:14},{n:'Maths',i:'📐',s:12},{n:'Philosophie',i:'🧠',s:null},
+        {n:'Anglais',i:'🇬🇧',s:15},{n:'Histoire-Géo',i:'🌍',s:11},{n:'EPS',i:'⚽',s:16},
+        {n:'ECM',i:'⚖️',s:13},{n:'Espagnol',i:'🇪🇸',s:null}],
+  '1C':[{n:'Maths',i:'📐',s:14},{n:'Physique-Chimie',i:'⚗️',s:null},{n:'SVT',i:'🔬',s:13},
+        {n:'Français',i:'✍️',s:12},{n:'Anglais',i:'🇬🇧',s:14},{n:'Histoire-Géo',i:'🌍',s:null},
+        {n:'EPS',i:'⚽',s:15},{n:'ECM',i:'⚖️',s:12}],
+  '1D':[{n:'Maths',i:'📐',s:12},{n:'SVT',i:'🔬',s:14},{n:'Physique-Chimie',i:'⚗️',s:null},
+        {n:'Français',i:'✍️',s:13},{n:'Anglais',i:'🇬🇧',s:15},{n:'Histoire-Géo',i:'🌍',s:11},
+        {n:'EPS',i:'⚽',s:16},{n:'ECM',i:'⚖️',s:null}],
+  '2A':[{n:'Français',i:'✍️',s:14},{n:'Maths',i:'📐',s:13},{n:'Anglais',i:'🇬🇧',s:15},
+        {n:'Histoire-Géo',i:'🌍',s:null},{n:'SVT',i:'🔬',s:12},{n:'Physique-Chimie',i:'⚗️',s:null},
+        {n:'EPS',i:'⚽',s:16},{n:'ECM',i:'⚖️',s:13}],
+  '2C':[{n:'Maths',i:'📐',s:15},{n:'Physique-Chimie',i:'⚗️',s:null},{n:'SVT',i:'🔬',s:13},
+        {n:'Français',i:'✍️',s:12},{n:'Anglais',i:'🇬🇧',s:14},{n:'Histoire-Géo',i:'🌍',s:null},
+        {n:'EPS',i:'⚽',s:16},{n:'ECM',i:'⚖️',s:12}],
+  '3e':[{n:'Français',i:'✍️',s:14},{n:'Maths',i:'📐',s:12},{n:'Histoire-Géo',i:'🌍',s:null},
+        {n:'Sciences',i:'🔬',s:null},{n:'Anglais',i:'🇬🇧',s:15},{n:'ECM',i:'⚖️',s:13},
+        {n:'EPS',i:'⚽',s:16},{n:'Technologie',i:'⚙️',s:11}]
+};
+
+const TASKS_BASE = [
+  {t:'Apprendre la leçon du jour (Philosophie)',m:'Philosophie',done:false},
+  {t:'Exercices Maths — série d\'exercices 5',m:'Maths',done:true},
+  {t:'Réviser vocabulaire Anglais (Unit 4)',m:'Anglais',done:false},
+  {t:'Lire chapitre SVT — Génétique',m:'SVT',done:true},
+  {t:'Préparer le devoir de Français',m:'Français',done:false},
+  {t:'Revoir formules Physique-Chimie',m:'Physique',done:false},
+  {t:'Compléter le test interactif du jour',m:'EduTrack',done:false},
+];
+
+const EPREUVES = [
+  {t:'BAC 2024 — Mathématiques',sub:'Toutes séries • 4 exercices',i:'📐',bg:'bg-or',st:'new'},
+  {t:'BAC 2023 — SVT Terminale D',sub:'Génétique & Écologie',i:'🔬',bg:'bg-vert',st:'done'},
+  {t:'BAC 2024 — Philosophie',sub:'Dissertation & commentaire de texte',i:'🧠',bg:'bg-bleu',st:'progress'},
+  {t:'BAC 2023 — Français',sub:'Texte littéraire + production écrite',i:'✍️',bg:'bg-rose',st:'new'},
+  {t:'BAC 2022 — Physique-Chimie',sub:'Terminale C & D • 3 exercices',i:'⚗️',bg:'bg-or',st:'new'},
+  {t:'BAC 2024 — Anglais',sub:'Comprehension + essay writing',i:'🇬🇧',bg:'bg-vert',st:'done'},
+  {t:'BAC 2023 — Histoire-Géographie',sub:'Toutes séries • Essai + croquis',i:'🌍',bg:'bg-bleu',st:'new'},
+  {t:'BAC 2024 — Économie Gestion',sub:'Terminale B • Études de cas',i:'💹',bg:'bg-rose',st:'new'},
+  {t:'BAC 2023 — Espagnol',sub:'Terminale A • Compréhension + expression',i:'🇪🇸',bg:'bg-violet',st:'new'},
+  {t:'BAC 2024 — PCH Terminale E',sub:'Problèmes & calculs avancés',i:'⚙️',bg:'bg-or',st:'new'},
+];
+
+const DAYS = ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
+let currentSerie = 'D';
+let currentUser = null;
+let tasks = JSON.parse(JSON.stringify(TASKS_BASE));
+
+function doLogin() {
+  const nom = document.getElementById('inputNom').value.trim();
+  const code = document.getElementById('inputCode').value.trim();
+  const serie = document.getElementById('inputSerie').value;
+  const ecole = document.getElementById('inputEcole').value.trim();
+  const pin = document.getElementById('inputPin').value.trim();
+  if (!nom || !code || !serie || pin.length < 4) {
+    showToast('⚠️ Remplis tous les champs (PIN = 4 chiffres)');
+    return;
+  }
+  currentUser = {nom, code: code.toUpperCase(), serie, ecole: ecole||'Établissement'};
+  currentSerie = serie;
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('appScreen').style.display = 'block';
+  document.getElementById('greetingName').textContent = 'Bonjour, ' + nom + ' ! 👋';
+  document.getElementById('badgeSerie').textContent = SERIES_LABELS[serie] || serie;
+  document.getElementById('badgeEcole').textContent = ecole || 'Établissement';
+  document.getElementById('badgeCode').textContent = code.toUpperCase();
+  document.getElementById('avatarInitial').textContent = nom[0].toUpperCase();
+  buildWeek(); buildTasks(); buildTests(); buildSuivi(); buildEpreuves(); buildProgress();
+}
+
+function doLogout() {
+  currentUser = null;
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('appScreen').style.display = 'none';
+  document.getElementById('inputPin').value = '';
+}
+
+function buildWeek() {
+  const c = document.getElementById('weekDays');
+  const today = new Date(); c.innerHTML = '';
+  for (let i = -1; i <= 4; i++) {
+    const d = new Date(today); d.setDate(today.getDate() + i);
+    const isToday = i === 0, isPast = i < 0;
+    c.innerHTML += `<div class="day-card ${isToday?'today':''} ${isPast?'done':''}" onclick="showToast('${DAYS[d.getDay()]} ${d.getDate()} — ${isPast?'Journée passée ✅':isToday?'Aujourd\'hui — En cours':'Planifier cette journée'}')">
+      <div class="day-name">${DAYS[d.getDay()]}</div>
+      <div class="day-num">${d.getDate()}</div>
+      <div class="day-tasks">${isToday?'Aujourd\'hui':isPast?'✅':d.getDate()+'/'+(d.getMonth()+1)}</div>
+    </div>`;
+  }
+}
+
+function buildTasks() {
+  const c = document.getElementById('taskList'); c.innerHTML = '';
+  tasks.forEach((task, i) => {
+    c.innerHTML += `<div class="task-item ${task.done?'checked':''}" onclick="toggleTask(${i})">
+      <div class="task-check">${task.done?'✓':''}</div>
+      <div class="task-text">${task.t}</div>
+      <div class="task-matiere">${task.m}</div>
+    </div>`;
+  });
+  buildProgress();
+}
+
+function toggleTask(i) {
+  tasks[i].done = !tasks[i].done;
+  buildTasks();
+  showToast(tasks[i].done ? '✅ Tâche accomplie !' : '↩️ Tâche décochée');
+}
+
+function buildProgress() {
+  const done = tasks.filter(t=>t.done).length;
+  const pct = Math.round((done/tasks.length)*100);
+  setTimeout(()=>{
+    ['tasks','lessons','revisions'].forEach((k,idx)=>{
+      const v = Math.round(pct * [1, 0.8, 0.65][idx]);
+      document.getElementById('bar-'+k).style.width = v+'%';
+      document.getElementById('pct-'+k).textContent = v+'%';
+    });
+  }, 300);
+}
+
+function buildTests() {
+  const filter = document.getElementById('seriesFilter');
+  const series = ['A1','A2','B','C','D','E','1A','1C','1D','2A','2C','3e'];
+  filter.innerHTML = series.map(s =>
+    `<div class="serie-btn ${s===currentSerie?'active':''}" onclick="filterSerie('${s}',this)">${s}</div>`
+  ).join('');
+  renderGrid(currentSerie);
+}
+
+function filterSerie(s, el) {
+  currentSerie = s;
+  document.querySelectorAll('#seriesFilter .serie-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  renderGrid(s);
+}
+
+function renderGrid(serie) {
+  const matieres = MATIERES[serie] || MATIERES['D'];
+  document.getElementById('matiereGrid').innerHTML = matieres.map(m => {
+    let sc = 'score-none', sl = 'Pas encore fait';
+    if (m.s !== null) {
+      sc = m.s < 10 ? 'score-low' : m.s < 14 ? 'score-mid' : 'score-high';
+      sl = m.s + '/20';
+    }
+    return `<div class="matiere-card" onclick="openTest('${m.n}','${m.i}')">
+      <span class="matiere-icon">${m.i}</span>
+      <div class="matiere-name">${m.n}</div>
+      <span class="matiere-score ${sc}">${sl}</span>
+    </div>`;
+  }).join('');
+}
+
+function openTest(name, icon) {
+  showModal(icon + ' Test — ' + name, `
+    <p style="text-align:center;color:#8E9BAE;font-size:14px;margin-bottom:20px;">
+      150 questions interactives basées sur le programme officiel du Bénin.<br>Correction immédiate avec explications détaillées.
+    </p>
+    <button class="btn-primary" onclick="showToast('🚀 Lancement du test de ${name}...');closeModal()">
+      ▶️ Commencer le test maintenant
+    </button>`);
+}
+
+function buildSuivi() {
+  const matieres = MATIERES[currentSerie] || MATIERES['D'];
+  const noted = matieres.filter(m=>m.s!==null);
+  const moy = noted.length ? (noted.reduce((a,m)=>a+m.s,0)/noted.length).toFixed(1) : '—';
+  document.getElementById('statTests').textContent = noted.length;
+  document.getElementById('statMoy').textContent = moy;
+  document.getElementById('statAssid').textContent = noted.length ? Math.round(noted.length/matieres.length*100)+'%' : '—';
+
+  document.getElementById('moyTable').innerHTML = noted.map(m => {
+    const color = m.s>=14?'color-vert':m.s>=10?'color-or':'color-rouge';
+    const trend = m.s>=14?'📈':m.s>=10?'➡️':'📉';
+    return `<div class="moy-row">
+      <div class="moy-matiere">${m.i} ${m.n}</div>
+      <div class="moy-note ${color}">${m.s}</div>
+      <div class="moy-trend">${trend}</div>
+    </div>`;
+  }).join('');
+
+  const weak = matieres.filter(m=>m.s!==null && m.s<10);
+  document.getElementById('weakPoints').innerHTML = weak.length === 0
+    ? `<div class="task-item" style="cursor:default">
+        <div class="task-check" style="background:var(--vert);color:white;border-color:var(--vert)">✓</div>
+        <div class="task-text">Aucune matière sous la moyenne — Excellent ! 🎉</div></div>`
+    : weak.map(m=>`<div class="task-item" style="cursor:default;border-left:3px solid var(--rouge)">
+        <div style="font-size:24px">${m.i}</div>
+        <div style="flex:1">
+          <div class="task-text">${m.n}</div>
+          <div style="font-size:12px;color:var(--rouge)">Moyenne : ${m.s}/20 — Renforcement urgent</div>
+        </div></div>`).join('');
+}
+
+function buildEpreuves() {
+  const f2 = document.getElementById('seriesFilter2');
+  const series = ['Toutes','A1','A2','B','C','D','E','1A','1D','2A','2C','3e'];
+  f2.innerHTML = series.map((s,i)=>
+    `<div class="serie-btn ${i===0?'active':''}" onclick="filterEpr('${s}',this)">${s}</div>`
+  ).join('');
+  renderEpreuves();
+}
+
+function filterEpr(s, el) {
+  document.querySelectorAll('#seriesFilter2 .serie-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  renderEpreuves();
+}
+
+function renderEpreuves() {
+  const stMap = {new:'status-new',done:'status-done',progress:'status-progress'};
+  const stLabel = {new:'✨ Nouveau',done:'✅ Fait',progress:'🔄 En cours'};
+  document.getElementById('epreuveList').innerHTML = EPREUVES.map(e =>
+    `<div class="epreuve-card" onclick="openEpreuve('${e.t}')">
+      <div class="epreuve-icon ${e.bg}">${e.i}</div>
+      <div class="epreuve-info">
+        <div class="epreuve-title">${e.t}</div>
+        <div class="epreuve-meta">${e.sub}</div>
+      </div>
+      <div class="epreuve-status ${stMap[e.st]}">${stLabel[e.st]}</div>
+    </div>`
+  ).join('');
+}
+
+function openEpreuve(name) {
+  showModal('📄 ' + name, `
+    <p style="text-align:center;color:#8E9BAE;font-size:14px;margin-bottom:20px;">
+      Traite cette épreuve officielle et reçois immédiatement la correction détaillée générée par l'intelligence artificielle.
+    </p>
+    <button class="btn-primary" onclick="showToast('🤖 Correction IA activée — bonne chance !');closeModal()">
+      🤖 Traiter avec correction IA
+    </button>`);
+}
+
+function openBoostCat(name, icon, desc) {
+  showModal(icon + ' ' + name, `
+    <p style="text-align:center;color:#8E9BAE;font-size:14px;margin-bottom:20px;">${desc}</p>
+    <button class="btn-primary" onclick="showToast('📚 Accès à ${name} en cours...');closeModal()">
+      🚀 Accéder maintenant
+    </button>`);
+}
+
+function openBoostItem(name, desc) {
+  showModal('📖 ' + name, `
+    <p style="text-align:center;color:#8E9BAE;font-size:14px;margin-bottom:20px;">${desc}</p>
+    <button class="btn-primary" onclick="showToast('✅ Ressource ouverte !');closeModal()">
+      📖 Ouvrir la ressource
+    </button>`);
+}
+
+function sendWhatsApp() {
+  if (!currentUser) return;
+  const done = tasks.filter(t=>t.done).length;
+  const pct = Math.round((done/tasks.length)*100);
+  const matieres = MATIERES[currentSerie]||MATIERES['D'];
+  const noted = matieres.filter(m=>m.s!==null);
+  const moy = noted.length ? (noted.reduce((a,m)=>a+m.s,0)/noted.length).toFixed(1) : 'N/A';
+  const msg = `📊 *Rapport EduTrack Pro*\n\n👤 Élève : *${currentUser.nom}*\n📚 Classe : ${SERIES_LABELS[currentSerie]||currentSerie}\n🏫 Établissement : ${currentUser.ecole}\n📅 Date : ${new Date().toLocaleDateString('fr-FR')}\n\n━━━━━━━━━━━━━━━\n✅ Tâches accomplies : ${done}/${tasks.length} (${pct}%)\n📈 Moyenne générale : ${moy}/20\n🧪 Tests complétés : ${noted.length}\n━━━━━━━━━━━━━━━\n\n_Rapport généré par EduTrack Pro_\n_KNOWLEDGE SARL — Bénin_ 🇧🇯`;
+  window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');
+}
+
+function contactPP() {
+  const msg = encodeURIComponent(`Bonjour Monsieur/Madame,\nJe suis ${currentUser?.nom||'votre élève'} de la ${SERIES_LABELS[currentSerie]||currentSerie}.\nJe vous contacte via EduTrack Pro.\n\nCordialement.`);
+  window.open('https://wa.me/?text='+msg,'_blank');
+}
+
+function switchTab(name, el) {
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.module-section').forEach(s=>s.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('mod-'+name).classList.add('active');
+  const map=['planner','tests','suivi','epreuves','boost','comm'];
+  document.querySelectorAll('.nav-item').forEach((n,i)=>n.classList.toggle('active',map[i]===name));
+}
+
+function switchNav(name, el) {
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.querySelectorAll('.module-section').forEach(s=>s.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('mod-'+name).classList.add('active');
+  const map=['planner','tests','suivi','epreuves','boost','comm'];
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',map[i]===name));
+}
+
+function showModal(title, body) {
+  document.getElementById('modalTitle').textContent = title;
+  document.getElementById('modalBody').innerHTML = body;
+  document.getElementById('modal').classList.add('open');
+}
+
+function closeModal(e) {
+  if (!e || e.target===document.getElementById('modal'))
+    document.getElementById('modal').classList.remove('open');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 3000);
+}
+</script>
+</body>
+</html>

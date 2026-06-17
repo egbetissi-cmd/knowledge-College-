@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English Baccalaureate – Complete Interactive Test</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800;900&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --font-h: 'Baloo 2', cursive;
+  --font-b: 'Nunito', sans-serif;
+  --radius: 24px;
+  --shadow: 0 10px 40px rgba(0,0,0,0.13);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: var(--font-b);
+  min-height: 100vh;
+  transition: background 0.9s ease;
+  overflow-x: hidden;
+}
+
+/* ====== THEMES ====== */
+.t1 { background: linear-gradient(160deg, #FFF9C4 60%, #F3E5FF 100%); }
+.t2 { background: linear-gradient(160deg, #E3F2FD 60%, #BBDEFB 100%); }
+.t3 { background: linear-gradient(160deg, #D4F5E9 60%, #B9F6CA 100%); }
+.t4 { background: linear-gradient(160deg, #FFE4EF 60%, #FFD6E7 100%); }
+
+/* ====== SPLASH ====== */
+#splash {
+  position: fixed; inset: 0; z-index: 9999;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  background: linear-gradient(135deg, #6A0DAD 0%, #FFF176 100%);
+  text-align: center; padding: 30px;
+  animation: splashIn 0.6s ease;
+}
+#splash .splash-icon { font-size: 90px; animation: bounce 1.2s infinite alternate; margin-bottom: 18px; }
+#splash h1 {
+  font-family: var(--font-h);
+  font-size: clamp(2.2rem, 7vw, 4.5rem);
+  color: white; text-shadow: 3px 4px 0 #4a007d;
+  line-height: 1.15; margin-bottom: 14px;
+}
+#splash .sub {
+  font-size: clamp(1.1rem, 3vw, 1.6rem);
+  color: #FFF9C4; font-weight: 800;
+  max-width: 680px; line-height: 1.5; margin-bottom: 12px;
+}
+#splash .badges {
+  display: flex; flex-wrap: wrap; gap: 10px;
+  justify-content: center; margin-bottom: 36px;
+}
+#splash .badge {
+  background: rgba(255,255,255,0.22);
+  color: white; border-radius: 30px;
+  padding: 8px 18px;
+  font-size: clamp(0.85rem, 2vw, 1.05rem);
+  font-weight: 900; letter-spacing: 0.5px;
+  border: 2px solid rgba(255,255,255,0.4);
+}
+#splash button {
+  background: white; color: #6A0DAD;
+  border: none; padding: 22px 70px;
+  border-radius: 60px;
+  font-family: var(--font-h);
+  font-size: clamp(1.3rem, 3.5vw, 2rem);
+  cursor: pointer;
+  box-shadow: 0 7px 0 #4a007d;
+  transition: all 0.2s; letter-spacing: 1px;
+}
+#splash button:hover { transform: translateY(-4px); box-shadow: 0 11px 0 #4a007d; }
+#splash button:active { transform: translateY(2px); box-shadow: 0 3px 0 #4a007d; }
+
+/* ====== APP WRAPPER ====== */
+#app { display: none; padding: 20px 16px 80px; }
+
+/* ====== PROGRESS ====== */
+#top-bar {
+  max-width: 900px; margin: 0 auto 26px;
+}
+.top-row {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  font-weight: 900; color: #333; margin-bottom: 8px;
+}
+.prog-bg {
+  height: 22px; background: rgba(0,0,0,0.1);
+  border-radius: 30px; overflow: hidden;
+}
+#prog-bar {
+  height: 100%; width: 0;
+  border-radius: 30px;
+  transition: width 0.6s cubic-bezier(.4,2,.4,1);
+}
+
+/* ====== SECTION HEADER ====== */
+#sec-header {
+  max-width: 900px; margin: 0 auto 22px;
+  border-radius: var(--radius);
+  background: white;
+  box-shadow: var(--shadow);
+  padding: 24px 32px;
+  text-align: center;
+  transition: all 0.5s;
+}
+#sec-tag {
+  display: inline-block;
+  color: white; border-radius: 30px;
+  padding: 7px 24px; margin-bottom: 10px;
+  font-family: var(--font-h);
+  font-size: clamp(0.95rem, 2vw, 1.15rem);
+  letter-spacing: 1px;
+}
+#sec-title {
+  font-family: var(--font-h);
+  font-size: clamp(1.5rem, 4.5vw, 2.4rem);
+  line-height: 1.2;
+}
+#sec-sub {
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  font-weight: 800; opacity: 0.7; margin-top: 6px;
+}
+
+/* ====== QUESTION CARD ====== */
+#q-card {
+  max-width: 900px; margin: 0 auto 22px;
+  background: white; border-radius: var(--radius);
+  padding: 36px 36px 28px;
+  box-shadow: var(--shadow);
+  transition: opacity 0.35s, transform 0.35s;
+}
+#q-type-badge {
+  display: inline-block;
+  padding: 5px 16px; border-radius: 20px;
+  font-size: clamp(0.8rem, 1.8vw, 0.98rem);
+  font-weight: 900; color: white;
+  margin-bottom: 14px; letter-spacing: 1px;
+}
+#q-num {
+  font-size: clamp(0.9rem, 2vw, 1.05rem);
+  font-weight: 900; opacity: 0.4; margin-bottom: 8px;
+  letter-spacing: 2px; text-transform: uppercase;
+}
+#q-text {
+  font-size: clamp(1.2rem, 3.5vw, 1.75rem);
+  font-weight: 900; line-height: 1.45; color: #1a1a1a;
+  margin-bottom: 28px;
+}
+#q-text em {
+  font-style: italic; color: #6A0DAD;
+}
+#q-text .blank {
+  display: inline-block;
+  min-width: 120px; border-bottom: 4px solid #333;
+  margin: 0 6px; text-align: center;
+  font-family: var(--font-h); font-size: 1.1em;
+}
+
+/* ====== OPTIONS ====== */
+#options { display: flex; flex-direction: column; gap: 14px; }
+.opt {
+  display: flex; align-items: center; gap: 16px;
+  background: #f7f7f7; border: 3px solid #e0e0e0;
+  border-radius: 16px; padding: 18px 22px;
+  cursor: pointer;
+  font-family: var(--font-b);
+  font-size: clamp(1.05rem, 2.8vw, 1.4rem);
+  font-weight: 800;
+  color: #222; text-align: left;
+  transition: all 0.22s; width: 100%;
+}
+.opt:hover:not(.locked) { background: #ececec; border-color: #999; transform: translateX(5px); }
+.opt-letter {
+  min-width: 42px; height: 42px; border-radius: 10px;
+  background: #e0e0e0; display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-h); font-size: 1.2rem; color: #555;
+  flex-shrink: 0; transition: all 0.22s;
+}
+.opt.correct { background: #DCFCE7; border-color: #16A34A; color: #14532D; }
+.opt.correct .opt-letter { background: #16A34A; color: white; }
+.opt.wrong   { background: #FEE2E2; border-color: #DC2626; color: #7F1D1D; }
+.opt.wrong .opt-letter { background: #DC2626; color: white; }
+.opt.dim     { opacity: 0.4; cursor: default; }
+.opt.locked  { cursor: default; }
+
+/* ====== FILL-IN-THE-BLANK ====== */
+#fill-wrap {
+  display: none;
+}
+#fill-input {
+  width: 100%; max-width: 500px;
+  padding: 18px 24px;
+  border: 3px solid #ccc; border-radius: 16px;
+  font-family: var(--font-b);
+  font-size: clamp(1.1rem, 3vw, 1.5rem);
+  font-weight: 800; color: #222;
+  outline: none; transition: border-color 0.2s;
+  margin-bottom: 16px; display: block;
+}
+#fill-input:focus { border-color: #6A0DAD; }
+#fill-input.correct-input { border-color: #16A34A; background: #DCFCE7; color: #14532D; }
+#fill-input.wrong-input   { border-color: #DC2626; background: #FEE2E2; color: #7F1D1D; }
+#fill-submit {
+  padding: 18px 48px; border: none; border-radius: 50px;
+  font-family: var(--font-h); font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+  cursor: pointer; color: white; transition: all 0.2s;
+  box-shadow: 0 5px 0 rgba(0,0,0,0.2); letter-spacing: 1px;
+}
+#fill-submit:hover { transform: translateY(-2px); }
+
+/* ====== WRITING ACTIVITY ====== */
+#writing-wrap { display: none; }
+.writing-prompt {
+  background: #FFFDE7; border: 3px solid #F9A825;
+  border-radius: 16px; padding: 22px 26px; margin-bottom: 20px;
+}
+.writing-prompt p {
+  font-size: clamp(1.05rem, 2.5vw, 1.35rem);
+  font-weight: 800; line-height: 1.55; color: #333;
+}
+.writing-tips {
+  background: #E3F2FD; border-radius: 14px;
+  padding: 18px 22px; margin-bottom: 18px;
+}
+.writing-tips h4 {
+  font-family: var(--font-h); font-size: clamp(1rem, 2.5vw, 1.25rem);
+  color: #0D2B6B; margin-bottom: 10px;
+}
+.writing-tips ul { list-style: none; }
+.writing-tips ul li {
+  font-size: clamp(0.95rem, 2vw, 1.15rem);
+  font-weight: 800; color: #1a3c6e;
+  padding: 5px 0; border-bottom: 1px solid rgba(0,0,0,0.07);
+}
+.writing-tips ul li::before { content: "✏️ "; }
+#writing-textarea {
+  width: 100%; min-height: 200px;
+  padding: 18px 22px;
+  border: 3px solid #ccc; border-radius: 16px;
+  font-family: var(--font-b);
+  font-size: clamp(1.05rem, 2.5vw, 1.3rem);
+  font-weight: 700; color: #222;
+  resize: vertical; outline: none;
+  transition: border-color 0.2s;
+  line-height: 1.6; margin-bottom: 16px;
+}
+#writing-textarea:focus { border-color: #6A0DAD; }
+.writing-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+.writing-btn {
+  padding: 16px 36px; border: none; border-radius: 50px;
+  font-family: var(--font-h); font-size: clamp(1rem, 2.5vw, 1.3rem);
+  cursor: pointer; color: white; transition: all 0.2s;
+  box-shadow: 0 5px 0 rgba(0,0,0,0.18); letter-spacing: 1px;
+}
+.writing-btn:hover { transform: translateY(-2px); }
+#model-answer {
+  display: none;
+  background: #F3E5FF; border: 3px solid #6A0DAD;
+  border-radius: 16px; padding: 22px 26px; margin-top: 18px;
+  animation: fadeUp 0.4s ease;
+}
+#model-answer h4 {
+  font-family: var(--font-h); font-size: clamp(1.05rem, 2.5vw, 1.3rem);
+  color: #6A0DAD; margin-bottom: 12px;
+}
+#model-answer p {
+  font-size: clamp(0.95rem, 2vw, 1.2rem);
+  font-weight: 700; line-height: 1.65; color: #3a006f;
+}
+#model-answer .struct-note {
+  margin-top: 12px; padding: 12px 16px;
+  background: rgba(106,13,173,0.08); border-radius: 10px;
+  font-size: clamp(0.85rem, 1.8vw, 1.05rem);
+  font-weight: 800; color: #6A0DAD;
+}
+
+/* ====== FEEDBACK ====== */
+#feedback {
+  max-width: 900px; margin: 0 auto 22px;
+  padding: 24px 28px; border-radius: var(--radius);
+  font-size: clamp(1.05rem, 2.5vw, 1.3rem);
+  font-weight: 800; line-height: 1.5;
+  display: none; animation: fadeUp 0.4s ease;
+  border: 3px solid transparent;
+}
+#feedback.fb-ok  { background: #DCFCE7; border-color: #16A34A; color: #14532D; }
+#feedback.fb-err { background: #FEE2E2; border-color: #DC2626; color: #7F1D1D; }
+#fb-icon  { font-size: 2.2rem; margin-right: 8px; }
+#fb-rule  {
+  margin-top: 10px; padding: 12px 16px;
+  background: rgba(0,0,0,0.06); border-radius: 12px;
+  font-size: clamp(0.9rem, 2vw, 1.1rem);
+  font-weight: 800; line-height: 1.5;
+}
+
+/* ====== NEXT BUTTON ====== */
+#next-btn {
+  display: none; max-width: 900px;
+  margin: 0 auto; width: 100%;
+  padding: 22px; border: none; border-radius: 60px;
+  font-family: var(--font-h);
+  font-size: clamp(1.2rem, 3vw, 1.7rem);
+  cursor: pointer; color: white;
+  box-shadow: 0 7px 0 rgba(0,0,0,0.18);
+  transition: all 0.22s; letter-spacing: 1px;
+}
+#next-btn:hover { transform: translateY(-3px); box-shadow: 0 11px 0 rgba(0,0,0,0.18); }
+#next-btn:active { transform: translateY(2px); box-shadow: 0 3px 0 rgba(0,0,0,0.18); }
+
+/* ====== SECTION TRANSITION ====== */
+#sec-transition {
+  display: none; max-width: 900px; margin: 0 auto;
+  text-align: center; animation: fadeUp 0.5s ease;
+  background: white; border-radius: var(--radius);
+  padding: 48px 36px; box-shadow: var(--shadow);
+}
+#sec-transition .big-icon { font-size: 80px; margin-bottom: 16px; animation: bounce 1s infinite alternate; }
+#sec-transition h3 {
+  font-family: var(--font-h);
+  font-size: clamp(1.8rem, 5vw, 3rem); margin-bottom: 12px;
+}
+#sec-transition p {
+  font-size: clamp(1.05rem, 2.5vw, 1.35rem);
+  font-weight: 800; opacity: 0.8; margin-bottom: 36px; line-height: 1.5;
+}
+#sec-continue {
+  padding: 22px 70px; border: none; border-radius: 60px;
+  font-family: var(--font-h);
+  font-size: clamp(1.2rem, 3vw, 1.7rem);
+  cursor: pointer; color: white;
+  box-shadow: 0 7px 0 rgba(0,0,0,0.18);
+  transition: all 0.22s; letter-spacing: 1px;
+}
+#sec-continue:hover { transform: translateY(-3px); }
+
+/* ====== SCORE SCREEN ====== */
+#score-screen {
+  display: none; max-width: 900px; margin: 0 auto;
+  text-align: center; animation: fadeUp 0.6s ease;
+  background: white; border-radius: var(--radius);
+  padding: 48px 36px; box-shadow: var(--shadow);
+}
+.trophy-big { font-size: 100px; animation: bounce 1.1s infinite alternate; margin-bottom: 20px; }
+#score-screen h2 {
+  font-family: var(--font-h);
+  font-size: clamp(2rem, 6vw, 3.8rem); margin-bottom: 14px;
+}
+#score-ring {
+  width: 200px; height: 200px; margin: 28px auto;
+  border-radius: 50%; position: relative;
+  display: flex; align-items: center; justify-content: center;
+}
+#score-ring::before {
+  content: '';
+  position: absolute; inset: 20px;
+  background: white; border-radius: 50%;
+}
+#score-pct {
+  position: relative; z-index: 1;
+  font-family: var(--font-h); font-size: 3rem;
+}
+#score-detail {
+  font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+  font-weight: 800; color: #555; margin-bottom: 26px;
+}
+#score-msg {
+  font-family: var(--font-h);
+  font-size: clamp(1.2rem, 3vw, 1.8rem);
+  padding: 20px 30px; border-radius: var(--radius);
+  background: #FFF9C4; margin-bottom: 36px; line-height: 1.4;
+}
+.section-scores {
+  display: grid; grid-template-columns: repeat(auto-fit,minmax(170px,1fr));
+  gap: 14px; margin-bottom: 36px;
+}
+.sec-score-card {
+  border-radius: 16px; padding: 16px;
+  font-weight: 800; font-size: clamp(0.9rem, 2vw, 1.05rem);
+  line-height: 1.4;
+}
+.sec-score-card .sc-name { font-family: var(--font-h); font-size: 1.1em; margin-bottom: 6px; }
+.sec-score-card .sc-val { font-size: 1.5em; }
+.restart-btn {
+  padding: 22px 70px; border: none; border-radius: 60px;
+  font-family: var(--font-h);
+  font-size: clamp(1.2rem, 3vw, 1.7rem);
+  cursor: pointer; color: white;
+  background: linear-gradient(135deg, #6A0DAD, #B24AE8);
+  box-shadow: 0 7px 0 rgba(0,0,0,0.18); transition: all 0.2s; letter-spacing: 1px;
+}
+.restart-btn:hover { transform: translateY(-3px); }
+
+/* ====== STAR BURST ====== */
+.star { position: fixed; pointer-events: none; font-size: 2rem; z-index: 9000; animation: starFly 1.1s ease forwards; }
+@keyframes starFly { 0%{opacity:1;transform:scale(1) translateY(0);} 100%{opacity:0;transform:scale(2.2) translateY(-100px);} }
+
+/* ====== ANIMATIONS ====== */
+@keyframes splashIn { from{opacity:0;transform:scale(0.9);} to{opacity:1;transform:scale(1);} }
+@keyframes bounce { from{transform:translateY(0);} to{transform:translateY(-20px);} }
+@keyframes fadeUp { from{opacity:0;transform:translateY(28px);} to{opacity:1;transform:translateY(0);} }
+@keyframes shake { 0%,100%{transform:translateX(0);} 20%,60%{transform:translateX(-8px);} 40%,80%{transform:translateX(8px);} }
+@keyframes pop { from{transform:scale(0.82);opacity:0;} to{transform:scale(1);opacity:1;} }
+.do-shake { animation: shake 0.4s ease; }
+.do-pop   { animation: pop 0.35s cubic-bezier(.4,2,.4,1); }
+
+/* ====== COLORS ====== */
+.c1  { color: #6A0DAD; } .c2  { color: #0D2B6B; } .c3  { color: #1B5E20; } .c4  { color: #B5003B; }
+.bg1 { background: #6A0DAD; } .bg2 { background: #0D2B6B; } .bg3 { background: #1B5E20; } .bg4 { background: #B5003B; }
+.gr1 { background: linear-gradient(135deg,#6A0DAD,#B24AE8); }
+.gr2 { background: linear-gradient(135deg,#0D2B6B,#2979FF); }
+.gr3 { background: linear-gradient(135deg,#1B5E20,#43A047); }
+.gr4 { background: linear-gradient(135deg,#B5003B,#FF4081); }
+.pb1 { background: linear-gradient(90deg,#6A0DAD,#FF6B9D); }
+.pb2 { background: linear-gradient(90deg,#0D2B6B,#2979FF); }
+.pb3 { background: linear-gradient(90deg,#1B5E20,#66BB6A); }
+.pb4 { background: linear-gradient(90deg,#B5003B,#FF4081); }
+</style>
+</head>
+<body>
+
+<!-- ===================== SPLASH ===================== -->
+<div id="splash">
+  <div class="splash-icon">📚</div>
+  <h1>English Baccalaureate</h1>
+  <p class="sub">The Ultimate Interactive Revision Test – All Grammar Structures &amp; Functions</p>
+  <div class="badges">
+    <span class="badge">⏱ Tenses</span>
+    <span class="badge">🔄 Passive Voice</span>
+    <span class="badge">💬 Reported Speech</span>
+    <span class="badge">🎯 Conditionals</span>
+    <span class="badge">📝 Modals</span>
+    <span class="badge">🔗 Connectors</span>
+    <span class="badge">✍️ Writing</span>
+    <span class="badge">🏷 Question Tags</span>
+    <span class="badge">📊 Comparatives</span>
+  </div>
+  <button onclick="startTest()">▶ START THE TEST</button>
+</div>
+
+<!-- ===================== APP ===================== -->
+<div id="app">
+  <div id="top-bar">
+    <div class="top-row">
+      <span id="q-counter">Question 1 / 60</span>
+      <span id="live-score">Score : 0 ⭐</span>
+    </div>
+    <div class="prog-bg"><div id="prog-bar" class="pb1"></div></div>
+  </div>
+
+  <div id="sec-header">
+    <div id="sec-tag">SECTION 1</div>
+    <div id="sec-title">Verb Tenses</div>
+    <div id="sec-sub">Present Simple &amp; Continuous</div>
+  </div>
+
+  <div id="q-card">
+    <div id="q-type-badge" class="bg1">MCQ</div>
+    <div id="q-num">QUESTION 1</div>
+    <div id="q-text"></div>
+    <div id="options"></div>
+    <div id="fill-wrap">
+      <input type="text" id="fill-input" placeholder="Type your answer here..." autocomplete="off" />
+      <button id="fill-submit" class="gr1" onclick="submitFill()">Check ✔</button>
+    </div>
+    <div id="writing-wrap">
+      <div class="writing-prompt"><p id="writing-prompt-text"></p></div>
+      <div class="writing-tips" id="writing-tips-wrap">
+        <h4 id="writing-tips-title">📋 Useful Structures</h4>
+        <ul id="writing-tips-list"></ul>
+      </div>
+      <textarea id="writing-textarea" placeholder="Write your answer here..."></textarea>
+      <div class="writing-actions">
+        <button class="writing-btn gr1" onclick="showModelAnswer()">💡 See Model Answer</button>
+        <button class="writing-btn gr3" onclick="doneWriting()">✅ Continue</button>
+      </div>
+      <div id="model-answer">
+        <h4>📝 Model Answer</h4>
+        <p id="model-text"></p>
+        <div class="struct-note" id="model-struct"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="feedback">
+    <span id="fb-icon"></span><span id="fb-main"></span>
+    <div id="fb-rule"></div>
+  </div>
+
+  <button id="next-btn" onclick="nextQ()">Next Question ➡</button>
+
+  <!-- Section transition -->
+  <div id="sec-transition">
+    <div class="big-icon" id="tr-icon">🎉</div>
+    <h3 id="tr-title">Section Complete!</h3>
+    <p id="tr-body">Keep going — next section loading...</p>
+    <button id="sec-continue" onclick="resumeSection()" class="gr1">Continue 🚀</button>
+  </div>
+
+  <!-- Score screen -->
+  <div id="score-screen">
+    <div class="trophy-big" id="s-trophy">🏆</div>
+    <h2 id="s-title">Test Complete!</h2>
+    <div id="score-ring"><span id="score-pct">0%</span></div>
+    <div id="score-detail"></div>
+    <div id="score-msg"></div>
+    <div class="section-scores" id="section-scores"></div>
+    <button class="restart-btn" onclick="location.reload()">🔄 Restart Test</button>
+  </div>
+</div>
+
+<script>
+// ==================================================================
+//  QUESTIONS DATA  (60 questions across 6 sections)
+// ==================================================================
+const sections = [
+  {
+    id:1, name:"Verb Tenses", sub:"Present, Past, Perfect & Future",
+    icon:"⏱", theme:1,
+    transIcon:"⏩", transTitle:"Tenses mastered!", transBody:"Now let's tackle Passive Voice & Reported Speech!"
+  },
+  {
+    id:2, name:"Passive Voice & Reported Speech", sub:"Transformations & Reported Structures",
+    icon:"🔄", theme:2,
+    transIcon:"🎯", transTitle:"Excellent work!", transBody:"Time for Conditionals & Modals!"
+  },
+  {
+    id:3, name:"Conditionals & Modals", sub:"Types 1, 2, 3 – can/could/must/should/might",
+    icon:"🎯", theme:3,
+    transIcon:"💪", transTitle:"Fantastic!", transBody:"Moving on to Connectors & Comparatives!"
+  },
+  {
+    id:4, name:"Connectors, Comparatives & Relatives", sub:"Logical Links, Comparisons & Relative Clauses",
+    icon:"🔗", theme:4,
+    transIcon:"🌟", transTitle:"Great progress!", transBody:"Almost there — Grammar Mix & Question Tags!"
+  },
+  {
+    id:5, name:"Grammar Mix", sub:"Wish / Suggestions / Question Tags / Inversion / Habitual Past",
+    icon:"🏷", theme:1,
+    transIcon:"✍️", transTitle:"Grammar mastered!", transBody:"Final section: Writing Activities!"
+  },
+  {
+    id:6, name:"Writing Activities", sub:"Essays, Letters & Structured Writing",
+    icon:"✍️", theme:2,
+    transIcon:"🏆", transTitle:"", transBody:""
+  }
+];
+
+const questions = [
+// ===== SECTION 1 – TENSES =====
+{s:1, type:"mcq",
+ tag:"Present Simple",
+ q:"She _____ to school every day by bus.",
+ opts:["go","goes","is going","went"], ans:1,
+ rule:"📌 Present Simple: use the base form + -s/-es for 3rd person singular (he/she/it). Habitual actions use the present simple."},
+
+{s:1, type:"mcq",
+ tag:"Present Continuous",
+ q:"Look! The children _____ in the garden right now.",
+ opts:["play","played","are playing","have played"], ans:2,
+ rule:"📌 Present Continuous: use am/is/are + verb-ing for actions happening at the moment of speaking. Signal words: now, at the moment, look!"},
+
+{s:1, type:"mcq",
+ tag:"Preterite",
+ q:"They _____ a wonderful film at the cinema last night.",
+ opts:["watch","are watching","have watched","watched"], ans:3,
+ rule:"📌 Past Simple (Preterite): use the -ed form (or irregular past form) for completed actions at a specific time in the past. Signal: last night, yesterday, ago."},
+
+{s:1, type:"mcq",
+ tag:"Present Perfect",
+ q:"I _____ this book three times. It's amazing!",
+ opts:["read","reads","have read","had read"], ans:2,
+ rule:"📌 Present Perfect: have/has + past participle. It links the past to the present. Used for experiences, recent actions, or situations with present relevance."},
+
+{s:1, type:"fill",
+ tag:"Past Perfect",
+ q:"By the time we arrived, the train __________ (already / leave).",
+ ans:"had already left",
+ alts:["had left already","had already left the station"],
+ rule:"📌 Past Perfect: had + past participle. Used for an action completed BEFORE another past action. Signal: by the time, already, when."},
+
+{s:1, type:"mcq",
+ tag:"Future – will",
+ q:"Don't worry, I _____ help you with your homework tonight.",
+ opts:["am going to","will","would","am helping"], ans:1,
+ rule:"📌 Will: used for spontaneous decisions, promises, and predictions without evidence. Formed: will + base verb."},
+
+{s:1, type:"mcq",
+ tag:"Future – be going to",
+ q:"Look at those black clouds! It _____ rain.",
+ opts:["will","would","is going to","has been"], ans:2,
+ rule:"📌 Be going to: used for plans/intentions already decided and for predictions based on present evidence (e.g., black clouds → rain)."},
+
+{s:1, type:"mcq",
+ tag:"Present Perfect vs Past Simple",
+ q:"I _____ Paris twice, but I _____ there in 2018.",
+ opts:["visited / was","have visited / was","have visited / have been","visited / went"], ans:1,
+ rule:"📌 Present Perfect for life experiences (no specific time). Past Simple for a specific moment in the past (in 2018 = specific)."},
+
+{s:1, type:"fill",
+ tag:"Preterite – irregular",
+ q:"She __________ (write) three letters yesterday and __________ (send) them immediately.",
+ ans:"wrote / sent",
+ alts:["wrote three letters / sent them"],
+ rule:"📌 Past Simple – irregular verbs: write→wrote, send→sent. Irregular verbs must be memorised; they do NOT take -ed."},
+
+{s:1, type:"mcq",
+ tag:"Tense Review",
+ q:"When I _____ up this morning, the sun _____ brightly.",
+ opts:["wake / shines","woke / was shining","have woken / shone","woke / shone"], ans:1,
+ rule:"📌 Past Simple vs Past Continuous: the continuous (was shining) describes a background action; the simple (woke) describes the shorter interrupting action."},
+
+// ===== SECTION 2 – PASSIVE & REPORTED SPEECH =====
+{s:2, type:"mcq",
+ tag:"Passive Voice – Present",
+ q:"English _____ all over the world.",
+ opts:["speaks","is spoken","has spoken","was spoken"], ans:1,
+ rule:"📌 Present Simple Passive: am/is/are + past participle. The focus is on the action, not the doer."},
+
+{s:2, type:"mcq",
+ tag:"Passive Voice – Past",
+ q:"The Eiffel Tower _____ in 1889.",
+ opts:["built","was built","is built","has been built"], ans:1,
+ rule:"📌 Past Simple Passive: was/were + past participle. Used when the agent is unknown, unimportant, or obvious."},
+
+{s:2, type:"fill",
+ tag:"Passive Voice – Future",
+ q:"A new hospital __________ (build) in our city next year.",
+ ans:"will be built",
+ alts:["is going to be built"],
+ rule:"📌 Future Passive: will be + past participle. Structure: subject + will be + past participle (+ by + agent, if needed)."},
+
+{s:2, type:"mcq",
+ tag:"Passive – Modal",
+ q:"This report _____ before the deadline.",
+ opts:["must finish","must be finished","must have finished","must finishing"], ans:1,
+ rule:"📌 Modal Passive: modal + be + past participle. E.g. must be finished, should be done, could be improved."},
+
+{s:2, type:"mcq",
+ tag:"Reported Speech – Tense Shift",
+ q:'She said, "I am tired." → She said that she _____ tired.',
+ opts:["is","was","had been","will be"], ans:1,
+ rule:"📌 Reported Speech tense shift: present simple → past simple (am → was). The reporting verb 'said' triggers backshift."},
+
+{s:2, type:"mcq",
+ tag:"Reported Speech – told",
+ q:'He said to me, "Come here." → He _____ me to come there.',
+ opts:["said","told","asked","reported"], ans:1,
+ rule:"📌 'Tell' + object (told me). 'Say' has no object before 'that' (said that). For orders/requests: told + object + to + infinitive."},
+
+{s:2, type:"fill",
+ tag:"Reported Speech – Question",
+ q:'She asked: "Where do you live?" → She asked me where I __________.',
+ ans:"lived",
+ alts:["was living"],
+ rule:"📌 Reported questions: no question mark, no inversion, tense shift. 'Where do you live?' → where I lived (not where did I live)."},
+
+{s:2, type:"mcq",
+ tag:"Reported Speech – will → would",
+ q:'"I will call you tomorrow." → He said that he _____ call me the next day.',
+ opts:["will","would","could","should"], ans:1,
+ rule:"📌 Will → would in reported speech. 'Tomorrow' also changes to 'the next day/the following day'."},
+
+{s:2, type:"mcq",
+ tag:"Passive – Present Perfect",
+ q:"The documents _____ already.",
+ opts:["have signed","have been signed","are signed","were signed"], ans:1,
+ rule:"📌 Present Perfect Passive: have/has been + past participle. Used for recently completed actions with present relevance."},
+
+{s:2, type:"mcq",
+ tag:"Passive vs Active Distinction",
+ q:"Which sentence is in the PASSIVE voice?",
+ opts:["The teacher corrected the papers.","Papers were corrected by the teacher.","The students submitted their work.","She has already marked the tests."], ans:1,
+ rule:"📌 Passive voice always contains: be (in some form) + past participle. The subject receives the action rather than performing it."},
+
+// ===== SECTION 3 – CONDITIONALS & MODALS =====
+{s:3, type:"mcq",
+ tag:"Conditional Type 1",
+ q:"If it _____ tomorrow, we _____ the picnic.",
+ opts:["rains / will cancel","will rain / cancel","rained / would cancel","rains / would cancel"], ans:0,
+ rule:"📌 Type 1 Conditional: If + present simple, will + base verb. Real and possible conditions in the present/future."},
+
+{s:3, type:"mcq",
+ tag:"Conditional Type 2",
+ q:"If I _____ rich, I _____ travel the world.",
+ opts:["am / will","were / would","was / will","am / would"], ans:1,
+ rule:"📌 Type 2 Conditional: If + past simple (were for all persons), would + base verb. Imaginary/hypothetical situations in the present or future."},
+
+{s:3, type:"fill",
+ tag:"Conditional Type 3",
+ q:"If she __________ (study) harder, she __________ (pass) the exam.",
+ ans:"had studied / would have passed",
+ alts:["had studied harder / would have passed"],
+ rule:"📌 Type 3 Conditional: If + past perfect, would have + past participle. Unreal situation in the PAST – regrets, missed opportunities."},
+
+{s:3, type:"mcq",
+ tag:"Modal – should",
+ q:"You look tired. You _____ go to bed early tonight.",
+ opts:["must","can","should","might"], ans:2,
+ rule:"📌 Should: advice/recommendation. Must: strong obligation/necessity. Can: ability/permission. Might: weak possibility."},
+
+{s:3, type:"mcq",
+ tag:"Modal – must / have to",
+ q:"Students _____ wear their school uniform every day.",
+ opts:["could","might","must","would"], ans:2,
+ rule:"📌 Must: internal strong obligation (the speaker decides). Have to: external obligation (rules/regulations). Both express necessity."},
+
+{s:3, type:"mcq",
+ tag:"Modal – could / might",
+ q:"Take an umbrella — it _____ rain later.",
+ opts:["must","should","can","might"], ans:3,
+ rule:"📌 Might/could: weak possibility (~30-50%). Should: expectation (~75%). Must: strong deduction (~95%). Will: certainty."},
+
+{s:3, type:"mcq",
+ tag:"Modal – can / be able to",
+ q:"She _____ speak three languages fluently.",
+ opts:["must","might","can","should"], ans:2,
+ rule:"📌 Can: general ability (present). Could: past ability. Will be able to: future ability. Be able to: all tenses."},
+
+{s:3, type:"mcq",
+ tag:"Modal – ought to",
+ q:"You _____ respect your elders. It is important in our culture.",
+ opts:["ought to","might","will","had to"], ans:0,
+ rule:"📌 Ought to: moral obligation or advice (slightly stronger than should, slightly weaker than must). Followed by the base infinitive."},
+
+{s:3, type:"fill",
+ tag:"Mixed Conditional",
+ q:"If I __________ (not be) so shy, I __________ (make) friends more easily now.",
+ ans:"weren't so shy / would make",
+ alts:["weren't / would make","were not so shy / would make"],
+ rule:"📌 Mixed Conditional: If + past simple (imaginary present state), would + base verb (present result). Combines Type 2 structure."},
+
+{s:3, type:"mcq",
+ tag:"Expressing Probability",
+ q:"She is the best student in the class. She _____ pass the exam with flying colours.",
+ opts:["might not","could hardly","must","will definitely"], ans:3,
+ rule:"📌 Expressing probability scale: might (30%) → could (40%) → should (75%) → must (95%) → will definitely (100%). Context clues guide the choice."},
+
+// ===== SECTION 4 – CONNECTORS, COMPARATIVES & RELATIVES =====
+{s:4, type:"mcq",
+ tag:"Connector – Contrast",
+ q:"He studied hard; _____, he failed the exam.",
+ opts:["moreover","furthermore","however","therefore"], ans:2,
+ rule:"📌 However: contrast connector (= but, in formal writing). Moreover/Furthermore: adding information. Therefore: consequence."},
+
+{s:4, type:"mcq",
+ tag:"Connector – Concession",
+ q:"_____ the heavy rain, the match continued.",
+ opts:["Although","Despite","Because","Nevertheless"], ans:1,
+ rule:"📌 Despite/In spite of + noun/gerund (no clause). Although/Even though + clause (with subject + verb). Both express concession."},
+
+{s:4, type:"mcq",
+ tag:"Connector – Cause",
+ q:"_____ air pollution is increasing, respiratory diseases are becoming more common.",
+ opts:["Therefore","Despite","Since","However"], ans:2,
+ rule:"📌 Since/Because: cause connectors + clause. Therefore/Consequently: result connectors. Since also implies 'given that' (causal link)."},
+
+{s:4, type:"mcq",
+ tag:"Connector – Purpose",
+ q:"She saved money _____ she could buy a new phone.",
+ opts:["in order that","so that","although","despite"], ans:1,
+ rule:"📌 So that / In order that: purpose connectors, followed by a clause (subject + could/would + verb). In order to + infinitive (same subject)."},
+
+{s:4, type:"mcq",
+ tag:"Comparative",
+ q:"Africa is _____ continent in the world.",
+ opts:["the most large","the largest","larger than","most large"], ans:1,
+ rule:"📌 Superlatives: short adj → the + -est (large → the largest). Long adj → the most + adj (the most important). Irregulars: good→the best, bad→the worst."},
+
+{s:4, type:"fill",
+ tag:"Comparative",
+ q:"This exercise is __________ (difficult) __________ the previous one.",
+ ans:"more difficult than",
+ alts:["harder than"],
+ rule:"📌 Comparative of long adjectives: more + adjective + than. Short adjectives: -er + than. Never use 'more' with -er endings."},
+
+{s:4, type:"mcq",
+ tag:"Relative – who",
+ q:"The woman _____ called yesterday left a message.",
+ opts:["which","what","who","whose"], ans:2,
+ rule:"📌 Who: relative pronoun for people (subject/object). Which: things/animals. That: people OR things (less formal). Whose: possession."},
+
+{s:4, type:"mcq",
+ tag:"Relative – whose",
+ q:"The student _____ project won first prize is in my class.",
+ opts:["who","which","whose","that"], ans:2,
+ rule:"📌 Whose: possessive relative pronoun (replaces 'his/her/its'). The student whose project = the student – his/her project."},
+
+{s:4, type:"mcq",
+ tag:"Connector – Addition",
+ q:"The project was expensive; _____, it took much longer than expected.",
+ opts:["therefore","besides","however","so"], ans:1,
+ rule:"📌 Besides/Moreover/Furthermore: add information (= in addition to that). Therefore/Consequently: result. However/Nevertheless: contrast."},
+
+{s:4, type:"mcq",
+ tag:"Relative – defining vs non-defining",
+ q:"My sister, _____ is a doctor, lives in Paris.",
+ opts:["that","which","who","what"], ans:2,
+ rule:"📌 Non-defining relative clauses (set off by commas) use WHO for people, WHICH for things. 'That' is NOT used in non-defining clauses."},
+
+// ===== SECTION 5 – GRAMMAR MIX =====
+{s:5, type:"mcq",
+ tag:"Wish – unreal present",
+ q:"I don't have a car. I wish I _____ a car.",
+ opts:["have","had","would have","could have"], ans:1,
+ rule:"📌 Wish + past simple: expresses a wish about the present that is unreal/impossible. 'Were' is used for all persons (I wish I were tall)."},
+
+{s:5, type:"mcq",
+ tag:"Wish – past regret",
+ q:"She failed the exam. She wishes she _____ harder.",
+ opts:["studied","had studied","would study","studies"], ans:1,
+ rule:"📌 Wish + past perfect: expresses regret about the past (something that DID NOT happen). Equivalent to Type 3 conditional."},
+
+{s:5, type:"mcq",
+ tag:"Making Suggestions",
+ q:"_____ going to the cinema this evening?",
+ opts:["How about","What if","Why not we","Should we"], ans:0,
+ rule:"📌 Making suggestions: How about / What about + gerund(-ing). Why not + base verb. Let's + base verb. Shall we + base verb?"},
+
+{s:5, type:"mcq",
+ tag:"Question Tags",
+ q:"She can play the piano, _____?",
+ opts:["isn't she","doesn't she","can't she","won't she"], ans:2,
+ rule:"📌 Question tags: positive statement → negative tag (can → can't). Negative statement → positive tag. Use the same auxiliary as in the main clause."},
+
+{s:5, type:"mcq",
+ tag:"Question Tags – irregular",
+ q:"They don't like coffee, _____?",
+ opts:["do they","don't they","aren't they","didn't they"], ans:0,
+ rule:"📌 Negative main clause → positive tag. 'They don't like' → 'do they?' (use the auxiliary 'do', same tense, opposite polarity)."},
+
+{s:5, type:"mcq",
+ tag:"Inversion of Subject",
+ q:"_____ had she entered the room than the phone rang.",
+ opts:["Hardly","Rarely","Barely","No sooner"], ans:3,
+ rule:"📌 Inversion with 'No sooner... than' (= as soon as). Structure: No sooner + had + subject + past participle + than + subject + past simple."},
+
+{s:5, type:"mcq",
+ tag:"Habitual Past – used to",
+ q:"When I was a child, I _____ climb trees every afternoon.",
+ opts:["use to","am used to","used to","would used to"], ans:2,
+ rule:"📌 Used to + base verb: habitual or repeated actions in the past that no longer happen. 'Would' can also be used for repeated actions (NOT states)."},
+
+{s:5, type:"mcq",
+ tag:"Wh- Question",
+ q:"_____ did you go after the party last night?",
+ opts:["What","Whose","Where","Who"], ans:2,
+ rule:"📌 Where: place. When: time. Why: reason. Who: person. What: thing/action. Which: choice. How: manner. Whose: possession."},
+
+{s:5, type:"mcq",
+ tag:"Habitual Past – would",
+ q:"Every summer, we _____ to the seaside for two weeks.",
+ opts:["used to go","would go","both A and B","are used to going"], ans:2,
+ rule:"📌 Both 'used to' and 'would' can express past repeated actions. ONLY 'used to' can express past states (not 'would'). E.g. I used to be shy (state)."},
+
+{s:5, type:"mcq",
+ tag:"Expressing Probability – adverbs",
+ q:"She _____ be at home now — her car is in the driveway.",
+ opts:["might not","must","can't","should"], ans:1,
+ rule:"📌 Must (deduction): strong evidence points to something being true. Can't: strong evidence it is NOT true. Might: possible but uncertain."},
+
+// ===== SECTION 6 – WRITING ACTIVITIES =====
+{s:6, type:"writing",
+ tag:"Essay – Argumentative",
+ prompt:"Write a short argumentative essay (150–180 words) on the topic:\n\n\"Social media has more advantages than disadvantages. Do you agree?\"\n\nPresent your argument clearly with an introduction, two body paragraphs and a conclusion.",
+ tips:["First of all, social media allows...", "Furthermore, it has been argued that...", "However, critics point out that...", "In conclusion, despite its drawbacks...", "Use: although / despite / moreover / nevertheless"],
+ model:"Social media has become an integral part of modern life, and while it presents some challenges, its advantages clearly outweigh its disadvantages.\n\nFirst of all, social media enables people to stay connected with friends and family across the globe. Furthermore, it provides an invaluable platform for sharing information, raising awareness about important issues and even launching businesses.\n\nHowever, critics argue that excessive use of social media can lead to addiction, cyberbullying and misinformation. Despite these concerns, with proper digital literacy and responsible usage, these problems can be minimised.\n\nIn conclusion, although social media carries certain risks, its benefits in terms of communication, education and economic opportunity make it a largely positive development in our society.",
+ struct:"📌 Key structures used: First of all / Furthermore / However / Despite / In conclusion / although"},
+
+{s:6, type:"writing",
+ tag:"Formal Letter",
+ prompt:"Write a formal letter (120–150 words) to your school principal requesting permission to organise an English Language Club. Use appropriate formal letter conventions.",
+ tips:["Dear Mr/Mrs [Name],", "I am writing to request...", "I would be grateful if you could...", "I look forward to hearing from you.", "Yours sincerely,"],
+ model:"Dear Mr Adeyemi,\n\nI am writing to request your kind permission to establish an English Language Club at our school. As students preparing for the Baccalaureate examination, many of us feel the need for additional practice in spoken and written English.\n\nThe club would meet twice a week after school hours and would be supervised by a volunteer teacher. Activities would include debates, essay writing workshops and vocabulary competitions. I firmly believe that such a club would significantly improve students' performance in the English paper.\n\nI would be most grateful if you could consider my proposal and grant us the use of a classroom for this purpose. I look forward to hearing from you at your earliest convenience.\n\nYours sincerely,\nA Concerned Student",
+ struct:"📌 Structures: I am writing to... / I would be grateful if... / I look forward to... / Yours sincerely"},
+
+{s:6, type:"writing",
+ tag:"Opinion Essay – Environment",
+ prompt:"Write an essay (150–180 words) expressing your opinion on:\n\n\"Human activity is the main cause of climate change.\"\n\nUse appropriate linking words and express probability/certainty.",
+ tips:["In my opinion / I strongly believe that...", "It is widely acknowledged that...", "The evidence suggests that...", "Consequently / As a result...", "Unless drastic action is taken..."],
+ model:"In my opinion, human activity is undeniably the primary driver of climate change. The scientific consensus is overwhelming: rising greenhouse gas emissions caused by industrialisation, deforestation and the burning of fossil fuels are pushing global temperatures to alarming levels.\n\nFirst of all, carbon dioxide emissions from factories and vehicles have increased dramatically over the past century. Furthermore, the destruction of rainforests eliminates nature's most effective carbon sinks. Consequently, average global temperatures have risen by approximately 1.2°C since pre-industrial times.\n\nAdmittedly, natural phenomena such as volcanic eruptions do contribute to climate variability. Nevertheless, scientists agree that without human interference, these changes would occur over thousands of years, not decades.\n\nIn conclusion, unless governments take drastic and immediate action to transition to renewable energy, the consequences for our planet will be catastrophic.",
+ struct:"📌 Structures: In my opinion / First of all / Furthermore / Consequently / Admittedly / Nevertheless / In conclusion"},
+
+{s:6, type:"writing",
+ tag:"Narrative Writing",
+ prompt:"Write a short narrative (120–150 words):\n\n\"Describe a day that changed your life.\"\n\nUse a variety of past tenses and sensory details.",
+ tips:["It was a hot Tuesday morning when...", "I had never expected that...", "As I was walking..., suddenly...", "By the time I realised...", "From that day on, I..."],
+ model:"It was a sweltering Tuesday morning when I received the letter that would change everything. I had been waiting for weeks, barely sleeping, constantly checking the letterbox. As I was having breakfast, I heard the postman's footsteps on the path.\n\nI tore open the envelope with trembling hands. The words 'Congratulations — you have been accepted' leapt off the page. I had won the regional essay competition and earned a full scholarship to study in France.\n\nBy the time my mother arrived in the kitchen, I was already crying with joy. She had worked so hard to support my education, and in that moment, everything she had sacrificed suddenly felt worthwhile.\n\nFrom that day on, I approached every challenge with renewed determination, knowing that persistence and hard work could truly transform a life.",
+ struct:"📌 Tenses used: Past Continuous (was having) / Past Perfect (had been waiting) / Past Simple (received / tore)"},
+];
+
+// ==================================================================
+//  STATE
+// ==================================================================
+let cur = 0, score = 0, inTrans = false, done = false;
+let answered = false;
+const secScores = {1:[0,0],2:[0,0],3:[0,0],4:[0,0],5:[0,0],6:[0,0]};
+
+// ==================================================================
+//  START
+// ==================================================================
+function startTest(){
+  document.getElementById('splash').style.display='none';
+  document.getElementById('app').style.display='block';
+  showQuestion();
+}
+
+// ==================================================================
+//  SHOW QUESTION
+// ==================================================================
+function showQuestion(){
+  const q = questions[cur];
+  const sec = sections.find(s=>s.id===q.s);
+  applyTheme(sec.theme, q.s);
+
+  // Header
+  document.getElementById('sec-tag').textContent = sec.icon+' Section '+sec.id;
+  document.getElementById('sec-title').textContent = sec.name;
+  document.getElementById('sec-sub').textContent = sec.sub;
+
+  // Progress
+  const pct = Math.round((cur/questions.length)*100);
+  document.getElementById('prog-bar').style.width = pct+'%';
+  document.getElementById('q-counter').textContent = 'Question '+(cur+1)+' / '+questions.length;
+  document.getElementById('live-score').textContent = 'Score : '+score+' ⭐';
+
+  // Card
+  document.getElementById('q-num').textContent = 'QUESTION '+(cur+1);
+  document.getElementById('q-type-badge').textContent = q.tag;
+  document.getElementById('q-text').textContent = q.q || '';
+
+  // Hide all input areas
+  document.getElementById('options').style.display='none';
+  document.getElementById('fill-wrap').style.display='none';
+  document.getElementById('writing-wrap').style.display='none';
+
+  // Feedback & next
+  document.getElementById('feedback').style.display='none';
+  document.getElementById('feedback').className='';
+  document.getElementById('next-btn').style.display='none';
+  document.getElementById('model-answer').style.display='none';
+
+  answered = false;
+
+  if(q.type==='mcq') showMCQ(q);
+  else if(q.type==='fill') showFill(q);
+  else if(q.type==='writing') showWriting(q);
+
+  // Animate card
+  const card=document.getElementById('q-card');
+  card.style.opacity=0; card.style.transform='translateY(22px)';
+  requestAnimationFrame(()=>{
+    card.style.transition='opacity 0.38s, transform 0.38s';
+    card.style.opacity=1; card.style.transform='translateY(0)';
+  });
+}
+
+function showMCQ(q){
+  const cont = document.getElementById('options');
+  cont.style.display='flex'; cont.innerHTML='';
+  const letters=['A','B','C','D'];
+  q.opts.forEach((o,i)=>{
+    const btn=document.createElement('button');
+    btn.className='opt';
+    btn.innerHTML=`<span class="opt-letter">${letters[i]}</span><span>${o}</span>`;
+    btn.onclick=()=>selectMCQ(i,q,btn);
+    cont.appendChild(btn);
+  });
+}
+
+function showFill(q){
+  document.getElementById('fill-wrap').style.display='block';
+  const inp=document.getElementById('fill-input');
+  inp.value=''; inp.className=''; inp.disabled=false;
+  inp.focus();
+  inp.onkeydown=e=>{ if(e.key==='Enter') submitFill(); };
+}
+
+function showWriting(q){
+  document.getElementById('writing-wrap').style.display='block';
+  document.getElementById('q-text').textContent='';
+  document.getElementById('writing-prompt-text').textContent=q.prompt;
+  document.getElementById('writing-tips-title').textContent='📋 Useful Phrases & Structures';
+  const ul=document.getElementById('writing-tips-list');
+  ul.innerHTML='';
+  q.tips.forEach(t=>{ const li=document.createElement('li'); li.textContent=t; ul.appendChild(li); });
+  document.getElementById('writing-textarea').value='';
+  document.getElementById('model-text').textContent=q.model;
+  document.getElementById('model-struct').textContent=q.struct;
+}
+
+// ==================================================================
+//  MCQ SELECT
+// ==================================================================
+function selectMCQ(chosen, q, btn){
+  if(answered) return;
+  answered=true;
+  const btns=document.querySelectorAll('.opt');
+  btns.forEach((b,i)=>{
+    b.classList.add('locked');
+    if(i===q.ans){ b.classList.add('correct','do-pop'); }
+    else if(i===chosen && chosen!==q.ans){ b.classList.add('wrong','do-shake'); }
+    else { b.classList.add('dim'); }
+  });
+  const ok=(chosen===q.ans);
+  if(ok){ score++; secScores[q.s][0]++; spawnStars(); }
+  secScores[q.s][1]++;
+  showFeedback(ok, q.rule);
+  showNextBtn();
+}
+
+// ==================================================================
+//  FILL SUBMIT
+// ==================================================================
+function submitFill(){
+  if(answered) return;
+  const q=questions[cur];
+  const val=document.getElementById('fill-input').value.trim().toLowerCase();
+  const correct=q.ans.toLowerCase();
+  const alts=(q.alts||[]).map(a=>a.toLowerCase());
+  const ok=(val===correct || alts.some(a=>val===a) || val.includes(correct.split('/')[0].trim()));
+  answered=true;
+  const inp=document.getElementById('fill-input');
+  inp.disabled=true;
+  inp.className=ok?'correct-input':'wrong-input';
+  if(!ok) inp.value=q.ans;
+  if(ok){ score++; secScores[q.s][0]++; spawnStars(); }
+  secScores[q.s][1]++;
+  showFeedback(ok, q.rule);
+  showNextBtn();
+}
+
+// ==================================================================
+//  WRITING
+// ==================================================================
+function showModelAnswer(){
+  document.getElementById('model-answer').style.display='block';
+}
+function doneWriting(){
+  const q=questions[cur]; secScores[q.s][1]++;
+  nextQ();
+}
+
+// ==================================================================
+//  FEEDBACK
+// ==================================================================
+function showFeedback(ok, rule){
+  const fb=document.getElementById('feedback');
+  fb.style.display='block';
+  fb.className=ok?'fb-ok':'fb-err';
+  document.getElementById('fb-icon').textContent=ok?'✅ ':'❌ ';
+  document.getElementById('fb-main').textContent=ok?'Correct! Well done!':'Wrong answer. The correct answer is shown above.';
+  document.getElementById('fb-rule').textContent=rule;
+}
+
+function showNextBtn(){
+  const btn=document.getElementById('next-btn');
+  btn.style.display='block';
+  btn.textContent=cur===questions.length-1?'🎉 See My Results!':'Next Question ➡';
+}
+
+// ==================================================================
+//  NEXT QUESTION
+// ==================================================================
+function nextQ(){
+  const q=questions[cur];
+  const nxt=cur+1;
+  if(nxt<questions.length){
+    const nxtQ=questions[nxt];
+    if(nxtQ.s!==q.s && !inTrans){
+      showTransition(nxtQ.s);
+      return;
+    }
+  }
+  cur++;
+  if(cur>=questions.length) showScore();
+  else showQuestion();
+}
+
+// ==================================================================
+//  SECTION TRANSITION
+// ==================================================================
+function showTransition(nextSec){
+  inTrans=true;
+  const prevSec=questions[cur].s;
+  const sec=sections.find(s=>s.id===prevSec);
+  hideMain();
+  const tr=document.getElementById('sec-transition');
+  tr.style.display='block';
+  document.getElementById('tr-icon').textContent=sec.transIcon;
+  document.getElementById('tr-title').textContent=sec.transTitle;
+  document.getElementById('tr-body').textContent=sec.transBody;
+  const nextS=sections.find(s=>s.id===nextSec);
+  document.getElementById('sec-continue').className='writing-btn '+grClass(nextS.theme);
+  document.getElementById('sec-continue').style.cssText='padding:22px 70px;border:none;border-radius:60px;font-family:var(--font-h);font-size:clamp(1.2rem,3vw,1.7rem);cursor:pointer;color:white;box-shadow:0 7px 0 rgba(0,0,0,0.18);transition:all 0.22s;letter-spacing:1px;'+grBg(nextS.theme);
+  spawnStars(); spawnStars();
+}
+function resumeSection(){
+  inTrans=false;
+  document.getElementById('sec-transition').style.display='none';
+  showMain();
+  cur++;
+  if(cur>=questions.length) showScore();
+  else showQuestion();
+}
+
+// ==================================================================
+//  SCORE
+// ==================================================================
+function showScore(){
+  hideMain();
+  document.getElementById('top-bar').style.display='none';
+  const ss=document.getElementById('score-screen');
+  ss.style.display='block';
+  const pct=Math.round((score/questions.length)*100);
+  let displayed=0;
+  const iv=setInterval(()=>{
+    displayed+=2; if(displayed>=pct){ displayed=pct; clearInterval(iv); }
+    document.getElementById('score-pct').textContent=displayed+'%';
+  },18);
+  const color=pct>=75?'#16A34A':pct>=50?'#D97706':'#DC2626';
+  document.getElementById('score-ring').style.background=`conic-gradient(${color} ${pct}%, #e0e0e0 ${pct}%)`;
+  document.getElementById('score-pct').style.color=color;
+  document.getElementById('score-detail').textContent=score+' correct answer(s) out of '+(questions.length-4)+' graded questions';
+
+  let trophy='🏆',title='',msg='';
+  if(pct>=90){ trophy='🏆'; title='Outstanding! Mention Très Bien!'; msg='🎓 You are fully ready for the Baccalaureate! Excellent work!'; }
+  else if(pct>=75){ trophy='🥇'; title='Very Good!'; msg='👏 Great performance! A little more revision and you will be perfect.'; }
+  else if(pct>=60){ trophy='🥈'; title='Good!'; msg='📚 Solid work. Keep practising the trickier structures.'; }
+  else if(pct>=40){ trophy='🥉'; title='Passable'; msg='💪 You are on the right track. Revise your grammar rules and try again!'; }
+  else { trophy='📖'; title='Needs Revision'; msg='🔄 Do not give up! Review the rules and retake the test. You CAN improve!'; }
+
+  document.getElementById('s-trophy').textContent=trophy;
+  document.getElementById('s-title').textContent=title;
+  document.getElementById('score-msg').textContent=msg;
+
+  const scCont=document.getElementById('section-scores');
+  scCont.innerHTML='';
+  const scColors=['#FFF9C4','#E3F2FD','#D4F5E9','#FFE4EF','#FFF9C4','#E3F2FD'];
+  const scBorder=['#6A0DAD','#0D2B6B','#1B5E20','#B5003B','#6A0DAD','#0D2B6B'];
+  sections.forEach((s,i)=>{
+    const [got,total]=secScores[s.id];
+    const card=document.createElement('div');
+    card.className='sec-score-card';
+    card.style.background=scColors[i];
+    card.style.border=`3px solid ${scBorder[i]}`;
+    card.style.color=scBorder[i];
+    card.innerHTML=`<div class="sc-name">${s.icon} ${s.name}</div><div class="sc-val">${got}/${total>0?total:'–'}</div>`;
+    scCont.appendChild(card);
+  });
+  for(let i=0;i<8;i++) setTimeout(spawnStars,i*250);
+}
+
+// ==================================================================
+//  UTILS
+// ==================================================================
+function applyTheme(t, sId){
+  document.body.className='t'+t;
+  const cls=['gr1','gr2','gr3','gr4'];
+  const pc=['pb1','pb2','pb3','pb4'];
+  document.getElementById('prog-bar').className=pc[t-1];
+  document.getElementById('sec-tag').className=cls[t-1].replace('gr','bg');
+  document.getElementById('sec-title').className='c'+t;
+  document.getElementById('q-type-badge').className=cls[t-1].replace('gr','bg');
+  document.getElementById('fill-submit').className=cls[t-1];
+  document.getElementById('next-btn').className=cls[t-1];
+}
+function grClass(t){ return ['gr1','gr2','gr3','gr4'][t-1]; }
+function grBg(t){
+  const bgs=['background:linear-gradient(135deg,#6A0DAD,#B24AE8)','background:linear-gradient(135deg,#0D2B6B,#2979FF)','background:linear-gradient(135deg,#1B5E20,#43A047)','background:linear-gradient(135deg,#B5003B,#FF4081)'];
+  return bgs[t-1]+';';
+}
+function hideMain(){
+  document.getElementById('q-card').style.display='none';
+  document.getElementById('feedback').style.display='none';
+  document.getElementById('next-btn').style.display='none';
+  document.getElementById('sec-header').style.display='none';
+}
+function showMain(){
+  document.getElementById('q-card').style.display='block';
+  document.getElementById('sec-header').style.display='block';
+}
+function spawnStars(){
+  const em=['⭐','🌟','✨','💫','🎉','🎊','👏'];
+  for(let i=0;i<5;i++){
+    const s=document.createElement('div');
+    s.className='star';
+    s.textContent=em[Math.floor(Math.random()*em.length)];
+    s.style.left=(15+Math.random()*70)+'vw';
+    s.style.top=(15+Math.random()*55)+'vh';
+    s.style.animationDelay=(Math.random()*0.4)+'s';
+    document.body.appendChild(s);
+    setTimeout(()=>s.remove(),1400);
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BrainMaster Pro – Évaluation Cognitive Premium</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --t1-bg:#FFF9C4;--t1-card:#F3E5F5;--t1-accent:#7B1FA2;--t1-btn:#AB47BC;--t1-text:#4A148C;--t1-star:#FFD600;
+  --t2-bg:#E3F2FD;--t2-card:#BBDEFB;--t2-accent:#0D47A1;--t2-btn:#1976D2;--t2-text:#0A2E6E;--t2-star:#29B6F6;
+  --t3-bg:#E8F5E9;--t3-card:#C8E6C9;--t3-accent:#1B5E20;--t3-btn:#2E7D32;--t3-text:#145214;--t3-star:#66BB6A;
+  --t4-bg:#FCE4EC;--t4-card:#F8BBD0;--t4-accent:#880E4F;--t4-btn:#C2185B;--t4-text:#6A0035;--t4-star:#F48FB1;
+  --bg:var(--t1-bg);--card:var(--t1-card);--accent:var(--t1-accent);--btn:var(--t1-btn);--col:var(--t1-text);--star:var(--t1-star);
+  --radius:24px;--shadow:0 8px 32px rgba(0,0,0,0.13);
+  --correct:#2E7D32;--wrong:#C62828;--gold:#FFD600;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--col);min-height:100vh;transition:background 0.8s,color 0.5s;overflow-x:hidden}
+h1,h2,h3{font-family:'Baloo 2',cursive}
+body.t1{--bg:var(--t1-bg);--card:var(--t1-card);--accent:var(--t1-accent);--btn:var(--t1-btn);--col:var(--t1-text);--star:var(--t1-star)}
+body.t2{--bg:var(--t2-bg);--card:var(--t2-card);--accent:var(--t2-accent);--btn:var(--t2-btn);--col:var(--t2-text);--star:var(--t2-star)}
+body.t3{--bg:var(--t3-bg);--card:var(--t3-card);--accent:var(--t3-accent);--btn:var(--t3-btn);--col:var(--t3-text);--star:var(--t3-star)}
+body.t4{--bg:var(--t4-bg);--card:var(--t4-card);--accent:var(--t4-accent);--btn:var(--t4-btn);--col:var(--t4-text);--star:var(--t4-star)}
+
+/* ===== TOP NAV BAR ===== */
+#top-nav{position:fixed;top:0;left:0;right:0;z-index:900;background:rgba(255,255,255,0.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:3px solid var(--btn);box-shadow:0 4px 20px rgba(0,0,0,0.10);display:none;flex-direction:column;padding:0}
+#top-nav.visible{display:flex}
+.nav-top-row{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;gap:8px}
+.nav-brand{font-family:'Baloo 2',cursive;font-size:18px;font-weight:800;color:var(--accent);white-space:nowrap;display:flex;align-items:center;gap:6px}
+.nav-stats{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.nav-pill{background:var(--card);border-radius:40px;padding:5px 12px;font-weight:800;font-size:13px;color:var(--accent);display:flex;align-items:center;gap:4px;border:2px solid var(--btn)}
+.nav-toggle{background:var(--btn);color:#fff;border:none;border-radius:12px;padding:7px 12px;font-family:'Baloo 2',cursive;font-size:13px;font-weight:800;cursor:pointer;white-space:nowrap;transition:transform 0.2s}
+.nav-toggle:hover{transform:scale(1.05)}
+.nav-sections-row{display:none;overflow-x:auto;padding:8px 14px 10px;gap:8px;scrollbar-width:none;-ms-overflow-style:none}
+.nav-sections-row::-webkit-scrollbar{display:none}
+.nav-sections-row.open{display:flex}
+.nav-sec-btn{flex-shrink:0;background:var(--card);border:2px solid var(--btn);border-radius:40px;padding:7px 14px;font-family:'Baloo 2',cursive;font-size:13px;font-weight:800;color:var(--accent);cursor:pointer;white-space:nowrap;transition:all 0.2s;display:flex;align-items:center;gap:5px}
+.nav-sec-btn:hover{background:var(--btn);color:#fff;transform:scale(1.04)}
+.nav-sec-btn.active-sec{background:var(--accent);color:#fff;border-color:var(--accent)}
+.nav-sec-btn.done-sec{opacity:0.65}
+.nav-sec-btn.done-sec::after{content:'✅';margin-left:4px;font-size:11px}
+
+/* screens get top padding when nav is visible */
+body.nav-on .screen{padding-top:88px}
+
+/* ===== SCREENS ===== */
+.screen{display:none;min-height:100vh;padding:20px}
+.screen.active{display:flex;flex-direction:column;align-items:center}
+
+/* ===== SPLASH ===== */
+#splash{justify-content:center;text-align:center;background:linear-gradient(135deg,var(--bg) 0%,var(--card) 100%)}
+.splash-logo{font-size:80px;animation:float 3s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-18px)}}
+.splash-title{font-family:'Baloo 2',cursive;font-size:clamp(36px,8vw,64px);font-weight:800;color:var(--accent);line-height:1.1;margin:16px 0 8px}
+.splash-sub{font-size:clamp(16px,4vw,22px);font-weight:700;color:var(--btn);margin-bottom:10px}
+.splash-desc{font-size:clamp(14px,3.5vw,18px);max-width:520px;margin:0 auto 32px;line-height:1.6;color:var(--col);opacity:0.85}
+.stars-row{font-size:28px;margin-bottom:20px;letter-spacing:4px}
+.btn-primary{background:linear-gradient(135deg,var(--btn),var(--accent));color:#fff;border:none;border-radius:60px;font-family:'Baloo 2',cursive;font-size:clamp(18px,4vw,26px);font-weight:800;padding:18px 52px;cursor:pointer;box-shadow:var(--shadow);transition:transform 0.2s,box-shadow 0.2s;letter-spacing:1px}
+.btn-primary:hover,.btn-primary:active{transform:scale(1.07);box-shadow:0 12px 40px rgba(0,0,0,0.2)}
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;max-width:620px;margin:32px auto 0;width:100%}
+.feat-card{background:var(--card);border-radius:var(--radius);padding:18px 12px;text-align:center;box-shadow:var(--shadow);transition:transform 0.2s}
+.feat-card:hover{transform:translateY(-4px)}
+.feat-icon{font-size:34px;margin-bottom:8px}
+.feat-label{font-size:14px;font-weight:800;color:var(--accent)}
+
+/* ===== REGISTER ===== */
+#register{justify-content:flex-start;padding-top:40px}
+.reg-box{background:var(--card);border-radius:var(--radius);padding:36px 28px;max-width:460px;width:100%;box-shadow:var(--shadow)}
+.reg-title{font-family:'Baloo 2',cursive;font-size:clamp(24px,6vw,36px);font-weight:800;color:var(--accent);text-align:center;margin-bottom:6px}
+.reg-sub{text-align:center;font-size:15px;color:var(--btn);margin-bottom:24px;font-weight:700}
+.field{margin-bottom:18px}
+.field label{display:block;font-weight:800;font-size:15px;color:var(--accent);margin-bottom:6px}
+.field input,.field select{width:100%;border:3px solid var(--btn);border-radius:14px;padding:14px 16px;font-family:'Nunito',sans-serif;font-size:16px;font-weight:700;background:#fff;color:#222;outline:none;transition:border-color 0.2s}
+.field input:focus,.field select:focus{border-color:var(--accent)}
+.avatar-grid{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+.avatar-opt{font-size:36px;cursor:pointer;border:3px solid transparent;border-radius:50%;padding:4px;transition:border-color 0.2s,transform 0.2s}
+.avatar-opt.selected,.avatar-opt:hover{border-color:var(--accent);transform:scale(1.2)}
+.btn-reg{width:100%;margin-top:8px}
+
+/* ===== DASHBOARD ===== */
+#dashboard{padding:24px 16px}
+.dash-header{text-align:center;margin-bottom:24px}
+.dash-avatar{font-size:64px;margin-bottom:8px}
+.dash-name{font-family:'Baloo 2',cursive;font-size:clamp(22px,5vw,34px);font-weight:800;color:var(--accent)}
+.dash-level{font-size:16px;font-weight:700;color:var(--btn);margin-top:4px}
+.stats-row{display:flex;gap:14px;justify-content:center;margin:16px 0;flex-wrap:wrap}
+.stat-pill{background:var(--card);border-radius:60px;padding:10px 22px;font-weight:800;font-size:15px;box-shadow:var(--shadow);display:flex;align-items:center;gap:7px}
+.stat-pill span{font-size:22px}
+.sections-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px;max-width:700px;width:100%;margin:0 auto}
+.sec-card{background:var(--card);border-radius:var(--radius);padding:20px 14px;text-align:center;cursor:pointer;box-shadow:var(--shadow);transition:transform 0.2s,box-shadow 0.2s;position:relative}
+.sec-card:hover{transform:translateY(-4px);box-shadow:0 14px 40px rgba(0,0,0,0.16)}
+.sec-card.done{opacity:0.7}
+.sec-num{font-family:'Baloo 2',cursive;font-size:13px;font-weight:800;color:var(--btn);text-transform:uppercase;letter-spacing:1px}
+.sec-icon{font-size:42px;margin:8px 0}
+.sec-name{font-family:'Baloo 2',cursive;font-size:15px;font-weight:800;color:var(--accent);line-height:1.2}
+.sec-badge{position:absolute;top:10px;right:10px;background:var(--gold);border-radius:50%;width:26px;height:26px;font-size:14px;display:flex;align-items:center;justify-content:center}
+.btn-start-all{margin:24px auto 0;display:block}
+
+/* ===== QUIZ SCREEN ===== */
+#quiz{padding:16px}
+.quiz-header{width:100%;max-width:680px;margin-bottom:18px}
+.quiz-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:10px}
+.section-tag{background:var(--card);border-radius:60px;padding:8px 18px;font-weight:800;font-size:14px;color:var(--accent)}
+.xp-tag{background:var(--gold);border-radius:60px;padding:8px 16px;font-weight:800;font-size:14px;color:#4A2800;display:flex;align-items:center;gap:5px}
+.timer-ring{width:56px;height:56px;position:relative;flex-shrink:0}
+.timer-svg{width:56px;height:56px;transform:rotate(-90deg)}
+.timer-circle{stroke-dasharray:150;stroke-dashoffset:0;transition:stroke-dashoffset 1s linear}
+.timer-text{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Baloo 2',cursive;font-size:16px;font-weight:800;color:var(--accent)}
+.prog-bar-wrap{height:14px;background:rgba(0,0,0,0.08);border-radius:99px;overflow:hidden;margin-bottom:4px}
+.prog-bar{height:100%;background:linear-gradient(90deg,var(--btn),var(--accent));border-radius:99px;transition:width 0.5s}
+.prog-label{font-size:13px;font-weight:700;color:var(--btn);text-align:right}
+
+/* ===== MEMORIZE PHASE ===== */
+.memo-phase{background:linear-gradient(135deg,var(--btn),var(--accent));border-radius:var(--radius);padding:28px 24px;max-width:680px;width:100%;box-shadow:var(--shadow);text-align:center;margin-bottom:18px;animation:popIn 0.4s cubic-bezier(.175,.885,.32,1.275)}
+.memo-label{font-family:'Baloo 2',cursive;font-size:clamp(14px,3.5vw,18px);font-weight:800;color:rgba(255,255,255,0.85);text-transform:uppercase;letter-spacing:2px;margin-bottom:10px}
+.memo-instruction{font-family:'Baloo 2',cursive;font-size:clamp(18px,5vw,26px);font-weight:800;color:#fff;margin-bottom:18px;line-height:1.3}
+.memo-items{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-bottom:22px}
+.memo-item{background:rgba(255,255,255,0.22);border:3px solid rgba(255,255,255,0.5);border-radius:16px;padding:12px 20px;font-family:'Baloo 2',cursive;font-size:clamp(18px,5vw,26px);font-weight:800;color:#fff;animation:popIn 0.3s ease both}
+.memo-countdown-wrap{margin-top:8px}
+.memo-countdown-bar-bg{height:18px;background:rgba(255,255,255,0.2);border-radius:99px;overflow:hidden;max-width:320px;margin:0 auto 10px}
+.memo-countdown-bar{height:100%;background:#fff;border-radius:99px;transition:width 1s linear}
+.memo-countdown-text{font-family:'Baloo 2',cursive;font-size:22px;font-weight:800;color:#fff}
+
+/* ===== QUESTION CARD ===== */
+.q-card{background:var(--card);border-radius:var(--radius);padding:28px 24px;max-width:680px;width:100%;box-shadow:var(--shadow);margin-bottom:18px;animation:popIn 0.4s cubic-bezier(.175,.885,.32,1.275)}
+@keyframes popIn{from{opacity:0;transform:scale(0.93) translateY(16px)}to{opacity:1;transform:none}}
+.q-section-name{font-size:13px;font-weight:800;color:var(--btn);text-transform:uppercase;letter-spacing:2px;margin-bottom:10px}
+.q-text{font-family:'Baloo 2',cursive;font-size:clamp(18px,5vw,28px);font-weight:800;color:var(--accent);line-height:1.35;margin-bottom:8px}
+.q-scenario{font-size:clamp(14px,3.5vw,17px);color:var(--col);margin-bottom:20px;line-height:1.6;font-weight:700;background:rgba(255,255,255,0.45);border-radius:14px;padding:12px 16px}
+.q-emoji{font-size:48px;text-align:center;margin-bottom:12px}
+
+.answers-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.answers-grid.single{grid-template-columns:1fr}
+.ans-btn{background:#fff;border:3px solid var(--btn);border-radius:18px;padding:16px 18px;font-family:'Nunito',sans-serif;font-size:clamp(15px,4vw,19px);font-weight:800;color:var(--accent);cursor:pointer;transition:all 0.2s;text-align:left;line-height:1.3}
+.ans-btn:hover:not(:disabled){background:var(--card);transform:scale(1.03);border-color:var(--accent)}
+.ans-btn.correct{background:#E8F5E9;border-color:var(--correct);color:var(--correct)}
+.ans-btn.wrong{background:#FFEBEE;border-color:var(--wrong);color:var(--wrong)}
+.ans-btn:disabled{cursor:not-allowed}
+
+.feedback-box{border-radius:var(--radius);padding:18px 20px;margin-bottom:14px;animation:popIn 0.3s ease;display:none}
+.feedback-box.show{display:block}
+.feedback-box.correct{background:#E8F5E9;border:3px solid var(--correct)}
+.feedback-box.wrong{background:#FFEBEE;border:3px solid var(--wrong)}
+.feedback-icon{font-size:32px;margin-bottom:6px}
+.feedback-title{font-family:'Baloo 2',cursive;font-size:20px;font-weight:800;margin-bottom:4px}
+.feedback-title.correct{color:var(--correct)}
+.feedback-title.wrong{color:var(--wrong)}
+.feedback-text{font-size:15px;font-weight:700;line-height:1.5;color:#333}
+.feedback-xp{font-size:13px;font-weight:800;color:var(--btn);margin-top:8px}
+
+/* timer hidden indicator */
+.timer-off .timer-ring{opacity:0.25}
+.timer-off .timer-text::after{content:'∞';font-size:22px}
+.timer-off #timer-display{display:none}
+
+.btn-next{width:100%;max-width:680px}
+
+/* ===== SECTION COMPLETE ===== */
+#sec-complete{justify-content:center;text-align:center}
+.sec-comp-box{background:var(--card);border-radius:var(--radius);padding:48px 32px;max-width:440px;width:100%;box-shadow:var(--shadow)}
+.trophy-anim{font-size:80px;animation:bounce 1s infinite alternate}
+@keyframes bounce{from{transform:translateY(0)}to{transform:translateY(-14px)}}
+.sc-title{font-family:'Baloo 2',cursive;font-size:clamp(26px,6vw,40px);font-weight:800;color:var(--accent);margin:16px 0 8px}
+.sc-score{font-size:clamp(40px,10vw,64px);font-weight:800;color:var(--btn);font-family:'Baloo 2',cursive}
+.sc-sub{font-size:16px;font-weight:700;color:var(--col);margin-bottom:24px}
+.badge-earn{font-size:48px;margin:12px 0}
+.badge-name{font-family:'Baloo 2',cursive;font-size:20px;font-weight:800;color:var(--accent)}
+
+/* ===== FINAL REPORT ===== */
+#report{padding:20px 16px}
+.report-header{text-align:center;padding:32px 20px;background:var(--card);border-radius:var(--radius);max-width:700px;width:100%;margin:0 auto 24px;box-shadow:var(--shadow)}
+.rep-logo{font-size:60px;margin-bottom:12px}
+.rep-title{font-family:'Baloo 2',cursive;font-size:clamp(24px,6vw,40px);font-weight:800;color:var(--accent);margin-bottom:6px}
+.rep-name{font-size:18px;font-weight:800;color:var(--btn)}
+.profile-badge{background:linear-gradient(135deg,var(--btn),var(--accent));color:#fff;border-radius:var(--radius);padding:24px;max-width:700px;width:100%;margin:0 auto 20px;box-shadow:var(--shadow);text-align:center}
+.prof-icon{font-size:56px;margin-bottom:10px}
+.prof-title{font-family:'Baloo 2',cursive;font-size:clamp(20px,5vw,32px);font-weight:800;margin-bottom:6px}
+.prof-desc{font-size:15px;font-weight:700;opacity:0.9;line-height:1.5}
+.skills-section{max-width:700px;width:100%;margin:0 auto 20px}
+.skills-title{font-family:'Baloo 2',cursive;font-size:22px;font-weight:800;color:var(--accent);margin-bottom:14px;text-align:center}
+.skill-row{background:var(--card);border-radius:14px;padding:14px 18px;margin-bottom:10px;box-shadow:var(--shadow)}
+.skill-name{font-weight:800;font-size:15px;color:var(--col);margin-bottom:6px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px}
+.skill-bar-bg{height:16px;background:rgba(0,0,0,0.08);border-radius:99px;overflow:hidden}
+.skill-bar-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--btn),var(--accent));transition:width 1.5s ease}
+.reco-section{background:var(--card);border-radius:var(--radius);padding:24px;max-width:700px;width:100%;margin:0 auto 20px;box-shadow:var(--shadow)}
+.reco-title{font-family:'Baloo 2',cursive;font-size:20px;font-weight:800;color:var(--accent);margin-bottom:14px}
+.reco-item{display:flex;gap:12px;margin-bottom:12px;align-items:flex-start}
+.reco-icon{font-size:22px;flex-shrink:0;margin-top:2px}
+.reco-text{font-size:15px;font-weight:700;line-height:1.5;color:var(--col)}
+.cert-section{background:linear-gradient(135deg,#FFF9C4,#F3E5F5);border:4px solid var(--accent);border-radius:var(--radius);padding:32px 24px;max-width:700px;width:100%;margin:0 auto 20px;text-align:center;box-shadow:var(--shadow)}
+.cert-title{font-family:'Baloo 2',cursive;font-size:clamp(20px,5vw,32px);font-weight:800;color:var(--accent);margin-bottom:8px}
+.cert-text{font-size:15px;font-weight:700;color:var(--col);line-height:1.6;margin-bottom:16px}
+.cert-seal{font-size:52px;margin:10px 0}
+.btn-row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;max-width:700px;width:100%;margin:0 auto 32px}
+.btn-secondary{background:var(--card);color:var(--accent);border:3px solid var(--btn);border-radius:60px;font-family:'Baloo 2',cursive;font-size:clamp(15px,3.5vw,20px);font-weight:800;padding:14px 36px;cursor:pointer;box-shadow:var(--shadow);transition:transform 0.2s}
+.btn-secondary:hover{transform:scale(1.05)}
+
+/* ===== CONFETTI ===== */
+.confetti-piece{position:fixed;width:12px;height:12px;border-radius:2px;opacity:0;pointer-events:none;animation:confettiFall 2.5s ease-in forwards}
+@keyframes confettiFall{0%{opacity:1;transform:translateY(-20px) rotate(0deg)}100%{opacity:0;transform:translateY(100vh) rotate(720deg)}}
+
+/* ===== TOAST ===== */
+.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(120px);background:linear-gradient(135deg,var(--btn),var(--accent));color:#fff;border-radius:60px;padding:14px 32px;font-family:'Baloo 2',cursive;font-size:18px;font-weight:800;box-shadow:0 8px 32px rgba(0,0,0,0.22);transition:transform 0.4s cubic-bezier(.175,.885,.32,1.275);z-index:999;pointer-events:none;display:flex;align-items:center;gap:10px}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+.w-full{width:100%;max-width:680px}
+.mt-16{margin-top:16px}
+@media(max-width:520px){
+  .answers-grid{grid-template-columns:1fr}
+  .features-grid{grid-template-columns:repeat(2,1fr)}
+  .sections-grid{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body class="t1">
+
+<!-- ===== TOP NAVIGATION BAR ===== -->
+<nav id="top-nav">
+  <div class="nav-top-row">
+    <div class="nav-brand">🧠 BrainMaster Pro</div>
+    <div class="nav-stats">
+      <div class="nav-pill">⚡ <span id="nav-xp">0</span> XP</div>
+      <div class="nav-pill">🪙 <span id="nav-coins">0</span></div>
+    </div>
+    <button class="nav-toggle" onclick="toggleNavSections()">📚 Sections ▾</button>
+  </div>
+  <div class="nav-sections-row" id="nav-sections-row"></div>
+</nav>
+
+<!-- ===== SPLASH ===== -->
+<div id="splash" class="screen active">
+  <div class="splash-logo">🧠</div>
+  <h1 class="splash-title">BrainMaster Pro</h1>
+  <p class="splash-sub">Évaluation Cognitive Premium pour Enfants</p>
+  <div class="stars-row">⭐⭐⭐⭐⭐</div>
+  <p class="splash-desc">Découvre les super-pouvoirs de ton cerveau ! 15 sections, 150+ défis extraordinaires, un rapport cognitif personnalisé et des récompenses incroyables t'attendent !</p>
+  <button class="btn-primary" onclick="showScreen('register')">🚀 Commencer l'Aventure !</button>
+  <div class="features-grid mt-16">
+    <div class="feat-card"><div class="feat-icon">🏆</div><div class="feat-label">Gamification Complète</div></div>
+    <div class="feat-card"><div class="feat-icon">🎯</div><div class="feat-label">15 Sections Cognitives</div></div>
+    <div class="feat-card"><div class="feat-icon">📊</div><div class="feat-label">Rapport Détaillé</div></div>
+    <div class="feat-card"><div class="feat-icon">🎨</div><div class="feat-label">Design Interactif</div></div>
+    <div class="feat-card"><div class="feat-icon">⚡</div><div class="feat-label">Feedback Immédiat</div></div>
+    <div class="feat-card"><div class="feat-icon">🌟</div><div class="feat-label">Profil Cognitif</div></div>
+  </div>
+</div>
+
+<!-- ===== REGISTER ===== -->
+<div id="register" class="screen">
+  <div class="reg-box">
+    <div class="reg-title">✨ Crée ton Profil !</div>
+    <p class="reg-sub">Commence ta super aventure cognitive !</p>
+    <div class="field">
+      <label>Ton Prénom *</label>
+      <input type="text" id="reg-name" placeholder="Ex : Léa, Kofi, Amina..." maxlength="30">
+    </div>
+    <div class="field">
+      <label>Ton Âge *</label>
+      <select id="reg-age">
+        <option value="">-- Sélectionne ton âge --</option>
+        <option value="6">6 ans</option>
+        <option value="7">7 ans</option>
+        <option value="8">8 ans</option>
+        <option value="9">9 ans</option>
+        <option value="10">10 ans</option>
+        <option value="11">11 ans</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Choisis ton Avatar !</label>
+      <div class="avatar-grid">
+        <span class="avatar-opt" onclick="selectAvatar(this)">🦁</span>
+        <span class="avatar-opt" onclick="selectAvatar(this)">🦊</span>
+        <span class="avatar-opt" onclick="selectAvatar(this)">🐬</span>
+        <span class="avatar-opt" onclick="selectAvatar(this)">🦅</span>
+        <span class="avatar-opt" onclick="selectAvatar(this)">🐉</span>
+        <span class="avatar-opt" onclick="selectAvatar(this)">🌟</span>
+        <span class="avatar-opt" onclick="selectAvatar(this)">🚀</span>
+        <span class="avatar-opt" onclick="selectAvatar(this)">🔬</span>
+      </div>
+    </div>
+    <button class="btn-primary btn-reg" onclick="startDashboard()">🎉 C'est Parti !</button>
+  </div>
+</div>
+
+<!-- ===== DASHBOARD ===== -->
+<div id="dashboard" class="screen">
+  <div class="dash-header">
+    <div class="dash-avatar" id="dash-avatar">🦁</div>
+    <div class="dash-name" id="dash-name">Explorateur</div>
+    <div class="dash-level" id="dash-level">⭐ Niveau 1 — Petit Explorateur</div>
+  </div>
+  <div class="stats-row">
+    <div class="stat-pill"><span>⚡</span><span id="xp-count">0 XP</span></div>
+    <div class="stat-pill"><span>🪙</span><span id="coin-count">0 Pièces</span></div>
+    <div class="stat-pill"><span>🏆</span><span id="trophy-count">0 Trophées</span></div>
+  </div>
+  <div class="sections-grid" id="sections-grid"></div>
+  <button class="btn-primary btn-start-all" onclick="startFullTest()">🚀 Lancer le Test Complet !</button>
+</div>
+
+<!-- ===== QUIZ ===== -->
+<div id="quiz" class="screen">
+  <div class="quiz-header w-full">
+    <div class="quiz-top">
+      <div class="section-tag" id="q-section-tag">Section 1</div>
+      <div class="xp-tag">⚡ <span id="q-xp">0</span> XP</div>
+      <div class="timer-ring">
+        <svg class="timer-svg" viewBox="0 0 56 56">
+          <circle cx="28" cy="28" r="24" fill="none" stroke="rgba(0,0,0,0.1)" stroke-width="6"/>
+          <circle id="timer-arc" class="timer-circle" cx="28" cy="28" r="24" fill="none" stroke-width="6" stroke="var(--btn)" stroke-linecap="round"/>
+        </svg>
+        <div class="timer-text" id="timer-display">30</div>
+      </div>
+    </div>
+    <div class="prog-bar-wrap"><div class="prog-bar" id="prog-bar" style="width:0%"></div></div>
+    <div class="prog-label" id="prog-label">Question 1 / 10</div>
+  </div>
+
+  <!-- MEMORIZE PHASE (shown before memory questions) -->
+  <div class="memo-phase w-full" id="memo-phase" style="display:none">
+    <div class="memo-label">🧠 Phase de Mémorisation</div>
+    <div class="memo-instruction" id="memo-instruction">Mémorise bien ces éléments !</div>
+    <div class="memo-items" id="memo-items"></div>
+    <div class="memo-countdown-wrap">
+      <div class="memo-countdown-bar-bg"><div class="memo-countdown-bar" id="memo-bar" style="width:100%"></div></div>
+      <div class="memo-countdown-text">⏳ <span id="memo-timer">12</span> secondes</div>
+    </div>
+  </div>
+
+  <div class="q-card w-full" id="q-card" style="display:none">
+    <div class="q-section-name" id="q-sec-name"></div>
+    <div class="q-emoji" id="q-emoji"></div>
+    <div class="q-text" id="q-text"></div>
+    <div class="q-scenario" id="q-scenario" style="display:none"></div>
+    <div class="answers-grid" id="answers-grid"></div>
+  </div>
+
+  <div class="feedback-box w-full" id="feedback-box">
+    <div class="feedback-icon" id="fb-icon"></div>
+    <div class="feedback-title" id="fb-title"></div>
+    <div class="feedback-text" id="fb-text"></div>
+    <div class="feedback-xp" id="fb-xp"></div>
+  </div>
+  <button class="btn-primary btn-next w-full" id="btn-next" onclick="nextQuestion()" style="display:none">Suivant ➡️</button>
+</div>
+
+<!-- ===== SECTION COMPLETE ===== -->
+<div id="sec-complete" class="screen">
+  <div class="sec-comp-box">
+    <div class="trophy-anim" id="sc-trophy">🏆</div>
+    <div class="sc-title" id="sc-title">Section Terminée !</div>
+    <div class="sc-score" id="sc-score">8/10</div>
+    <div class="sc-sub" id="sc-sub">Excellent travail !</div>
+    <div class="badge-earn" id="sc-badge">🌟</div>
+    <div class="badge-name" id="sc-badge-name">Étoile de la Mémoire</div>
+    <button class="btn-primary mt-16" onclick="continueAfterSection()" style="width:100%" id="sc-btn">Section Suivante ➡️</button>
+  </div>
+</div>
+
+<!-- ===== FINAL REPORT ===== -->
+<div id="report" class="screen">
+  <div class="report-header">
+    <div class="rep-logo">🧠</div>
+    <div class="rep-title">Rapport Cognitif Officiel</div>
+    <div class="rep-name" id="rep-name"></div>
+    <div style="font-size:13px;font-weight:700;color:var(--btn);margin-top:6px" id="rep-date"></div>
+  </div>
+  <div class="profile-badge">
+    <div class="prof-icon" id="prof-icon"></div>
+    <div class="prof-title" id="prof-title"></div>
+    <div class="prof-desc" id="prof-desc"></div>
+  </div>
+  <div class="skills-section">
+    <div class="skills-title">📊 Scores par Domaine Cognitif</div>
+    <div id="skills-bars"></div>
+  </div>
+  <div class="reco-section">
+    <div class="reco-title">💡 Recommandations Personnalisées</div>
+    <div id="recos"></div>
+  </div>
+  <div class="cert-section">
+    <div class="cert-title">🎓 Certificat d'Excellence Cognitive</div>
+    <div class="cert-seal">🏅</div>
+    <div class="cert-text" id="cert-text"></div>
+  </div>
+  <div class="btn-row">
+    <button class="btn-primary" onclick="printReport()">📄 Imprimer le Rapport</button>
+    <button class="btn-secondary" onclick="restartTest()">🔄 Recommencer</button>
+  </div>
+</div>
+
+<div class="toast" id="toast">🎉 Bravo !</div>
+
+<script>
+// ============================================================
+// QUESTION TYPE SYSTEM
+// memo   = phase mémorisation + chrono court (30s)
+// think  = question de réflexion, long (60s)
+// free   = pas de chrono (sections créativité/leadership/inventeur/stratégie/ultimates)
+// normal = chrono standard 30s
+// ============================================================
+
+const SECTIONS = [
+  {id:1,name:"Mémoire Visuelle",icon:"👁️",color:"t1",badge:"🌈",badgeName:"Œil de Lynx",questions:[
+    {type:"memo",emoji:"🎨",memo:["Rouge 🔴","Bleu 🔵","Vert 🟢","Jaune 🟡"],memoInstruction:"Mémorise bien l'ordre de ces 4 couleurs !",q:"Quelle couleur était en 3ème position ?",choices:["Rouge","Bleu","Vert 🟢","Jaune"],correct:2,xp:10,expl:"Vert 🟢 était la 3ème couleur ! Pour mémoriser, crée une image mentale colorée."},
+    {type:"memo",emoji:"🐾",memo:["Lion 🦁","Singe 🐒","Éléphant 🐘","Girafe 🦒","Zèbre 🦓"],memoInstruction:"Mémorise l'ordre de ces 5 animaux !",q:"Quel animal était en 2ème position ?",choices:["Lion","Singe 🐒","Éléphant","Girafe"],correct:1,xp:10,expl:"Le Singe 🐒 était en 2ème position !"},
+    {type:"memo",emoji:"🌟",memo:["Cercle ⚪","Étoile ⭐","Triangle 🔺"],memoInstruction:"Mémorise ces 3 formes dans l'ordre !",q:"Quelle forme est au milieu ?",choices:["Cercle ⚪","Étoile ⭐","Triangle 🔺","Carré"],correct:1,xp:10,expl:"L'Étoile ⭐ est au milieu ! Cercle – Étoile – Triangle."},
+    {type:"memo",emoji:"🎭",memo:["Chapeau 🎩","Baguette 🪄","Lapin 🐇","Foulard 🧣"],memoInstruction:"Mémorise les 4 objets du magicien !",q:"Quel objet était en dernier ?",choices:["Chapeau","Baguette","Lapin","Foulard 🧣"],correct:3,xp:10,expl:"Le Foulard 🧣 était le 4ème et dernier objet !"},
+    {type:"memo",emoji:"🚀",memo:["Mars 🔴","Vénus ⭐","Jupiter 🟠","Saturne 🪐","Neptune 🔵"],memoInstruction:"Mémorise ces 5 planètes dans l'ordre !",q:"Quelle planète est en 4ème position ?",choices:["Mars","Jupiter","Saturne 🪐","Neptune"],correct:2,xp:12,expl:"Saturne 🪐 était en 4ème position ! Mars(1) Vénus(2) Jupiter(3) Saturne(4) Neptune(5)."},
+    {type:"memo",emoji:"🌺",memo:["Rose 🌹","Tournesol 🌻","Tulipe 🌷","Orchidée 🌸"],memoInstruction:"Mémorise l'ordre des fleurs !",q:"Quelle fleur est en 1ère position ?",choices:["Rose 🌹","Tournesol","Tulipe","Orchidée"],correct:0,xp:10,expl:"La Rose 🌹 était la première fleur !"},
+    {type:"memo",emoji:"🎸",memo:["Guitare 🎸","Piano 🎹","Violon 🎻","Tambour 🥁"],memoInstruction:"Mémorise l'ordre des instruments !",q:"Quel instrument est en 3ème ?",choices:["Guitare","Piano","Violon 🎻","Tambour"],correct:2,xp:10,expl:"Le Violon 🎻 était le 3ème instrument !"},
+    {type:"memo",emoji:"🍭",memo:["Rouge 🔴","Orange 🟠","Violet 🟣","Rose 🩷","Bleu 🔵"],memoInstruction:"Mémorise les 5 couleurs de bonbons !",q:"Quelle couleur est en 2ème ?",choices:["Rouge","Orange 🟠","Violet","Rose"],correct:1,xp:10,expl:"Orange 🟠 était le 2ème bonbon !"},
+    {type:"memo",emoji:"🏰",memo:["Château Rouge 🔴","Château Bleu 🔵","Château Or 🟡","Château Argenté ⚪"],memoInstruction:"Mémorise l'ordre des châteaux !",q:"Quel château est en dernier ?",choices:["Rouge","Bleu","Or","Argenté 🥈"],correct:3,xp:12,expl:"Le château Argenté 🥈 était le dernier !"},
+    {type:"memo",emoji:"🦋",memo:["Papillon Jaune 💛","Papillon Turquoise 🩵","Papillon Orange 🧡","Papillon Violet 💜","Papillon Vert 💚"],memoInstruction:"Mémorise ces 5 papillons colorés !",q:"Quel papillon est en 3ème position ?",choices:["Jaune","Turquoise","Orange 🧡","Violet"],correct:2,xp:12,expl:"Le papillon Orange 🧡 était en 3ème position !"}
+  ]},
+
+  {id:2,name:"Mémoire Auditive",icon:"👂",color:"t2",badge:"🎵",badgeName:"Oreille Musicale",questions:[
+    {type:"memo",emoji:"🎶",memo:["3","7","2","9"],memoInstruction:"Un professeur lit ces chiffres. Mémorise-les dans l'ordre !",q:"Quel chiffre a-t-il dit en premier ?",choices:["7","2","3 🔢","9"],correct:2,xp:10,expl:"Le chiffre 3 était le premier !"},
+    {type:"memo",emoji:"🐦",memo:["Do 🎵","Ré 🎵","Mi 🎵","Sol 🎵"],memoInstruction:"Un oiseau chante ces notes. Mémorise-les !",q:"Quelle note chante-t-il en dernier ?",choices:["Do","Ré","Mi","Sol 🎵"],correct:3,xp:10,expl:"Sol 🎵 était la dernière note !"},
+    {type:"memo",emoji:"🔊",memo:["Pomme 🍎","Banane 🍌","Cerise 🍒","Mangue 🥭"],memoInstruction:"Un robot dit ces fruits. Mémorise-les dans l'ordre !",q:"Quel fruit a-t-il dit en 2ème ?",choices:["Pomme","Banane 🍌","Cerise","Mangue"],correct:1,xp:10,expl:"Banane 🍌 était le 2ème fruit !"},
+    {type:"memo",emoji:"🎯",memo:["Vert 🟢","Rouge 🔴","Bleu 🔵","Jaune 🟡"],memoInstruction:"Un entraîneur crie ces couleurs. Mémorise-les !",q:"En quelle position est Bleu ?",choices:["1ère","2ème","3ème 🔵","4ème"],correct:2,xp:10,expl:"Bleu 🔵 était en 3ème position !"},
+    {type:"memo",emoji:"🌊",memo:["Vague 🌊","Dauphin 🐬","Sirène 🧜","Tempête ⛈️","Calme 😌"],memoInstruction:"Mémorise ces 5 sons de la mer !",q:"Lequel est en 4ème position ?",choices:["Vague","Dauphin","Sirène","Tempête ⛈️"],correct:3,xp:12,expl:"Tempête ⛈️ était le 4ème son !"},
+    {type:"memo",emoji:"📻",memo:["Lucas","Amina","Théo"],memoInstruction:"La radio diffuse ces 3 prénoms !",q:"Lequel est au milieu ?",choices:["Lucas","Amina 👧","Théo","Marie"],correct:1,xp:10,expl:"Amina 👧 était le prénom du milieu !"},
+    {type:"memo",emoji:"🎺",memo:["Trompette 🎺","Tuba 🎺","Flûte 🎵","Tambour 🥁"],memoInstruction:"Une fanfare joue ces instruments dans l'ordre !",q:"Lequel joue en 1er ?",choices:["Trompette 🎺","Tuba","Flûte","Tambour"],correct:0,xp:10,expl:"La Trompette 🎺 était le premier instrument !"},
+    {type:"memo",emoji:"🌙",memo:["Chouette 🦉","Chauve-souris 🦇","Renard 🦊","Hérisson 🦔","Loup 🐺"],memoInstruction:"Mémorise ces 5 animaux nocturnes !",q:"Lequel est en 2ème ?",choices:["Chouette","Chauve-souris 🦇","Renard","Hérisson"],correct:1,xp:10,expl:"La Chauve-souris 🦇 était le 2ème animal nocturne !"},
+    {type:"normal",emoji:"🔔",q:"Une cloche sonne 5 fois. Quel numéro représente le milieu de ces 5 sons ?",sc:"Ding ! Ding ! Ding ! Ding ! Ding !",choices:["1","2","3 🔔","5"],correct:2,xp:12,expl:"Le 3ème son est au milieu de 5 sons : 1–2–3–4–5 !"},
+    {type:"memo",emoji:"🎙️",memo:["Paris 🗼","Lyon","Dakar 🌍","Tokyo 🗾"],memoInstruction:"Un journaliste annonce ces 4 villes !",q:"Laquelle est en 3ème ?",choices:["Paris","Lyon","Dakar 🌍","Tokyo"],correct:2,xp:12,expl:"Dakar 🌍 était la 3ème ville !"}
+  ]},
+
+  {id:3,name:"Mémoire de Travail",icon:"⚙️",color:"t3",badge:"🔧",badgeName:"Cerveau Turbo",questions:[
+    {type:"think",emoji:"🧮",q:"Calcule dans ta tête : 4 + 3 = ? Maintenant ajoute 2. Quel est le résultat final ?",sc:"Fais le calcul étape par étape dans ta tête sans écrire !",choices:["7","8","9 ✅","10"],correct:2,xp:12,expl:"4+3=7, puis 7+2=9 ✅ ! La mémoire de travail gère les étapes."},
+    {type:"normal",emoji:"🔤",q:"Mémorise ces lettres : A, C, E. Maintenant, dis la lettre qui vient APRÈS C dans l'alphabet.",sc:"Garde les lettres A-C-E dans ta tête et pense à l'alphabet…",choices:["B","D 🔤","F","G"],correct:1,xp:12,expl:"Après C dans l'alphabet vient D 🔤 !"},
+    {type:"think",emoji:"🎲",q:"Un dé montre 5. On enlève 2. Puis on ajoute 4. Quel est le résultat ?",sc:"Visualise le dé qui change de chiffre dans ta tête…",choices:["6","7 🎲","8","9"],correct:1,xp:12,expl:"5-2=3, puis 3+4=7 🎲 !"},
+    {type:"memo",emoji:"🌈",memo:["Rouge = 1 🔴","Bleu = 2 🔵","Vert = 3 🟢"],memoInstruction:"Mémorise ce code couleur-chiffre !",q:"Quelle couleur correspond au chiffre 2 ?",choices:["Rouge","Bleu 🔵","Vert","Jaune"],correct:1,xp:12,expl:"Bleu 🔵 correspond au chiffre 2 !"},
+    {type:"think",emoji:"🏃",q:"Un coureur fait 3 tours, puis 2 tours supplémentaires, puis recule de 1 tour. Combien de tours au total ?",sc:"Imagine le coureur sur la piste, compte ses tours…",choices:["3","4 🏃","5","6"],correct:1,xp:14,expl:"3+2=5, puis 5-1=4 🏃 tours au total !"},
+    {type:"think",emoji:"📦",q:"Une boîte contient 8 billes. On en enlève 3, puis on en remet 5. Combien de billes y a-t-il ?",sc:"Visualise les billes qui entrent et sortent…",choices:["8","9","10 📦","11"],correct:2,xp:14,expl:"8-3=5, puis 5+5=10 📦 billes !"},
+    {type:"normal",emoji:"🔢",q:"Retiens : 2, 4, 6, ?. Quelle est la règle et le prochain chiffre ?",sc:"Observe le pattern des chiffres…",choices:["7","8 🔢","9","10"],correct:1,xp:14,expl:"La règle est +2 ! 6+2=8 🔢. C'est la suite des nombres pairs."},
+    {type:"think",emoji:"🗓️",q:"Lundi est dans 3 jours. Quel jour sommes-nous si Lundi = jour 1 ?",sc:"Compte à rebours dans ta tête…",choices:["Vendredi","Samedi 📅","Dimanche","Jeudi"],correct:1,xp:12,expl:"Si dans 3 jours c'est lundi, aujourd'hui c'est samedi 📅 !"},
+    {type:"think",emoji:"🧊",q:"Un cube a 6 faces. Si tu enlèves 2 faces, combien en reste-t-il ? Multiplie par 2.",sc:"Visualise le cube dans ta tête…",choices:["6","8 🧊","10","12"],correct:1,xp:14,expl:"6-2=4 faces, puis 4×2=8 🧊 !"},
+    {type:"think",emoji:"🎯",q:"Tu as 10 fléchettes. Tu rates 4, tu marques 6. Tu rejoues et rates 2. Combien de succès au total ?",sc:"Compte tes réussites…",choices:["6","7","8 🎯","9"],correct:2,xp:14,expl:"6 succès (1ère manche). 2ème manche : 10-2=8 succès totaux 🎯 !"}
+  ]},
+
+  {id:4,name:"Attention & Concentration",icon:"🎯",color:"t4",badge:"🔭",badgeName:"Super Focus",questions:[
+    {type:"normal",emoji:"🔍",q:"Combien de fois la lettre 'A' apparaît dans : BANANE ANANAS AVOCAT ?",sc:"Lis attentivement et compte chaque lettre A…",choices:["5","6","7 🔍","8"],correct:2,xp:10,expl:"B-A-N-A-N-E (2A) + A-N-A-N-A-S (3A) + A-V-O-C-A-T (2A) = 7 A 🔍 !"},
+    {type:"normal",emoji:"👀",q:"Dans la liste suivante, trouve l'intrus : Chien, Chat, Lapin, Souris, POMME, Hamster.",sc:"Observe attentivement chaque mot…",choices:["Souris","Lapin","Pomme 🍎","Hamster"],correct:2,xp:10,expl:"POMME 🍎 est l'intrus ! Les autres sont des animaux de compagnie."},
+    {type:"normal",emoji:"🔢",q:"Compte les chiffres pairs dans : 1, 4, 7, 2, 9, 6, 3, 8, 5, 10",sc:"Focalise-toi uniquement sur les chiffres pairs…",choices:["3","4","5 🔢","6"],correct:2,xp:12,expl:"Les pairs : 4, 2, 6, 8, 10 = 5 chiffres pairs 🔢 !"},
+    {type:"memo",emoji:"🎨",memo:["Rouge 🔴","Rouge 🔴","Bleu 🔵","Rouge 🔴","Rouge 🔴"],memoInstruction:"Regarde attentivement cette séquence de couleurs !",q:"Quelle couleur est différente des autres ?",choices:["1ère Rouge","2ème Rouge","Bleu 🔵","4ème Rouge"],correct:2,xp:10,expl:"Bleu 🔵 est la seule couleur différente !"},
+    {type:"normal",emoji:"📝",q:"Combien de mots commencent par 'S' dans : Soleil, Lune, Singe, Mer, Serpent, Étoile, Sourire",sc:"Lis chaque mot et repère ceux qui commencent par S…",choices:["2","3","4 📝","5"],correct:2,xp:12,expl:"Soleil, Singe, Serpent, Sourire = 4 mots par S 📝 !"},
+    {type:"normal",emoji:"🧩",q:"Lequel de ces nombres est différent : 2, 4, 6, 8, 7, 10 ?",sc:"Cherche le nombre qui ne respecte pas la règle…",choices:["4","6","7 🔢","8"],correct:2,xp:12,expl:"7 est l'intrus ! Tous les autres sont pairs 🔢 !"},
+    {type:"normal",emoji:"🌺",q:"Combien de fois apparaît le mot SOLEIL : 'SOLEIL brille, le SOLEIL est chaud, j'aime le SOLEIL.'",sc:"Lis attentivement et compte chaque occurrence…",choices:["1","2","3 ☀️","4"],correct:2,xp:10,expl:"SOLEIL apparaît 3 fois ☀️ !"},
+    {type:"normal",emoji:"⚡",q:"Dans : 1 2 3 4 5 6 7 8 9 10, quelle est la somme des chiffres impairs ?",sc:"1+3+5+7+9 = ?",choices:["20","25 ⚡","30","35"],correct:1,xp:14,expl:"1+3+5+7+9=25 ⚡ !"},
+    {type:"normal",emoji:"🏆",q:"Combien d'animaux à 4 pattes : chien, poisson, chat, papillon, lapin, araignée ?",sc:"Réfléchis à chaque animal…",choices:["2","3 🏆","4","5"],correct:1,xp:12,expl:"Chien(4), Chat(4), Lapin(4) = 3 animaux à 4 pattes 🏆 !"},
+    {type:"normal",emoji:"🌟",q:"Dans LUMIÈRE, quelle planète se cache ? (L-U-M-I-È-R-E)",sc:"Cherche une planète cachée dans les lettres…",choices:["Mars","Lune 🌙","Terre","Soleil"],correct:1,xp:14,expl:"LUNE se cache dans LUMIÈRE 🌙 !"}
+  ]},
+
+  {id:5,name:"Observation",icon:"🔭",color:"t1",badge:"🦅",badgeName:"Œil d'Aigle",questions:[
+    {type:"normal",emoji:"🔎",q:"Erreur dans la phrase : 'Le chat mange le SOURIES dans la cuisine.' Qu'est-ce qui est incorrect ?",sc:"Lis attentivement chaque mot…",choices:["Le mot 'chat'","SOURIES (doit être SOURIS) 🐭","Le mot 'mange'","'cuisine'"],correct:1,xp:8,expl:"SOURIES est mal orthographié ! Le mot correct est SOURIS 🐭."},
+    {type:"normal",emoji:"🔍",q:"Dans : 1, 2, 3, 4, 6, 7, 8 — quel chiffre manque ?",sc:"Observe la séquence et repère le chiffre absent…",choices:["3","4","5 🔢","6"],correct:2,xp:8,expl:"Le chiffre 5 manque entre 4 et 6 🔢 !"},
+    {type:"normal",emoji:"🎭",q:"Combien de différences entre SOLEIL et SOLIEL ?",sc:"Compare les deux mots lettre par lettre…",choices:["0","1 📝","2","3"],correct:1,xp:8,expl:"1 différence : E et I sont inversés 📝 !"},
+    {type:"normal",emoji:"🌍",q:"Parmi ces capitales, laquelle est incorrecte : Paris-France, Rome-Italie, Berlin-Portugal, Tokyo-Japon ?",sc:"Vérifie tes connaissances géographiques…",choices:["Paris-France","Rome-Italie","Berlin-Portugal 🌍","Tokyo-Japon"],correct:2,xp:10,expl:"Berlin est la capitale de l'Allemagne, pas du Portugal ! 🌍"},
+    {type:"normal",emoji:"🔢",q:"Quelle équation est FAUSSE ? A: 5×5=25 / B: 4×6=24 / C: 3×7=22 / D: 2×9=18",sc:"Vérifie mentalement chaque calcul…",choices:["5×5=25","4×6=24","3×7=22 ❌","2×9=18"],correct:2,xp:10,expl:"3×7=21, PAS 22 ❌ !"},
+    {type:"normal",emoji:"🎨",q:"Quelle couleur n'est PAS dans l'arc-en-ciel : rouge, orange, rose, jaune, vert, bleu, violet ?",sc:"Rappelle-toi les 7 couleurs de l'arc-en-ciel…",choices:["Orange","Rose 🌸","Jaune","Vert"],correct:1,xp:10,expl:"Rose 🌸 n'est pas dans l'arc-en-ciel !"},
+    {type:"think",emoji:"🐾",q:"Un animal a 4 pattes, des ailes et un bec. Qu'est-ce qui ne va pas dans cette description ?",sc:"Réfléchis : un vrai animal peut-il avoir 4 pattes ET des ailes ET un bec ?",choices:["4 pattes","Les ailes","4 pattes + ailes ensemble 🤔","Le bec"],correct:2,xp:10,expl:"Les oiseaux ont 2 pattes + 2 ailes. 4 pattes + ailes = impossible dans la nature réelle 🤔 !"},
+    {type:"normal",emoji:"📚",q:"Trouve l'erreur : 'En 1969, Neil Amstrong est allé sur la MARS.'",sc:"Lis attentivement cette phrase historique…",choices:["L'année 1969","Neil Amstrong (mauvaise orthographe)","MARS (c'était la Lune) 🌙","Le mot 'allé'"],correct:2,xp:10,expl:"Neil Armstrong est allé sur la LUNE 🌙, pas sur Mars !"},
+    {type:"normal",emoji:"🔮",q:"Quelle est l'erreur dans : Lundi, Mardi, Mercredi, Vendredi, Jeudi ?",sc:"Connais-tu l'ordre des jours de la semaine ?",choices:["Lundi","Mercredi","Vendredi avant Jeudi 📅","Mardi"],correct:2,xp:10,expl:"Vendredi et Jeudi sont dans le mauvais ordre 📅 !"},
+    {type:"normal",emoji:"🌟",q:"Erreur dans : '2+2=4, 3+3=6, 4+4=9, 5+5=10'",sc:"Vérifie chaque calcul attentivement…",choices:["2+2=4","3+3=6","4+4=9 ❌","5+5=10"],correct:2,xp:10,expl:"4+4=8, PAS 9 ❌ !"}
+  ]},
+
+  {id:6,name:"Logique & Raisonnement",icon:"🧩",color:"t2",badge:"🔬",badgeName:"Génie Logique",questions:[
+    {type:"normal",emoji:"🔢",q:"Suite logique : 2, 4, 8, 16, ? Quel est le prochain nombre ?",sc:"Observe comment chaque nombre est lié au suivant…",choices:["18","24","32 🔢","28"],correct:2,xp:12,expl:"Chaque nombre est multiplié par 2 ! 16×2=32 🔢 !"},
+    {type:"think",emoji:"🌡️",q:"Si A=1, B=2, C=3… quel est le code pour le mot CAT ?",sc:"Transforme chaque lettre en son chiffre…",choices:["1-3-2","3-1-20 🔢","1-2-3","2-1-3"],correct:1,xp:12,expl:"C=3, A=1, T=20 donc CAT = 3-1-20 🔢 !"},
+    {type:"think",emoji:"🏠",q:"Tous les chats sont des animaux. Felix est un chat. Donc Felix est…",sc:"Utilise le raisonnement logique…",choices:["Un chien","Un animal 🐾","Une plante","Un oiseau"],correct:1,xp:12,expl:"Felix est un animal 🐾 ! C'est un syllogisme logique."},
+    {type:"normal",emoji:"🔺",q:"Triangle(3 côtés), Carré(4), Pentagone(5), ?(6 côtés). Quelle forme ?",sc:"Chaque forme a un côté de plus que la précédente…",choices:["Hexagone 🔷","Octogone","Heptagone","Carré"],correct:0,xp:12,expl:"L'Hexagone 🔷 a 6 côtés !"},
+    {type:"think",emoji:"🎯",q:"Marie est plus grande que Paul. Paul est plus grand que Léa. Qui est le plus petit ?",sc:"Établis l'ordre de taille dans ta tête…",choices:["Marie","Paul","Léa 👧","On ne sait pas"],correct:2,xp:14,expl:"Léa 👧 est la plus petite ! Marie > Paul > Léa."},
+    {type:"think",emoji:"⏰",q:"Si demain c'est Vendredi, quel jour était avant-hier ?",sc:"Compte les jours en reculant…",choices:["Lundi","Mardi 📅","Mercredi","Dimanche"],correct:1,xp:14,expl:"Demain=Vendredi → aujourd'hui=Jeudi → hier=Mercredi → avant-hier=Mardi 📅 !"},
+    {type:"normal",emoji:"🧪",q:"Tous les carrés ont 4 côtés. Cette figure a 3 côtés. Est-elle un carré ?",sc:"Applique la logique…",choices:["Oui","Non, c'est un triangle 🔺","Peut-être","On ne sait pas"],correct:1,xp:12,expl:"Non ! 3 côtés = triangle 🔺, pas un carré !"},
+    {type:"think",emoji:"🚂",q:"Un train part à 8h00 et arrive à 11h30. Combien de temps dure le trajet ?",sc:"Calcule la durée entre le départ et l'arrivée…",choices:["2h30","3h","3h30 🚂","4h"],correct:2,xp:14,expl:"11h30 - 8h00 = 3 heures 30 minutes 🚂 !"},
+    {type:"think",emoji:"🌙",q:"Si 4 robots font un travail en 8 heures, combien d'heures pour 8 robots ?",sc:"Si tu doubles le nombre de robots…",choices:["16h","8h","4h 🤖","2h"],correct:2,xp:14,expl:"4h 🤖 ! Doubler les robots divise le temps : 8h÷2=4h."},
+    {type:"normal",emoji:"⭐",q:"Quel nombre ne peut PAS être obtenu en additionnant 2 nombres impairs ?",sc:"Rappelle-toi : impair + impair = ?",choices:["4","8","7 🔢","10"],correct:2,xp:14,expl:"Impair + Impair = TOUJOURS Pair ! Donc 7 (impair) est impossible 🔢 !"}
+  ]},
+
+  {id:7,name:"Intelligence Spatiale",icon:"🗺️",color:"t3",badge:"🧭",badgeName:"Navigateur Expert",questions:[
+    {type:"think",emoji:"🧭",q:"Tu marches vers le Nord, tu tournes à droite de 90°. Dans quelle direction vas-tu ?",sc:"Imagine une boussole dans ta tête…",choices:["Nord","Sud","Est 🧭","Ouest"],correct:2,xp:10,expl:"Nord + tourner à droite = Est 🧭 !"},
+    {type:"think",emoji:"🔮",q:"Un cube a combien d'arêtes (bords) ?",sc:"Visualise un cube en 3D…",choices:["6","8","12 📦","16"],correct:2,xp:10,expl:"Un cube a 12 arêtes 📦 !"},
+    {type:"think",emoji:"🗺️",q:"Tu vas 3 pas à droite, 2 en haut, 1 à gauche. Combien de pas de ton point de départ en horizontal ?",sc:"Trace mentalement ta trajectoire…",choices:["1 pas","2 pas ➡️","3 pas","4 pas"],correct:1,xp:12,expl:"Droite 3, puis gauche 1 : tu es à 2 pas de ton départ !"},
+    {type:"think",emoji:"🔷",q:"Combien de faces a une pyramide à base carrée ?",sc:"Imagine une pyramide d'Égypte…",choices:["4","5 🔺","6","8"],correct:1,xp:10,expl:"5 faces 🔺 : 1 carré en bas et 4 triangles sur les côtés !"},
+    {type:"think",emoji:"🌀",q:"Si tu fais pivoter la lettre 'd' de 180°, que vois-tu ?",sc:"Fais tourner la lettre dans ta tête…",choices:["p","q 🔄","b","d"],correct:1,xp:12,expl:"En pivotant 'd' de 180°, tu obtiens 'q' 🔄 !"},
+    {type:"think",emoji:"🧩",q:"Combien de petits cubes pour former un grand cube de 2×2×2 ?",sc:"Pense aux dimensions : longueur × largeur × hauteur…",choices:["4","6","8 📦","12"],correct:2,xp:12,expl:"2×2×2=8 petits cubes 📦 !"},
+    {type:"think",emoji:"🔄",q:"Une feuille carrée pliée en deux donne quelle forme ?",sc:"Imagine plier une feuille carrée en deux…",choices:["Un carré plus petit","Un rectangle 📄","Un triangle","Un cercle"],correct:1,xp:10,expl:"En pliant un carré en deux, on obtient un rectangle 📄 !"},
+    {type:"think",emoji:"🌐",q:"Sur une carte, le Nord est en haut. Si tu regardes vers l'Ouest, que vois-tu à ta droite ?",sc:"Oriente-toi mentalement sur la carte…",choices:["Nord 🧭","Sud","Est","Ouest"],correct:1,xp:12,expl:"Si tu regardes vers l'Ouest, le Nord est à ta droite 🧭 !"},
+    {type:"normal",emoji:"🎯",q:"Une pièce roule d'un bout à l'autre d'une table de 30cm. Quelle forme trace-t-elle ?",sc:"Visualise la trajectoire d'une pièce qui roule…",choices:["Un cercle","Un zigzag","Une ligne droite 📏","Un carré"],correct:2,xp:10,expl:"La pièce trace une ligne droite 📏 !"},
+    {type:"think",emoji:"🔮",q:"Combien de lignes de symétrie a un cercle parfait ?",sc:"Une ligne de symétrie partage une forme en deux parties identiques…",choices:["1","4","8","Infinie ∞"],correct:3,xp:14,expl:"Un cercle a une infinité ∞ de lignes de symétrie !"}
+  ]},
+
+  {id:8,name:"Créativité",icon:"🎨",color:"t4",badge:"🌈",badgeName:"Artiste Visionnaire",questions:[
+    {type:"free",emoji:"💡",q:"À quoi d'autre pourrait servir un stylo à part écrire ? Choisis la réponse la plus CRÉATIVE.",sc:"Pense hors des sentiers battus ! Sois le plus original possible. Lis bien toutes les options !",choices:["Griffonner","Pointer vers un écran, faire un bâton de tambour, mesurer ou décorer 🎨","Souligner","Corriger"],correct:1,xp:10,expl:"La créativité, c'est voir 1000 usages là où les autres n'en voient qu'un ! 🎨"},
+    {type:"free",emoji:"🌙",q:"Invente un animal imaginaire en mélangeant 2 vrais animaux. Laquelle est la plus ORIGINALE ?",sc:"Laisse ton imagination créer un animal fantastique unique !",choices:["Chat + Chien = Chatigre","Dauphin + Aigle = animal qui nage ET vole ! 🦅🐬","Cheval + Vache","Lion + Tigre"],correct:1,xp:10,expl:"Le Dauphin-Aigle est la combinaison la plus originale et fonctionnelle ! 🦅🐬"},
+    {type:"free",emoji:"🚀",q:"Pour aller plus vite à l'école, quelle invention CRÉATIVE proposes-tu ?",sc:"Imagine une invention fantastique et originale ! Il n'y a pas de mauvaise idée en créativité.",choices:["Un vélo plus rapide","Un scooter électrique","Un téléporteur à sac à dos ou un tube pneumatique souterrain 🚀","Un bus"],correct:2,xp:10,expl:"Le téléporteur ou tube pneumatique = idée vraiment créative et futuriste 🚀 !"},
+    {type:"free",emoji:"🎭",q:"Comment rendre les mathématiques PLUS AMUSANTES en classe ?",sc:"Pense à des façons révolutionnaires d'apprendre. Prends le temps de lire chaque option.",choices:["Faire plus d'exercices","Apprendre avec des chansons, danses et jeux vidéo éducatifs 🎵","Regarder le tableau","Lire le livre"],correct:1,xp:10,expl:"Musique + mouvement + jeux = apprentissage créatif et efficace 🎵 !"},
+    {type:"free",emoji:"🌍",q:"Pour nettoyer les océans, quelle invention est la plus CRÉATIVE ?",sc:"La planète a besoin d'inventeurs comme toi ! Lis attentivement chaque solution.",choices:["Pêcher les déchets à la main","Des bateaux robots aspirateurs solaires qui trient automatiquement 🌊🤖","Mettre des panneaux","Faire des lois"],correct:1,xp:12,expl:"Des bateaux-robots solaires = solution créative, écologique et scalable 🌊🤖 !"},
+    {type:"free",emoji:"🎸",q:"Comment aider quelqu'un de triste ? Choisis la réponse la plus CRÉATIVE et empathique.",sc:"La créativité s'applique aussi aux relations humaines…",choices:["Le laisser seul","Lui offrir un livre de blagues","Créer une boîte à bonheur remplie de souvenirs positifs et petits mots d'amour 💝","Lui donner des bonbons"],correct:2,xp:10,expl:"La boîte à bonheur est créative et profondément empathique 💝 !"},
+    {type:"free",emoji:"🏙️",q:"Imagine la ville du futur. Quelle idée est la plus créative et utile ?",sc:"Projette-toi dans 50 ans et conçois la ville idéale ! Lis bien toutes les options.",choices:["Plus de parkings","Plus d'immeubles","Des jardins suspendus, fermes urbaines, énergie solaire et transports magnétiques 🏙️","Plus de routes"],correct:2,xp:12,expl:"Ville verte, autonome en énergie et nourriture = le futur créatif 🏙️ !"},
+    {type:"free",emoji:"📚",q:"Comment rendre la lecture PLUS MAGIQUE pour les enfants ?",sc:"Les meilleurs inventeurs améliorent les choses qu'on aime déjà…",choices:["Plus de livres obligatoires","Des livres à pages blanches","Des livres AR (réalité augmentée) où les personnages sortent des pages 📚✨","Des livres plus épais"],correct:2,xp:10,expl:"Les livres en réalité augmentée = aventure interactive 📚✨ !"},
+    {type:"free",emoji:"🌱",q:"Pour manger sainement, quelle solution créative proposes-tu ?",sc:"Pense à une solution originale pour encourager les enfants…",choices:["Forcer les enfants","Faire des punitions","Des restaurants où les légumes sont des personnages et héros comestibles 🥦🦸","Supprimer le sucre"],correct:2,xp:10,expl:"Des légumes-héros = relation positive et ludique avec les aliments sains 🥦🦸 !"},
+    {type:"free",emoji:"💎",q:"Invente un nouveau sport. Laquelle est la plus ORIGINALE ?",sc:"Les sports du futur mélangent technologie et mouvement ! Prends le temps de lire.",choices:["Football modifié","Basketball en piscine","Gravity Ball : sport avec combinaisons anti-gravité en 3D dans une arène spatiale ! 🚀⚽","Tennis plus rapide"],correct:2,xp:12,expl:"Gravity Ball = technologie + mouvement 3D + imagination pure 🚀⚽ !"}
+  ]},
+
+  {id:9,name:"Curiosité Intellectuelle",icon:"🔬",color:"t1",badge:"🌍",badgeName:"Explorateur Curieux",questions:[
+    {type:"think",emoji:"🌍",q:"Pourquoi le ciel est-il bleu le jour et rouge/orange au coucher du soleil ?",sc:"C'est l'une des plus belles questions de la science !",choices:["Par magie","À cause du soleil qui change de couleur","La lumière se disperse différemment selon l'angle – bleu le jour, rouge le soir 🌅","À cause des nuages"],correct:2,xp:10,expl:"L'atmosphère disperse la lumière bleue le jour et laisse passer le rouge quand le soleil est bas 🌅 !"},
+    {type:"think",emoji:"🧬",q:"Combien de cellules approximativement dans le corps humain ?",sc:"Notre corps est une ville microscopique incroyable…",choices:["1 million","1 milliard","37 000 milliards 🔬","100 millions"],correct:2,xp:10,expl:"Le corps contient ~37 000 milliards de cellules 🔬 !"},
+    {type:"free",emoji:"🌊",q:"Quel pourcentage des océans a été exploré par les humains ?",sc:"Les océans restent un grand mystère pour l'humanité… Lis bien chaque réponse avant de choisir.",choices:["80%","50%","30%","Moins de 20% 🌊"],correct:3,xp:10,expl:"Moins de 20% 🌊 des océans ont été explorés !"},
+    {type:"think",emoji:"⚡",q:"Pourquoi le tonnerre arrive APRÈS l'éclair ?",sc:"Tu as déjà observé ce phénomène pendant un orage ?",choices:["L'éclair est plus fort","Le son voyage moins vite que la lumière ⚡🔊","Le tonnerre est plus loin","Par hasard"],correct:1,xp:10,expl:"La lumière = 300 000 km/s, le son = 340 m/s seulement ⚡🔊 !"},
+    {type:"free",emoji:"🐝",q:"Pourquoi les abeilles sont-elles essentielles à la survie de l'humanité ?",sc:"Sans elles, notre nourriture serait en grand danger ! Prends le temps de lire chaque option.",choices:["Pour faire du miel","Pour leur beauté","Pour la pollinisation qui permet à 80% des plantes de se reproduire 🌺","Pour faire de la cire"],correct:2,xp:12,expl:"Les abeilles pollinisent 80% des plantes 🌺 ! Sans elles, la plupart des fruits disparaîtraient."},
+    {type:"think",emoji:"🚀",q:"Combien de temps la lumière du Soleil met-elle pour atteindre la Terre ?",sc:"Le Soleil est à environ 150 millions de kilomètres de nous…",choices:["1 seconde","1 heure","8 minutes environ ☀️","1 jour"],correct:2,xp:10,expl:"La lumière du Soleil met ~8 minutes ☀️ pour voyager jusqu'à nous !"},
+    {type:"think",emoji:"🧠",q:"Le cerveau humain contient environ combien de neurones ?",sc:"Notre cerveau est l'objet le plus complexe de l'univers…",choices:["1 milliard","86 milliards 🧠","500 millions","1 trillion"],correct:1,xp:10,expl:"~86 milliards de neurones 🧠, chacun connecté à des milliers d'autres !"},
+    {type:"think",emoji:"🌙",q:"Pourquoi voit-on toujours la même face de la Lune depuis la Terre ?",sc:"C'est un mystère apparent avec une belle explication…",choices:["La Lune ne tourne pas","La Lune tourne en même temps qu'elle orbite, montrant toujours la même face 🌕","La Lune est collée","Par coïncidence"],correct:1,xp:12,expl:"La Lune fait une rotation en exactement le même temps qu'elle tourne autour de la Terre 🌕 !"},
+    {type:"normal",emoji:"💧",q:"Quelle est la substance la plus abondante sur Terre ?",sc:"Pense à ce qui couvre la majorité de la surface…",choices:["Le pétrole","L'air","L'eau 💧","Le sable"],correct:2,xp:8,expl:"L'eau 💧 couvre 71% de la surface de la Terre !"},
+    {type:"think",emoji:"🦋",q:"Qu'est-ce qui se passe VRAIMENT dans un cocon pendant la métamorphose ?",sc:"C'est l'un des phénomènes les plus fascinants de la biologie…",choices:["La chenille grandit","Elle se transforme lentement","La chenille se liquéfie presque entièrement avant de se reconstruire 🦋","Elle dort"],correct:2,xp:12,expl:"La chenille se LIQUÉFIE presque complètement 🦋 et se réorganise entièrement !"}
+  ]},
+
+  {id:10,name:"Résolution de Problèmes",icon:"⚙️",color:"t2",badge:"🛠️",badgeName:"Solutionneur Pro",questions:[
+    {type:"free",emoji:"🌉",q:"Tu dois traverser une rivière avec un renard, une poule et du grain. Le bateau n'a que 2 places. Que fais-tu en premier ?",sc:"⚠️ Attention : le renard mange la poule, la poule mange le grain si tu les laisses ensemble ! Lis chaque option.",choices:["Prendre le renard","Prendre la poule 🐓 (elle ne mange rien seule)","Prendre le grain","Tout ensemble"],correct:1,xp:14,expl:"On commence par la poule 🐓 ! Elle ne peut pas être laissée seule avec le renard ou le grain."},
+    {type:"free",emoji:"💧",q:"Tu as un seau de 5L et un de 3L. Comment mesurer exactement 4L ?",sc:"Pense aux transferts possibles entre les deux seaux… Prends bien le temps de lire la solution détaillée.",choices:["Impossible","Remplir le 5L → verser dans le 3L → vider le 3L → vider le reste du 5L dans le 3L → remplir le 5L → compléter le 3L = 4L restants 💧","Remplir à moitié","Deviner"],correct:1,xp:14,expl:"5L→3L (reste 2L dans 5L). Vider 3L. Mettre les 2L dans 3L. Remplir 5L. Compléter le 3L (1L seulement). Il reste 4L dans le 5L ! 💧"},
+    {type:"free",emoji:"🔑",q:"Une boîte fermée à clé contient la clé. Comment l'ouvrir sans briser la boîte ?",sc:"Pense à des approches non conventionnelles et créatives…",choices:["Casser la boîte","Une boîte avec un trou permet de tirer la clé avec un fil 🔑","Attendre","Abandonner"],correct:1,xp:12,expl:"Utilise un trou, un fil, ou une technique de serrurier ! 🔑 Il existe toujours une solution."},
+    {type:"free",emoji:"🎈",q:"Tu as 3 amis et 7 ballons. Comment les partager équitablement sans couper de ballons ?",sc:"Mathématiquement 7÷3 n'est pas entier… mais il y a une astuce ! Lis bien les options.",choices:["Impossible","2 chacun et tu gardes 1","Acheter 2 ballons supplémentaires → 9÷3=3 chacun 🎈","Couper un ballon"],correct:2,xp:12,expl:"Acheter 2 ballons supplémentaires (9÷3=3 chacun) 🎈 ! Les meilleurs solutionneurs redéfinissent le problème."},
+    {type:"free",emoji:"🌱",q:"Une plante a besoin d'eau mais tu pars 3 jours. Solution créative ?",sc:"Pense à une solution simple avec ce qu'on a à la maison…",choices:["Laisser mourir","Demander à quelqu'un","Système avec une bouteille percée retournée dans la terre 🌱💧","Rien faire"],correct:2,xp:12,expl:"Bouteille retournée percée = irrigation goutte-à-goutte DIY 🌱💧 !"},
+    {type:"free",emoji:"🧩",q:"Tu dois casser un chocolat en 12 carreaux en faisant le MOINS de cassures possible. Combien minimum ?",sc:"Réfléchis : chaque cassure divise une pièce en deux. Prends le temps de raisonner !",choices:["6","11 🍫","12","3"],correct:1,xp:14,expl:"Exactement 11 cassures 🍫 ! On commence avec 1 pièce, on veut 12 → 11 cassures."},
+    {type:"think",emoji:"⏰",q:"Il est 3h45 du matin. L'aiguille des heures pointe vers où ?",sc:"Visualise une horloge dans ta tête… 3h45 = presque 4h…",choices:["Entre 3 et 4 ⏰","Exactement sur 3","Entre 4 et 5","Sur le 9"],correct:0,xp:12,expl:"À 3h45, l'aiguille est entre 3 et 4 ⏰, aux ¾ du chemin vers 4 !"},
+    {type:"free",emoji:"🚪",q:"Tu es dans une pièce avec 2 portes : l'une = liberté, l'autre = danger. 2 gardes : un dit la vérité, l'autre ment. Tu poses 1 seule question. Laquelle ?",sc:"⚠️ Question classique de logique avancée. Lis très attentivement la 3ème option !",choices:["Quelle porte ?","Où est la sortie ?","'Que dirait l'AUTRE garde ?' Puis prendre l'AUTRE porte 🚪","Qui es-tu ?"],correct:2,xp:14,expl:"'Que dirait l'autre ?' 🚪 : Les deux gardes indiquent la MAUVAISE porte (l'un ment, l'autre relaie le mensonge), alors tu prends l'autre !"},
+    {type:"think",emoji:"🔢",q:"J'ai 6 œufs. J'en casse 2, j'en fais frire 2, j'en mange 2. Combien me reste-t-il ?",sc:"Lis TRÈS attentivement ! C'est un piège logique…",choices:["0 🥚","2","6","4"],correct:0,xp:14,expl:"Les mêmes 2 œufs ont été cassés, cuits ET mangés ! Il reste 0 🥚."},
+    {type:"free",emoji:"💡",q:"Comment faire entrer un éléphant dans un réfrigérateur en 3 étapes ?",sc:"Question de pensée latérale et logique créative ! La réponse la plus simple est souvent la bonne.",choices:["Impossible","1.Ouvrir le frigo 2.Mettre l'éléphant 3.Fermer le frigo 🐘","Agrandir le frigo","Couper l'éléphant"],correct:1,xp:10,expl:"La pensée latérale accepte la simplicité 🐘 : 1.Ouvrir 2.Entrer 3.Fermer !"}
+  ]},
+
+  {id:11,name:"Pensée Stratégique",icon:"♟️",color:"t3",badge:"♟️",badgeName:"Stratège Suprême",questions:[
+    {type:"free",emoji:"♟️",q:"Tu joues aux échecs contre un adversaire fort mais prévisible. Quelle est ta meilleure stratégie ?",sc:"Les grands stratèges pensent plusieurs coups à l'avance… Lis bien chaque option.",choices:["Attaquer immédiatement","Copier ses mouvements","Étudier ses habitudes, créer des situations imprévues et planifier 3 coups à l'avance ♟️","Défendre seulement"],correct:2,xp:12,expl:"Analyser + anticiper + créer la surprise ♟️ ! Les grands maîtres pensent 10-15 coups à l'avance."},
+    {type:"free",emoji:"🏆",q:"Tu veux gagner un tournoi de football. Par quoi commences-tu ?",sc:"La victoire se prépare longtemps avant le match…",choices:["S'entraîner dur seul","Espérer","Analyser les adversaires, identifier les points forts de l'équipe et créer une stratégie 🏆","Acheter de beaux équipements"],correct:2,xp:12,expl:"Analyser, planifier, adapter = la stratégie gagnante 🏆 !"},
+    {type:"free",emoji:"🎯",q:"Tu veux avoir 100/100 à un examen dans 30 jours. Quelle est ton approche ?",sc:"Planifie ta réussite comme un stratège ! Lis attentivement chaque option.",choices:["Étudier la veille","Pas besoin de plan","Créer un calendrier de révision progressif, identifier les lacunes et pratiquer régulièrement 📚","Copier sur un ami"],correct:2,xp:12,expl:"Planning + lacunes identifiées + pratique régulière = stratégie d'excellence 📚 !"},
+    {type:"free",emoji:"💼",q:"Tu veux créer une petite entreprise. Quelle est la PREMIÈRE étape stratégique ?",sc:"Tout grand entrepreneur commence par une étape fondamentale… Prends le temps de réfléchir.",choices:["Acheter des fournitures","Emprunter de l'argent","Identifier un problème que les gens ont et proposer une solution unique 💡","Créer un logo"],correct:2,xp:14,expl:"D'abord identifier un vrai problème à résoudre ! 💡 C'est la pensée entrepreneuriale."},
+    {type:"free",emoji:"🌍",q:"Comment résoudre un conflit entre deux amis qui se disputent ? Stratégie du médiateur.",sc:"La médiation est un art stratégique et diplomatique…",choices:["Choisir un camp","Les ignorer","Écouter les deux côtés séparément, trouver les intérêts communs et proposer un compromis 🤝","Se battre pour eux"],correct:2,xp:12,expl:"Écouter → Comprendre → Compromis 🤝 ! C'est la stratégie de médiation professionnelle."},
+    {type:"free",emoji:"⚡",q:"Tu dois accomplir 10 tâches en 1 heure. Que fais-tu en premier ?",sc:"La gestion des priorités est une compétence stratégique clé…",choices:["La tâche la plus longue","La plus facile","Classer par importance et urgence (Matrice Eisenhower) et attaquer les prioritaires d'abord ⚡","La première de la liste"],correct:2,xp:14,expl:"La Matrice Eisenhower classe par Urgent/Important ⚡ !"},
+    {type:"free",emoji:"🔮",q:"Tu prévois un projet de 3 mois. Quelle est ta stratégie anti-risques ?",sc:"Les grands stratèges anticipent les obstacles avant qu'ils arrivent…",choices:["Espérer que tout ira bien","Ignorer les risques","Identifier les risques possibles et préparer un Plan B pour chacun 🔮","Commencer sans plan"],correct:2,xp:12,expl:"Anticiper + Plan B = résilience stratégique 🔮 !"},
+    {type:"free",emoji:"🌱",q:"Comment faire grandir rapidement une communauté ou un club scolaire ?",sc:"La croissance stratégique suit des principes éprouvés…",choices:["Attendre que les gens viennent","Acheter de la publicité","Créer de la valeur, mobiliser les membres comme ambassadeurs et offrir une raison de revenir 🌱","Forcer les gens"],correct:2,xp:12,expl:"Valeur + Ambassadeurs + Fidélisation = croissance organique puissante 🌱 !"},
+    {type:"free",emoji:"🧠",q:"Pour améliorer tes notes durablement, quelle est la MEILLEURE stratégie ?",sc:"La réussite scolaire a des principes scientifiquement prouvés…",choices:["Mémoriser par cœur","Faire des nuits blanches","Espacer les révisions, s'expliquer les concepts à voix haute et faire des tests fréquents 🧠","Copier les résumés"],correct:2,xp:14,expl:"Révision espacée + Test pratique = apprentissage profond 🧠 !"},
+    {type:"free",emoji:"🏅",q:"Tu perds un match important. Quelle est la réaction d'un vrai stratège ?",sc:"Comment les champions réagissent-ils à la défaite ? Réfléchis avant de répondre.",choices:["Abandonner le sport","Blâmer les autres","Analyser objectivement ce qui n'a pas fonctionné et créer un plan d'amélioration 🏅","Pleurer et ne plus jouer"],correct:2,xp:12,expl:"Analyser → Apprendre → Améliorer 🏅 ! La défaite est la meilleure école."}
+  ]},
+
+  {id:12,name:"Interprétation des Données",icon:"📊",color:"t4",badge:"📊",badgeName:"Analyste Expert",questions:[
+    {type:"think",emoji:"📊",q:"Dans une classe, 15 élèves aiment les maths, 10 le français, 5 aiment les deux. Combien aiment SEULEMENT les maths ?",sc:"Utilise la logique des ensembles…",choices:["15","5","10 🔢","20"],correct:2,xp:12,expl:"15 aiment les maths dont 5 aussi le français → 15-5=10 aiment SEULEMENT les maths 🔢 !"},
+    {type:"think",emoji:"📈",q:"Ventes : Lundi 20, Mardi 25, Mercredi 30. Si la tendance continue, combien Jeudi ?",sc:"Observe la progression régulière et projette…",choices:["30","35 📈","40","25"],correct:1,xp:12,expl:"La progression est +5 par jour ! 20→25→30→35 📈."},
+    {type:"think",emoji:"🍕",q:"40% des élèves préfèrent la pizza, 30% les pâtes, 30% le riz. Dans une classe de 30, combien préfèrent la pizza ?",sc:"Calcule 40% de 30 élèves…",choices:["10","12 🍕","15","14"],correct:1,xp:12,expl:"40% de 30 = 0,40 × 30 = 12 🍕 élèves !"},
+    {type:"think",emoji:"⏱️",q:"Janvier=50 ventes, Février=75, Mars=100. Quel mois a la plus forte croissance en pourcentage ?",sc:"Calcule la croissance entre chaque mois…",choices:["Janvier à Février 📈 (+50%)","Février à Mars (+33%)","Les deux sont pareils","Mars"],correct:0,xp:12,expl:"Jan→Fév : (75-50)/50×100=50% 📈. Fév→Mar : 33%. Janvier-Février gagne !"},
+    {type:"think",emoji:"🌡️",q:"Températures : L=20°, M=22°, Me=18°, J=25°, V=21°. Quelle est la température MOYENNE ?",sc:"Additionne tout et divise par le nombre de jours…",choices:["20°","21,2° 🌡️","22°","23°"],correct:1,xp:12,expl:"(20+22+18+25+21)÷5 = 106÷5 = 21,2° 🌡️ !"}
+  ]},
+
+  {id:13,name:"Leadership & Charisme",icon:"👑",color:"t1",badge:"👑",badgeName:"Leader Visionnaire",questions:[
+    {type:"free",emoji:"👑",q:"Ton équipe est démotivée avant un match important. En tant que leader, que fais-tu ?",sc:"Les vrais leaders font ressortir le meilleur des autres… Lis bien chaque option et prends le temps de réfléchir.",choices:["Crier sur l'équipe","Ignorer le problème","Écouter leurs inquiétudes, rappeler les forces de l'équipe et créer un élan positif 👑","Jouer seul"],correct:2,xp:12,expl:"Un leader écoute, inspire et mobilise 👑 ! Il crée la confiance et l'énergie collective."},
+    {type:"free",emoji:"🤝",q:"Deux membres de ton équipe se disputent. Comment un leader gère-t-il ça ?",sc:"La gestion des conflits est une compétence clé du leadership…",choices:["Les punir tous les deux","Choisir le favori","Médiatiser : écouter les deux, trouver un terrain commun et renforcer les liens 🤝","Ne rien faire"],correct:2,xp:12,expl:"Médiation + terrain commun = leadership constructif 🤝 !"},
+    {type:"free",emoji:"💬",q:"Tu dois convaincre tes camarades d'adopter une idée. Quelle est la meilleure approche ?",sc:"La persuasion est l'art du communicant et du leader… Prends le temps de lire toutes les options.",choices:["Imposer ton idée","Menacer","Présenter les bénéfices, raconter une histoire inspirante et impliquer les autres 💬","Donner des ordres"],correct:2,xp:12,expl:"Bénéfices + Histoire + Co-création = persuasion authentique 💬 !"},
+    {type:"free",emoji:"🌟",q:"Qu'est-ce qui définit VRAIMENT un leader exceptionnel ?",sc:"Réfléchis aux leaders qui t'inspirent dans la vie réelle… Lis attentivement chaque option.",choices:["Avoir beaucoup d'argent","Être le plus fort","Inspirer les autres à donner le meilleur d'eux-mêmes et créer d'autres leaders 🌟","Être le plus populaire"],correct:2,xp:12,expl:"Le meilleur leadership crée d'autres leaders 🌟 !"},
+    {type:"free",emoji:"🎯",q:"Ton groupe a échoué. En tant que leader, que dis-tu à ton équipe ?",sc:"L'échec est un test de vrai leadership… Réfléchis bien avant de répondre.",choices:["'C'est de votre faute'","Rien du tout","'J'assume ma part de responsabilité, analysons ensemble et rebondissons' 🎯","'La prochaine fois ça marchera'"],correct:2,xp:12,expl:"Un vrai leader assume la responsabilité et transforme l'échec en leçon 🎯 !"}
+  ]},
+
+  {id:14,name:"Laboratoire Inventeur",icon:"🔬",color:"t2",badge:"💡",badgeName:"Inventeur Génial",questions:[
+    {type:"free",emoji:"🔬",q:"Tu veux inventer quelque chose pour aider les personnes âgées à mieux se souvenir. Quelle est la meilleure idée ?",sc:"Pense à leur vie quotidienne et à leurs besoins réels. Prends le temps de lire et d'imaginer chaque option proposée !",choices:["Un carnet ordinaire","Un rappel sonore","Un bracelet intelligent avec IA qui rappelle les médicaments, rendez-vous et reconnaît les visages 🔬","Un calendrier"],correct:2,xp:12,expl:"Un bracelet IA personnalisé = solution techno-empathique 🔬 ! Les meilleures inventions résolvent de vraies douleurs."},
+    {type:"free",emoji:"💡",q:"Comment inventerais-tu un outil pour aider les enfants dyslexiques à lire ?",sc:"La technologie peut transformer l'apprentissage pour tous. Imagine chaque solution et son impact réel dans la vie d'un enfant !",choices:["Un livre ordinaire","Des lunettes qui transforment le texte en audio et le soulignent en temps réel 👓🔊","Plus d'exercices","Un orthophoniste"],correct:1,xp:12,expl:"Des lunettes AR audio-visuelles = accessibilité révolutionnaire 👓🔊 !"},
+    {type:"free",emoji:"🌱",q:"Tu inventes un jardin du futur. Quelle est l'innovation la plus utile ?",sc:"L'agriculture du futur doit nourrir 10 milliards de personnes. Lis bien chaque option et imagine leur impact sur la planète !",choices:["Plus de pesticides","Un plus grand arrosoir","Des tours agricoles verticales avec lumière LED, IA et eau recyclée produisant 10x plus 🌱🏙️","Des graines plus grosses"],correct:2,xp:12,expl:"L'agriculture verticale produit plus, utilise 95% moins d'eau et pousse en ville 🌱🏙️ !"},
+    {type:"free",emoji:"🤖",q:"Tu crées un robot aide-soignant pour les hôpitaux. Sa première fonction essentielle ?",sc:"Les robots médicaux sauvent déjà des vies aujourd'hui. Réfléchis bien à quelle fonction est la PLUS importante en premier lieu !",choices:["Faire le ménage","Amener les repas","Surveiller les constantes vitales 24h/24 et alerter immédiatement le médecin en cas d'urgence 🤖❤️","Ouvrir les portes"],correct:2,xp:12,expl:"Surveillance continue 24/7 + alerte précoce = des vies sauvées 🤖❤️ !"},
+    {type:"free",emoji:"🌊",q:"Tu inventes un système pour fournir de l'eau potable dans les déserts. Quelle solution ?",sc:"Des millions de personnes manquent d'eau propre dans le monde. Lis attentivement chaque option et imagine son impact à grande échelle !",choices:["Creuser des puits","Transporter en camion","Des panneaux capteurs d'humidité atmosphérique qui transforment l'air en eau potable ☀️💧","Prier pour la pluie"],correct:2,xp:12,expl:"Des capteurs d'humidité atmosphérique existent déjà ! ☀️💧 L'air contient 13 000 milliards de litres d'eau même dans les déserts."}
+  ]},
+
+  {id:15,name:"Défi Ultime BrainMaster",icon:"🧠",color:"t3",badge:"🌟",badgeName:"Super BrainMaster",questions:[
+    {type:"free",emoji:"🌟",q:"DÉFI ULTIME : Si tu doubles un centime chaque jour pendant 30 jours, combien as-tu à la fin ?",sc:"⚠️ C'est la magie de la croissance exponentielle ! Prends bien le temps de réfléchir avant de répondre. Ne choisis pas trop vite !",choices:["30 centimes","300 euros","Plus de 5 millions d'euros 💰","1000 euros"],correct:2,xp:15,expl:"1 centime doublé 30 fois = 2^29 centimes = 5 368 709 euros 💰 ! C'est la PUISSANCE INCROYABLE de la croissance exponentielle !"},
+    {type:"free",emoji:"🧩",q:"MÉGA DÉFI : Un fermier a 17 moutons. Tous sauf 9 meurent. Combien lui reste-t-il ?",sc:"⚠️ Lis TRÈS attentivement chaque mot de cette question. Il y a un piège célèbre ici ! Ne te précipite pas.",choices:["8","9 🐑","17","0"],correct:1,xp:15,expl:"'Tous SAUF 9 meurent' = 9 survivent 🐑 ! Le piège est de calculer 17-9=8, mais la réponse est 9."},
+    {type:"free",emoji:"⭐",q:"DÉFI GÉNIE : Tu as une balance et 8 boules identiques SAUF une plus lourde. En combien de pesées minimum trouves-tu la plus lourde ?",sc:"⚠️ Pense de façon stratégique, pas linéaire. Divise pour mieux régner ! Prends bien le temps de réfléchir à chaque option.",choices:["7 pesées","4 pesées","3 pesées","2 pesées ⚖️"],correct:3,xp:15,expl:"2 pesées minimum ⚖️ ! Pesée 1 : 3 vs 3. Si égal, la lourde est parmi les 2 restantes → 1 pesée suffit. Sinon, reprends le groupe le plus lourd : 1 vs 1 → 2ème pesée."},
+    {type:"free",emoji:"🔮",q:"DÉFI VISIONNAIRE : En 2050, quelle technologie aura le plus grand impact sur l'humanité ?",sc:"Pense à long terme comme un vrai futurologue ! Lis bien chaque option et imagine le monde dans 25 ans.",choices:["Des smartphones encore mieux","L'IA générale + bioingénierie + fusion nucléaire propre qui transformeront santé, énergie et intelligence 🔮","Les réseaux sociaux","Les voitures volantes"],correct:1,xp:15,expl:"L'IA Générale + Bioingénierie + Fusion nucléaire 🔮 = la trilogie qui transformera la condition humaine !"},
+    {type:"free",emoji:"🚀",q:"DÉFI MAÎTRE ABSOLU : Un avion vole de Paris à New York (5800 km) en 8h. À quelle vitesse vole-t-il en km/h ?",sc:"⚠️ Distance ÷ Temps = Vitesse. Prends le temps de faire le calcul mentalement avant de répondre !",choices:["500 km/h","725 km/h ✈️","800 km/h","600 km/h"],correct:1,xp:15,expl:"5800 ÷ 8 = 725 km/h ✈️ ! Vitesse = Distance ÷ Temps."}
+  ]}
+];
+
+// Timer config per type
+const TIMER_CONFIG = {
+  memo:   {question: 30, circumference: 150},
+  think:  {question: 60, circumference: 150},
+  normal: {question: 30, circumference: 150},
+  free:   {question: 0,  circumference: 150}  // 0 = no timer
+};
+const MEMO_SECONDS = 12; // memorization display time
+
+// ============================================================
+// STATE
+// ============================================================
+let user = {name:'',age:'',avatar:'🦁',xp:0,coins:0,trophies:0,level:1,title:'Petit Explorateur'};
+let sectionScores = {};
+let currentSection = 0;
+let currentQ = 0;
+let timerInterval = null;
+let memoInterval = null;
+let timeLeft = 30;
+let answered = false;
+let selectedAvatar = '🦁';
+let navOpen = false;
+
+const LEVELS = [
+  {min:0,  name:'Petit Explorateur',icon:'🌱'},
+  {min:200,name:'Détective Junior',icon:'🔍'},
+  {min:500,name:'Architecte des Idées',icon:'🏗️'},
+  {min:900,name:'Inventeur Créatif',icon:'💡'},
+  {min:1400,name:'Génie de la Logique',icon:'🔮'},
+  {min:2000,name:'Maître de la Mémoire',icon:'🧠'},
+  {min:2700,name:'Leader Visionnaire',icon:'👑'},
+  {min:3500,name:'Super Cerveau',icon:'⭐'},
+];
+const THEMES = ['t1','t2','t3','t4'];
+
+// ============================================================
+// NAV BAR
+// ============================================================
+function buildNavBar() {
+  const row = document.getElementById('nav-sections-row');
+  row.innerHTML = '';
+  SECTIONS.forEach((sec, i) => {
+    const btn = document.createElement('button');
+    const done = sectionScores[i] !== undefined;
+    btn.className = 'nav-sec-btn' + (i===currentSection?' active-sec':'') + (done?' done-sec':'');
+    btn.innerHTML = `${sec.icon} ${sec.name}`;
+    btn.onclick = () => jumpToSection(i);
+    row.appendChild(btn);
+  });
+  updateNavStats();
+}
+
+function updateNavStats() {
+  document.getElementById('nav-xp').textContent = user.xp;
+  document.getElementById('nav-coins').textContent = user.coins;
+}
+
+function toggleNavSections() {
+  navOpen = !navOpen;
+  const row = document.getElementById('nav-sections-row');
+  if(navOpen) row.classList.add('open'); else row.classList.remove('open');
+}
+
+function jumpToSection(idx) {
+  clearInterval(timerInterval);
+  clearInterval(memoInterval);
+  navOpen = false;
+  document.getElementById('nav-sections-row').classList.remove('open');
+  currentSection = idx;
+  currentQ = 0;
+  answered = false;
+  setTheme(THEMES[idx % 4]);
+  buildNavBar();
+  loadQuestion();
+  showScreen('quiz');
+}
+
+function showNavBar() {
+  document.getElementById('top-nav').classList.add('visible');
+  document.body.classList.add('nav-on');
+}
+
+function hideNavBar() {
+  document.getElementById('top-nav').classList.remove('visible');
+  document.body.classList.remove('nav-on');
+}
+
+// ============================================================
+// UTILS
+// ============================================================
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  // scroll to top
+  window.scrollTo(0,0);
+}
+
+function setTheme(t) {
+  document.body.className = document.body.classList.contains('nav-on') ? t + ' nav-on' : t;
+}
+
+function getLevel() {
+  for(let i=LEVELS.length-1;i>=0;i--) {
+    if(user.xp >= LEVELS[i].min) return LEVELS[i];
+  }
+  return LEVELS[0];
+}
+
+function selectAvatar(el) {
+  document.querySelectorAll('.avatar-opt').forEach(a=>a.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedAvatar = el.textContent;
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.innerHTML = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+function fireConfetti() {
+  const colors = ['#FFD600','#E91E63','#2196F3','#4CAF50','#FF5722','#9C27B0'];
+  for(let i=0;i<40;i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti-piece';
+    el.style.cssText = `left:${Math.random()*100}vw;top:-10px;background:${colors[Math.floor(Math.random()*colors.length)]};animation-delay:${Math.random()*1.5}s;animation-duration:${2+Math.random()*1.5}s;transform:rotate(${Math.random()*360}deg)`;
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(),4000);
+  }
+}
+
+// ============================================================
+// REGISTRATION
+// ============================================================
+function startDashboard() {
+  const name = document.getElementById('reg-name').value.trim();
+  const age = document.getElementById('reg-age').value;
+  if(!name||!age){alert('Remplis ton prénom et ton âge !');return;}
+  user.name = name;
+  user.age = age;
+  user.avatar = selectedAvatar;
+  showNavBar();
+  buildNavBar();
+  renderDashboard();
+  showScreen('dashboard');
+  showToast(`🎉 Bienvenue ${name} !`);
+}
+
+// ============================================================
+// DASHBOARD
+// ============================================================
+function renderDashboard() {
+  document.getElementById('dash-avatar').textContent = user.avatar;
+  document.getElementById('dash-name').textContent = `Bonjour, ${user.name} ! 👋`;
+  const lv = getLevel();
+  document.getElementById('dash-level').textContent = `${lv.icon} Niveau ${user.level} — ${lv.name}`;
+  document.getElementById('xp-count').textContent = user.xp+' XP';
+  document.getElementById('coin-count').textContent = user.coins+' Pièces';
+  document.getElementById('trophy-count').textContent = user.trophies+' Trophées';
+
+  const grid = document.getElementById('sections-grid');
+  grid.innerHTML = '';
+  SECTIONS.forEach((sec,i)=>{
+    const done = sectionScores[i] !== undefined;
+    const div = document.createElement('div');
+    div.className = 'sec-card'+(done?' done':'');
+    div.onclick = ()=>jumpToSection(i);
+    const pct = done ? Math.round((sectionScores[i].correct/sectionScores[i].total)*100) : '';
+    div.innerHTML = `
+      <div class="sec-num">Section ${sec.id}</div>
+      <div class="sec-icon">${sec.icon}</div>
+      <div class="sec-name">${sec.name}</div>
+      ${done?`<div class="sec-badge">✅</div><div style="font-size:12px;font-weight:800;color:var(--btn);margin-top:4px">${pct}%</div>`:''}
+    `;
+    grid.appendChild(div);
+  });
+  updateNavStats();
+}
+
+function startFullTest() {
+  currentSection = 0;
+  sectionScores = {};
+  currentQ = 0;
+  jumpToSection(0);
+}
+
+// ============================================================
+// QUIZ ENGINE
+// ============================================================
+function loadQuestion() {
+  clearInterval(timerInterval);
+  clearInterval(memoInterval);
+
+  const sec = SECTIONS[currentSection];
+  const q = sec.questions[currentQ];
+  const total = sec.questions.length;
+
+  setTheme(THEMES[currentSection % 4]);
+  document.getElementById('q-section-tag').textContent = `${sec.icon} ${sec.name}`;
+  document.getElementById('q-xp').textContent = user.xp;
+  document.getElementById('q-sec-name').textContent = `Section ${sec.id} — ${sec.name}`;
+
+  // progress
+  document.getElementById('prog-bar').style.width = ((currentQ/total)*100)+'%';
+  document.getElementById('prog-label').textContent = `Question ${currentQ+1} / ${total}`;
+
+  // reset feedback & next btn
+  const fb = document.getElementById('feedback-box');
+  fb.className = 'feedback-box w-full';
+  document.getElementById('btn-next').style.display = 'none';
+  answered = false;
+
+  // Hide q-card initially
+  document.getElementById('q-card').style.display = 'none';
+  document.getElementById('memo-phase').style.display = 'none';
+
+  if(q.type === 'memo') {
+    showMemoPhase(q);
+  } else {
+    showQuestionCard(q);
+  }
+
+  // update nav highlight
+  const navBtns = document.querySelectorAll('.nav-sec-btn');
+  navBtns.forEach((b,i) => {
+    b.classList.toggle('active-sec', i===currentSection);
+  });
+}
+
+function showMemoPhase(q) {
+  // Build memo phase display
+  document.getElementById('memo-instruction').textContent = q.memoInstruction || 'Mémorise bien ces éléments !';
+  const itemsEl = document.getElementById('memo-items');
+  itemsEl.innerHTML = '';
+  q.memo.forEach((item, i) => {
+    const d = document.createElement('div');
+    d.className = 'memo-item';
+    d.style.animationDelay = (i*0.15)+'s';
+    d.textContent = item;
+    itemsEl.appendChild(d);
+  });
+
+  const barEl = document.getElementById('memo-bar');
+  const timerEl = document.getElementById('memo-timer');
+  barEl.style.width = '100%';
+  barEl.style.transition = 'none';
+  timerEl.textContent = MEMO_SECONDS;
+
+  document.getElementById('memo-phase').style.display = 'block';
+
+  // Hide timer ring during memo phase
+  document.getElementById('timer-display').textContent = '⏳';
+  document.getElementById('timer-arc').style.strokeDashoffset = 0;
+
+  let memoLeft = MEMO_SECONDS;
+  // Start bar animation after a tick
+  setTimeout(()=>{
+    barEl.style.transition = `width ${MEMO_SECONDS}s linear`;
+    barEl.style.width = '0%';
+  }, 50);
+
+  memoInterval = setInterval(()=>{
+    memoLeft--;
+    timerEl.textContent = memoLeft;
+    if(memoLeft <= 0) {
+      clearInterval(memoInterval);
+      // Hide memo, show question
+      document.getElementById('memo-phase').style.display = 'none';
+      showQuestionCard(q);
+    }
+  }, 1000);
+}
+
+function showQuestionCard(q) {
+  document.getElementById('q-emoji').textContent = q.emoji;
+  document.getElementById('q-text').textContent = q.q;
+
+  const sc = document.getElementById('q-scenario');
+  if(q.sc) {sc.textContent = q.sc; sc.style.display='block';}
+  else sc.style.display='none';
+
+  const grid = document.getElementById('answers-grid');
+  grid.innerHTML = '';
+  if(q.choices.length <= 2) grid.className = 'answers-grid single';
+  else grid.className = 'answers-grid';
+
+  q.choices.forEach((ch,i)=>{
+    const btn = document.createElement('button');
+    btn.className = 'ans-btn';
+    btn.textContent = ch;
+    btn.onclick = ()=>checkAnswer(i,btn);
+    grid.appendChild(btn);
+  });
+
+  const qCard = document.getElementById('q-card');
+  qCard.style.display = 'block';
+  qCard.style.animation = 'none';
+  setTimeout(()=>qCard.style.animation='',10);
+
+  // Timer
+  if(q.type === 'free') {
+    // No timer — show infinity symbol
+    clearInterval(timerInterval);
+    document.getElementById('timer-display').textContent = '∞';
+    document.getElementById('timer-arc').style.strokeDashoffset = 150;
+    document.getElementById('timer-arc').style.stroke = 'var(--btn)';
+    document.querySelector('.timer-ring').style.opacity = '0.4';
+  } else {
+    document.querySelector('.timer-ring').style.opacity = '1';
+    startQuestionTimer(q);
+  }
+}
+
+function startQuestionTimer(q) {
+  clearInterval(timerInterval);
+  const duration = q.type === 'think' ? 60 : 30;
+  timeLeft = duration;
+  const arc = document.getElementById('timer-arc');
+  const display = document.getElementById('timer-display');
+  arc.style.stroke = 'var(--btn)';
+  display.textContent = timeLeft;
+  arc.style.strokeDashoffset = 0;
+  arc.style.transition = 'stroke-dashoffset 1s linear';
+
+  timerInterval = setInterval(()=>{
+    timeLeft--;
+    display.textContent = timeLeft;
+    const offset = 150 - (timeLeft/duration)*150;
+    arc.style.strokeDashoffset = offset;
+    if(timeLeft <= 5) arc.style.stroke = '#E53935';
+    if(timeLeft <= 0) {
+      clearInterval(timerInterval);
+      if(!answered) timeoutAnswer();
+    }
+  },1000);
+}
+
+function checkAnswer(idx, btn) {
+  if(answered) return;
+  answered = true;
+  clearInterval(timerInterval);
+  clearInterval(memoInterval);
+
+  const sec = SECTIONS[currentSection];
+  const q = sec.questions[currentQ];
+  const correct = idx === q.correct;
+
+  document.querySelectorAll('.ans-btn').forEach((b,i)=>{
+    b.disabled = true;
+    if(i===q.correct) b.classList.add('correct');
+    else if(i===idx&&!correct) b.classList.add('wrong');
+  });
+
+  if(!sectionScores[currentSection]) sectionScores[currentSection]={correct:0,total:0};
+  sectionScores[currentSection].total++;
+  if(correct){
+    sectionScores[currentSection].correct++;
+    user.xp += q.xp;
+    user.coins += Math.floor(q.xp/2);
+    document.getElementById('q-xp').textContent = user.xp;
+    updateNavStats();
+  }
+
+  const fb = document.getElementById('feedback-box');
+  fb.className = 'feedback-box w-full show '+(correct?'correct':'wrong');
+  document.getElementById('fb-icon').textContent = correct?'🎉':'💡';
+  document.getElementById('fb-title').textContent = correct?'Excellent ! Bonne réponse !':'Pas tout à fait…';
+  document.getElementById('fb-title').className = 'feedback-title '+(correct?'correct':'wrong');
+  document.getElementById('fb-text').textContent = q.expl;
+  document.getElementById('fb-xp').textContent = correct?`+${q.xp} XP gagnés ! ⚡`:`La bonne réponse était : ${q.choices[q.correct]}`;
+
+  document.getElementById('btn-next').style.display = 'block';
+  document.getElementById('btn-next').textContent = currentQ < sec.questions.length-1 ? 'Suivant ➡️' : '🏆 Terminer la Section !';
+
+  // level up check
+  const lv = getLevel();
+  const lvIdx = LEVELS.indexOf(lv);
+  if(lvIdx+1 > user.level) {
+    user.level = lvIdx+1;
+    showToast(`⭐ NIVEAU ${user.level} ATTEINT ! ${lv.icon} ${lv.name}`);
+    fireConfetti();
+  }
+}
+
+function timeoutAnswer() {
+  answered = true;
+  const sec = SECTIONS[currentSection];
+  const q = sec.questions[currentQ];
+  document.querySelectorAll('.ans-btn').forEach((b,i)=>{
+    b.disabled=true;
+    if(i===q.correct) b.classList.add('correct');
+  });
+  if(!sectionScores[currentSection]) sectionScores[currentSection]={correct:0,total:0};
+  sectionScores[currentSection].total++;
+
+  const fb = document.getElementById('feedback-box');
+  fb.className = 'feedback-box w-full show wrong';
+  document.getElementById('fb-icon').textContent = '⏰';
+  document.getElementById('fb-title').textContent = 'Temps écoulé !';
+  document.getElementById('fb-title').className = 'feedback-title wrong';
+  document.getElementById('fb-text').textContent = q.expl;
+  document.getElementById('fb-xp').textContent = `La bonne réponse était : ${q.choices[q.correct]}`;
+  document.getElementById('btn-next').style.display = 'block';
+}
+
+function nextQuestion() {
+  const sec = SECTIONS[currentSection];
+  if(currentQ < sec.questions.length-1){
+    currentQ++;
+    loadQuestion();
+  } else {
+    showSectionComplete();
+  }
+}
+
+// ============================================================
+// SECTION COMPLETE
+// ============================================================
+function showSectionComplete() {
+  clearInterval(timerInterval);
+  clearInterval(memoInterval);
+  const sec = SECTIONS[currentSection];
+  const sc = sectionScores[currentSection]||{correct:0,total:sec.questions.length};
+  const pct = Math.round((sc.correct/sc.total)*100);
+
+  user.trophies++;
+  user.coins += 50;
+  updateNavStats();
+
+  // update nav done mark
+  buildNavBar();
+
+  let trophy='🏆',msg='';
+  if(pct>=90){trophy='🥇';msg='Résultat Exceptionnel ! Tu es un génie !';}
+  else if(pct>=70){trophy='🥈';msg='Très bon résultat ! Continue comme ça !';}
+  else if(pct>=50){trophy='🥉';msg='Bon travail ! Tu progresses bien !';}
+  else{trophy='💪';msg='Continue de t\'entraîner, tu vas y arriver !';}
+
+  document.getElementById('sc-trophy').textContent = trophy;
+  document.getElementById('sc-title').textContent = `${sec.name} Terminée !`;
+  document.getElementById('sc-score').textContent = `${sc.correct}/${sc.total}`;
+  document.getElementById('sc-sub').textContent = `${pct}% de réussite — ${msg}`;
+  document.getElementById('sc-badge').textContent = sec.badge;
+  document.getElementById('sc-badge-name').textContent = sec.badgeName+' Débloqué !';
+
+  const nextBtn = document.getElementById('sc-btn');
+  const isLast = currentSection >= SECTIONS.length-1;
+  nextBtn.textContent = isLast ? '🎉 Voir Mon Rapport Final !' : `Section Suivante : ${SECTIONS[currentSection+1].name} ➡️`;
+
+  fireConfetti();
+  setTheme(sec.color);
+  showScreen('sec-complete');
+}
+
+function continueAfterSection() {
+  if(currentSection >= SECTIONS.length-1){
+    generateReport();
+  } else {
+    currentSection++;
+    currentQ = 0;
+    jumpToSection(currentSection);
+  }
+}
+
+// ============================================================
+// FINAL REPORT
+// ============================================================
+function generateReport() {
+  setTheme('t1');
+  hideNavBar(); // hide nav for clean print
+  showScreen('report');
+
+  document.getElementById('rep-name').textContent = `${user.avatar} ${user.name}, ${user.age} ans`;
+  document.getElementById('rep-date').textContent = 'Rapport généré le '+new Date().toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'});
+
+  const domains = [
+    {name:'Mémoire Visuelle',emoji:'👁️',secs:[0]},
+    {name:'Mémoire Auditive',emoji:'👂',secs:[1]},
+    {name:'Mémoire de Travail',emoji:'⚙️',secs:[2]},
+    {name:'Attention & Concentration',emoji:'🎯',secs:[3]},
+    {name:'Observation',emoji:'🔭',secs:[4]},
+    {name:'Logique & Raisonnement',emoji:'🧩',secs:[5]},
+    {name:'Intelligence Spatiale',emoji:'🗺️',secs:[6]},
+    {name:'Créativité',emoji:'🎨',secs:[7]},
+    {name:'Curiosité Intellectuelle',emoji:'🔬',secs:[8]},
+    {name:'Résolution de Problèmes',emoji:'⚙️',secs:[9]},
+    {name:'Pensée Stratégique',emoji:'♟️',secs:[10]},
+    {name:'Leadership',emoji:'👑',secs:[12]},
+  ];
+
+  let totalCorrect=0,totalQ=0;
+  let domainScores=[];
+  domains.forEach(d=>{
+    let c=0,t=0;
+    d.secs.forEach(si=>{
+      if(sectionScores[si]){c+=sectionScores[si].correct;t+=sectionScores[si].total;}
+    });
+    if(t===0) t=SECTIONS[d.secs[0]].questions.length;
+    const pct=Math.round((c/t)*100);
+    domainScores.push({...d,pct,c,t});
+    totalCorrect+=c;totalQ+=t;
+  });
+
+  const globalPct = totalQ>0?Math.round((totalCorrect/totalQ)*100):0;
+
+  const profiles=[
+    {min:90,name:'🚀 Super BrainMaster',desc:'Tu es un génie cognitif exceptionnel ! Ton cerveau excelle dans tous les domaines. Tu as le potentiel de devenir un grand innovateur, scientifique ou leader.',icon:'🚀'},
+    {min:75,name:'🌟 Visionnaire Brillant',desc:'Tu possèdes des capacités cognitives remarquables. Tu penses de façon créative et stratégique. Ton potentiel de leadership est très élevé.',icon:'🌟'},
+    {min:60,name:'💡 Inventeur Créatif',desc:'Tu as une belle créativité et une excellente capacité à résoudre les problèmes. Continue de développer ta curiosité et ta logique !',icon:'💡'},
+    {min:45,name:'🔬 Explorateur Curieux',desc:'Tu es curieux et observateur. Avec de la pratique, tu vas développer des capacités cognitives extraordinaires !',icon:'🔬'},
+    {min:0, name:'🌱 Jeune Talent',desc:'Tu commences ton aventure cognitive ! Chaque grand génie a commencé comme toi. Continue de pratiquer !',icon:'🌱'},
+  ];
+  const profile=profiles.find(p=>globalPct>=p.min)||profiles[profiles.length-1];
+
+  document.getElementById('prof-icon').textContent=profile.icon;
+  document.getElementById('prof-title').textContent=`${profile.name} — ${globalPct}% Score Global`;
+  document.getElementById('prof-desc').textContent=profile.desc;
+
+  const barsEl=document.getElementById('skills-bars');
+  barsEl.innerHTML='';
+  domainScores.forEach(d=>{
+    const color=d.pct>=80?'#2E7D32':d.pct>=60?'#1976D2':d.pct>=40?'#E65100':'#C62828';
+    const label=d.pct>=80?'⭐ Excellent':d.pct>=60?'👍 Bien':d.pct>=40?'📚 En progrès':'💪 À renforcer';
+    barsEl.innerHTML+=`
+      <div class="skill-row">
+        <div class="skill-name"><span>${d.emoji} ${d.name}</span><span style="color:${color}">${d.pct}% — ${label}</span></div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:0%;background:${color}" data-w="${d.pct}%"></div></div>
+      </div>`;
+  });
+  setTimeout(()=>{
+    document.querySelectorAll('.skill-bar-fill').forEach(b=>b.style.width=b.dataset.w);
+  },300);
+
+  const top3=[...domainScores].sort((a,b)=>b.pct-a.pct).slice(0,3);
+  const low3=[...domainScores].sort((a,b)=>a.pct-b.pct).slice(0,3);
+  document.getElementById('recos').innerHTML=`
+    <div class="reco-item"><div class="reco-icon">🌟</div><div class="reco-text"><strong>Tes super-pouvoirs :</strong> ${top3.map(d=>d.emoji+' '+d.name).join(', ')}. Continue à les cultiver !</div></div>
+    <div class="reco-item"><div class="reco-icon">💪</div><div class="reco-text"><strong>Axes de développement :</strong> ${low3.map(d=>d.emoji+' '+d.name).join(', ')}. Des exercices quotidiens t'aideront à progresser.</div></div>
+    <div class="reco-item"><div class="reco-icon">📚</div><div class="reco-text"><strong>Exercices recommandés :</strong> Puzzles 3D, jeux de mémoire, lecture 20 min/jour, jeux de logique et de stratégie.</div></div>
+    <div class="reco-item"><div class="reco-icon">🎯</div><div class="reco-text"><strong>Objectif 30 jours :</strong> Pratiquer 15 minutes de jeux cognitifs par jour pour augmenter ton score de 20%.</div></div>
+    <div class="reco-item"><div class="reco-icon">🚀</div><div class="reco-text"><strong>Potentiel futur :</strong> Tes capacités cognitives à cet âge prédisent un excellent potentiel académique et professionnel !</div></div>`;
+
+  const lv=getLevel();
+  document.getElementById('cert-text').innerHTML=`
+    Nous certifions que <strong>${user.name}</strong> a complété avec succès l'Évaluation Cognitive BrainMaster Pro.<br><br>
+    Score Global : <strong>${globalPct}%</strong> | XP Total : <strong>${user.xp}</strong> | Niveau : <strong>${lv.name}</strong><br><br>
+    Profil Cognitif : <strong>${profile.name}</strong>`;
+
+  fireConfetti();
+  showToast('🎉 Rapport généré ! Bravo '+user.name+' !');
+}
+
+function printReport(){window.print();}
+
+function restartTest(){
+  user.xp=0;user.coins=0;user.trophies=0;user.level=1;
+  sectionScores={};currentSection=0;currentQ=0;
+  showNavBar();
+  setTheme('t1');
+  buildNavBar();
+  renderDashboard();
+  showScreen('dashboard');
+}
+
+// ============================================================
+// INIT
+// ============================================================
+document.addEventListener('DOMContentLoaded',()=>{
+  document.querySelector('.avatar-opt').classList.add('selected');
+});
+</script>
+</body>
+</html>

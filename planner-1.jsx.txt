@@ -1,0 +1,355 @@
+import { useState, useEffect, useRef } from "react";
+
+const COLORS = [
+  { name: "Violet", bg: "#7C3AED", light: "#EDE9FE" },
+  { name: "Bleu", bg: "#2563EB", light: "#DBEAFE" },
+  { name: "Vert", bg: "#059669", light: "#D1FAE5" },
+  { name: "Orange", bg: "#EA580C", light: "#FFEDD5" },
+  { name: "Rose", bg: "#DB2777", light: "#FCE7F3" },
+];
+
+const CATEGORIES = ["Travail", "Personnel", "Famille", "Santé", "Formation", "Autre"];
+
+const PRIORITY = {
+  haute: { label: "Haute", color: "#EF4444", icon: "🔴" },
+  moyenne: { label: "Moyenne", color: "#F59E0B", icon: "🟡" },
+  basse: { label: "Basse", color: "#10B981", icon: "🟢" },
+};
+
+function pad(n) { return String(n).padStart(2, "0"); }
+
+function timeToMinutes(t) {
+  const [h, m] = t.split(":").map(Number);
+  return h * 60 + m;
+}
+
+function minutesToTime(m) {
+  return `${pad(Math.floor(m / 60))}:${pad(m % 60)}`;
+}
+
+function formatDate(d) {
+  return new Date(d).toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" });
+}
+
+function todayStr() {
+  const d = new Date();
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+}
+
+function nowTime() {
+  const d = new Date();
+  return `${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
+
+const DEMO_TASKS = [
+  { id: 1, title: "Révision Maths BAC", category: "Formation", priority: "haute", date: todayStr(), time: "08:00", duration: 90, color: COLORS[0], done: false, alarm: true, note: "Exercices de probabilités et géométrie" },
+  { id: 2, title: "Réunion KNOWLEDGE SARL", category: "Travail", priority: "haute", date: todayStr(), time: "10:30", duration: 60, color: COLORS[1], done: false, alarm: true, note: "Bilan mensuel agri + éducation" },
+  { id: 3, title: "Prière du matin", category: "Personnel", priority: "moyenne", date: todayStr(), time: "06:00", duration: 30, color: COLORS[2], done: true, alarm: true, note: "" },
+  { id: 4, title: "Session slam poétique", category: "Personnel", priority: "basse", date: todayStr(), time: "17:00", duration: 45, color: COLORS[4], done: false, alarm: true, note: "Texte biblique — Psaume 23" },
+];
+
+export default function Planner() {
+  const [tasks, setTasks] = useState(DEMO_TASKS);
+  const [view, setView] = useState("today"); // today | week | form
+  const [selectedDate, setSelectedDate] = useState(todayStr());
+  const [form, setForm] = useState({ id: null, title: "", category: "Travail", priority: "haute", date: todayStr(), time: nowTime(), duration: 30, color: COLORS[0], alarm: true, note: "" });
+  const [editId, setEditId] = useState(null);
+  const [alarms, setAlarms] = useState([]); // {taskId, alarmId}
+  const [toast, setToast] = useState(null);
+  const nextId = useRef(100);
+
+  // Show toast
+  function showToast(msg, type = "success") {
+    setToast({ msg, type });
+    setTimeout(() => setToast(null), 3500);
+  }
+
+  // Tasks for selected date
+  const dayTasks = tasks
+    .filter(t => t.date === selectedDate)
+    .sort((a, b) => timeToMinutes(a.time) - timeToMinutes(b.time));
+
+  // Week range (Mon–Sun around today)
+  function getWeek() {
+    const d = new Date(selectedDate);
+    const day = d.getDay() === 0 ? 6 : d.getDay() - 1;
+    const mon = new Date(d);
+    mon.setDate(d.getDate() - day);
+    return Array.from({ length: 7 }, (_, i) => {
+      const dt = new Date(mon);
+      dt.setDate(mon.getDate() + i);
+      return `${dt.getFullYear()}-${pad(dt.getMonth() + 1)}-${pad(dt.getDate())}`;
+    });
+  }
+
+  const week = getWeek();
+
+  function openNew() {
+    setForm({ id: null, title: "", category: "Travail", priority: "haute", date: selectedDate, time: nowTime(), duration: 30, color: COLORS[0], alarm: true, note: "" });
+    setEditId(null);
+    setView("form");
+  }
+
+  function openEdit(task) {
+    setForm({ ...task });
+    setEditId(task.id);
+    setView("form");
+  }
+
+  function saveTask() {
+    if (!form.title.trim()) { showToast("Le titre est obligatoire", "error"); return; }
+    if (editId !== null) {
+      setTasks(ts => ts.map(t => t.id === editId ? { ...form, id: editId } : t));
+      showToast("Tâche mise à jour ✓");
+    } else {
+      const newTask = { ...form, id: nextId.current++, done: false };
+      setTasks(ts => [...ts, newTask]);
+      if (form.alarm) scheduleAlarm(newTask);
+      showToast("Tâche ajoutée ✓");
+    }
+    setView(view === "form" ? "today" : view);
+    setView("today");
+  }
+
+  function deleteTask(id) {
+    setTasks(ts => ts.filter(t => t.id !== id));
+    showToast("Tâche supprimée", "info");
+  }
+
+  function toggleDone(id) {
+    setTasks(ts => ts.map(t => t.id === id ? { ...t, done: !t.done } : t));
+  }
+
+  // Alarm scheduling via Claude's alarm_create tool
+  // This is called from the React component; we pass info back to the parent
+  function scheduleAlarm(task) {
+    const [h, m] = task.time.split(":").map(Number);
+    // We communicate to the outer interface by emitting a custom event
+    window.dispatchEvent(new CustomEvent("planner:alarm", {
+      detail: { hour: h, minute: m, message: `⏰ ${task.title}`, taskId: task.id }
+    }));
+    setAlarms(a => [...a, { taskId: task.id }]);
+    showToast(`Alarme définie pour ${task.time} — ${task.title}`, "alarm");
+  }
+
+  // Stats
+  const todayDone = dayTasks.filter(t => t.done).length;
+  const todayTotal = dayTasks.length;
+  const progress = todayTotal ? Math.round((todayDone / todayTotal) * 100) : 0;
+
+  return (
+    <div style={{ fontFamily: "'Segoe UI', system-ui, sans-serif", background: "#F8F7FF", minHeight: "100vh", maxWidth: 480, margin: "0 auto", paddingBottom: 80 }}>
+      {/* Header */}
+      <div style={{ background: "linear-gradient(135deg, #7C3AED 0%, #4F46E5 100%)", color: "#fff", padding: "20px 20px 28px" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+          <div>
+            <div style={{ fontSize: 11, opacity: 0.75, letterSpacing: 2, textTransform: "uppercase" }}>Mon Agenda</div>
+            <div style={{ fontSize: 22, fontWeight: 700, marginTop: 2 }}>PlannerIA</div>
+          </div>
+          <button onClick={openNew} style={{ background: "rgba(255,255,255,0.2)", border: "none", borderRadius: 12, padding: "8px 16px", color: "#fff", fontWeight: 600, cursor: "pointer", fontSize: 14 }}>
+            + Tâche
+          </button>
+        </div>
+        {/* Progress */}
+        <div style={{ background: "rgba(255,255,255,0.15)", borderRadius: 12, padding: "12px 16px" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13, marginBottom: 8 }}>
+            <span>Aujourd'hui</span>
+            <span style={{ fontWeight: 700 }}>{todayDone}/{todayTotal} tâches</span>
+          </div>
+          <div style={{ background: "rgba(255,255,255,0.3)", borderRadius: 99, height: 6 }}>
+            <div style={{ background: "#fff", width: `${progress}%`, height: 6, borderRadius: 99, transition: "width 0.4s" }} />
+          </div>
+        </div>
+      </div>
+
+      {/* Nav */}
+      <div style={{ display: "flex", gap: 8, padding: "14px 16px 8px", overflowX: "auto" }}>
+        {["today", "week"].map(v => (
+          <button key={v} onClick={() => setView(v)} style={{ background: view === v ? "#7C3AED" : "#EDE9FE", color: view === v ? "#fff" : "#7C3AED", border: "none", borderRadius: 99, padding: "6px 18px", fontWeight: 600, cursor: "pointer", fontSize: 13, whiteSpace: "nowrap" }}>
+            {v === "today" ? "Aujourd'hui" : "Semaine"}
+          </button>
+        ))}
+      </div>
+
+      {/* Week picker */}
+      {view === "week" && (
+        <div style={{ display: "flex", gap: 8, padding: "8px 16px", overflowX: "auto" }}>
+          {week.map(d => {
+            const dt = new Date(d);
+            const isToday = d === todayStr();
+            const isSel = d === selectedDate;
+            const count = tasks.filter(t => t.date === d).length;
+            return (
+              <button key={d} onClick={() => { setSelectedDate(d); setView("today"); }} style={{ flex: "0 0 56px", background: isSel ? "#7C3AED" : isToday ? "#EDE9FE" : "#fff", border: `1.5px solid ${isSel ? "#7C3AED" : "#E5E7EB"}`, borderRadius: 12, padding: "8px 4px", cursor: "pointer", textAlign: "center" }}>
+                <div style={{ fontSize: 11, color: isSel ? "#fff" : "#6B7280" }}>{["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"][dt.getDay()]}</div>
+                <div style={{ fontSize: 17, fontWeight: 700, color: isSel ? "#fff" : "#111" }}>{dt.getDate()}</div>
+                {count > 0 && <div style={{ width: 6, height: 6, borderRadius: 99, background: isSel ? "#fff" : "#7C3AED", margin: "2px auto 0" }} />}
+              </button>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Task list */}
+      {(view === "today" || view === "week") && (
+        <div style={{ padding: "8px 16px" }}>
+          <div style={{ fontSize: 13, color: "#6B7280", marginBottom: 12 }}>{formatDate(selectedDate)}</div>
+          {dayTasks.length === 0 ? (
+            <div style={{ textAlign: "center", padding: "40px 0", color: "#9CA3AF" }}>
+              <div style={{ fontSize: 36 }}>📋</div>
+              <div style={{ marginTop: 8 }}>Aucune tâche pour ce jour</div>
+              <button onClick={openNew} style={{ marginTop: 12, background: "#7C3AED", color: "#fff", border: "none", borderRadius: 8, padding: "8px 20px", cursor: "pointer", fontWeight: 600 }}>Ajouter une tâche</button>
+            </div>
+          ) : (
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              {dayTasks.map(task => (
+                <TaskCard key={task.id} task={task} onToggle={toggleDone} onEdit={openEdit} onDelete={deleteTask} onAlarm={scheduleAlarm} alarmSet={alarms.some(a => a.taskId === task.id)} />
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Form */}
+      {view === "form" && (
+        <div style={{ padding: 16 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
+            <button onClick={() => setView("today")} style={{ background: "#EDE9FE", border: "none", borderRadius: 8, padding: "6px 12px", cursor: "pointer", color: "#7C3AED", fontWeight: 600 }}>← Retour</button>
+            <span style={{ fontWeight: 700, fontSize: 17 }}>{editId ? "Modifier" : "Nouvelle tâche"}</span>
+          </div>
+
+          <Field label="Titre">
+            <input value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))} placeholder="Nom de la tâche..." style={inputStyle} />
+          </Field>
+
+          <Field label="Catégorie">
+            <select value={form.category} onChange={e => setForm(f => ({ ...f, category: e.target.value }))} style={inputStyle}>
+              {CATEGORIES.map(c => <option key={c}>{c}</option>)}
+            </select>
+          </Field>
+
+          <Field label="Priorité">
+            <div style={{ display: "flex", gap: 8 }}>
+              {Object.entries(PRIORITY).map(([k, v]) => (
+                <button key={k} onClick={() => setForm(f => ({ ...f, priority: k }))} style={{ flex: 1, background: form.priority === k ? v.color : "#F3F4F6", color: form.priority === k ? "#fff" : "#374151", border: "none", borderRadius: 8, padding: "8px 4px", cursor: "pointer", fontWeight: 600, fontSize: 13 }}>
+                  {v.icon} {v.label}
+                </button>
+              ))}
+            </div>
+          </Field>
+
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+            <Field label="Date">
+              <input type="date" value={form.date} onChange={e => setForm(f => ({ ...f, date: e.target.value }))} style={inputStyle} />
+            </Field>
+            <Field label="Heure">
+              <input type="time" value={form.time} onChange={e => setForm(f => ({ ...f, time: e.target.value }))} style={inputStyle} />
+            </Field>
+          </div>
+
+          <Field label={`Durée : ${form.duration} min`}>
+            <input type="range" min={5} max={180} step={5} value={form.duration} onChange={e => setForm(f => ({ ...f, duration: Number(e.target.value) }))} style={{ width: "100%", accentColor: "#7C3AED" }} />
+          </Field>
+
+          <Field label="Couleur">
+            <div style={{ display: "flex", gap: 10 }}>
+              {COLORS.map((c, i) => (
+                <button key={i} onClick={() => setForm(f => ({ ...f, color: c }))} style={{ width: 32, height: 32, borderRadius: 99, background: c.bg, border: form.color.bg === c.bg ? "3px solid #1F2937" : "3px solid transparent", cursor: "pointer" }} />
+              ))}
+            </div>
+          </Field>
+
+          <Field label="Note (optionnel)">
+            <textarea value={form.note} onChange={e => setForm(f => ({ ...f, note: e.target.value }))} rows={2} placeholder="Ajouter une note..." style={{ ...inputStyle, resize: "none" }} />
+          </Field>
+
+          {/* Alarm toggle */}
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", background: "#fff", borderRadius: 12, padding: "12px 16px", marginBottom: 16, border: "1.5px solid #E5E7EB" }}>
+            <div>
+              <div style={{ fontWeight: 600, fontSize: 14 }}>🔔 Alarme de rappel</div>
+              <div style={{ fontSize: 12, color: "#6B7280", marginTop: 2 }}>Déclenche une alarme à l'heure de la tâche</div>
+            </div>
+            <div onClick={() => setForm(f => ({ ...f, alarm: !f.alarm }))} style={{ width: 46, height: 26, borderRadius: 99, background: form.alarm ? "#7C3AED" : "#D1D5DB", cursor: "pointer", position: "relative", transition: "background 0.2s" }}>
+              <div style={{ position: "absolute", top: 3, left: form.alarm ? 23 : 3, width: 20, height: 20, borderRadius: 99, background: "#fff", transition: "left 0.2s", boxShadow: "0 1px 3px rgba(0,0,0,0.2)" }} />
+            </div>
+          </div>
+
+          <button onClick={saveTask} style={{ width: "100%", background: "linear-gradient(135deg, #7C3AED, #4F46E5)", color: "#fff", border: "none", borderRadius: 12, padding: "14px", fontSize: 16, fontWeight: 700, cursor: "pointer" }}>
+            {editId ? "Enregistrer les modifications" : "Créer la tâche & programmer l'alarme"}
+          </button>
+        </div>
+      )}
+
+      {/* Toast */}
+      {toast && (
+        <div style={{ position: "fixed", bottom: 24, left: "50%", transform: "translateX(-50%)", background: toast.type === "error" ? "#EF4444" : toast.type === "alarm" ? "#7C3AED" : toast.type === "info" ? "#6B7280" : "#059669", color: "#fff", borderRadius: 12, padding: "12px 24px", fontWeight: 600, fontSize: 14, boxShadow: "0 4px 20px rgba(0,0,0,0.2)", zIndex: 999, whiteSpace: "nowrap" }}>
+          {toast.msg}
+        </div>
+      )}
+
+      {/* Alarm listener bridge */}
+      <AlarmBridge />
+    </div>
+  );
+}
+
+function TaskCard({ task, onToggle, onEdit, onDelete, onAlarm, alarmSet }) {
+  const endMinutes = timeToMinutes(task.time) + task.duration;
+  const endTime = minutesToTime(Math.min(endMinutes, 23 * 60 + 59));
+
+  return (
+    <div style={{ background: "#fff", borderRadius: 14, padding: "14px 16px", borderLeft: `4px solid ${task.color.bg}`, boxShadow: "0 1px 4px rgba(0,0,0,0.06)", opacity: task.done ? 0.65 : 1 }}>
+      <div style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
+        <button onClick={() => onToggle(task.id)} style={{ marginTop: 2, width: 20, height: 20, borderRadius: 6, border: `2px solid ${task.color.bg}`, background: task.done ? task.color.bg : "transparent", cursor: "pointer", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
+          {task.done && <span style={{ color: "#fff", fontSize: 12 }}>✓</span>}
+        </button>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "start" }}>
+            <span style={{ fontWeight: 700, fontSize: 15, textDecoration: task.done ? "line-through" : "none", color: task.done ? "#9CA3AF" : "#111" }}>{task.title}</span>
+            <span style={{ fontSize: 12 }}>{PRIORITY[task.priority].icon}</span>
+          </div>
+          <div style={{ display: "flex", gap: 8, marginTop: 6, flexWrap: "wrap" }}>
+            <span style={{ background: task.color.light, color: task.color.bg, borderRadius: 6, padding: "2px 8px", fontSize: 11, fontWeight: 600 }}>{task.category}</span>
+            <span style={{ color: "#6B7280", fontSize: 12 }}>⏰ {task.time} – {endTime}</span>
+            <span style={{ color: "#6B7280", fontSize: 12 }}>⏱ {task.duration} min</span>
+          </div>
+          {task.note && <div style={{ marginTop: 6, fontSize: 12, color: "#6B7280", fontStyle: "italic" }}>{task.note}</div>}
+        </div>
+      </div>
+      <div style={{ display: "flex", gap: 6, marginTop: 12 }}>
+        <button onClick={() => onAlarm(task)} style={{ flex: 1, background: alarmSet ? "#EDE9FE" : "#F3F4F6", color: alarmSet ? "#7C3AED" : "#6B7280", border: "none", borderRadius: 8, padding: "6px", fontSize: 12, cursor: "pointer", fontWeight: 600 }}>
+          {alarmSet ? "🔔 Alarme active" : "🔕 Définir alarme"}
+        </button>
+        <button onClick={() => onEdit(task)} style={{ background: "#F3F4F6", color: "#374151", border: "none", borderRadius: 8, padding: "6px 12px", fontSize: 12, cursor: "pointer" }}>✏️</button>
+        <button onClick={() => onDelete(task.id)} style={{ background: "#FEF2F2", color: "#EF4444", border: "none", borderRadius: 8, padding: "6px 12px", fontSize: 12, cursor: "pointer" }}>🗑</button>
+      </div>
+    </div>
+  );
+}
+
+function Field({ label, children }) {
+  return (
+    <div style={{ marginBottom: 14 }}>
+      <label style={{ display: "block", fontWeight: 600, fontSize: 13, color: "#374151", marginBottom: 6 }}>{label}</label>
+      {children}
+    </div>
+  );
+}
+
+// Bridge component: listens for alarm events and communicates upward
+function AlarmBridge() {
+  useEffect(() => {
+    function handleAlarm(e) {
+      const { hour, minute, message } = e.detail;
+      // Post message to parent window to trigger Claude alarm tool
+      window.parent?.postMessage({ type: "SET_ALARM", hour, minute, message }, "*");
+    }
+    window.addEventListener("planner:alarm", handleAlarm);
+    return () => window.removeEventListener("planner:alarm", handleAlarm);
+  }, []);
+  return null;
+}
+
+const inputStyle = {
+  width: "100%", boxSizing: "border-box", border: "1.5px solid #E5E7EB", borderRadius: 10, padding: "10px 12px", fontSize: 14, outline: "none", background: "#fff", fontFamily: "inherit"
+};

@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Les Classes des Mots — Grammaire Française</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0A0E1A;
+  --bg2: #121829;
+  --bg3: #1A2236;
+  --card: #1E2A42;
+  --border: #2A3A5C;
+  --white: #F0F4FF;
+  --muted: #8DA0C4;
+  --blue: #4FC3F7;
+  --blue-dim: rgba(79,195,247,0.13);
+  --orange: #FF9D4D;
+  --orange-dim: rgba(255,157,77,0.13);
+  --pink: #FF6EB4;
+  --pink-dim: rgba(255,110,180,0.13);
+  --green: #69D98C;
+  --green-dim: rgba(105,217,140,0.13);
+  --purple: #B388FF;
+  --purple-dim: rgba(179,136,255,0.13);
+  --yellow: #FFD54F;
+  --yellow-dim: rgba(255,213,79,0.13);
+  --radius: 14px;
+  --font: 'Nunito', sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: var(--font);
+  font-size: 18px;
+  line-height: 1.7;
+  min-height: 100vh;
+}
+
+/* ===== NAV ===== */
+.topnav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 200;
+  background: rgba(10,14,26,0.97);
+  backdrop-filter: blur(14px);
+  border-bottom: 2px solid var(--border);
+  padding: 0 12px;
+}
+.nav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 10px 0;
+}
+.nav-inner::-webkit-scrollbar { display: none; }
+.nav-logo {
+  font-size: 17px;
+  font-weight: 900;
+  white-space: nowrap;
+  margin-right: 10px;
+  color: var(--blue);
+  letter-spacing: -0.5px;
+  flex-shrink: 0;
+}
+.nav-logo span { color: var(--pink); }
+.nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 13px;
+  border-radius: 30px;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.18s;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.nav-btn:hover { background: var(--bg3); color: var(--white); }
+.nav-btn.active { color: var(--white); }
+.nav-btn .nb-dot {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ===== HERO ===== */
+.hero {
+  margin-top: 74px;
+  padding: 56px 24px 40px;
+  text-align: center;
+  background: linear-gradient(180deg, #0d1526 0%, var(--bg) 100%);
+  border-bottom: 1px solid var(--border);
+}
+.hero h1 {
+  font-size: clamp(30px, 6vw, 58px);
+  font-weight: 900;
+  line-height: 1.15;
+  margin-bottom: 14px;
+}
+.hero h1 .w1 { color: var(--blue); }
+.hero h1 .w2 { color: var(--orange); }
+.hero h1 .w3 { color: var(--pink); }
+.hero p { font-size: 19px; color: var(--muted); max-width: 560px; margin: 0 auto 24px; }
+.hero-badges {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+.hbadge {
+  padding: 6px 18px;
+  border-radius: 30px;
+  font-size: 15px;
+  font-weight: 800;
+  border: 2px solid;
+}
+
+/* ===== MAIN ===== */
+.main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 36px 20px 100px;
+}
+
+/* ===== SECTION ===== */
+.section { display: none; animation: fadeUp 0.3s ease; }
+.section.active { display: block; }
+@keyframes fadeUp { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+
+.sec-title {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 28px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid var(--border);
+}
+.sec-icon {
+  width: 54px; height: 54px;
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px;
+  flex-shrink: 0;
+}
+.sec-title h2 { font-size: 30px; font-weight: 900; }
+.sec-title p { font-size: 15px; color: var(--muted); margin-top: 3px; }
+
+/* ===== PART HEADER ===== */
+.part-header {
+  background: var(--bg3);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 22px;
+  margin: 32px 0 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.part-header h3 { font-size: 22px; font-weight: 900; }
+.part-num {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; font-weight: 900;
+  flex-shrink: 0;
+}
+
+/* ===== CLASS BLOCK ===== */
+.class-block {
+  background: var(--card);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 18px;
+  transition: border-color 0.2s;
+}
+.class-block:hover { border-color: var(--blue); }
+.class-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  cursor: pointer;
+  user-select: none;
+  background: var(--bg3);
+  gap: 12px;
+}
+.class-header-left { display: flex; align-items: center; gap: 12px; }
+.class-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  border: 2px solid;
+}
+.class-title { font-size: 20px; font-weight: 900; }
+.caret { color: var(--muted); font-size: 14px; transition: transform 0.25s; }
+.class-block.open .caret { transform: rotate(180deg); }
+.class-body { display: none; padding: 20px; }
+.class-block.open .class-body { display: block; }
+
+/* ===== DEFINITION BOX ===== */
+.def-box {
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin-bottom: 16px;
+  font-size: 17px;
+  font-weight: 600;
+  border-left: 4px solid;
+}
+
+/* ===== GRID WORDS ===== */
+.words-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0 16px;
+}
+.word-chip {
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: 16px;
+  font-weight: 700;
+  border: 2px solid;
+  background: transparent;
+  cursor: default;
+  transition: transform 0.1s;
+}
+.word-chip:hover { transform: scale(1.05); }
+
+/* ===== SUB CATEGORY ===== */
+.subcat {
+  background: var(--bg2);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin-bottom: 14px;
+  border-left: 3px solid var(--border);
+}
+.subcat h4 { font-size: 17px; font-weight: 800; margin-bottom: 8px; }
+.subcat p { font-size: 16px; color: var(--muted); margin-bottom: 8px; }
+
+/* ===== EXAMPLE ===== */
+.example-box {
+  background: var(--bg);
+  border: 1px dashed var(--border);
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-top: 10px;
+  font-size: 17px;
+}
+.example-box .ex-label {
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+.hi-blue { color: var(--blue); font-weight: 800; }
+.hi-orange { color: var(--orange); font-weight: 800; }
+.hi-pink { color: var(--pink); font-weight: 800; }
+.hi-green { color: var(--green); font-weight: 800; }
+.hi-purple { color: var(--purple); font-weight: 800; }
+.hi-yellow { color: var(--yellow); font-weight: 800; }
+
+/* ===== TABLE ===== */
+.gram-table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 16px; }
+.gram-table th {
+  background: var(--bg);
+  padding: 10px 14px;
+  text-align: left;
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--muted);
+  border-bottom: 2px solid var(--border);
+}
+.gram-table td { padding: 9px 14px; border-bottom: 1px solid rgba(42,58,92,0.5); }
+.gram-table tr:last-child td { border-bottom: none; }
+.gram-table tr:hover td { background: var(--bg3); }
+
+/* ===== RULE BOX ===== */
+.rule-box {
+  background: var(--bg3);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin-bottom: 20px;
+}
+.rule-box h3 { font-size: 20px; font-weight: 900; margin-bottom: 12px; }
+.rule-step {
+  display: flex;
+  gap: 14px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  align-items: flex-start;
+}
+.rule-step:last-child { border-bottom: none; }
+.step-num {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; font-weight: 900;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.step-txt { font-size: 17px; }
+.step-txt strong { font-weight: 800; }
+
+/* ===== ANALYSE TABLE ===== */
+.analyse-sentence {
+  background: var(--bg);
+  border: 2px dashed var(--blue);
+  border-radius: 12px;
+  padding: 16px 20px;
+  font-size: 20px;
+  font-weight: 700;
+  margin: 14px 0 20px;
+  text-align: center;
+  letter-spacing: 0.3px;
+}
+.analyse-table { width: 100%; border-collapse: collapse; font-size: 16px; }
+.analyse-table th { background: var(--bg); padding: 10px 12px; border-bottom: 2px solid var(--border); text-align: left; font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px; color: var(--muted); }
+.analyse-table td { padding: 9px 12px; border-bottom: 1px solid rgba(42,58,92,0.5); }
+.analyse-table tr:hover td { background: var(--bg3); }
+
+/* ===== QUIZ ===== */
+.quiz-wrap { max-width: 860px; margin: 0 auto; }
+.quiz-header { text-align: center; margin-bottom: 30px; }
+.quiz-header h2 { font-size: 34px; font-weight: 900; color: var(--orange); margin-bottom: 8px; }
+.quiz-header p { font-size: 18px; color: var(--muted); }
+.quiz-progress-bar { height: 8px; background: var(--bg3); border-radius: 4px; margin-bottom: 28px; overflow: hidden; }
+.quiz-progress-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg,var(--blue),var(--pink)); transition: width 0.4s ease; }
+.quiz-score-display { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.quiz-score-display .qs-num { font-size: 16px; color: var(--muted); font-weight: 700; }
+.quiz-score-display .qs-pts { font-size: 22px; font-weight: 900; color: var(--green); }
+.qcard {
+  background: var(--card);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 20px;
+  transition: border-color 0.2s;
+}
+.qcard.answered { border-color: var(--border); }
+.qnum {
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+.qtext {
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 6px;
+  line-height: 1.4;
+}
+.qsubt { font-size: 16px; color: var(--muted); margin-bottom: 18px; font-style: italic; }
+.qopts { display: flex; flex-wrap: wrap; gap: 10px; }
+.qopt {
+  padding: 10px 20px;
+  border-radius: 30px;
+  border: 2px solid var(--border);
+  background: var(--bg3);
+  color: var(--white);
+  font-family: var(--font);
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.qopt:hover:not(:disabled) { border-color: var(--blue); background: var(--blue-dim); color: var(--blue); }
+.qopt.correct { background: var(--green-dim); border-color: var(--green); color: var(--green); }
+.qopt.wrong { background: rgba(255,100,100,0.13); border-color: #FF6464; color: #FF6464; }
+.qopt:disabled { cursor: default; }
+.qfeedback {
+  margin-top: 14px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 700;
+  display: none;
+}
+.qfeedback.show { display: block; }
+.qfeedback.ok { background: var(--green-dim); color: var(--green); border: 1px solid var(--green); }
+.qfeedback.ko { background: rgba(255,100,100,0.1); color: #FF8A8A; border: 1px solid #FF6464; }
+.quiz-final {
+  text-align: center;
+  background: var(--card);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 40px 28px;
+  display: none;
+}
+.quiz-final h3 { font-size: 28px; font-weight: 900; margin-bottom: 12px; }
+.quiz-final .final-score { font-size: 64px; font-weight: 900; margin: 16px 0; color: var(--orange); }
+.quiz-final .final-msg { font-size: 20px; color: var(--muted); margin-bottom: 24px; }
+.btn-restart {
+  padding: 14px 36px;
+  border-radius: 30px;
+  border: none;
+  background: linear-gradient(135deg, var(--blue), var(--pink));
+  color: var(--white);
+  font-family: var(--font);
+  font-size: 18px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.15s;
+}
+.btn-restart:hover { opacity: 0.88; transform: scale(1.03); }
+
+/* ===== TIPS ===== */
+.tip-box {
+  background: var(--yellow-dim);
+  border: 2px solid var(--yellow);
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin: 14px 0;
+  font-size: 17px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+.tip-box .tip-icon { font-size: 22px; flex-shrink: 0; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width:600px) {
+  .nav-logo { display: none; }
+  .hero h1 { font-size: 28px; }
+  .class-title { font-size: 17px; }
+  .qtext { font-size: 18px; }
+  .qopt { font-size: 15px; }
+  .words-grid .word-chip { font-size: 14px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== TOP NAV ===== -->
+<nav class="topnav">
+  <div class="nav-inner">
+    <div class="nav-logo">📚 Les Mots<span>FR</span></div>
+    <button class="nav-btn active" onclick="goSection('intro')"><div class="nb-dot" style="background:#4FC3F7"></div>Accueil</button>
+    <button class="nav-btn" onclick="goSection('variables')"><div class="nb-dot" style="background:#FF9D4D"></div>Mots Variables</button>
+    <button class="nav-btn" onclick="goSection('invariables')"><div class="nb-dot" style="background:#FF6EB4"></div>Mots Invariables</button>
+    <button class="nav-btn" onclick="goSection('analyses')"><div class="nb-dot" style="background:#B388FF"></div>Analyses</button>
+    <button class="nav-btn" onclick="goSection('quiz')"><div class="nb-dot" style="background:#69D98C"></div>Quiz 🎯</button>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<div class="hero" id="sec-intro-hero">
+  <h1><span class="w1">Les Classes</span><br><span class="w2">des Mots</span><br><span class="w3">en Français</span></h1>
+  <p>Apprends à reconnaître, nommer et analyser tous les mots de la langue française !</p>
+  <div class="hero-badges">
+    <div class="hbadge" style="color:var(--orange);border-color:var(--orange)">📦 Mots Variables</div>
+    <div class="hbadge" style="color:var(--pink);border-color:var(--pink)">🔒 Mots Invariables</div>
+    <div class="hbadge" style="color:var(--blue);border-color:var(--blue)">🔬 Analyses Gram.</div>
+    <div class="hbadge" style="color:var(--green);border-color:var(--green)">🎯 Quiz Complet</div>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- ==================== INTRO ==================== -->
+<div class="section active" id="section-intro">
+  <div class="rule-box" style="border-color:var(--blue)">
+    <h3 style="color:var(--blue)">📖 Qu'est-ce qu'une classe de mots ?</h3>
+    <p style="font-size:18px;margin-bottom:14px">En grammaire française, chaque mot appartient à une <strong style="color:var(--orange)">classe grammaticale</strong> (aussi appelée <em>nature</em> du mot). Connaître la classe d'un mot, c'est savoir <em>ce qu'il est</em>, pas ce qu'il fait dans la phrase.</p>
+    <div class="rule-step">
+      <div class="step-num" style="background:var(--blue-dim);color:var(--blue)">I</div>
+      <div class="step-txt"><strong style="color:var(--orange)">Mots variables :</strong> leur forme change selon le genre (masculin/féminin), le nombre (singulier/pluriel) ou la personne. → Noms, déterminants, adjectifs, pronoms, verbes.</div>
+    </div>
+    <div class="rule-step">
+      <div class="step-num" style="background:var(--pink-dim);color:var(--pink)">II</div>
+      <div class="step-txt"><strong style="color:var(--pink)">Mots invariables :</strong> leur forme ne change jamais, quoi qu'il arrive. → Prépositions, conjonctions, adverbes, interjections.</div>
+    </div>
+  </div>
+  <div class="tip-box">
+    <span class="tip-icon">💡</span>
+    <span>Astuce : pour trouver la classe d'un mot, pose-toi la question : <strong style="color:var(--yellow)">"Est-ce que ce mot peut changer de forme ?"</strong> Si oui → variable. Sinon → invariable.</span>
+  </div>
+  <div style="text-align:center;margin-top:32px">
+    <button class="btn-restart" onclick="goSection('variables')" style="background:linear-gradient(135deg,var(--orange),var(--pink))">Commencer le cours →</button>
+  </div>
+</div>
+
+<!-- ==================== VARIABLES ==================== -->
+<div class="section" id="section-variables">
+  <div class="sec-title">
+    <div class="sec-icon" style="background:var(--orange-dim);color:var(--orange)">📦</div>
+    <div>
+      <h2 style="color:var(--orange)">I — Les Mots Variables</h2>
+      <p>Ces mots changent de forme selon le genre, le nombre ou la personne.</p>
+    </div>
+  </div>
+
+  <!-- 1. NOMS -->
+  <div class="part-header" style="border-color:var(--blue)">
+    <div class="part-num" style="background:var(--blue-dim);color:var(--blue)">1</div>
+    <h3 style="color:var(--blue)">Le Nom</h3>
+  </div>
+
+  <div class="class-block open" id="cb-nom-commun">
+    <div class="class-header" onclick="toggleBlock('cb-nom-commun')">
+      <div class="class-header-left">
+        <span class="class-tag" style="color:var(--blue);border-color:var(--blue)">📦 Nom</span>
+        <span class="class-title">Noms Communs</span>
+      </div><span class="caret">▼</span>
+    </div>
+    <div class="class-body">
+      <div class="def-box" style="background:var(--blue-dim);border-color:var(--blue);color:var(--white)">
+        <strong style="color:var(--blue)">Définition :</strong> Le nom commun désigne une personne, un animal, une chose ou une idée de façon générale. Il est souvent précédé d'un déterminant (le, la, un, une…). Il varie en genre et en nombre.
+      </div>
+      <div class="subcat">
+        <h4 style="color:var(--blue)">🧍 Noms de personnes et êtres vivants</h4>
+        <div class="words-grid">
+          <span class="word-chip" style="color:var(--blue);border-color:var(--blue)">enfant</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">homme</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">femme</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">garçon</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">fille</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">mère</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">père</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">ami</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">professeur</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">médecin</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">élève</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">chien</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">chat</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">oiseau</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">lion</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">poisson</span>
+        </div>
+        <h4 style="color:var(--orange);margin-top:12px">🏠 Noms de choses et lieux</h4>
+        <div class="words-grid">
+          <span class="word-chip" style="color:var(--orange);border-color:var(--orange)">maison</span><span class="word-chip" style="color:var(--orange);border-color:var(--orange)">école</span><span class="word-chip" style="color:var(--orange);border-color:var(--orange)">livre</span><span class="word-chip" style="color:var(--orange);border-color:var(--orange)">table</span><span class="word-chip" style="color:var(--orange);border-color:var(--orange)">voiture</span><span class="word-chip" style="color:var(--orange);border-color:var(--orange)">soleil</span><span class="word-chip" style="color:var(--orange);border-color:var(--orange)">rivière</span><span class="word-chip" style="color:var(--orange);border-color:var(--orange)">forêt</span><span class="word-chip" style="color:var(--orange);border-color:var(--orange)">pain</span><span class="word-chip" style="color:var(--orange);border-color:var(--orange)">porte</span><span class="word-chip" style="color:var(--orange);border-color:var(--orange)">fenêtre</span><span class="word-chip" style="color:var(--orange);border-color:var(--orange)">chemin</span><span class="word-chip" style="color:var(--orange);border-color:var(--orange)">fleur</span><span class="word-chip" style="color:var(--orange);border-color:var(--orange)">arbre</span><span class="word-chip" style="color:var(--orange);border-color:var(--orange)">nuage</span><span class="word-chip" style="color:var(--orange);border-color:var(--orange)">village</span>
+        </div>
+        <h4 style="color:var(--pink);margin-top:12px">💭 Noms d'idées et de sentiments</h4>
+        <div class="words-grid">
+          <span class="word-chip" style="color:var(--pink);border-color:var(--pink)">amour</span><span class="word-chip" style="color:var(--pink);border-color:var(--pink)">joie</span><span class="word-chip" style="color:var(--pink);border-color:var(--pink)">peur</span><span class="word-chip" style="color:var(--pink);border-color:var(--pink)">liberté</span><span class="word-chip" style="color:var(--pink);border-color:var(--pink)">courage</span><span class="word-chip" style="color:var(--pink);border-color:var(--pink)">bonheur</span><span class="word-chip" style="color:var(--pink);border-color:var(--pink)">tristesse</span><span class="word-chip" style="color:var(--pink);border-color:var(--pink)">vérité</span><span class="word-chip" style="color:var(--pink);border-color:var(--pink)">paix</span><span class="word-chip" style="color:var(--pink);border-color:var(--pink)">intelligence</span>
+        </div>
+      </div>
+      <div class="example-box">
+        <div class="ex-label">Exemples</div>
+        Le <span class="hi-blue">chien</span> court dans la <span class="hi-orange">forêt</span>. / L'<span class="hi-pink">amour</span> rend heureux. / Les <span class="hi-blue">élèves</span> lisent un <span class="hi-orange">livre</span>.
+      </div>
+    </div>
+  </div>
+
+  <div class="class-block" id="cb-nom-propre">
+    <div class="class-header" onclick="toggleBlock('cb-nom-propre')">
+      <div class="class-header-left">
+        <span class="class-tag" style="color:var(--blue);border-color:var(--blue)">📦 Nom</span>
+        <span class="class-title">Noms Propres</span>
+      </div><span class="caret">▼</span>
+    </div>
+    <div class="class-body">
+      <div class="def-box" style="background:var(--blue-dim);border-color:var(--blue)">
+        <strong style="color:var(--blue)">Définition :</strong> Le nom propre désigne un être ou un lieu de façon unique et particulière. Il s'écrit toujours avec une <strong>majuscule</strong>. Il ne prend pas de déterminant la plupart du temps.
+      </div>
+      <div class="subcat">
+        <h4 style="color:var(--blue)">Prénoms & Noms de famille</h4>
+        <div class="words-grid">
+          <span class="word-chip" style="color:var(--blue);border-color:var(--blue)">Marie</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">Thomas</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">Kofi</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">Fatou</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">Hugo</span>
+        </div>
+        <h4 style="color:var(--orange);margin-top:10px">Pays, villes, continents</h4>
+        <div class="words-grid">
+          <span class="word-chip" style="color:var(--orange);border-color:var(--orange)">France</span><span class="word-chip" style="color:var(--orange);border-color:var(--orange)">Bénin</span><span class="word-chip" style="color:var(--orange);border-color:var(--orange)">Paris</span><span class="word-chip" style="color:var(--orange);border-color:var(--orange)">Afrique</span><span class="word-chip" style="color:var(--orange);border-color:var(--orange)">Cotonou</span><span class="word-chip" style="color:var(--orange);border-color:var(--orange)">Europe</span><span class="word-chip" style="color:var(--orange);border-color:var(--orange)">Niger</span><span class="word-chip" style="color:var(--orange);border-color:var(--orange)">Dakar</span>
+        </div>
+        <h4 style="color:var(--pink);margin-top:10px">Œuvres, événements, institutions</h4>
+        <div class="words-grid">
+          <span class="word-chip" style="color:var(--pink);border-color:var(--pink)">Noël</span><span class="word-chip" style="color:var(--pink);border-color:var(--pink)">Pâques</span><span class="word-chip" style="color:var(--pink);border-color:var(--pink)">La Bible</span><span class="word-chip" style="color:var(--pink);border-color:var(--pink)">L'ONU</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. DÉTERMINANTS -->
+  <div class="part-header" style="border-color:var(--orange)">
+    <div class="part-num" style="background:var(--orange-dim);color:var(--orange)">2</div>
+    <h3 style="color:var(--orange)">Le Déterminant</h3>
+  </div>
+
+  <div class="class-block" id="cb-det">
+    <div class="class-header" onclick="toggleBlock('cb-det')">
+      <div class="class-header-left">
+        <span class="class-tag" style="color:var(--orange);border-color:var(--orange)">🏷️ Dét.</span>
+        <span class="class-title">Tous les types de Déterminants</span>
+      </div><span class="caret">▼</span>
+    </div>
+    <div class="class-body">
+      <div class="def-box" style="background:var(--orange-dim);border-color:var(--orange)">
+        <strong style="color:var(--orange)">Définition :</strong> Le déterminant se place devant le nom pour l'introduire. Il indique le genre et le nombre du nom. Sans lui, le nom ne peut généralement pas être utilisé seul.
+      </div>
+      <table class="gram-table">
+        <thead><tr><th>Type</th><th>Masculin sing.</th><th>Féminin sing.</th><th>Pluriel</th><th>Exemples</th></tr></thead>
+        <tbody>
+          <tr><td><strong style="color:var(--orange)">Articles définis</strong></td><td>le, l'</td><td>la, l'</td><td>les</td><td><span class="hi-orange">le</span> chat, <span class="hi-orange">l'</span>arbre</td></tr>
+          <tr><td><strong style="color:var(--blue)">Articles indéfinis</strong></td><td>un</td><td>une</td><td>des</td><td><span class="hi-blue">un</span> chien, <span class="hi-blue">des</span> fleurs</td></tr>
+          <tr><td><strong style="color:var(--pink)">Articles partitifs</strong></td><td>du, de l'</td><td>de la, de l'</td><td>des</td><td>manger <span class="hi-pink">du</span> pain</td></tr>
+          <tr><td><strong style="color:var(--green)">Dét. possessifs</strong></td><td>mon, ton, son, notre, votre, leur</td><td>ma, ta, sa, notre, votre, leur</td><td>mes, tes, ses, nos, vos, leurs</td><td><span class="hi-green">mon</span> livre, <span class="hi-green">sa</span> maison</td></tr>
+          <tr><td><strong style="color:var(--purple)">Dét. démonstratifs</strong></td><td>ce, cet</td><td>cette</td><td>ces</td><td><span class="hi-purple">ce</span> garçon, <span class="hi-purple">cette</span> fille</td></tr>
+          <tr><td><strong style="color:var(--yellow)">Dét. interrogatifs</strong></td><td>quel</td><td>quelle</td><td>quels / quelles</td><td><span class="hi-yellow">quel</span> âge ? <span class="hi-yellow">quelle</span> heure ?</td></tr>
+          <tr><td><strong style="color:var(--blue)">Dét. exclamatifs</strong></td><td>quel</td><td>quelle</td><td>quels / quelles</td><td><span class="hi-blue">Quelle</span> belle journée !</td></tr>
+          <tr><td><strong style="color:var(--orange)">Dét. numéraux</strong></td><td colspan="3">un, deux, trois, quatre, cinq, dix, vingt, cent, mille…</td><td><span class="hi-orange">trois</span> enfants</td></tr>
+          <tr><td><strong style="color:var(--pink)">Dét. indéfinis</strong></td><td colspan="3">chaque, quelques, plusieurs, tout, toute, tous, toutes, certains, nul, aucun…</td><td><span class="hi-pink">chaque</span> jour</td></tr>
+          <tr><td><strong style="color:var(--green)">Dét. relatifs</strong></td><td colspan="3">lequel, duquel, auquel, lesquels, laquelle, desquelles…</td><td>formes rares (juridique)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 3. VERBES -->
+  <div class="part-header" style="border-color:var(--pink)">
+    <div class="part-num" style="background:var(--pink-dim);color:var(--pink)">3</div>
+    <h3 style="color:var(--pink)">Le Verbe</h3>
+  </div>
+
+  <div class="class-block" id="cb-verbe">
+    <div class="class-header" onclick="toggleBlock('cb-verbe')">
+      <div class="class-header-left">
+        <span class="class-tag" style="color:var(--pink);border-color:var(--pink)">⚡ Verbe</span>
+        <span class="class-title">Le Verbe — Nature et formes</span>
+      </div><span class="caret">▼</span>
+    </div>
+    <div class="class-body">
+      <div class="def-box" style="background:var(--pink-dim);border-color:var(--pink)">
+        <strong style="color:var(--pink)">Définition :</strong> Le verbe exprime une <strong>action</strong> (marcher, manger) ou un <strong>état</strong> (être, paraître, sembler). Il se conjugue selon la personne, le nombre, le temps et le mode. C'est le noyau de la phrase.
+      </div>
+      <div class="subcat">
+        <h4 style="color:var(--pink)">⚙️ Verbes d'action</h4>
+        <div class="words-grid">
+          <span class="word-chip" style="color:var(--pink);border-color:var(--pink)">aller</span><span class="word-chip" style="color:var(--pink);border-color:var(--pink)">venir</span><span class="word-chip" style="color:var(--pink);border-color:var(--pink)">manger</span><span class="word-chip" style="color:var(--pink);border-color:var(--pink)">courir</span><span class="word-chip" style="color:var(--pink);border-color:var(--pink)">lire</span><span class="word-chip" style="color:var(--pink);border-color:var(--pink)">écrire</span><span class="word-chip" style="color:var(--pink);border-color:var(--pink)">chanter</span><span class="word-chip" style="color:var(--pink);border-color:var(--pink)">danser</span><span class="word-chip" style="color:var(--pink);border-color:var(--pink)">jouer</span><span class="word-chip" style="color:var(--pink);border-color:var(--pink)">dormir</span><span class="word-chip" style="color:var(--pink);border-color:var(--pink)">parler</span><span class="word-chip" style="color:var(--pink);border-color:var(--pink)">regarder</span><span class="word-chip" style="color:var(--pink);border-color:var(--pink)">prendre</span><span class="word-chip" style="color:var(--pink);border-color:var(--pink)">donner</span><span class="word-chip" style="color:var(--pink);border-color:var(--pink)">faire</span><span class="word-chip" style="color:var(--pink);border-color:var(--pink)">voir</span><span class="word-chip" style="color:var(--pink);border-color:var(--pink)">entendre</span><span class="word-chip" style="color:var(--pink);border-color:var(--pink)">tomber</span>
+        </div>
+        <h4 style="color:var(--blue);margin-top:12px">🔵 Verbes d'état (attributifs)</h4>
+        <div class="words-grid">
+          <span class="word-chip" style="color:var(--blue);border-color:var(--blue)">être</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">paraître</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">sembler</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">devenir</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">rester</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">demeurer</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">avoir l'air</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">passer pour</span>
+        </div>
+        <h4 style="color:var(--orange);margin-top:12px">🔧 Verbes auxiliaires</h4>
+        <div class="words-grid">
+          <span class="word-chip" style="color:var(--orange);border-color:var(--orange)">avoir</span><span class="word-chip" style="color:var(--orange);border-color:var(--orange)">être</span>
+        </div>
+      </div>
+      <div class="tip-box">
+        <span class="tip-icon">💡</span>
+        <span>Astuce : Pour trouver le verbe, cherche le mot qui peut se conjuguer à différents temps : <em>il <span class="hi-pink">mange</span> / il <span class="hi-pink">mangera</span> / il <span class="hi-pink">mangeait</span></em>.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. ADJECTIFS -->
+  <div class="part-header" style="border-color:var(--purple)">
+    <div class="part-num" style="background:var(--purple-dim);color:var(--purple)">4</div>
+    <h3 style="color:var(--purple)">L'Adjectif</h3>
+  </div>
+
+  <div class="class-block" id="cb-adj">
+    <div class="class-header" onclick="toggleBlock('cb-adj')">
+      <div class="class-header-left">
+        <span class="class-tag" style="color:var(--purple);border-color:var(--purple)">🎨 Adj.</span>
+        <span class="class-title">Tous les types d'Adjectifs</span>
+      </div><span class="caret">▼</span>
+    </div>
+    <div class="class-body">
+      <div class="def-box" style="background:var(--purple-dim);border-color:var(--purple)">
+        <strong style="color:var(--purple)">Définition :</strong> L'adjectif apporte une information sur un nom. Il s'accorde en genre et en nombre avec le nom auquel il se rapporte.
+      </div>
+
+      <div class="subcat">
+        <h4 style="color:var(--purple)">🎨 Adjectifs qualificatifs</h4>
+        <p>Décrivent une qualité ou une caractéristique du nom.</p>
+        <div class="words-grid">
+          <span class="word-chip" style="color:var(--purple);border-color:var(--purple)">grand</span><span class="word-chip" style="color:var(--purple);border-color:var(--purple)">petit</span><span class="word-chip" style="color:var(--purple);border-color:var(--purple)">beau</span><span class="word-chip" style="color:var(--purple);border-color:var(--purple)">rouge</span><span class="word-chip" style="color:var(--purple);border-color:var(--purple)">intelligent</span><span class="word-chip" style="color:var(--purple);border-color:var(--purple)">gentil</span><span class="word-chip" style="color:var(--purple);border-color:var(--purple)">rapide</span><span class="word-chip" style="color:var(--purple);border-color:var(--purple)">fort</span><span class="word-chip" style="color:var(--purple);border-color:var(--purple)">doux</span><span class="word-chip" style="color:var(--purple);border-color:var(--purple)">chaud</span><span class="word-chip" style="color:var(--purple);border-color:var(--purple)">froid</span><span class="word-chip" style="color:var(--purple);border-color:var(--purple)">joli</span><span class="word-chip" style="color:var(--purple);border-color:var(--purple)">vieux</span><span class="word-chip" style="color:var(--purple);border-color:var(--purple)">nouveau</span><span class="word-chip" style="color:var(--purple);border-color:var(--purple)">heureux</span><span class="word-chip" style="color:var(--purple);border-color:var(--purple)">triste</span><span class="word-chip" style="color:var(--purple);border-color:var(--purple)">sage</span><span class="word-chip" style="color:var(--purple);border-color:var(--purple)">méchant</span><span class="word-chip" style="color:var(--purple);border-color:var(--purple)">courageux</span><span class="word-chip" style="color:var(--purple);border-color:var(--purple)">blanc</span>
+        </div>
+      </div>
+
+      <div class="subcat">
+        <h4 style="color:var(--green)">✅ Adjectifs définis / indéfinis</h4>
+        <p>Voir les <strong style="color:var(--orange)">déterminants</strong> — les adjectifs définis (le, la, les) et indéfinis (quelques, plusieurs, certain…) sont aujourd'hui classés comme déterminants dans la grammaire moderne.</p>
+      </div>
+
+      <table class="gram-table">
+        <thead><tr><th>Type d'adjectif</th><th>Exemples complets</th><th>Rôle</th></tr></thead>
+        <tbody>
+          <tr><td><strong style="color:var(--green)">Possessifs</strong></td><td>mon, ma, mes, ton, ta, tes, son, sa, ses, notre, nos, votre, vos, leur, leurs</td><td>Indique la possession</td></tr>
+          <tr><td><strong style="color:var(--orange)">Démonstratifs</strong></td><td>ce, cet, cette, ces</td><td>Montre ou désigne</td></tr>
+          <tr><td><strong style="color:var(--blue)">Interrogatifs</strong></td><td>quel, quelle, quels, quelles</td><td>Pose une question sur le nom</td></tr>
+          <tr><td><strong style="color:var(--pink)">Exclamatifs</strong></td><td>quel, quelle, quels, quelles</td><td>Exprime une exclamation</td></tr>
+          <tr><td><strong style="color:var(--purple)">Relatifs</strong></td><td>lequel, laquelle, lesquels, lesquelles, duquel, auquel…</td><td>Sert de lien (usages juridiques surtout)</td></tr>
+          <tr><td><strong style="color:var(--yellow)">Numéraux cardinaux</strong></td><td>un, deux, trois, quatre, cinq, six, sept, huit, neuf, dix, onze, douze, vingt, cent…</td><td>Indique une quantité</td></tr>
+          <tr><td><strong style="color:var(--green)">Numéraux ordinaux</strong></td><td>premier, deuxième, troisième, quatrième, cinquième, dixième, centième…</td><td>Indique un rang/ordre</td></tr>
+          <tr><td><strong style="color:var(--orange)">Indéfinis</strong></td><td>aucun, nul, chaque, quelques, plusieurs, tout, toute, tous, toutes, certain, même, autre, tel, divers…</td><td>Quantité indéterminée</td></tr>
+        </tbody>
+      </table>
+      <div class="example-box">
+        <div class="ex-label">Exemples dans des phrases</div>
+        <span class="hi-green">Ma</span> petite sœur a <span class="hi-orange">trois</span> <span class="hi-purple">jolis</span> chats. / <span class="hi-orange">Cette</span> <span class="hi-blue">belle</span> fille est <span class="hi-purple">courageuse</span>. / <span class="hi-blue">Quel</span> beau pays ! / <span class="hi-pink">Quelques</span> élèves sont absents.
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. PRONOMS -->
+  <div class="part-header" style="border-color:var(--green)">
+    <div class="part-num" style="background:var(--green-dim);color:var(--green)">5</div>
+    <h3 style="color:var(--green)">Le Pronom</h3>
+  </div>
+
+  <div class="class-block" id="cb-pron">
+    <div class="class-header" onclick="toggleBlock('cb-pron')">
+      <div class="class-header-left">
+        <span class="class-tag" style="color:var(--green);border-color:var(--green)">🔄 Pronom</span>
+        <span class="class-title">Tous les types de Pronoms</span>
+      </div><span class="caret">▼</span>
+    </div>
+    <div class="class-body">
+      <div class="def-box" style="background:var(--green-dim);border-color:var(--green)">
+        <strong style="color:var(--green)">Définition :</strong> Le pronom <strong>remplace</strong> un nom (ou un groupe nominal) pour éviter les répétitions. Il prend le genre et le nombre du nom qu'il remplace.
+      </div>
+
+      <div class="subcat">
+        <h4 style="color:var(--green)">👤 Pronoms personnels</h4>
+        <table class="gram-table">
+          <thead><tr><th>Personne</th><th>Sujet</th><th>C.O.D.</th><th>C.O.I.</th><th>Toniques</th></tr></thead>
+          <tbody>
+            <tr><td>1ère sing.</td><td class="hi-green">je / j'</td><td class="hi-green">me / m'</td><td class="hi-green">me / m'</td><td class="hi-green">moi</td></tr>
+            <tr><td>2ème sing.</td><td class="hi-blue">tu</td><td class="hi-blue">te / t'</td><td class="hi-blue">te / t'</td><td class="hi-blue">toi</td></tr>
+            <tr><td>3ème sing.</td><td class="hi-orange">il / elle / on</td><td class="hi-orange">le / la / l'</td><td class="hi-orange">lui</td><td class="hi-orange">lui / elle</td></tr>
+            <tr><td>1ère plur.</td><td class="hi-pink">nous</td><td class="hi-pink">nous</td><td class="hi-pink">nous</td><td class="hi-pink">nous</td></tr>
+            <tr><td>2ème plur.</td><td class="hi-purple">vous</td><td class="hi-purple">vous</td><td class="hi-purple">vous</td><td class="hi-purple">vous</td></tr>
+            <tr><td>3ème plur.</td><td class="hi-yellow">ils / elles</td><td class="hi-yellow">les</td><td class="hi-yellow">leur</td><td class="hi-yellow">eux / elles</td></tr>
+          </tbody>
+        </table>
+        <p style="font-size:15px;color:var(--muted);margin-top:8px">Pronoms neutres : <span class="hi-blue">y</span> (remplace un lieu ou CC), <span class="hi-orange">en</span> (remplace un COD introduit par de/du/des), <span class="hi-pink">se / s'</span> (réfléchi), <span class="hi-green">me, te, lui, nous, vous, leur</span></p>
+      </div>
+
+      <div class="subcat">
+        <h4 style="color:var(--orange)">📌 Pronoms possessifs</h4>
+        <div class="words-grid">
+          <span class="word-chip" style="color:var(--orange);border-color:var(--orange)">le mien</span><span class="word-chip" style="color:var(--orange);border-color:var(--orange)">la mienne</span><span class="word-chip" style="color:var(--orange);border-color:var(--orange)">les miens</span><span class="word-chip" style="color:var(--orange);border-color:var(--orange)">le tien</span><span class="word-chip" style="color:var(--orange);border-color:var(--orange)">la tienne</span><span class="word-chip" style="color:var(--orange);border-color:var(--orange)">le sien</span><span class="word-chip" style="color:var(--orange);border-color:var(--orange)">la sienne</span><span class="word-chip" style="color:var(--orange);border-color:var(--orange)">le nôtre</span><span class="word-chip" style="color:var(--orange);border-color:var(--orange)">la nôtre</span><span class="word-chip" style="color:var(--orange);border-color:var(--orange)">le vôtre</span><span class="word-chip" style="color:var(--orange);border-color:var(--orange)">le leur</span><span class="word-chip" style="color:var(--orange);border-color:var(--orange)">la leur</span>
+        </div>
+        <div class="example-box"><div class="ex-label">Exemple</div>Ton livre est rouge, <span class="hi-orange">le mien</span> est bleu.</div>
+      </div>
+
+      <div class="subcat">
+        <h4 style="color:var(--pink)">👉 Pronoms démonstratifs</h4>
+        <div class="words-grid">
+          <span class="word-chip" style="color:var(--pink);border-color:var(--pink)">celui</span><span class="word-chip" style="color:var(--pink);border-color:var(--pink)">celle</span><span class="word-chip" style="color:var(--pink);border-color:var(--pink)">ceux</span><span class="word-chip" style="color:var(--pink);border-color:var(--pink)">celles</span><span class="word-chip" style="color:var(--pink);border-color:var(--pink)">ce</span><span class="word-chip" style="color:var(--pink);border-color:var(--pink)">ceci</span><span class="word-chip" style="color:var(--pink);border-color:var(--pink)">cela</span><span class="word-chip" style="color:var(--pink);border-color:var(--pink)">ça</span><span class="word-chip" style="color:var(--pink);border-color:var(--pink)">celui-ci</span><span class="word-chip" style="color:var(--pink);border-color:var(--pink)">celui-là</span><span class="word-chip" style="color:var(--pink);border-color:var(--pink)">celle-ci</span><span class="word-chip" style="color:var(--pink);border-color:var(--pink)">celle-là</span>
+        </div>
+      </div>
+
+      <div class="subcat">
+        <h4 style="color:var(--blue)">🔗 Pronoms relatifs</h4>
+        <div class="words-grid">
+          <span class="word-chip" style="color:var(--blue);border-color:var(--blue)">qui</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">que / qu'</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">quoi</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">dont</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">où</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">lequel</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">laquelle</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">lesquels</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">lesquelles</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">auquel</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">duquel</span>
+        </div>
+        <div class="example-box"><div class="ex-label">Exemple</div>Le livre <span class="hi-blue">que</span> je lis est passionnant. / L'élève <span class="hi-blue">qui</span> travaille réussit. / La ville <span class="hi-blue">où</span> je vis est belle.</div>
+      </div>
+
+      <div class="subcat">
+        <h4 style="color:var(--yellow)">❓ Pronoms interrogatifs</h4>
+        <div class="words-grid">
+          <span class="word-chip" style="color:var(--yellow);border-color:var(--yellow)">qui</span><span class="word-chip" style="color:var(--yellow);border-color:var(--yellow)">que / qu'</span><span class="word-chip" style="color:var(--yellow);border-color:var(--yellow)">quoi</span><span class="word-chip" style="color:var(--yellow);border-color:var(--yellow)">lequel</span><span class="word-chip" style="color:var(--yellow);border-color:var(--yellow)">laquelle</span><span class="word-chip" style="color:var(--yellow);border-color:var(--yellow)">lesquels</span><span class="word-chip" style="color:var(--yellow);border-color:var(--yellow)">lesquelles</span><span class="word-chip" style="color:var(--yellow);border-color:var(--yellow)">qu'est-ce que</span><span class="word-chip" style="color:var(--yellow);border-color:var(--yellow)">qu'est-ce qui</span>
+        </div>
+        <div class="example-box"><div class="ex-label">Exemple</div><span class="hi-yellow">Qui</span> a pris mon stylo ? / <span class="hi-yellow">Que</span> manges-tu ? / <span class="hi-yellow">Lequel</span> préfères-tu ?</div>
+      </div>
+
+      <div class="subcat">
+        <h4 style="color:var(--green)">🌐 Pronoms indéfinis</h4>
+        <div class="words-grid">
+          <span class="word-chip" style="color:var(--green);border-color:var(--green)">on</span><span class="word-chip" style="color:var(--green);border-color:var(--green)">quelqu'un</span><span class="word-chip" style="color:var(--green);border-color:var(--green)">quelque chose</span><span class="word-chip" style="color:var(--green);border-color:var(--green)">quelques-uns</span><span class="word-chip" style="color:var(--green);border-color:var(--green)">personne</span><span class="word-chip" style="color:var(--green);border-color:var(--green)">rien</span><span class="word-chip" style="color:var(--green);border-color:var(--green)">chacun</span><span class="word-chip" style="color:var(--green);border-color:var(--green)">tout</span><span class="word-chip" style="color:var(--green);border-color:var(--green)">tous</span><span class="word-chip" style="color:var(--green);border-color:var(--green)">toutes</span><span class="word-chip" style="color:var(--green);border-color:var(--green)">aucun</span><span class="word-chip" style="color:var(--green);border-color:var(--green)">nul</span><span class="word-chip" style="color:var(--green);border-color:var(--green)">certain</span><span class="word-chip" style="color:var(--green);border-color:var(--green)">l'un</span><span class="word-chip" style="color:var(--green);border-color:var(--green)">l'autre</span><span class="word-chip" style="color:var(--green);border-color:var(--green)">n'importe qui</span><span class="word-chip" style="color:var(--green);border-color:var(--green)">autrui</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div><!-- end variables -->
+
+<!-- ==================== INVARIABLES ==================== -->
+<div class="section" id="section-invariables">
+  <div class="sec-title">
+    <div class="sec-icon" style="background:var(--pink-dim);color:var(--pink)">🔒</div>
+    <div>
+      <h2 style="color:var(--pink)">II — Les Mots Invariables</h2>
+      <p>Ces mots ne changent jamais de forme, quelle que soit la phrase.</p>
+    </div>
+  </div>
+
+  <!-- PRÉPOSITIONS -->
+  <div class="part-header" style="border-color:var(--blue)">
+    <div class="part-num" style="background:var(--blue-dim);color:var(--blue)">1</div>
+    <h3 style="color:var(--blue)">Les Prépositions</h3>
+  </div>
+  <div class="class-block open" id="cb-prep">
+    <div class="class-header" onclick="toggleBlock('cb-prep')">
+      <div class="class-header-left">
+        <span class="class-tag" style="color:var(--blue);border-color:var(--blue)">🔗 Prép.</span>
+        <span class="class-title">Prépositions — Liste complète</span>
+      </div><span class="caret">▼</span>
+    </div>
+    <div class="class-body">
+      <div class="def-box" style="background:var(--blue-dim);border-color:var(--blue)">
+        <strong style="color:var(--blue)">Définition :</strong> La préposition est un mot invariable qui <strong>relie</strong> deux éléments de la phrase en introduisant un complément. Elle indique souvent un lieu, le temps, la manière, l'origine, le but…
+      </div>
+      <div class="subcat">
+        <h4 style="color:var(--blue)">📍 Prépositions simples essentielles</h4>
+        <div class="words-grid">
+          <span class="word-chip" style="color:var(--blue);border-color:var(--blue)">à</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">de</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">en</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">dans</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">sur</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">sous</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">par</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">pour</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">avec</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">sans</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">entre</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">parmi</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">vers</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">chez</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">depuis</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">pendant</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">contre</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">avant</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">après</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">selon</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">malgré</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">sauf</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">hors</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">dès</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">envers</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">derrière</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">devant</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">près de</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">loin de</span>
+        </div>
+        <h4 style="color:var(--orange);margin-top:12px">🔧 Locutions prépositives (groupes)</h4>
+        <div class="words-grid">
+          <span class="word-chip" style="color:var(--orange);border-color:var(--orange)">à cause de</span><span class="word-chip" style="color:var(--orange);border-color:var(--orange)">grâce à</span><span class="word-chip" style="color:var(--orange);border-color:var(--orange)">afin de</span><span class="word-chip" style="color:var(--orange);border-color:var(--orange)">au lieu de</span><span class="word-chip" style="color:var(--orange);border-color:var(--orange)">à côté de</span><span class="word-chip" style="color:var(--orange);border-color:var(--orange)">en face de</span><span class="word-chip" style="color:var(--orange);border-color:var(--orange)">au-dessus de</span><span class="word-chip" style="color:var(--orange);border-color:var(--orange)">au-dessous de</span><span class="word-chip" style="color:var(--orange);border-color:var(--orange)">à travers</span><span class="word-chip" style="color:var(--orange);border-color:var(--orange)">par rapport à</span><span class="word-chip" style="color:var(--orange);border-color:var(--orange)">en dehors de</span>
+        </div>
+      </div>
+      <div class="example-box">
+        <div class="ex-label">Exemples</div>
+        Je vais <span class="hi-blue">à</span> l'école. / Le chat est <span class="hi-blue">sur</span> la table. / Il travaille <span class="hi-orange">grâce à</span> son courage. / Elle chante <span class="hi-blue">avec</span> joie.
+      </div>
+    </div>
+  </div>
+
+  <!-- CONJONCTIONS -->
+  <div class="part-header" style="border-color:var(--orange)">
+    <div class="part-num" style="background:var(--orange-dim);color:var(--orange)">2</div>
+    <h3 style="color:var(--orange)">Les Conjonctions</h3>
+  </div>
+  <div class="class-block" id="cb-conj">
+    <div class="class-header" onclick="toggleBlock('cb-conj')">
+      <div class="class-header-left">
+        <span class="class-tag" style="color:var(--orange);border-color:var(--orange)">🤝 Conj.</span>
+        <span class="class-title">Conjonctions de coordination & subordination</span>
+      </div><span class="caret">▼</span>
+    </div>
+    <div class="class-body">
+      <div class="def-box" style="background:var(--orange-dim);border-color:var(--orange)">
+        <strong style="color:var(--orange)">Définition :</strong> La conjonction <strong>unit</strong> deux mots, deux groupes ou deux propositions.
+      </div>
+      <div class="subcat">
+        <h4 style="color:var(--orange)">🔗 Conjonctions de coordination (= unissent des éléments de même rang)</h4>
+        <div class="words-grid">
+          <span class="word-chip" style="color:var(--orange);border-color:var(--orange)">mais</span><span class="word-chip" style="color:var(--orange);border-color:var(--orange)">ou</span><span class="word-chip" style="color:var(--orange);border-color:var(--orange)">et</span><span class="word-chip" style="color:var(--orange);border-color:var(--orange)">donc</span><span class="word-chip" style="color:var(--orange);border-color:var(--orange)">or</span><span class="word-chip" style="color:var(--orange);border-color:var(--orange)">ni</span><span class="word-chip" style="color:var(--orange);border-color:var(--orange)">car</span>
+        </div>
+        <p style="font-size:15px;color:var(--muted);margin-top:8px">Moyen mnémotechnique : <strong style="color:var(--yellow)">MAIS OU ET DONC OR NI CAR</strong></p>
+        <p style="font-size:15px;color:var(--muted)">+ aussi, puis, cependant, pourtant, néanmoins, toutefois, en revanche, or, sinon, voire…</p>
+      </div>
+      <div class="subcat">
+        <h4 style="color:var(--blue)">🔗 Conjonctions de subordination (= introduisent une proposition subordonnée)</h4>
+        <div class="words-grid">
+          <span class="word-chip" style="color:var(--blue);border-color:var(--blue)">que</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">si</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">quand</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">lorsque</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">puisque</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">parce que</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">comme</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">bien que</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">quoique</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">bien que</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">pour que</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">afin que</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">avant que</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">après que</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">dès que</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">tandis que</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">alors que</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">bien que</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">à condition que</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">de sorte que</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">sans que</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">jusqu'à ce que</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">à moins que</span>
+        </div>
+      </div>
+      <div class="example-box">
+        <div class="ex-label">Exemples</div>
+        Je lis <span class="hi-orange">et</span> j'apprends. / Il ne vient pas <span class="hi-orange">car</span> il est malade. / Il réussira <span class="hi-orange">si</span> il travaille. / Je sais <span class="hi-blue">que</span> tu es courageux.
+      </div>
+    </div>
+  </div>
+
+  <!-- ADVERBES -->
+  <div class="part-header" style="border-color:var(--pink)">
+    <div class="part-num" style="background:var(--pink-dim);color:var(--pink)">3</div>
+    <h3 style="color:var(--pink)">Les Adverbes</h3>
+  </div>
+  <div class="class-block" id="cb-adv">
+    <div class="class-header" onclick="toggleBlock('cb-adv')">
+      <div class="class-header-left">
+        <span class="class-tag" style="color:var(--pink);border-color:var(--pink)">✨ Adv.</span>
+        <span class="class-title">Adverbes — Tous les types</span>
+      </div><span class="caret">▼</span>
+    </div>
+    <div class="class-body">
+      <div class="def-box" style="background:var(--pink-dim);border-color:var(--pink)">
+        <strong style="color:var(--pink)">Définition :</strong> L'adverbe modifie un verbe, un adjectif ou un autre adverbe. Il est invariable (ne change jamais de forme). Il précise le <strong>comment, quand, où, combien</strong>...
+      </div>
+      <table class="gram-table">
+        <thead><tr><th>Type</th><th>Exemples (liste étendue)</th></tr></thead>
+        <tbody>
+          <tr><td><strong style="color:var(--pink)">Manière</strong></td><td>bien, mal, vite, lentement, facilement, difficilement, ensemble, ainsi, volontiers, plutôt, également, brusquement, doucement, poliment, rapidement, fort, sagement, en vain…</td></tr>
+          <tr><td><strong style="color:var(--blue)">Lieu</strong></td><td>ici, là, là-bas, là-haut, partout, nulle part, quelque part, ailleurs, dehors, dedans, dessus, dessous, devant, derrière, loin, près, autour, à droite, à gauche, en haut, en bas…</td></tr>
+          <tr><td><strong style="color:var(--orange)">Temps</strong></td><td>maintenant, hier, demain, aujourd'hui, bientôt, déjà, encore, toujours, jamais, souvent, parfois, rarement, longtemps, jadis, autrefois, aussitôt, ensuite, puis, tôt, tard, désormais…</td></tr>
+          <tr><td><strong style="color:var(--green)">Quantité / intensité</strong></td><td>très, trop, peu, beaucoup, assez, moins, plus, autant, si, tant, davantage, presque, à peine, seulement, tout à fait, fort, bien, environ, guère…</td></tr>
+          <tr><td><strong style="color:var(--purple)">Affirmation</strong></td><td>oui, si, certes, vraiment, effectivement, assurément, bien sûr, absolument, évidemment, exactement, précisément…</td></tr>
+          <tr><td><strong style="color:var(--yellow)">Négation</strong></td><td>ne…pas, ne…plus, ne…jamais, ne…guère, ne…point, ne…rien, ne…nullement, non, pas du tout…</td></tr>
+          <tr><td><strong style="color:var(--orange)">Doute</strong></td><td>peut-être, probablement, certainement, sans doute, apparemment, vraisemblablement…</td></tr>
+          <tr><td><strong style="color:var(--pink)">Interrogation</strong></td><td>comment, combien, quand, où, pourquoi, est-ce que…</td></tr>
+        </tbody>
+      </table>
+      <div class="tip-box"><span class="tip-icon">💡</span><span>La plupart des adverbes de manière se forment en ajoutant <strong style="color:var(--yellow)">-ment</strong> à la forme féminine de l'adjectif : doux → douce → <strong>doucement</strong>, rapide → <strong>rapidement</strong>.</span></div>
+    </div>
+  </div>
+
+  <!-- INTERJECTIONS -->
+  <div class="part-header" style="border-color:var(--yellow)">
+    <div class="part-num" style="background:var(--yellow-dim);color:var(--yellow)">4</div>
+    <h3 style="color:var(--yellow)">Les Interjections</h3>
+  </div>
+  <div class="class-block" id="cb-interj">
+    <div class="class-header" onclick="toggleBlock('cb-interj')">
+      <div class="class-header-left">
+        <span class="class-tag" style="color:var(--yellow);border-color:var(--yellow)">😲 Interj.</span>
+        <span class="class-title">Les Interjections</span>
+      </div><span class="caret">▼</span>
+    </div>
+    <div class="class-body">
+      <div class="def-box" style="background:var(--yellow-dim);border-color:var(--yellow)">
+        <strong style="color:var(--yellow)">Définition :</strong> L'interjection est un mot invariable (ou groupe de mots) qui exprime un sentiment, une émotion, un ordre brusque ou une réaction spontanée. Elle est souvent suivie d'un <strong>point d'exclamation</strong>.
+      </div>
+      <div class="subcat">
+        <h4 style="color:var(--yellow)">😮 Surprise / Admiration</h4>
+        <div class="words-grid">
+          <span class="word-chip" style="color:var(--yellow);border-color:var(--yellow)">Oh !</span><span class="word-chip" style="color:var(--yellow);border-color:var(--yellow)">Ah !</span><span class="word-chip" style="color:var(--yellow);border-color:var(--yellow)">Ô !</span><span class="word-chip" style="color:var(--yellow);border-color:var(--yellow)">Eh !</span><span class="word-chip" style="color:var(--yellow);border-color:var(--yellow)">Tiens !</span><span class="word-chip" style="color:var(--yellow);border-color:var(--yellow)">Waouh !</span><span class="word-chip" style="color:var(--yellow);border-color:var(--yellow)">Mazette !</span>
+        </div>
+        <h4 style="color:var(--orange);margin-top:10px">😁 Joie / Encouragement</h4>
+        <div class="words-grid">
+          <span class="word-chip" style="color:var(--orange);border-color:var(--orange)">Bravo !</span><span class="word-chip" style="color:var(--orange);border-color:var(--orange)">Hourra !</span><span class="word-chip" style="color:var(--orange);border-color:var(--orange)">Youpi !</span><span class="word-chip" style="color:var(--orange);border-color:var(--orange)">Super !</span><span class="word-chip" style="color:var(--orange);border-color:var(--orange)">Allez !</span><span class="word-chip" style="color:var(--orange);border-color:var(--orange)">Courage !</span>
+        </div>
+        <h4 style="color:var(--pink);margin-top:10px">😢 Douleur / Tristesse</h4>
+        <div class="words-grid">
+          <span class="word-chip" style="color:var(--pink);border-color:var(--pink)">Hélas !</span><span class="word-chip" style="color:var(--pink);border-color:var(--pink)">Aïe !</span><span class="word-chip" style="color:var(--pink);border-color:var(--pink)">Ouille !</span><span class="word-chip" style="color:var(--pink);border-color:var(--pink)">Zut !</span><span class="word-chip" style="color:var(--pink);border-color:var(--pink)">Mince !</span><span class="word-chip" style="color:var(--pink);border-color:var(--pink)">Flûte !</span>
+        </div>
+        <h4 style="color:var(--blue);margin-top:10px">🤫 Ordre / Appel</h4>
+        <div class="words-grid">
+          <span class="word-chip" style="color:var(--blue);border-color:var(--blue)">Chut !</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">Silence !</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">Halte !</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">Hep !</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">Attention !</span><span class="word-chip" style="color:var(--blue);border-color:var(--blue)">Psst !</span>
+        </div>
+        <h4 style="color:var(--green);margin-top:10px">👋 Salutations / Réponses</h4>
+        <div class="words-grid">
+          <span class="word-chip" style="color:var(--green);border-color:var(--green)">Allô !</span><span class="word-chip" style="color:var(--green);border-color:var(--green)">Salut !</span><span class="word-chip" style="color:var(--green);border-color:var(--green)">Adieu !</span><span class="word-chip" style="color:var(--green);border-color:var(--green)">Oui !</span><span class="word-chip" style="color:var(--green);border-color:var(--green)">Non !</span><span class="word-chip" style="color:var(--green);border-color:var(--green)">Merci !</span><span class="word-chip" style="color:var(--green);border-color:var(--green)">Pardon !</span>
+        </div>
+        <h4 style="color:var(--purple);margin-top:10px">🐾 Onomatopées</h4>
+        <div class="words-grid">
+          <span class="word-chip" style="color:var(--purple);border-color:var(--purple)">Boum !</span><span class="word-chip" style="color:var(--purple);border-color:var(--purple)">Crac !</span><span class="word-chip" style="color:var(--purple);border-color:var(--purple)">Paf !</span><span class="word-chip" style="color:var(--purple);border-color:var(--purple)">Vlan !</span><span class="word-chip" style="color:var(--purple);border-color:var(--purple)">Plouf !</span><span class="word-chip" style="color:var(--purple);border-color:var(--purple)">Zip !</span><span class="word-chip" style="color:var(--purple);border-color:var(--purple)">Pan !</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div><!-- end invariables -->
+
+<!-- ==================== ANALYSES ==================== -->
+<div class="section" id="section-analyses">
+  <div class="sec-title">
+    <div class="sec-icon" style="background:var(--purple-dim);color:var(--purple)">🔬</div>
+    <div>
+      <h2 style="color:var(--purple)">Les Analyses Grammaticales & Logiques</h2>
+      <p>Apprends à analyser chaque mot et chaque proposition.</p>
+    </div>
+  </div>
+
+  <!-- ANALYSE GRAMMATICALE -->
+  <div class="part-header" style="border-color:var(--blue)">
+    <div class="part-num" style="background:var(--blue-dim);color:var(--blue)">A</div>
+    <h3 style="color:var(--blue)">L'Analyse Grammaticale</h3>
+  </div>
+
+  <div class="rule-box" style="border-color:var(--blue)">
+    <h3 style="color:var(--blue)">📋 Qu'est-ce que l'analyse grammaticale ?</h3>
+    <p style="font-size:18px;margin-bottom:16px">L'analyse grammaticale consiste à étudier chaque mot d'une phrase un par un, en précisant sa <strong style="color:var(--orange)">nature</strong> (classe grammaticale) et sa <strong style="color:var(--pink)">fonction</strong> (rôle dans la phrase).</p>
+
+    <div class="rule-step">
+      <div class="step-num" style="background:var(--blue-dim);color:var(--blue)">1</div>
+      <div class="step-txt"><strong style="color:var(--blue)">La nature</strong> = ce qu'est le mot (sa classe) : nom, verbe, adjectif, déterminant, pronom, adverbe, préposition, conjonction ou interjection.</div>
+    </div>
+    <div class="rule-step">
+      <div class="step-num" style="background:var(--orange-dim);color:var(--orange)">2</div>
+      <div class="step-txt"><strong style="color:var(--orange)">La fonction</strong> = le rôle du mot dans la phrase : sujet, verbe, complément d'objet direct (COD), complément d'objet indirect (COI), complément circonstanciel (CC), attribut du sujet, épithète, apposition…</div>
+    </div>
+    <div class="rule-step">
+      <div class="step-num" style="background:var(--pink-dim);color:var(--pink)">3</div>
+      <div class="step-txt"><strong style="color:var(--pink)">Le genre et le nombre</strong> pour les mots variables : masculin/féminin, singulier/pluriel. Pour le verbe : personne, temps, mode.</div>
+    </div>
+  </div>
+
+  <div class="tip-box">
+    <span class="tip-icon">📝</span>
+    <span><strong style="color:var(--yellow)">Formule type :</strong> « [Mot] est un(e) [nature], [féminin/masculin, sing./plur.], [fonction dans la phrase]. »<br>Exemple : « <em>petit</em> est un adjectif qualificatif, masculin singulier, épithète du nom <em>garçon</em>. »</span>
+  </div>
+
+  <div class="analyse-sentence">"<span class="hi-blue">Le</span> <span class="hi-orange">petit</span> <span class="hi-green">garçon</span> <span class="hi-pink">mange</span> <span class="hi-blue">une</span> <span class="hi-orange">belle</span> <span class="hi-purple">pomme</span> <span class="hi-yellow">rapidement</span>."</div>
+
+  <div style="overflow-x:auto">
+  <table class="analyse-table">
+    <thead><tr><th>Mot</th><th>Nature</th><th>Genre / Nombre</th><th>Fonction</th></tr></thead>
+    <tbody>
+      <tr><td class="hi-blue">Le</td><td>Article défini</td><td>Masc. sing.</td><td>Déterminant du nom <em>garçon</em></td></tr>
+      <tr><td class="hi-orange">petit</td><td>Adjectif qualificatif</td><td>Masc. sing.</td><td>Épithète du nom <em>garçon</em></td></tr>
+      <tr><td class="hi-green">garçon</td><td>Nom commun</td><td>Masc. sing.</td><td>Sujet du verbe <em>mange</em></td></tr>
+      <tr><td class="hi-pink">mange</td><td>Verbe (manger)</td><td>3ème pers. sing. — ind. présent</td><td>Verbe de la phrase / prédicat</td></tr>
+      <tr><td class="hi-blue">une</td><td>Article indéfini</td><td>Fém. sing.</td><td>Déterminant du nom <em>pomme</em></td></tr>
+      <tr><td class="hi-orange">belle</td><td>Adjectif qualificatif</td><td>Fém. sing.</td><td>Épithète du nom <em>pomme</em></td></tr>
+      <tr><td class="hi-purple">pomme</td><td>Nom commun</td><td>Fém. sing.</td><td>Complément d'objet direct (COD) de <em>mange</em></td></tr>
+      <tr><td class="hi-yellow">rapidement</td><td>Adverbe de manière</td><td>Invariable</td><td>Complément circonstanciel de manière (CCM)</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <!-- FONCTIONS ESSENTIELLES -->
+  <div class="part-header" style="border-color:var(--orange);margin-top:32px">
+    <div class="part-num" style="background:var(--orange-dim);color:var(--orange)">🔑</div>
+    <h3 style="color:var(--orange)">Les fonctions essentielles à connaître</h3>
+  </div>
+  <div class="rule-box">
+    <table class="gram-table">
+      <thead><tr><th>Fonction</th><th>Question à poser</th><th>Exemple</th></tr></thead>
+      <tbody>
+        <tr><td><strong style="color:var(--blue)">Sujet (S)</strong></td><td>Qui est-ce qui… ? / Qu'est-ce qui… ?</td><td><span class="hi-blue">Le chien</span> court.</td></tr>
+        <tr><td><strong style="color:var(--orange)">COD</strong></td><td>Qui ? / Quoi ? (sans préposition)</td><td>Elle mange <span class="hi-orange">une pomme</span>.</td></tr>
+        <tr><td><strong style="color:var(--pink)">COI</strong></td><td>À qui ? De qui ? À quoi ? De quoi ?</td><td>Il parle <span class="hi-pink">à son ami</span>.</td></tr>
+        <tr><td><strong style="color:var(--green)">CC de lieu (CCL)</strong></td><td>Où ?</td><td>Il joue <span class="hi-green">dans le jardin</span>.</td></tr>
+        <tr><td><strong style="color:var(--blue)">CC de temps (CCT)</strong></td><td>Quand ?</td><td>Elle arrive <span class="hi-blue">demain</span>.</td></tr>
+        <tr><td><strong style="color:var(--yellow)">CC de manière (CCM)</strong></td><td>Comment ?</td><td>Il chante <span class="hi-yellow">doucement</span>.</td></tr>
+        <tr><td><strong style="color:var(--purple)">CC de cause (CCC)</strong></td><td>Pourquoi ?</td><td>Il pleure <span class="hi-purple">de joie</span>.</td></tr>
+        <tr><td><strong style="color:var(--orange)">Attribut du sujet</strong></td><td>Avec verbe d'état : qui/quoi est-il ?</td><td>Il <em>est</em> <span class="hi-orange">intelligent</span>.</td></tr>
+        <tr><td><strong style="color:var(--pink)">Épithète</strong></td><td>Adjectif directement lié au nom</td><td>Un <span class="hi-pink">beau</span> livre.</td></tr>
+        <tr><td><strong style="color:var(--green)">Apposition</strong></td><td>Nom ajouté près d'un autre nom pour préciser</td><td>Cotonou, <span class="hi-green">capitale du Bénin</span>, est belle.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ANALYSE LOGIQUE -->
+  <div class="part-header" style="border-color:var(--pink);margin-top:32px">
+    <div class="part-num" style="background:var(--pink-dim);color:var(--pink)">B</div>
+    <h3 style="color:var(--pink)">L'Analyse Logique</h3>
+  </div>
+
+  <div class="rule-box" style="border-color:var(--pink)">
+    <h3 style="color:var(--pink)">📋 Qu'est-ce que l'analyse logique ?</h3>
+    <p style="font-size:18px;margin-bottom:16px">L'analyse logique étudie non pas les mots isolément, mais les <strong style="color:var(--orange)">propositions</strong> de la phrase : leurs types, leurs relations et leur rôle les unes par rapport aux autres.</p>
+    <div class="rule-step">
+      <div class="step-num" style="background:var(--blue-dim);color:var(--blue)">1</div>
+      <div class="step-txt"><strong style="color:var(--blue)">Repérer les propositions</strong> : une proposition = un verbe conjugué. Compte les verbes conjugués → tu sais combien il y a de propositions.</div>
+    </div>
+    <div class="rule-step">
+      <div class="step-num" style="background:var(--orange-dim);color:var(--orange)">2</div>
+      <div class="step-txt"><strong style="color:var(--orange)">Identifier la proposition principale (PP)</strong> : c'est la proposition qui peut exister seule, sans les autres. Elle contient le verbe principal.</div>
+    </div>
+    <div class="rule-step">
+      <div class="step-num" style="background:var(--pink-dim);color:var(--pink)">3</div>
+      <div class="step-txt"><strong style="color:var(--pink)">Identifier la proposition subordonnée (PS)</strong> : elle dépend de la principale. Elle est introduite par une conjonction de subordination (que, si, parce que, quand…) ou un pronom relatif (qui, que, dont, où…).</div>
+    </div>
+    <div class="rule-step">
+      <div class="step-num" style="background:var(--green-dim);color:var(--green)">4</div>
+      <div class="step-txt"><strong style="color:var(--green)">Nommer la fonction de la subordonnée</strong> : Subordonnée relative (épithète), Subordonnée conjonctive (COD, CC…), Subordonnée circonstancielle (de temps, de cause, de but, de conséquence…).</div>
+    </div>
+  </div>
+
+  <div class="tip-box">
+    <span class="tip-icon">📝</span>
+    <span><strong style="color:var(--yellow)">Tableau des subordonnées circonstancielles :</strong></span>
+  </div>
+  <div style="overflow-x:auto">
+  <table class="gram-table">
+    <thead><tr><th>Type de subordonnée</th><th>Conjonctions introductrices</th><th>Mode</th><th>Exemple</th></tr></thead>
+    <tbody>
+      <tr><td><strong style="color:var(--blue)">Temps</strong></td><td>quand, lorsque, dès que, avant que, après que, pendant que, tandis que, aussitôt que</td><td>Indicatif / Subj.</td><td>Je pars <span class="hi-blue">quand il arrive</span>.</td></tr>
+      <tr><td><strong style="color:var(--orange)">Cause</strong></td><td>parce que, puisque, comme, étant donné que, vu que</td><td>Indicatif</td><td>Il dort <span class="hi-orange">parce qu'il est fatigué</span>.</td></tr>
+      <tr><td><strong style="color:var(--pink)">But</strong></td><td>pour que, afin que, de peur que, de crainte que</td><td>Subjonctif</td><td>Je parle <span class="hi-pink">pour qu'il comprenne</span>.</td></tr>
+      <tr><td><strong style="color:var(--green)">Conséquence</strong></td><td>de sorte que, si bien que, tellement que, de façon que</td><td>Indicatif</td><td>Il crie <span class="hi-green">si fort qu'on l'entend</span>.</td></tr>
+      <tr><td><strong style="color:var(--purple)">Condition</strong></td><td>si, à condition que, à moins que, pourvu que</td><td>Ind./Subj.</td><td>Tu réussiras <span class="hi-purple">si tu travailles</span>.</td></tr>
+      <tr><td><strong style="color:var(--yellow)">Opposition/Concession</strong></td><td>bien que, quoique, même si, malgré que</td><td>Subjonctif</td><td>Il rit <span class="hi-yellow">bien qu'il soit triste</span>.</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="analyse-sentence">"<span class="hi-orange">Le soleil brille</span> <span class="hi-green">mais</span> <span class="hi-blue">les enfants restent à l'intérieur</span> <span class="hi-pink">parce qu'il fait trop chaud</span>."</div>
+  <div style="overflow-x:auto">
+  <table class="analyse-table">
+    <thead><tr><th>Proposition</th><th>Type</th><th>Relation / Fonction</th></tr></thead>
+    <tbody>
+      <tr><td class="hi-orange">Le soleil brille</td><td>Proposition principale (PP1)</td><td>Proposition indépendante</td></tr>
+      <tr><td class="hi-blue">les enfants restent à l'intérieur</td><td>Proposition principale (PP2)</td><td>Coordonnée à PP1 par la conj. <em>mais</em> (opposition)</td></tr>
+      <tr><td class="hi-pink">parce qu'il fait trop chaud</td><td>Proposition subordonnée circonstancielle de cause</td><td>Complément circonstanciel de cause de PP2</td></tr>
+    </tbody>
+  </table>
+  </div>
+</div><!-- end analyses -->
+
+<!-- ==================== QUIZ ==================== -->
+<div class="section" id="section-quiz">
+  <div class="sec-title">
+    <div class="sec-icon" style="background:var(--green-dim);color:var(--green)">🎯</div>
+    <div>
+      <h2 style="color:var(--green)">Quiz — Les Classes des Mots</h2>
+      <p>Teste toutes tes connaissances !</p>
+    </div>
+  </div>
+  <div class="quiz-wrap">
+    <div class="quiz-header">
+      <h2>🎯 Grand Quiz</h2>
+      <p>Réponds à toutes les questions pour valider ton apprentissage !</p>
+    </div>
+    <div class="quiz-score-display">
+      <span class="qs-num" id="quiz-progress-txt">Question 1 / 20</span>
+      <span class="qs-pts">Score : <span id="quiz-score-live">0</span> / <span id="quiz-total-live">20</span></span>
+    </div>
+    <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="quiz-fill" style="width:0%"></div></div>
+    <div id="quiz-container"></div>
+    <div class="quiz-final" id="quiz-final">
+      <div style="font-size:48px;margin-bottom:10px">🏆</div>
+      <h3>Quiz terminé !</h3>
+      <div class="final-score" id="final-score-num">0/20</div>
+      <div class="final-msg" id="final-msg"></div>
+      <button class="btn-restart" onclick="initQuiz()">🔄 Recommencer le Quiz</button>
+    </div>
+  </div>
+</div>
+
+</div><!-- end main -->
+
+<script>
+// ===== NAVIGATION =====
+function goSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('section-' + id).classList.add('active');
+  const btns = document.querySelectorAll('.nav-btn');
+  const map = { intro:0, variables:1, invariables:2, analyses:3, quiz:4 };
+  btns[map[id]].classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (id === 'quiz') initQuiz();
+}
+
+// ===== TOGGLE CARDS =====
+function toggleBlock(id) {
+  const b = document.getElementById(id);
+  b.classList.toggle('open');
+}
+
+// ===== QUIZ DATA =====
+const quizQuestions = [
+  // NOMS
+  { q: "Quelle est la classe du mot 'maison' dans : « La maison est grande. » ?", opts: ["Nom commun", "Nom propre", "Adjectif qualificatif", "Pronom"], ans: "Nom commun", exp: "Maison désigne une chose de façon générale → nom commun." },
+  { q: "Dans « Paris est une belle ville », quel est le nom propre ?", opts: ["belle", "ville", "Paris", "une"], ans: "Paris", exp: "Paris désigne une ville de façon unique et s'écrit avec une majuscule → nom propre." },
+  // DÉTERMINANTS
+  { q: "Quel est le type du déterminant 'mes' dans « Je cherche mes clés » ?", opts: ["Article défini", "Déterminant possessif", "Déterminant démonstratif", "Article indéfini"], ans: "Déterminant possessif", exp: "Mes indique la possession (= les clés qui m'appartiennent) → déterminant possessif." },
+  { q: "Dans « Ces enfants jouent », quel est le type du déterminant 'ces' ?", opts: ["Déterminant indéfini", "Déterminant possessif", "Déterminant démonstratif", "Article défini"], ans: "Déterminant démonstratif", exp: "Ces montre / désigne les enfants → déterminant démonstratif." },
+  { q: "Choisissez le bon article partitif pour : « Elle mange ___ pain. »", opts: ["le", "un", "du", "des"], ans: "du", exp: "Du pain = article partitif (quantité indéfinie d'une chose non comptable)." },
+  // VERBES
+  { q: "Dans « Les oiseaux chantent dans le jardin », quel mot est le verbe ?", opts: ["oiseaux", "chantent", "jardin", "dans"], ans: "chantent", exp: "Chantent exprime une action et peut se conjuguer à différents temps → verbe." },
+  { q: "Parmi ces verbes, lequel est un verbe d'état ?", opts: ["courir", "manger", "sembler", "tomber"], ans: "sembler", exp: "Sembler est un verbe d'état (il sembler + adjectif attribut). Les autres expriment des actions." },
+  // ADJECTIFS
+  { q: "Dans « Il porte un beau chapeau noir », combien y a-t-il d'adjectifs qualificatifs ?", opts: ["1", "2", "3", "0"], ans: "2", exp: "Beau et noir sont tous les deux des adjectifs qualificatifs épithètes de chapeau." },
+  { q: "Dans « Quelle belle surprise ! », quel est le type de l'adjectif 'Quelle' ?", opts: ["Adjectif interrogatif", "Adjectif exclamatif", "Adjectif possessif", "Adjectif démonstratif"], ans: "Adjectif exclamatif", exp: "Quelle + phrase exclamative (!) → adjectif exclamatif." },
+  { q: "Dans « Il est le troisième de sa classe », 'troisième' est :", opts: ["Adjectif numéral cardinal", "Adjectif numéral ordinal", "Adjectif indéfini", "Adjectif qualificatif"], ans: "Adjectif numéral ordinal", exp: "Troisième indique un rang, un ordre → adjectif numéral ordinal." },
+  // PRONOMS
+  { q: "Dans « Marie a préparé le repas. Elle le sert à table. », à quoi renvoie 'le' ?", opts: ["Marie", "le repas", "la table", "à table"], ans: "le repas", exp: "Le remplace 'le repas' pour éviter la répétition → pronom personnel COD." },
+  { q: "Dans « Le livre que je lis est passionnant », quel est le type de 'que' ?", opts: ["Conjonction de subordination", "Pronom relatif", "Pronom interrogatif", "Déterminant"], ans: "Pronom relatif", exp: "Que reprend 'le livre' et introduit une proposition subordonnée relative → pronom relatif." },
+  { q: "Dans « Le mien est rouge », 'le mien' est :", opts: ["Pronom possessif", "Déterminant possessif", "Pronom démonstratif", "Adjectif qualificatif"], ans: "Pronom possessif", exp: "Le mien remplace un nom + indique la possession → pronom possessif." },
+  // MOTS INVARIABLES
+  { q: "Dans « Il marche lentement », quel est le type du mot 'lentement' ?", opts: ["Adjectif qualificatif", "Nom commun", "Adverbe de manière", "Préposition"], ans: "Adverbe de manière", exp: "Lentement dit comment il marche, et est invariable → adverbe de manière." },
+  { q: "Dans « Il part avant le lever du soleil », quel est le type de 'avant' ?", opts: ["Adverbe de temps", "Préposition", "Conjonction de coordination", "Adjectif"], ans: "Préposition", exp: "Avant introduit le groupe nominal 'le lever du soleil' → préposition." },
+  { q: "Parmi ces mots, lequel est une conjonction de coordination ?", opts: ["lorsque", "parce que", "mais", "avant que"], ans: "mais", exp: "Mais fait partie des 7 conjonctions de coordination (Mais Ou Et Donc Or Ni Car)." },
+  { q: "Dans « Aïe ! Je me suis fait mal. », quel est le type du mot 'Aïe' ?", opts: ["Adverbe", "Interjection", "Nom commun", "Préposition"], ans: "Interjection", exp: "Aïe exprime la douleur de façon spontanée → interjection." },
+  // ANALYSE
+  { q: "Dans « La fille mange une pomme », quelle est la fonction de 'La fille' ?", opts: ["Complément d'objet direct", "Sujet du verbe", "Attribut du sujet", "Complément circonstanciel"], ans: "Sujet du verbe", exp: "Pour trouver le sujet, on demande : « Qui est-ce qui mange ? » → La fille." },
+  { q: "Dans « Il donne un cadeau à sa mère », quelle est la fonction de 'à sa mère' ?", opts: ["COD", "COI", "CC de lieu", "Épithète"], ans: "COI", exp: "On demande : « Il donne à qui ? » → à sa mère → Complément d'objet indirect (COI)." },
+  { q: "Combien y a-t-il de propositions dans : « Je sais que tu viendras quand tu pourras. » ?", opts: ["1", "2", "3", "4"], ans: "3", exp: "3 verbes conjugués (sais, viendras, pourras) → 3 propositions : 1 principale + 2 subordonnées." },
+];
+
+let quizScore = 0;
+let quizAnswered = [];
+
+function initQuiz() {
+  quizScore = 0;
+  quizAnswered = new Array(quizQuestions.length).fill(false);
+  document.getElementById('quiz-final').style.display = 'none';
+  document.getElementById('quiz-fill').style.width = '0%';
+  document.getElementById('quiz-score-live').textContent = '0';
+  document.getElementById('quiz-total-live').textContent = quizQuestions.length;
+  document.getElementById('quiz-progress-txt').textContent = `Question 1 / ${quizQuestions.length}`;
+  renderAllQuestions();
+}
+
+function renderAllQuestions() {
+  const c = document.getElementById('quiz-container');
+  c.innerHTML = '';
+  quizQuestions.forEach((q, i) => {
+    const shuffled = [...q.opts].sort(() => Math.random() - 0.5);
+    const div = document.createElement('div');
+    div.className = 'qcard';
+    div.id = 'qcard-' + i;
+    div.innerHTML = `
+      <div class="qnum">Question ${i+1} / ${quizQuestions.length}</div>
+      <div class="qtext">${q.q}</div>
+      <div class="qopts" id="qopts-${i}">
+        ${shuffled.map(o => `<button class="qopt" onclick="answerQ(${i}, '${o.replace(/'/g,"\\'")}')">${o}</button>`).join('')}
+      </div>
+      <div class="qfeedback" id="qfb-${i}"></div>
+    `;
+    c.appendChild(div);
+  });
+}
+
+function answerQ(idx, chosen) {
+  if (quizAnswered[idx]) return;
+  quizAnswered[idx] = true;
+  const q = quizQuestions[idx];
+  const btns = document.querySelectorAll(`#qopts-${idx} .qopt`);
+  btns.forEach(b => {
+    b.disabled = true;
+    if (b.textContent.trim() === q.ans) b.classList.add('correct');
+  });
+  const fb = document.getElementById(`qfb-${idx}`);
+  fb.classList.add('show');
+  if (chosen === q.ans) {
+    document.querySelector(`#qopts-${idx} .qopt[onclick*="${chosen.replace(/'/g,"\\'")}"]`)?.classList.add('correct');
+    quizScore++;
+    fb.className = 'qfeedback show ok';
+    fb.textContent = '✅ ' + q.exp;
+  } else {
+    btns.forEach(b => { if (b.textContent.trim() === chosen) b.classList.add('wrong'); });
+    fb.className = 'qfeedback show ko';
+    fb.textContent = '❌ Bonne réponse : ' + q.ans + ' — ' + q.exp;
+  }
+  document.getElementById('quiz-score-live').textContent = quizScore;
+  const answered = quizAnswered.filter(Boolean).length;
+  const pct = (answered / quizQuestions.length) * 100;
+  document.getElementById('quiz-fill').style.width = pct + '%';
+  document.getElementById('quiz-progress-txt').textContent = `Répondu : ${answered} / ${quizQuestions.length}`;
+  if (answered === quizQuestions.length) showFinal();
+}
+
+function showFinal() {
+  const fin = document.getElementById('quiz-final');
+  const total = quizQuestions.length;
+  fin.style.display = 'block';
+  document.getElementById('final-score-num').textContent = `${quizScore}/${total}`;
+  let msg, col;
+  if (quizScore === total) { msg = "🎉 Parfait ! Tu es un champion de grammaire !"; col = 'var(--green)'; }
+  else if (quizScore >= total * 0.8) { msg = "🌟 Excellent travail ! Tu maîtrises très bien les classes des mots !"; col = 'var(--blue)'; }
+  else if (quizScore >= total * 0.6) { msg = "👍 Bien ! Relis les parties où tu as eu des erreurs."; col = 'var(--orange)'; }
+  else { msg = "📚 Continue à étudier ! Relis le cours et réessaie."; col = 'var(--pink)'; }
+  document.getElementById('final-msg').textContent = msg;
+  document.getElementById('final-score-num').style.color = col;
+  fin.scrollIntoView({ behavior: 'smooth' });
+}
+
+// Init on load
+window.addEventListener('load', () => {
+  goSection('intro');
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EduSuivi — Tableau de bord de suivi des tests</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500&display=swap');
+
+  :root {
+    --ink:     #0D1117;
+    --paper:   #F7F5F0;
+    --ivory:   #EDEAE2;
+    --green:   #1A7A4A;
+    --green-light: #E8F5EE;
+    --amber:   #D97706;
+    --amber-light: #FEF3C7;
+    --red:     #C0392B;
+    --red-light: #FDECEB;
+    --muted:   #6B7280;
+    --border:  #D8D4CC;
+    --white:   #FFFFFF;
+    --radius:  10px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--ink);
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .logo {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: -0.5px;
+  }
+  .logo span { color: #4ADE80; }
+  .header-badge {
+    font-size: 11px;
+    background: rgba(255,255,255,0.1);
+    color: #9CA3AF;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-family: 'Space Grotesk', sans-serif;
+    letter-spacing: 0.5px;
+  }
+
+  /* ── TABS ── */
+  .tabs {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    padding: 0 24px;
+    gap: 0;
+  }
+  .tab {
+    padding: 14px 20px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all .2s;
+    white-space: nowrap;
+  }
+  .tab.active { color: var(--green); border-bottom-color: var(--green); }
+  .tab:hover:not(.active) { color: var(--ink); }
+
+  /* ── MAIN ── */
+  main { padding: 24px; max-width: 900px; margin: 0 auto; }
+
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+  .card-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card-title .icon {
+    width: 28px; height: 28px;
+    background: var(--green-light);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+  }
+
+  /* ── FORM ── */
+  .form-group { margin-bottom: 14px; }
+  label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+  }
+  input, select, textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    transition: border-color .2s;
+    outline: none;
+  }
+  input:focus, select:focus { border-color: var(--green); background: var(--white); }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  /* ── BUTTONS ── */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all .2s;
+  }
+  .btn-primary { background: var(--green); color: var(--white); }
+  .btn-primary:hover { background: #166039; }
+  .btn-whatsapp { background: #25D366; color: var(--white); }
+  .btn-whatsapp:hover { background: #1ebe5a; }
+  .btn-outline { background: transparent; color: var(--ink); border: 1px solid var(--border); }
+  .btn-outline:hover { border-color: var(--ink); }
+  .btn-sm { padding: 6px 12px; font-size: 12px; }
+  .btn-block { width: 100%; justify-content: center; }
+  .btn-group { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+
+  /* ── BADGE STATUS ── */
+  .badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 3px 9px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+  .badge-done { background: var(--green-light); color: var(--green); }
+  .badge-pending { background: var(--amber-light); color: var(--amber); }
+  .badge-absent { background: var(--red-light); color: var(--red); }
+  .badge-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+  /* ── TABLE ── */
+  .table-wrap { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--border); }
+  table { width: 100%; border-collapse: collapse; }
+  th {
+    background: var(--ivory);
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 11px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  td {
+    padding: 11px 14px;
+    font-size: 13px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #FAFAF8; }
+  .student-name { font-weight: 600; color: var(--ink); }
+
+  /* ── STATS ROW ── */
+  .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
+  .stat-box {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    text-align: center;
+  }
+  .stat-num {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .stat-label { font-size: 11px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+  .stat-green .stat-num { color: var(--green); }
+  .stat-amber .stat-num { color: var(--amber); }
+  .stat-red   .stat-num { color: var(--red); }
+
+  /* ── SCORE BAR ── */
+  .score-bar { display: flex; align-items: center; gap: 8px; }
+  .bar-bg { flex: 1; height: 6px; background: var(--ivory); border-radius: 3px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 3px; transition: width .6s ease; }
+  .bar-green { background: var(--green); }
+  .bar-amber { background: var(--amber); }
+  .bar-red   { background: var(--red); }
+  .score-text { font-size: 12px; font-weight: 600; min-width: 32px; text-align: right; }
+
+  /* ── CODE DISPLAY ── */
+  .code-box {
+    background: var(--ink);
+    color: #4ADE80;
+    font-family: 'Space Grotesk', monospace;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 6px;
+    text-align: center;
+    padding: 20px;
+    border-radius: var(--radius);
+    margin: 16px 0;
+  }
+
+  /* ── ALERT ── */
+  .alert {
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .alert-info { background: #EEF2FF; color: #3730A3; border-left: 3px solid #6366F1; }
+  .alert-success { background: var(--green-light); color: var(--green); border-left: 3px solid var(--green); }
+
+  /* ── PROGRESS CIRCLE (mini) ── */
+  .progress-ring { width: 44px; height: 44px; }
+
+  /* ── SEARCH BAR ── */
+  .search-bar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 16px;
+    align-items: center;
+  }
+  .search-bar input { flex: 1; }
+  
+  /* ── EMPTY STATE ── */
+  .empty {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--muted);
+  }
+  .empty-icon { font-size: 36px; margin-bottom: 12px; }
+  .empty-title { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 15px; margin-bottom: 6px; color: var(--ink); }
+  .empty-sub { font-size: 13px; }
+
+  /* ── SECTION HEADING ── */
+  .section-heading {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+  }
+
+  /* ── DIVIDER ── */
+  .divider { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+
+  /* ── TOAST ── */
+  #toast {
+    position: fixed;
+    bottom: 24px; right: 24px;
+    background: var(--ink);
+    color: var(--white);
+    padding: 12px 20px;
+    border-radius: var(--radius);
+    font-size: 13px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    transform: translateY(80px);
+    opacity: 0;
+    transition: all .3s;
+    z-index: 999;
+    max-width: 280px;
+  }
+  #toast.show { transform: translateY(0); opacity: 1; }
+
+  /* ── MODAL ── */
+  .modal-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 24px;
+    max-width: 480px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  .modal-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .modal-close { cursor: pointer; color: var(--muted); font-size: 20px; line-height: 1; }
+
+  @media (max-width: 600px) {
+    main { padding: 16px; }
+    .form-row { grid-template-columns: 1fr; }
+    .stats-row { grid-template-columns: 1fr 1fr; }
+    .tabs { overflow-x: auto; }
+    .stat-num { font-size: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Edu<span>Suivi</span></div>
+  <div class="header-badge">BÉNIN · SYSTÈME DE SUIVI</div>
+</header>
+
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('eleve')">👤 Espace Élève</div>
+  <div class="tab" onclick="switchTab('prof')">📊 Tableau de Bord</div>
+  <div class="tab" onclick="switchTab('parent')">👪 Espace Parent</div>
+  <div class="tab" onclick="switchTab('config')">⚙️ Configuration</div>
+</div>
+
+<!-- ══════════════════════════════════════
+     PANEL 1 — ESPACE ÉLÈVE
+     ══════════════════════════════════════ -->
+<main>
+<div id="panel-eleve" class="panel active">
+  
+  <div class="alert alert-info">
+    ℹ️ L'élève remplit ce formulaire <strong>avant de commencer</strong> le test. Un code de suivi est généré automatiquement.
+  </div>
+
+  <div class="card">
+    <div class="card-title"><div class="icon">📝</div>Enregistrement avant le test</div>
+    
+    <div class="form-row">
+      <div class="form-group">
+        <label>Prénom et Nom</label>
+        <input type="text" id="eleve-nom" placeholder="Ex: Kofi Adjovi" />
+      </div>
+      <div class="form-group">
+        <label>Classe</label>
+        <select id="eleve-classe">
+          <option value="">Sélectionner...</option>
+          <option>Terminale A</option>
+          <option>Terminale B</option>
+          <option>Terminale C</option>
+          <option>Terminale D</option>
+          <option>1ère A</option>
+          <option>1ère C</option>
+          <option>1ère D</option>
+          <option>3ème</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Matière du test</label>
+        <select id="eleve-matiere">
+          <option value="">Sélectionner...</option>
+          <option>Mathématiques</option>
+          <option>SVT</option>
+          <option>Français</option>
+          <option>Anglais</option>
+          <option>Espagnol</option>
+          <option>PCT</option>
+          <option>Philosophie</option>
+          <option>Histoire-Géographie</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Code de classe (donné par le prof)</label>
+        <input type="text" id="eleve-codeclass" placeholder="Ex: TERM-SVT-2026" />
+      </div>
+    </div>
+
+    <button class="btn btn-primary btn-block" onclick="genererCode()">
+      ✅ Générer mon code de suivi
+    </button>
+  </div>
+
+  <!-- Résultat après génération -->
+  <div id="eleve-result" style="display:none">
+    <div class="card">
+      <div class="card-title"><div class="icon">🔑</div>Ton code de suivi personnel</div>
+      <div class="code-box" id="code-affiche">—</div>
+      <p style="font-size:13px;color:var(--muted);text-align:center;margin-bottom:16px;">
+        Garde ce code ! Il prouve que tu as passé le test.
+      </p>
+      <div class="btn-group">
+        <button class="btn btn-whatsapp" onclick="envoyerWhatsApp('eleve')">
+          📱 Envoyer au parent/prof via WhatsApp
+        </button>
+        <button class="btn btn-outline" onclick="copierCode()">
+          📋 Copier le code
+        </button>
+      </div>
+    </div>
+
+    <div class="card" id="result-score-card" style="display:none">
+      <div class="card-title"><div class="icon">🏆</div>Résultats du test</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Score obtenu (/20)</label>
+          <input type="number" id="result-score" min="0" max="20" step="0.5" placeholder="Ex: 14.5" />
+        </div>
+        <div class="form-group">
+          <label>Durée (minutes)</label>
+          <input type="number" id="result-duree" min="1" placeholder="Ex: 45" />
+        </div>
+      </div>
+      <button class="btn btn-primary btn-block" onclick="soumettreResultats()">
+        📤 Soumettre mes résultats
+      </button>
+    </div>
+
+    <div style="text-align:center;margin-top:10px;">
+      <button class="btn btn-outline btn-sm" onclick="document.getElementById('result-score-card').style.display='block'">
+        + Ajouter mes résultats après le test
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     PANEL 2 — TABLEAU DE BORD PROF
+     ══════════════════════════════════════ -->
+<div id="panel-prof" class="panel">
+
+  <div class="stats-row" id="stats-row">
+    <div class="stat-box stat-green">
+      <div class="stat-num" id="stat-total">0</div>
+      <div class="stat-label">Élèves inscrits</div>
+    </div>
+    <div class="stat-box stat-amber">
+      <div class="stat-num" id="stat-traites">0</div>
+      <div class="stat-label">Tests traités</div>
+    </div>
+    <div class="stat-box stat-red">
+      <div class="stat-num" id="stat-manquants">0</div>
+      <div class="stat-label">Non soumis</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><div class="icon">📊</div>Liste des élèves — Suivi en temps réel</div>
+
+    <div class="search-bar">
+      <input type="text" id="search-input" placeholder="🔍 Rechercher un élève..." oninput="filtrerEleves()" />
+      <select id="filter-matiere" onchange="filtrerEleves()">
+        <option value="">Toutes les matières</option>
+        <option>Mathématiques</option><option>SVT</option><option>Français</option>
+        <option>Anglais</option><option>Espagnol</option><option>PCT</option>
+        <option>Philosophie</option><option>Histoire-Géographie</option>
+      </select>
+      <button class="btn btn-outline btn-sm" onclick="exporterCSV()">⬇ CSV</button>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Élève</th>
+            <th>Classe</th>
+            <th>Matière</th>
+            <th>Heure d'inscription</th>
+            <th>Score</th>
+            <th>Statut</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="table-body">
+          <tr>
+            <td colspan="7">
+              <div class="empty">
+                <div class="empty-icon">📋</div>
+                <div class="empty-title">Aucune donnée pour l'instant</div>
+                <div class="empty-sub">Les élèves apparaissent ici dès qu'ils génèrent leur code</div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="btn-group" style="margin-top:14px;">
+      <button class="btn btn-whatsapp btn-sm" onclick="alerterAbsents()">
+        📱 Alerter les absents (WhatsApp)
+      </button>
+      <button class="btn btn-outline btn-sm" onclick="reinitialiserDemo()">
+        🔄 Charger données démo
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     PANEL 3 — ESPACE PARENT
+     ══════════════════════════════════════ -->
+<div id="panel-parent" class="panel">
+
+  <div class="alert alert-info">
+    ℹ️ Entrez le code reçu de votre enfant pour voir son suivi. Vous pouvez aussi vous abonner aux alertes WhatsApp.
+  </div>
+
+  <div class="card">
+    <div class="card-title"><div class="icon">🔍</div>Vérifier le code de mon enfant</div>
+    <div class="form-group">
+      <label>Code de suivi de l'élève</label>
+      <input type="text" id="parent-code" placeholder="Ex: SVT-KOFIADJ-20260610" style="font-family:monospace;font-size:16px;letter-spacing:2px;" />
+    </div>
+    <button class="btn btn-primary btn-block" onclick="verifierCode()">
+      🔍 Vérifier ce code
+    </button>
+  </div>
+
+  <div id="parent-result" style="display:none">
+    <div class="card" id="parent-card-result">
+      <!-- Rempli dynamiquement -->
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="card">
+    <div class="card-title"><div class="icon">🔔</div>S'abonner aux alertes automatiques</div>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:14px;">
+      Recevez une alerte WhatsApp dès que votre enfant termine (ou ne termine pas) un test.
+    </p>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Nom de votre enfant</label>
+        <input type="text" id="parent-enfant" placeholder="Prénom Nom" />
+      </div>
+      <div class="form-group">
+        <label>Votre numéro WhatsApp</label>
+        <input type="text" id="parent-tel" placeholder="+229 97 XX XX XX" />
+      </div>
+    </div>
+    <button class="btn btn-whatsapp btn-block" onclick="abonnerParent()">
+      📱 M'abonner aux alertes WhatsApp
+    </button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     PANEL 4 — CONFIGURATION
+     ══════════════════════════════════════ -->
+<div id="panel-config" class="panel">
+
+  <div class="card">
+    <div class="card-title"><div class="icon">⚙️</div>Paramètres du professeur / administrateur</div>
+
+    <div class="section-heading">Identité de l'établissement</div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Nom de l'école / CEG</label>
+        <input type="text" id="cfg-ecole" placeholder="Ex: CEG Akpakpa" />
+      </div>
+      <div class="form-group">
+        <label>Nom du professeur</label>
+        <input type="text" id="cfg-prof" placeholder="Ex: M. Gbèdji" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Numéro WhatsApp du professeur (pour recevoir les alertes)</label>
+      <input type="text" id="cfg-tel" placeholder="+229 97 XX XX XX" />
+    </div>
+
+    <hr class="divider">
+    <div class="section-heading">Codes de classe actifs</div>
+    <div id="codes-liste" style="margin-bottom:12px;">
+      <div style="font-size:13px;color:var(--muted);">Aucun code créé</div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Nouveau code de classe</label>
+        <input type="text" id="new-code" placeholder="Ex: TERM-D-SVT-2026" />
+      </div>
+      <div class="form-group">
+        <label>Matière associée</label>
+        <select id="new-code-matiere">
+          <option>Mathématiques</option><option>SVT</option><option>Français</option>
+          <option>Anglais</option><option>Espagnol</option><option>PCT</option>
+          <option>Philosophie</option><option>Histoire-Géographie</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn btn-primary btn-sm" onclick="ajouterCode()">+ Ajouter ce code</button>
+
+    <hr class="divider">
+    <div class="section-heading">Intégration Google Sheets (optionnel)</div>
+    <div class="alert alert-info" style="font-size:12px;">
+      🔗 Collez l'URL de votre Google Apps Script Web App pour synchroniser les données en temps réel dans un tableau Google Sheets.
+    </div>
+    <div class="form-group">
+      <label>URL Google Apps Script</label>
+      <input type="url" id="cfg-gsheet" placeholder="https://script.google.com/macros/s/..." />
+    </div>
+    <button class="btn btn-outline btn-sm" onclick="testerGSheet()">🧪 Tester la connexion</button>
+
+    <hr class="divider">
+    <button class="btn btn-primary btn-block" onclick="sauvegarderConfig()">
+      💾 Sauvegarder la configuration
+    </button>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><div class="icon">📋</div>Guide d'intégration rapide</div>
+    <div style="font-size:13px;color:var(--muted);line-height:1.7;">
+      <strong style="color:var(--ink);">Étape 1</strong> — Configurez votre profil et créez un code de classe (ex: <code>TERM-D-SVT-2026</code>)<br>
+      <strong style="color:var(--ink);">Étape 2</strong> — Partagez le code de classe à vos élèves avant le test<br>
+      <strong style="color:var(--ink);">Étape 3</strong> — Chaque élève génère son code personnel dans l'Espace Élève<br>
+      <strong style="color:var(--ink);">Étape 4</strong> — Suivez en temps réel depuis le Tableau de Bord<br>
+      <strong style="color:var(--ink);">Étape 5</strong> — Les parents vérifient via l'Espace Parent avec le code de leur enfant<br><br>
+      <strong style="color:var(--green);">💡 Pour l'intégration dans vos fichiers HTML existants</strong> : ajoutez simplement un appel à <code>window.parent.postMessage()</code> depuis votre test pour envoyer le score automatiquement à ce tableau de bord.
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- MODAL DÉTAIL ÉLÈVE -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <div class="modal-title">
+      <span>📋 Détail de l'élève</span>
+      <span class="modal-close" onclick="fermerModal()">✕</span>
+    </div>
+    <div id="modal-content"></div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<script>
+// ══════════════════════════════════════
+// ÉTAT GLOBAL
+// ══════════════════════════════════════
+let config = JSON.parse(localStorage.getItem('edusuivi-config') || '{"ecole":"","prof":"","tel":"","gsheet":"","codes":[]}');
+let eleves = JSON.parse(localStorage.getItem('edusuivi-eleves') || '[]');
+let currentCode = '';
+let currentEleve = null;
+
+// ══════════════════════════════════════
+// NAVIGATION TABS
+// ══════════════════════════════════════
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelector(`[onclick="switchTab('${tab}')"]`).classList.add('active');
+  document.getElementById(`panel-${tab}`).classList.add('active');
+  if (tab === 'prof') renderTable(eleves);
+  if (tab === 'config') renderConfig();
+}
+
+// ══════════════════════════════════════
+// GÉNÉRATION CODE ÉLÈVE
+// ══════════════════════════════════════
+function genererCode() {
+  const nom = document.getElementById('eleve-nom').value.trim();
+  const classe = document.getElementById('eleve-classe').value;
+  const matiere = document.getElementById('eleve-matiere').value;
+  const codeClasse = document.getElementById('eleve-codeclass').value.trim();
+
+  if (!nom || !classe || !matiere) {
+    toast('⚠️ Remplis tous les champs obligatoires');
+    return;
+  }
+
+  const now = new Date();
+  const dateStr = now.toISOString().slice(0,10).replace(/-/g,'');
+  const heureStr = String(now.getHours()).padStart(2,'0') + String(now.getMinutes()).padStart(2,'0');
+  const nomClean = nom.replace(/\s+/g,'').toUpperCase().slice(0,8);
+  const matShort = {
+    'Mathématiques':'MATHS','SVT':'SVT','Français':'FR','Anglais':'EN',
+    'Espagnol':'ES','PCT':'PCT','Philosophie':'PHILO','Histoire-Géographie':'HG'
+  }[matiere] || matiere.slice(0,3).toUpperCase();
+
+  currentCode = `${matShort}-${nomClean}-${dateStr}-${heureStr}`;
+
+  currentEleve = {
+    id: currentCode,
+    nom, classe, matiere,
+    codeClasse: codeClasse || '—',
+    heureInscription: now.toLocaleString('fr-FR'),
+    timestamp: now.getTime(),
+    score: null,
+    duree: null,
+    statut: 'inscrit' // inscrit → traite
+  };
+
+  // Enregistrer
+  const existant = eleves.findIndex(e => e.id === currentCode);
+  if (existant >= 0) eleves[existant] = currentEleve;
+  else eleves.push(currentEleve);
+  sauvegarderEleves();
+
+  // Afficher
+  document.getElementById('code-affiche').textContent = currentCode;
+  document.getElementById('eleve-result').style.display = 'block';
+  document.getElementById('eleve-result').scrollIntoView({ behavior: 'smooth' });
+
+  // Notif Google Sheets si configuré
+  envoyerGSheet(currentEleve);
+
+  toast('✅ Code généré et enregistré !');
+}
+
+// ══════════════════════════════════════
+// SOUMETTRE RÉSULTATS
+// ══════════════════════════════════════
+function soumettreResultats() {
+  const score = parseFloat(document.getElementById('result-score').value);
+  const duree = parseInt(document.getElementById('result-duree').value);
+
+  if (isNaN(score) || score < 0 || score > 20) {
+    toast('⚠️ Score invalide (entre 0 et 20)');
+    return;
+  }
+
+  currentEleve.score = score;
+  currentEleve.duree = duree || null;
+  currentEleve.statut = 'traite';
+  currentEleve.heureResultat = new Date().toLocaleString('fr-FR');
+
+  const idx = eleves.findIndex(e => e.id === currentCode);
+  if (idx >= 0) eleves[idx] = currentEleve;
+  sauvegarderEleves();
+  envoyerGSheet(currentEleve);
+
+  toast('🎉 Résultats soumis avec succès !');
+  document.getElementById('result-score-card').style.display = 'none';
+}
+
+// ══════════════════════════════════════
+// WHATSAPP
+// ══════════════════════════════════════
+function envoyerWhatsApp(mode) {
+  if (!currentEleve) return;
+
+  const tel = config.tel ? config.tel.replace(/\s/g,'').replace('+','') : '';
+  const score = currentEleve.score !== null ? `\n📊 Score : *${currentEleve.score}/20*` : '';
+  const duree = currentEleve.duree ? `\n⏱ Durée : ${currentEleve.duree} min` : '';
+
+  const msg = `✅ *RAPPORT DE TEST — EduSuivi*
+
+👤 Élève : *${currentEleve.nom}*
+🏫 Classe : ${currentEleve.classe}
+📚 Matière : ${currentEleve.matiere}
+🕐 Heure : ${currentEleve.heureInscription}${score}${duree}
+
+🔑 Code de vérification :
+\`${currentCode}\`
+
+✅ Ce test a bien été traité.
+— ${config.ecole || 'EduSuivi Bénin'}`;
+
+  const url = tel
+    ? `https://wa.me/${tel}?text=${encodeURIComponent(msg)}`
+    : `https://wa.me/?text=${encodeURIComponent(msg)}`;
+
+  window.open(url, '_blank');
+}
+
+function alerterAbsents() {
+  const absents = eleves.filter(e => e.statut === 'inscrit');
+  if (absents.length === 0) { toast('✅ Tous les élèves ont soumis leur test !'); return; }
+
+  const liste = absents.map(e => `• ${e.nom} (${e.classe} — ${e.matiere})`).join('\n');
+  const msg = `⚠️ *ALERTE TEST — EduSuivi*
+
+Les élèves suivants n'ont pas encore soumis leurs résultats :
+
+${liste}
+
+Merci de les relancer.
+— ${config.prof || 'Le Professeur'}`;
+
+  const tel = config.tel ? config.tel.replace(/\s/g,'').replace('+','') : '';
+  const url = tel
+    ? `https://wa.me/${tel}?text=${encodeURIComponent(msg)}`
+    : `https://wa.me/?text=${encodeURIComponent(msg)}`;
+  window.open(url, '_blank');
+}
+
+// ══════════════════════════════════════
+// TABLEAU DE BORD PROF
+// ══════════════════════════════════════
+function renderTable(data) {
+  const tbody = document.getElementById('table-body');
+  const traites = data.filter(e => e.statut === 'traite').length;
+  const inscrits = data.filter(e => e.statut === 'inscrit').length;
+  document.getElementById('stat-total').textContent = data.length;
+  document.getElementById('stat-traites').textContent = traites;
+  document.getElementById('stat-manquants').textContent = inscrits;
+
+  if (data.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="7"><div class="empty"><div class="empty-icon">📋</div><div class="empty-title">Aucune donnée</div><div class="empty-sub">Les élèves apparaissent ici dès qu'ils génèrent leur code</div></div></td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = data.map(e => {
+    const pct = e.score !== null ? (e.score / 20 * 100).toFixed(0) : null;
+    const barClass = pct >= 60 ? 'bar-green' : pct >= 40 ? 'bar-amber' : 'bar-red';
+    const scoreHtml = e.score !== null
+      ? `<div class="score-bar"><div class="bar-bg"><div class="bar-fill ${barClass}" style="width:${pct}%"></div></div><span class="score-text">${e.score}/20</span></div>`
+      : `<span style="color:var(--muted);font-size:12px;">—</span>`;
+
+    const badgeHtml = e.statut === 'traite'
+      ? `<span class="badge badge-done"><span class="badge-dot"></span>Traité</span>`
+      : `<span class="badge badge-pending"><span class="badge-dot"></span>En attente</span>`;
+
+    return `<tr>
+      <td><span class="student-name">${e.nom}</span></td>
+      <td>${e.classe}</td>
+      <td>${e.matiere}</td>
+      <td style="font-size:12px;color:var(--muted);">${e.heureInscription}</td>
+      <td>${scoreHtml}</td>
+      <td>${badgeHtml}</td>
+      <td>
+        <button class="btn btn-outline btn-sm" onclick="voirDetail('${e.id}')">👁</button>
+        <button class="btn btn-whatsapp btn-sm" onclick="alerterEleve('${e.id}')">📱</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function filtrerEleves() {
+  const q = document.getElementById('search-input').value.toLowerCase();
+  const mat = document.getElementById('filter-matiere').value;
+  const filtre = eleves.filter(e =>
+    (e.nom.toLowerCase().includes(q) || e.classe.toLowerCase().includes(q)) &&
+    (!mat || e.matiere === mat)
+  );
+  renderTable(filtre);
+}
+
+function voirDetail(id) {
+  const e = eleves.find(el => el.id === id);
+  if (!e) return;
+  document.getElementById('modal-content').innerHTML = `
+    <div style="display:grid;gap:10px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <div>
+          <div style="font-size:18px;font-weight:700;font-family:'Space Grotesk',sans-serif;">${e.nom}</div>
+          <div style="font-size:13px;color:var(--muted);">${e.classe} — ${e.matiere}</div>
+        </div>
+        ${e.statut === 'traite'
+          ? `<span class="badge badge-done" style="font-size:13px;">✅ Traité</span>`
+          : `<span class="badge badge-pending" style="font-size:13px;">⏳ En attente</span>`}
+      </div>
+      <hr style="border:none;border-top:1px solid var(--border);">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:13px;">
+        <div><div style="color:var(--muted);font-size:11px;margin-bottom:3px;">CODE DE SUIVI</div><code style="background:var(--ivory);padding:4px 8px;border-radius:4px;font-size:12px;">${e.id}</code></div>
+        <div><div style="color:var(--muted);font-size:11px;margin-bottom:3px;">CODE DE CLASSE</div>${e.codeClasse}</div>
+        <div><div style="color:var(--muted);font-size:11px;margin-bottom:3px;">HEURE D'INSCRIPTION</div>${e.heureInscription}</div>
+        <div><div style="color:var(--muted);font-size:11px;margin-bottom:3px;">SCORE</div>${e.score !== null ? `<strong>${e.score}/20</strong>` : '—'}</div>
+        ${e.duree ? `<div><div style="color:var(--muted);font-size:11px;margin-bottom:3px;">DURÉE</div>${e.duree} min</div>` : ''}
+        ${e.heureResultat ? `<div><div style="color:var(--muted);font-size:11px;margin-bottom:3px;">SOUMIS LE</div>${e.heureResultat}</div>` : ''}
+      </div>
+    </div>`;
+  document.getElementById('modal-overlay').classList.add('open');
+}
+
+function fermerModal() {
+  document.getElementById('modal-overlay').classList.remove('open');
+}
+
+function alerterEleve(id) {
+  const e = eleves.find(el => el.id === id);
+  if (!e) return;
+  const msg = `📚 *EduSuivi — Rappel*\n\nBonjour ${e.nom},\nVous n'avez pas encore soumis vos résultats pour le test de *${e.matiere}* (${e.classe}).\nMerci de le faire dès que possible.\n— ${config.prof || 'Le Professeur'}`;
+  window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+}
+
+// ══════════════════════════════════════
+// ESPACE PARENT
+// ══════════════════════════════════════
+function verifierCode() {
+  const code = document.getElementById('parent-code').value.trim().toUpperCase();
+  if (!code) { toast('⚠️ Entrez un code'); return; }
+
+  const e = eleves.find(el => el.id === code);
+  const result = document.getElementById('parent-result');
+  const card = document.getElementById('parent-card-result');
+  result.style.display = 'block';
+
+  if (!e) {
+    card.innerHTML = `
+      <div class="card-title"><div class="icon">❌</div>Code non trouvé</div>
+      <div class="alert" style="background:var(--red-light);color:var(--red);border-left:3px solid var(--red);">
+        Ce code n'existe pas dans notre système. Vérifiez avec votre enfant.
+      </div>`;
+    return;
+  }
+
+  const pct = e.score !== null ? (e.score / 20 * 100).toFixed(0) : null;
+  const mention = pct >= 80 ? '🏆 Excellent' : pct >= 60 ? '✅ Bien' : pct >= 40 ? '⚠️ Passable' : pct !== null ? '❌ Insuffisant' : '';
+
+  card.innerHTML = `
+    <div class="card-title"><div class="icon">✅</div>Résultat vérifié pour ${e.nom}</div>
+    <div class="alert alert-success">
+      Ce test a bien été enregistré dans notre système.
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:13px;margin-top:10px;">
+      <div><div style="color:var(--muted);font-size:11px;margin-bottom:3px;">ÉLÈVE</div><strong>${e.nom}</strong></div>
+      <div><div style="color:var(--muted);font-size:11px;margin-bottom:3px;">CLASSE</div>${e.classe}</div>
+      <div><div style="color:var(--muted);font-size:11px;margin-bottom:3px;">MATIÈRE</div>${e.matiere}</div>
+      <div><div style="color:var(--muted);font-size:11px;margin-bottom:3px;">HEURE</div>${e.heureInscription}</div>
+      ${e.score !== null ? `
+        <div><div style="color:var(--muted);font-size:11px;margin-bottom:3px;">SCORE</div><strong style="font-size:20px;font-family:'Space Grotesk',sans-serif;">${e.score}/20</strong></div>
+        <div><div style="color:var(--muted);font-size:11px;margin-bottom:3px;">MENTION</div>${mention}</div>
+      ` : '<div><div style="color:var(--muted);font-size:11px;margin-bottom:3px;">SCORE</div><span style="color:var(--amber);">En attente</span></div>'}
+    </div>`;
+}
+
+function abonnerParent() {
+  const enfant = document.getElementById('parent-enfant').value.trim();
+  const tel = document.getElementById('parent-tel').value.trim();
+  if (!enfant || !tel) { toast('⚠️ Remplissez les deux champs'); return; }
+  const msg = `👋 Bonjour,\nJe m'abonne aux alertes EduSuivi pour *${enfant}*.\nMon numéro : ${tel}\n— Parent de ${enfant}`;
+  const profTel = config.tel ? config.tel.replace(/\s/g,'').replace('+','') : '';
+  const url = profTel ? `https://wa.me/${profTel}?text=${encodeURIComponent(msg)}` : `https://wa.me/?text=${encodeURIComponent(msg)}`;
+  window.open(url, '_blank');
+  toast('📱 Message WhatsApp prêt à envoyer !');
+}
+
+// ══════════════════════════════════════
+// CONFIGURATION
+// ══════════════════════════════════════
+function renderConfig() {
+  document.getElementById('cfg-ecole').value = config.ecole || '';
+  document.getElementById('cfg-prof').value = config.prof || '';
+  document.getElementById('cfg-tel').value = config.tel || '';
+  document.getElementById('cfg-gsheet').value = config.gsheet || '';
+  renderCodesListe();
+}
+
+function renderCodesListe() {
+  const div = document.getElementById('codes-liste');
+  if (!config.codes || config.codes.length === 0) {
+    div.innerHTML = `<div style="font-size:13px;color:var(--muted);">Aucun code créé</div>`;
+    return;
+  }
+  div.innerHTML = config.codes.map(c =>
+    `<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+      <code style="background:var(--ivory);padding:4px 10px;border-radius:6px;font-size:13px;flex:1;">${c.code}</code>
+      <span style="font-size:12px;color:var(--muted);">${c.matiere}</span>
+      <button class="btn btn-outline btn-sm" onclick="supprimerCode('${c.code}')">✕</button>
+    </div>`
+  ).join('');
+}
+
+function ajouterCode() {
+  const code = document.getElementById('new-code').value.trim().toUpperCase();
+  const matiere = document.getElementById('new-code-matiere').value;
+  if (!code) { toast('⚠️ Entrez un code'); return; }
+  if (!config.codes) config.codes = [];
+  if (config.codes.find(c => c.code === code)) { toast('⚠️ Ce code existe déjà'); return; }
+  config.codes.push({ code, matiere });
+  document.getElementById('new-code').value = '';
+  renderCodesListe();
+  toast('✅ Code ajouté !');
+}
+
+function supprimerCode(code) {
+  config.codes = config.codes.filter(c => c.code !== code);
+  renderCodesListe();
+}
+
+function sauvegarderConfig() {
+  config.ecole = document.getElementById('cfg-ecole').value;
+  config.prof  = document.getElementById('cfg-prof').value;
+  config.tel   = document.getElementById('cfg-tel').value;
+  config.gsheet = document.getElementById('cfg-gsheet').value;
+  localStorage.setItem('edusuivi-config', JSON.stringify(config));
+  toast('💾 Configuration sauvegardée !');
+}
+
+function testerGSheet() {
+  const url = document.getElementById('cfg-gsheet').value;
+  if (!url) { toast('⚠️ Entrez l\'URL d\'abord'); return; }
+  toast('🧪 Test en cours...');
+  fetch(url + '?test=1').then(() => toast('✅ Connexion réussie !')).catch(() => toast('❌ Échec de connexion'));
+}
+
+// ══════════════════════════════════════
+// GOOGLE SHEETS
+// ══════════════════════════════════════
+function envoyerGSheet(eleve) {
+  if (!config.gsheet) return;
+  fetch(config.gsheet, {
+    method: 'POST',
+    body: JSON.stringify(eleve),
+    headers: { 'Content-Type': 'application/json' }
+  }).catch(() => {});
+}
+
+// ══════════════════════════════════════
+// EXPORT CSV
+// ══════════════════════════════════════
+function exporterCSV() {
+  if (eleves.length === 0) { toast('⚠️ Aucune donnée à exporter'); return; }
+  const headers = ['Nom','Classe','Matière','Heure inscription','Score','Durée (min)','Statut','Code'];
+  const rows = eleves.map(e => [
+    e.nom, e.classe, e.matiere, e.heureInscription,
+    e.score ?? '', e.duree ?? '', e.statut === 'traite' ? 'Traité' : 'En attente', e.id
+  ]);
+  const csv = [headers, ...rows].map(r => r.map(v => `"${v}"`).join(',')).join('\n');
+  const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `edusuivi-${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+  toast('⬇ Export CSV lancé !');
+}
+
+// ══════════════════════════════════════
+// DONNÉES DÉMO
+// ══════════════════════════════════════
+function reinitialiserDemo() {
+  const now = new Date();
+  eleves = [
+    { id:'SVT-KOFIADJ-20260610-0830', nom:'Kofi Adjovi', classe:'Terminale D', matiere:'SVT', codeClasse:'TERM-D-SVT-2026', heureInscription:'10/06/2026 08:30', timestamp: now-3600000, score:15.5, duree:42, statut:'traite', heureResultat:'10/06/2026 09:12' },
+    { id:'SVT-ABENAAG-20260610-0832', nom:'Abéna Agbodji', classe:'Terminale D', matiere:'SVT', codeClasse:'TERM-D-SVT-2026', heureInscription:'10/06/2026 08:32', timestamp: now-3500000, score:11, duree:55, statut:'traite', heureResultat:'10/06/2026 09:27' },
+    { id:'SVT-YVODAN-20260610-0835',  nom:'Yvo Dansi', classe:'Terminale D', matiere:'SVT', codeClasse:'TERM-D-SVT-2026', heureInscription:'10/06/2026 08:35', timestamp: now-3400000, score:null, duree:null, statut:'inscrit' },
+    { id:'MATHS-AMEVISE-20260610-0900',nom:'Amévi Sèdoglo', classe:'Terminale C', matiere:'Mathématiques', codeClasse:'TERM-C-MATHS-2026', heureInscription:'10/06/2026 09:00', timestamp: now-2400000, score:18, duree:38, statut:'traite', heureResultat:'10/06/2026 09:38' },
+    { id:'FR-MINAHOU-20260610-0910',  nom:'Mina Hounkpè', classe:'Terminale A', matiere:'Français', codeClasse:'TERM-A-FR-2026', heureInscription:'10/06/2026 09:10', timestamp: now-2200000, score:7.5, duree:60, statut:'traite', heureResultat:'10/06/2026 10:10' },
+    { id:'SVT-TOFALOG-20260610-0915', nom:'Tofalo Gnonlonfoun', classe:'Terminale D', matiere:'SVT', codeClasse:'TERM-D-SVT-2026', heureInscription:'10/06/2026 09:15', timestamp: now-2100000, score:null, duree:null, statut:'inscrit' },
+  ];
+  sauvegarderEleves();
+  renderTable(eleves);
+  toast('✅ Données démo chargées !');
+}
+
+// ══════════════════════════════════════
+// UTILITAIRES
+// ══════════════════════════════════════
+function sauvegarderEleves() {
+  localStorage.setItem('edusuivi-eleves', JSON.stringify(eleves));
+}
+
+function copierCode() {
+  navigator.clipboard.writeText(currentCode).then(() => toast('📋 Code copié !'));
+}
+
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// Fermer modal au clic extérieur
+document.getElementById('modal-overlay').addEventListener('click', function(e) {
+  if (e.target === this) fermerModal();
+});
+
+// Init
+renderTable(eleves);
+</script>
+</body>
+</html>

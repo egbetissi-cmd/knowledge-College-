@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Épreuve de Français — Terminale ABCD</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Source+Serif+4:wght@300;400;600&family=Space+Grotesk:wght@400;500;600&display=swap');
+
+  :root {
+    --ink: #1a1a2e;
+    --parchment: #f7f3ec;
+    --warm-white: #fefcf8;
+    --accent: #7c4a2d;
+    --accent-light: #c17f54;
+    --green: #2d6a4f;
+    --green-light: #e8f5ee;
+    --red-soft: #8b2020;
+    --red-light: #fdeaea;
+    --gold: #b8860b;
+    --gold-light: #fdf6e3;
+    --border: #d9d0c4;
+    --muted: #7a7060;
+    --shadow: rgba(26,26,46,0.08);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Source Serif 4', Georgia, serif;
+    background: var(--parchment);
+    color: var(--ink);
+    font-size: 17px;
+    line-height: 1.75;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--ink);
+    color: var(--parchment);
+    padding: 2.5rem 2rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      -45deg, transparent, transparent 40px,
+      rgba(255,255,255,0.015) 40px, rgba(255,255,255,0.015) 80px
+    );
+  }
+  .header-eyebrow {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent-light);
+    margin-bottom: 0.6rem;
+  }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: #fff;
+  }
+  .header-meta {
+    display: flex;
+    justify-content: center;
+    gap: 2.5rem;
+    margin-top: 1.2rem;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.82rem;
+    letter-spacing: 0.06em;
+    color: #b0a898;
+  }
+  .header-meta span { display: flex; align-items: center; gap: 0.35rem; }
+
+  /* ── NAV TABS ── */
+  .tab-bar {
+    display: flex;
+    background: var(--warm-white);
+    border-bottom: 2px solid var(--border);
+    overflow-x: auto;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    scrollbar-width: none;
+  }
+  .tab-bar::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 0.9rem 1.5rem;
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+  .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .tab-btn:hover:not(.active) { color: var(--ink); background: #f0ece5; }
+
+  /* ── MAIN LAYOUT ── */
+  main { max-width: 860px; margin: 0 auto; padding: 2.5rem 1.5rem 5rem; }
+
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* ── SECTION CARDS ── */
+  .card {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2rem 2.2rem;
+    margin-bottom: 1.8rem;
+    box-shadow: 0 2px 8px var(--shadow);
+  }
+  .card-label {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent-light);
+    margin-bottom: 0.5rem;
+  }
+  .card h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: var(--ink);
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.7rem;
+  }
+  .card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--accent);
+    margin: 1.4rem 0 0.5rem;
+  }
+
+  /* ── CORPUS TEXTS ── */
+  .texte-corpus {
+    background: var(--parchment);
+    border-left: 3px solid var(--accent-light);
+    padding: 1.2rem 1.4rem;
+    border-radius: 0 4px 4px 0;
+    margin: 1rem 0 1.4rem;
+    font-size: 0.95rem;
+    line-height: 1.8;
+  }
+  .texte-corpus .titre-texte {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 0.6rem;
+    font-style: normal;
+  }
+  .texte-corpus .source-ref {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.76rem;
+    color: var(--muted);
+    margin-top: 0.8rem;
+    font-style: italic;
+  }
+
+  /* ── QUESTIONS ── */
+  .question-block {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.5rem 1.8rem;
+    margin-bottom: 1.4rem;
+  }
+  .question-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  .q-number {
+    background: var(--accent);
+    color: #fff;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    min-width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+  .q-text {
+    font-size: 0.97rem;
+    line-height: 1.65;
+    flex: 1;
+  }
+  .q-points {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--accent-light);
+    background: var(--gold-light);
+    border: 1px solid #e6d48a;
+    padding: 0.15rem 0.6rem;
+    border-radius: 12px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  textarea.rep {
+    width: 100%;
+    min-height: 140px;
+    border: 1.5px solid var(--border);
+    border-radius: 4px;
+    padding: 0.9rem 1rem;
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--ink);
+    background: #fdfaf6;
+    resize: vertical;
+    transition: border-color 0.2s;
+  }
+  textarea.rep:focus {
+    outline: none;
+    border-color: var(--accent-light);
+    background: #fff;
+  }
+  .word-count {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.74rem;
+    color: var(--muted);
+    text-align: right;
+    margin-top: 0.4rem;
+  }
+  .word-count.warn { color: var(--red-soft); font-weight: 600; }
+  .word-count.ok { color: var(--green); font-weight: 600; }
+
+  /* ── SUBJECT CHOICE ── */
+  .choix-sujet {
+    background: var(--gold-light);
+    border: 1px solid #e6d48a;
+    border-radius: 4px;
+    padding: 1rem 1.4rem;
+    margin-bottom: 1.5rem;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.88rem;
+  }
+  .choix-sujet label {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    cursor: pointer;
+    padding: 0.4rem 0;
+    font-weight: 500;
+  }
+  .choix-sujet input[type=radio] { accent-color: var(--accent); width: 1.1rem; height: 1.1rem; }
+  .sujet-panel { display: none; margin-top: 1rem; }
+  .sujet-panel.visible { display: block; }
+
+  /* ── SUBMIT BUTTONS ── */
+  .btn-submit {
+    display: block;
+    width: 100%;
+    padding: 1rem 2rem;
+    background: var(--accent);
+    color: #fff;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    margin-top: 1.8rem;
+  }
+  .btn-submit:hover { background: #5e3520; }
+  .btn-submit:active { transform: scale(0.99); }
+  .btn-submit:disabled { background: #b0a898; cursor: not-allowed; }
+
+  /* ── AI FEEDBACK BOX ── */
+  .feedback-box {
+    display: none;
+    margin-top: 1.5rem;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .feedback-box.visible { display: block; }
+  .feedback-header {
+    background: var(--ink);
+    color: var(--parchment);
+    padding: 0.8rem 1.4rem;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .feedback-body {
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    border-top: none;
+    padding: 1.4rem 1.6rem;
+    font-size: 0.94rem;
+    line-height: 1.75;
+  }
+  .feedback-body.loading {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    color: var(--muted);
+    font-style: italic;
+    font-size: 0.88rem;
+  }
+  .spinner {
+    width: 1.2rem; height: 1.2rem;
+    border: 2px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    flex-shrink: 0;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Score badge */
+  .score-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--ink);
+    color: #fff;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 0.5rem 1.2rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+  }
+  .score-badge.excellent { background: var(--green); }
+  .score-badge.bien { background: var(--accent); }
+  .score-badge.passable { background: var(--gold); }
+  .score-badge.insuffisant { background: var(--red-soft); }
+
+  /* Section headers in feedback */
+  .feedback-body h4 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 1.2rem 0 0.5rem;
+    padding-bottom: 0.3rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .feedback-body h4:first-of-type { margin-top: 0; }
+  .feedback-body ul { padding-left: 1.4rem; }
+  .feedback-body ul li { margin-bottom: 0.35rem; }
+  .feedback-body p { margin-bottom: 0.7rem; }
+  .feedback-body strong { color: var(--accent); }
+
+  /* ── GLOBAL SCORE PANEL ── */
+  .score-panel {
+    display: none;
+    background: var(--ink);
+    color: var(--parchment);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 2rem;
+  }
+  .score-panel.visible { display: block; }
+  .score-top {
+    padding: 2rem 2.2rem;
+    text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  .score-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 4rem;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+  }
+  .score-total {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1rem;
+    color: #b0a898;
+    margin-top: 0.3rem;
+  }
+  .score-mention {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-top: 0.8rem;
+    padding: 0.3rem 1rem;
+    border-radius: 20px;
+    display: inline-block;
+  }
+  .mention-excellent { background: var(--green); color: #fff; }
+  .mention-bien { background: var(--accent); color: #fff; }
+  .mention-passable { background: var(--gold); color: #fff; }
+  .mention-insuffisant { background: var(--red-soft); color: #fff; }
+  .score-bottom {
+    padding: 1.5rem 2.2rem;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.86rem;
+    color: #b0a898;
+    text-align: center;
+  }
+
+  /* ── CORRIGÉ TAB ── */
+  .corrige-block {
+    background: var(--green-light);
+    border: 1px solid #a3cfba;
+    border-left: 4px solid var(--green);
+    border-radius: 4px;
+    padding: 1.4rem 1.6rem;
+    margin-bottom: 1.4rem;
+    font-size: 0.95rem;
+    line-height: 1.75;
+  }
+  .corrige-block h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    color: var(--green);
+    margin-bottom: 0.7rem;
+  }
+  .locked-notice {
+    background: var(--parchment);
+    border: 2px dashed var(--border);
+    border-radius: 4px;
+    padding: 2rem;
+    text-align: center;
+    color: var(--muted);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.88rem;
+  }
+  .locked-notice .lock-icon { font-size: 2rem; margin-bottom: 0.6rem; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    main { padding: 1.5rem 1rem 4rem; }
+    .card { padding: 1.3rem 1.2rem; }
+    .question-block { padding: 1.1rem 1rem; }
+    .header-meta { flex-wrap: wrap; gap: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-eyebrow">Épreuve Officielle · Année scolaire 2024-2025</div>
+  <h1>Épreuve de Français</h1>
+  <div class="header-meta">
+    <span>📘 Terminale ABCD</span>
+    <span>⏱ Durée : 4 heures</span>
+    <span>📊 Total : 20 points</span>
+  </div>
+</header>
+
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('corpus')">📄 Corpus</button>
+  <button class="tab-btn" onclick="switchTab('lecture')">I. Lecture (4 pts)</button>
+  <button class="tab-btn" onclick="switchTab('ecriture')">II. Travaux d'écriture (16 pts)</button>
+  <button class="tab-btn" onclick="switchTab('corrige')" id="tab-corrige">✅ Corrigé</button>
+</div>
+
+<main>
+
+<!-- ══════════════ ONGLET CORPUS ══════════════ -->
+<div class="tab-panel active" id="panel-corpus">
+
+  <div class="card">
+    <div class="card-label">Situation d'évaluation</div>
+    <p>La langue fait partie intégrante des outils de développement d'un peuple. Nonobstant cette évidence, certains piétinent le potentiel linguistique des peuples. Mais cette gaucherie rencontre des résistances. Dans les textes ci-après, des auteurs se prononcent sur le sujet. Tu es invité(e) à lire ces textes pour répondre aux consignes qui les accompagnent. Tu t'appuieras sur l'argumentation et la méthodologie des exercices de français au baccalauréat.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Corpus de textes</div>
+
+    <div class="texte-corpus">
+      <div class="titre-texte">Texte 1 — Problématique des langues nationales</div>
+      <p>La question des langues nationales préoccupe bien des chercheurs depuis plusieurs décennies. Ces personnes sont conscientes de ce qu'aucun développement endogène et durable n'est possible si les réalités des populations concernées ne sont prises en compte. Et il est généralement admis par différents spécialistes avisés que les langues maternelles des populations jouent un rôle déterminant dans la transmission et la promotion des valeurs endogènes.</p>
+      <p style="margin-top:0.8rem">Mais dès qu'on aborde la question des langues nationales, on touche du doigt un des goulots d'étranglement des politiques linguistiques des pays d'Afrique. En effet, lorsqu'on consulte les textes officiels de la plupart de ces pays, on y note souvent un engagement favorable à la réhabilitation et à la promotion desdites langues. Malheureusement, ces positions de principe sont rarement suivies de mises en œuvre pratiques. Les raisons de ce blocage sont à chercher notamment dans le caractère extraverti d'une importante frange des décideurs de ces pays, le scepticisme des populations sur la capacité des langues maternelles à favoriser leur épanouissement et le développement des nations. On entend aussi affirmer qu'à une époque dite de mondialisation/globalisation, des gouvernements qui doivent se battre pour assurer le minimum nécessaire à leurs citoyennes et citoyens ont mieux à faire que d'investir leurs ressources limitées dans la promotion des langues maternelles.</p>
+      <p style="margin-top:0.8rem">Ces attitudes et les difficultés du moment sont loin d'émousser la détermination et le volontarisme des personnes convaincues de ce qu'aucun pays ne peut se développer durablement dans la langue de l'autre. Ainsi, face à l'inertie que l'on observe dans bien des pays africains et les arguments matériels et financiers avancés généralement pour sa justification, certains chercheurs envisagent la possibilité de regrouper les moyens et les potentialités en vue de donner une nouvelle chance à la valorisation et à la nécessaire promotion des langues maternelles des populations du continent. Ce qui suppose l'identification préalable de ces moyens et potentialités. Et dans le cas qui préoccupe, il s'agit notamment d'en savoir davantage sur les langues maternelles communes à la République du Bénin et à plusieurs États, celles qu'on qualifie de transfrontalières.</p>
+      <p style="margin-top:0.8rem">Des institutions internationales comme l'UNESCO et l'Union Africaine (UA) à travers l'Académie Africaine des Langues (ACALAN) se préoccupent de la question des langues transfrontalières. Ainsi, à l'initiative de ces deux institutions, une réunion d'experts s'est tenue à Bamako (Mali) du 14 au 16 mars 2006 en vue de préparer un colloque sur « Les politiques culturelles nationales et le rôle des langues transfrontalières en Afrique de l'Ouest ».</p>
+      <div class="source-ref">Maxime da Cruz, « Les langues transfrontalières du Bénin », in Toussaint Y. Tchitchi (dir.), <em>Langues et politiques de langues au Bénin</em>, Cotonou, Ablodé, 2009, pp. 76-77.</div>
+    </div>
+
+    <div class="texte-corpus">
+      <div class="titre-texte">Texte 2 — Les langues et les systèmes éducatifs</div>
+      <p><em>(Dans son ardent désir d'introduire les langues locales dans le système éducatif de son pays, Babingo réunit autour de lui diverses sous-commissions. Certains délégués donnent leurs avis.)</em></p>
+      <p style="margin-top:0.8rem">Le sage Matindou, philosophe autodidacte, unanimement respecté pour son érudition, apporta son propre témoignage à l'appui du projet de Babingo.</p>
+      <p style="margin-top:0.5rem">— Quand, à l'âge de neuf ans environ, le commandant de cercle de l'époque coloniale força mon père à m'envoyer à l'école comme il le fit pour les autres enfants du village, nous étions tous, à l'exception du fils de l'instituteur, incapables de comprendre un traître mot de ce que le maître d'école nous disait. Pendant des mois, nous devions faire des efforts surhumains pour deviner, si possible comprendre le sens des mots. Un sentiment de frustration était largement partagé parmi nous.</p>
+      <p style="margin-top:0.5rem">L'acquisition des savoirs se fait à marche forcée, uniquement en langue française, laquelle était très éloignée de la langue que nous parlions à la maison. Comme on apprend bien seulement lorsque l'on comprend, nous avions des lacunes tout au long de notre scolarité. Notre maître de la classe de dixième avait du mal à nous préparer convenablement à l'examen du certificat d'études primaires. Les résultats furent médiocres. J'eus la chance de figurer parmi les rescapés du naufrage. Dans nos rangs, les abandons étaient légion.</p>
+      <p style="margin-top:0.5rem">Je suis persuadé que les résultats auraient été meilleurs s'il y avait eu une adéquation avec les enseignements reçus, le contexte de notre vie et de notre environnement.</p>
+      <p style="margin-top:0.5rem">Tessa, qui participait aussi aux travaux de la Commission en sa qualité d'assistante sociale renchérit.</p>
+      <p style="margin-top:0.5rem">— Dans mon ancienne fonction d'assistante sociale, j'entretenais des rapports de proximité avec les familles de conditions modestes, aussi bien dans les zones urbaines que rurales. J'avais pu constater que, sans exception, les couches sociales concernées ne pouvaient pas accompagner leurs enfants du fait qu'eux-mêmes ne parlaient pas la langue française. Il est temps que les enfants, tous les enfants, puissent accéder au savoir dans leurs langues maternelles ou tout au moins dans l'une des grandes familles linguistiques nationales. La tâche ne sera pas facile, mais il est temps d'agir, si nous voulons que tous les enfants accèdent au savoir à travers leur propre culture et non en se référant à un savoir-être d'emprunt.</p>
+      <div class="source-ref">Moussibahou Mazou, <em>Babingo au nom des acculturés</em>, Cotonou, Les Éditions du Flamboyant, 2018, pp. 219-221.</div>
+    </div>
+
+    <div class="texte-corpus">
+      <div class="titre-texte">Texte 3 — Défense des langues nationales</div>
+      <p>La langue française pour laquelle vous éprouvez cette profonde admiration était elle-même méprisée il y a quelques siècles par les docteurs et les savants. Seul le latin était l'objet de toutes les considérations, de tous les respects parce que tenu pour la seule langue capable de communiquer les nobles, les hautes pensées spéculatives.</p>
+      <p style="margin-top:0.8rem">Et un grand savant comme Descartes fera une vraie révolution en écrivant le premier ouvrage de philosophie en langue française. Avant lui, au siècle précédent, le groupe de la Pléiade avait relevé le défi du latin, réhabilité et finalement imposé la langue française encore regardée comme une pauvre langue, presque un dialecte, tout comme nos langues actuelles.</p>
+      <p style="margin-top:0.8rem">Il a fallu livrer bataille. Et ces fiers et pionniers ont d'abord été la risée des docteurs et des savants. Et ils avaient accepté cela. Tu vois, l'histoire de la France peut nous servir de leçon. Nous avons à livrer la même bataille, à défendre et à illustrer nos langues ; tant pis si nous essuyons les mêmes quolibets, les mêmes sourires ironiques et incrédules. L'enjeu est d'importance. Le jeu en vaut la chandelle.</p>
+      <p style="margin-top:0.8rem">Si nous enterrons nos langues, dans le même cercueil, nous enfouissons à jamais nos valeurs culturelles, toutes nos valeurs culturelles, d'autant plus profondément que, n'ayant pas d'écriture, la langue reste l'unique archive. La même pelle qui jettera la dernière pierre sur la tombe de nos langues fera une croix sur nos valeurs.</p>
+      <p style="margin-top:0.8rem">Je ne dis pas de faire comme si les Blancs n'étaient pas venus. Je dis que si nous abandonnons tout, soit par faiblesse, soit par négligence, soit par étourderie, par distraction, personne ne pourra, venu le tribunal de l'histoire, évaluer la perte monumentale ainsi subie. Personne, venue la condamnation à mort, le jugement de nos petits-enfants, ne pourra plaider notre dossier : un flagrant délit.</p>
+      <p style="margin-top:0.8rem">Un simple instinct de conservation doit nous saisir : une question de vie ou de mort ; nous allons, si nous n'y prenons garde, au suicide. Qui reprochera à un malade d'être obsédé par les soins qui peuvent le sauver ? Je sais, nous sommes entre le marteau et l'enclume, dans une position intenable. Écartelés. Mais on peut limiter les dégâts, sauver les meubles. Le feu est déjà dans la maison ; mais, si l'on a encore cette possibilité, il faut, sans attendre, appeler les pompiers. C'est une question de secondes.</p>
+      <div class="source-ref">Jean-Marie Adiafi, <em>La carte d'identité</em>, Paris, Hatier, 2002, pp. 107-108.</div>
+    </div>
+  </div>
+
+</div><!-- /panel-corpus -->
+
+
+<!-- ══════════════ ONGLET LECTURE ══════════════ -->
+<div class="tab-panel" id="panel-lecture">
+
+  <div class="card">
+    <div class="card-label">Compétence de lecture</div>
+    <h2>I. Questions de lecture — 4 points</h2>
+
+    <!-- Q1 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">1</div>
+        <div class="q-text">Montre en quoi les textes 2 et 3 sont <strong>convergents</strong> du point de vue des idées en justifiant ta réponse par de courts extraits.</div>
+        <div class="q-points">3 pts</div>
+      </div>
+      <textarea class="rep" id="lec-q1" placeholder="Rédigez votre réponse ici..."></textarea>
+      <div class="word-count" id="wc-lec-q1">0 mot</div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="question-block">
+      <div class="question-header">
+        <div class="q-number">2</div>
+        <div class="q-text">Montre si le texte 1 est <strong>divergent</strong> des textes 2 et 3 du point de vue des idées.</div>
+        <div class="q-points">1 pt</div>
+      </div>
+      <textarea class="rep" id="lec-q2" placeholder="Rédigez votre réponse ici..."></textarea>
+      <div class="word-count" id="wc-lec-q2">0 mot</div>
+    </div>
+
+    <button class="btn-submit" id="btn-lecture" onclick="submitLecture()">
+      ✦ Soumettre mes réponses — Lecture
+    </button>
+
+    <div class="feedback-box" id="fb-lecture">
+      <div class="feedback-header">✦ Analyse IA · Compétence de lecture</div>
+      <div class="feedback-body" id="fb-lecture-body"></div>
+    </div>
+  </div>
+
+</div><!-- /panel-lecture -->
+
+
+<!-- ══════════════ ONGLET ÉCRITURE ══════════════ -->
+<div class="tab-panel" id="panel-ecriture">
+  <div class="card">
+    <div class="card-label">Travaux d'écriture</div>
+    <h2>II. Au choix — 16 points</h2>
+
+    <div class="choix-sujet">
+      <p style="font-weight:600; margin-bottom:0.6rem">Choisis ton sujet :</p>
+      <label><input type="radio" name="sujet" value="1" onchange="toggleSujet(1)"> Sujet 1 — Contraction de texte (Texte 1)</label>
+      <label><input type="radio" name="sujet" value="2" onchange="toggleSujet(2)"> Sujet 2 — Dissertation (Texte 3)</label>
+    </div>
+
+    <!-- ── SUJET 1 ── -->
+    <div class="sujet-panel" id="sujet1-panel">
+      <h3>Sujet 1 · Contraction de texte</h3>
+
+      <div class="question-block">
+        <div class="question-header">
+          <div class="q-number">1</div>
+          <div class="q-text">Formule clairement le <strong>contraste</strong> dont il est question dans le deuxième paragraphe du texte 1.</div>
+          <div class="q-points">1 pt</div>
+        </div>
+        <textarea class="rep" id="s1-q1" placeholder="Formulez le contraste en quelques phrases..."></textarea>
+        <div class="word-count" id="wc-s1-q1">0 mot</div>
+      </div>
+
+      <div class="question-block">
+        <div class="question-header">
+          <div class="q-number">2</div>
+          <div class="q-text">Dégage la <strong>structure du texte</strong> et donne un titre à chaque partie.</div>
+          <div class="q-points">3 pts</div>
+        </div>
+        <textarea class="rep" id="s1-q2" placeholder="Partie 1 (§... à §...) : Titre&#10;Partie 2 (§... à §...) : Titre&#10;..."></textarea>
+        <div class="word-count" id="wc-s1-q2">0 mot</div>
+      </div>
+
+      <div class="question-block">
+        <div class="question-header">
+          <div class="q-number">3</div>
+          <div class="q-text"><strong>Résumé</strong> — Le texte comporte environ 526 mots. Résume-le au quart de son volume, soit <strong>132 mots</strong> (marge de ±10% tolérée : entre 119 et 145 mots). Indique le nombre de mots à la fin.</div>
+          <div class="q-points">5 pts</div>
+        </div>
+        <textarea class="rep" id="s1-q3" rows="10" placeholder="Rédigez votre résumé ici...&#10;&#10;Nombre de mots : ___"></textarea>
+        <div class="word-count" id="wc-s1-q3">0 mot · Cible : 119–145 mots</div>
+      </div>
+
+      <div class="question-block">
+        <div class="question-header">
+          <div class="q-number">4</div>
+          <div class="q-text"><strong>Discussion</strong> — « Aucun pays ne peut se développer durablement dans la langue de l'autre ». Quelles réflexions t'inspire ce propos ?</div>
+          <div class="q-points">7 pts</div>
+        </div>
+        <textarea class="rep" id="s1-q4" rows="14" placeholder="Rédigez votre discussion argumentée ici..."></textarea>
+        <div class="word-count" id="wc-s1-q4">0 mot</div>
+      </div>
+
+      <button class="btn-submit" onclick="submitSujet(1)">
+        ✦ Soumettre le Sujet 1 — Obtenir mon score et le corrigé
+      </button>
+      <div class="feedback-box" id="fb-s1">
+        <div class="feedback-header">✦ Analyse IA · Sujet 1 — Contraction de texte</div>
+        <div class="feedback-body" id="fb-s1-body"></div>
+      </div>
+    </div>
+
+    <!-- ── SUJET 2 ── -->
+    <div class="sujet-panel" id="sujet2-panel">
+      <h3>Sujet 2 · Dissertation</h3>
+
+      <div style="background:var(--parchment); border-left:3px solid var(--accent-light); padding:1rem 1.3rem; margin-bottom:1.2rem; font-size:0.94rem; font-style:italic; border-radius:0 4px 4px 0;">
+        « Si nous enterrons nos langues, dans le même cercueil, nous enfouissons à jamais nos valeurs culturelles, toutes nos valeurs culturelles, d'autant plus profondément que, n'ayant pas d'écriture, la langue reste l'unique archive. » — Jean-Marie Adiafi
+      </div>
+
+      <div class="question-block">
+        <div class="question-header">
+          <div class="q-number">1</div>
+          <div class="q-text">Précise le <strong>problème posé</strong> dans le sujet.</div>
+          <div class="q-points">2 pts</div>
+        </div>
+        <textarea class="rep" id="s2-q1" placeholder="Identifiez et formulez clairement le problème posé..."></textarea>
+        <div class="word-count" id="wc-s2-q1">0 mot</div>
+      </div>
+
+      <div class="question-block">
+        <div class="question-header">
+          <div class="q-number">2</div>
+          <div class="q-text">Construis le <strong>plan du corps du devoir</strong>.</div>
+          <div class="q-points">4 pts</div>
+        </div>
+        <textarea class="rep" id="s2-q2" placeholder="I. Titre de la première partie&#10;   A. Premier sous-point&#10;   B. Deuxième sous-point&#10;&#10;II. Titre de la deuxième partie&#10;   A. ..."></textarea>
+        <div class="word-count" id="wc-s2-q2">0 mot</div>
+      </div>
+
+      <div class="question-block">
+        <div class="question-header">
+          <div class="q-number">3</div>
+          <div class="q-text"><strong>Rédige entièrement ton devoir</strong> (introduction, développement, conclusion).</div>
+          <div class="q-points">10 pts</div>
+        </div>
+        <textarea class="rep" id="s2-q3" rows="20" placeholder="Rédigez votre dissertation complète ici..."></textarea>
+        <div class="word-count" id="wc-s2-q3">0 mot</div>
+      </div>
+
+      <button class="btn-submit" onclick="submitSujet(2)">
+        ✦ Soumettre le Sujet 2 — Obtenir mon score et le corrigé
+      </button>
+      <div class="feedback-box" id="fb-s2">
+        <div class="feedback-header">✦ Analyse IA · Sujet 2 — Dissertation</div>
+        <div class="feedback-body" id="fb-s2-body"></div>
+      </div>
+    </div>
+
+  </div>
+</div><!-- /panel-ecriture -->
+
+
+<!-- ══════════════ ONGLET CORRIGÉ ══════════════ -->
+<div class="tab-panel" id="panel-corrige">
+  <div id="corrige-locked" class="locked-notice">
+    <div class="lock-icon">🔒</div>
+    <p><strong>Le corrigé est disponible après soumission de ton devoir.</strong></p>
+    <p style="margin-top:0.4rem">Traite d'abord les exercices, puis reviens ici pour consulter le corrigé type.</p>
+  </div>
+
+  <div id="corrige-content" style="display:none">
+
+    <div class="card">
+      <div class="card-label">Corrigé type</div>
+      <h2>I. Compétence de lecture</h2>
+
+      <div class="corrige-block">
+        <h3>Question 1 — Convergence des textes 2 et 3 (3 pts)</h3>
+        <p><strong>Convergence principale :</strong> Les textes 2 et 3 partagent l'idée que les langues maternelles africaines doivent être défendues, valorisées et introduites dans la vie sociale et éducative.</p>
+        <p style="margin-top:0.7rem"><strong>Texte 2 :</strong> Matindou témoigne des conséquences néfastes de l'enseignement exclusivement en langue étrangère : frustration, lacunes, abandons scolaires. Tessa plaide pour que « tous les enfants puissent accéder au savoir dans leurs langues maternelles ».</p>
+        <p style="margin-top:0.7rem"><strong>Texte 3 :</strong> Adiafi compare la situation des langues africaines à celle du français jadis méprisé face au latin, et invite à « défendre et illustrer nos langues » comme les pionniers de la Pléiade l'ont fait.</p>
+        <p style="margin-top:0.7rem"><strong>Point commun :</strong> Les deux textes convergent dans leur dénonciation du mépris des langues nationales et leur appel militant à la résistance culturelle et à la revalorisation linguistique.</p>
+      </div>
+
+      <div class="corrige-block">
+        <h3>Question 2 — Divergence du texte 1 (1 pt)</h3>
+        <p>Le texte 1 <strong>n'est pas fondamentalement divergent</strong> des textes 2 et 3. Il partage la même conviction que le développement africain passe par les langues maternelles. Cependant, il se distingue par son approche : il adopte un regard <strong>analytique et institutionnel</strong> (politiques linguistiques, rôle de l'UNESCO, ACALAN) là où les textes 2 et 3 sont davantage <strong>militant et testimonial</strong>. On pourrait parler de complémentarité plutôt que de vraie divergence.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label">Corrigé type</div>
+      <h2>II. Sujet 1 — Contraction de texte</h2>
+
+      <div class="corrige-block">
+        <h3>Question 1 — Le contraste du paragraphe 2 (1 pt)</h3>
+        <p>Le contraste oppose <strong>l'engagement officiel</strong> des gouvernements africains en faveur des langues maternelles (dans les textes officiels) et <strong>l'absence de mise en œuvre concrète</strong> de cet engagement dans la pratique. En d'autres termes : les discours sont favorables, mais les actes ne suivent pas.</p>
+      </div>
+
+      <div class="corrige-block">
+        <h3>Question 2 — Structure du texte (3 pts)</h3>
+        <p><strong>Partie I</strong> (§1) : <em>Le rôle fondamental des langues maternelles dans le développement endogène</em></p>
+        <p style="margin-top:0.5rem"><strong>Partie II</strong> (§2) : <em>Les obstacles à la promotion des langues nationales en Afrique</em></p>
+        <p style="margin-top:0.5rem"><strong>Partie III</strong> (§3-4) : <em>Les initiatives pour surmonter l'inertie et valoriser les langues transfrontalières</em></p>
+      </div>
+
+      <div class="corrige-block">
+        <h3>Question 3 — Résumé (5 pts) · Proposition (≈132 mots)</h3>
+        <p>Les langues maternelles jouent un rôle déterminant dans la transmission des valeurs et le développement endogène des peuples africains. Pourtant, malgré des déclarations officielles favorables, leur promotion reste lettre morte dans la plupart des pays du continent. Ce blocage tient à l'extraversion de nombreux décideurs, au scepticisme des populations et aux contraintes financières évoquées à l'ère de la mondialisation. Néanmoins, des chercheurs convaincus qu'aucun développement durable n'est possible dans la langue de l'autre refusent de se décourager. Ils proposent de mutualiser les ressources pour valoriser, notamment, les langues transfrontalières communes à plusieurs États. L'UNESCO et l'Union Africaine, via l'ACALAN, soutiennent cette démarche, comme en témoigne le colloque de Bamako en 2006 sur les politiques linguistiques en Afrique de l'Ouest.</p>
+        <p style="margin-top:0.6rem; font-family:'Space Grotesk',sans-serif; font-size:0.8rem; color:var(--muted)">Nombre de mots : 132</p>
+      </div>
+
+      <div class="corrige-block">
+        <h3>Question 4 — Discussion (7 pts) · Pistes</h3>
+        <p><strong>Thèse à commenter :</strong> « Aucun pays ne peut se développer durablement dans la langue de l'autre. »</p>
+        <p style="margin-top:0.7rem"><strong>Arguments favorables (thèse) :</strong> La langue est le vecteur de la pensée, de la culture et des savoirs endogènes. Apprendre dans une langue étrangère crée des barrières cognitives et génère des inégalités. Les expériences asiatiques (Japon, Corée) montrent que le développement s'opère efficacement dans la langue nationale.</p>
+        <p style="margin-top:0.7rem"><strong>Arguments nuancés (antithèse) :</strong> Dans un monde globalisé, les langues internationales (français, anglais) facilitent l'accès aux savoirs scientifiques et aux échanges économiques. Le bilinguisme peut être une force.</p>
+        <p style="margin-top:0.7rem"><strong>Synthèse :</strong> Il ne s'agit pas de choisir entre langue maternelle et langue internationale, mais de promouvoir un bilinguisme équilibré où les langues maternelles servent de socle solide au développement.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label">Corrigé type</div>
+      <h2>II. Sujet 2 — Dissertation</h2>
+
+      <div class="corrige-block">
+        <h3>Question 1 — Le problème posé (2 pts)</h3>
+        <p>L'assertion d'Adiafi pose le problème du <strong>lien indissociable entre langue et identité culturelle</strong>. Si la langue est l'unique archive d'une culture sans écriture, sa disparition entraîne l'effacement irréversible de toutes les valeurs d'un peuple. La question posée est donc : <em>Dans quelle mesure l'abandon des langues maternelles africaines équivaut-il à un suicide culturel ?</em></p>
+      </div>
+
+      <div class="corrige-block">
+        <h3>Question 2 — Plan du corps du devoir (4 pts)</h3>
+        <p><strong>I. La langue, gardienne irremplaçable de l'identité culturelle</strong></p>
+        <p style="padding-left:1rem">A. La langue comme mémoire et archive vivante d'un peuple<br>B. La disparition d'une langue, mort culturelle inéluctable</p>
+        <p style="margin-top:0.7rem"><strong>II. Une menace réelle et urgente pour les langues africaines</strong></p>
+        <p style="padding-left:1rem">A. Les facteurs de marginalisation des langues nationales<br>B. Les conséquences identitaires et sociales de la déperdition linguistique</p>
+        <p style="margin-top:0.7rem"><strong>III. Défendre et illustrer nos langues : un impératif vital</strong></p>
+        <p style="padding-left:1rem">A. L'exemple historique de la Pléiade comme modèle d'action<br>B. Les voies concrètes de revalorisation des langues africaines</p>
+      </div>
+
+      <div class="corrige-block">
+        <h3>Question 3 — Éléments de rédaction (10 pts)</h3>
+        <p><strong>Introduction type :</strong> Un peuple sans mémoire est un peuple sans avenir. Telle pourrait être la leçon que tire Jean-Marie Adiafi dans <em>La carte d'identité</em> lorsqu'il affirme que l'enterrement des langues africaines revient à enfouir pour toujours les valeurs culturelles des peuples, dans la mesure où la langue reste l'unique archive de cultures sans écriture. Cette assertion invite à réfléchir au rôle fondamental de la langue dans la préservation de l'identité et à la menace que représente son abandon. Dans quelle mesure peut-on affirmer que perdre sa langue, c'est perdre son âme ? Nous verrons d'abord que la langue est une archive culturelle irremplaçable, avant d'examiner les menaces pesant sur les langues africaines, puis de proposer des voies de résistance et de revalorisation.</p>
+        <p style="margin-top:0.8rem"><strong>Critères d'évaluation principaux :</strong> Qualité de l'introduction et de la conclusion (2pts) · Pertinence et organisation du développement (4pts) · Qualité des arguments et exemples (2pts) · Maîtrise de la langue (2pts)</p>
+      </div>
+    </div>
+
+  </div>
+</div><!-- /panel-corrige -->
+
+</main>
+
+<script>
+// ── TAB SWITCHING ──
+function switchTab(name) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+
+// ── WORD COUNT ──
+function countWords(str) {
+  return str.trim().split(/\s+/).filter(w => w.length > 0).length;
+}
+
+document.querySelectorAll('textarea.rep').forEach(ta => {
+  const wcId = 'wc-' + ta.id;
+  const wcEl = document.getElementById(wcId);
+  if (!wcEl) return;
+  ta.addEventListener('input', () => {
+    const n = countWords(ta.value);
+    let text = n + (n > 1 ? ' mots' : ' mot');
+    // Special case for résumé
+    if (ta.id === 's1-q3') {
+      text += ' · Cible : 119–145 mots';
+      wcEl.className = 'word-count' + (n >= 119 && n <= 145 ? ' ok' : n > 0 ? ' warn' : '');
+    } else {
+      wcEl.className = 'word-count';
+    }
+    wcEl.textContent = text;
+  });
+});
+
+// ── SUJET TOGGLE ──
+function toggleSujet(num) {
+  document.getElementById('sujet1-panel').classList.toggle('visible', num === 1);
+  document.getElementById('sujet2-panel').classList.toggle('visible', num === 2);
+}
+
+// ── UNLOCK CORRIGÉ ──
+let corrigeUnlocked = false;
+function unlockCorrige() {
+  if (corrigeUnlocked) return;
+  corrigeUnlocked = true;
+  document.getElementById('corrige-locked').style.display = 'none';
+  document.getElementById('corrige-content').style.display = 'block';
+}
+
+// ── API CALL ──
+async function callClaude(systemPrompt, userPrompt, targetEl) {
+  targetEl.innerHTML = '<div class="spinner"></div> L\'IA analyse votre réponse…';
+  targetEl.classList.add('loading');
+
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: systemPrompt,
+        messages: [{ role: 'user', content: userPrompt }]
+      })
+    });
+    const data = await response.json();
+    const text = data.content.map(i => i.text || '').join('\n');
+    targetEl.classList.remove('loading');
+    targetEl.innerHTML = text;
+  } catch (err) {
+    targetEl.classList.remove('loading');
+    targetEl.innerHTML = '<p style="color:var(--red-soft)">Une erreur est survenue. Vérifiez votre connexion et réessayez.</p>';
+  }
+}
+
+// ── SUBMIT LECTURE ──
+async function submitLecture() {
+  const q1 = document.getElementById('lec-q1').value.trim();
+  const q2 = document.getElementById('lec-q2').value.trim();
+
+  if (!q1 || !q2) {
+    alert('Merci de répondre aux deux questions avant de soumettre.');
+    return;
+  }
+  document.getElementById('btn-lecture').disabled = true;
+
+  const fb = document.getElementById('fb-lecture');
+  const fbBody = document.getElementById('fb-lecture-body');
+  fb.classList.add('visible');
+
+  const system = `Tu es un professeur de français expert au niveau Terminale au Bénin.
+Tu corriges des réponses à des questions de lecture sur un corpus de 3 textes sur la valorisation des langues maternelles africaines.
+Texte 1 (Maxime da Cruz) : analyse institutionnelle des politiques linguistiques africaines.
+Texte 2 (Moussibahou Mazou, Babingo) : témoignages militant sur l'échec de l'éducation en langue étrangère.
+Texte 3 (Jean-Marie Adiafi, La carte d'identité) : plaidoyer passionné pour défendre les langues africaines au même titre que la Pléiade défendit le français.
+
+Réponds UNIQUEMENT en HTML simple (balises p, h4, ul, li, strong). Pas de markdown, pas de backticks.
+Structure ton retour en 4 sections : 
+<h4>🎯 Score estimé</h4> (affiche un score sur 4 pts avec badge coloré)
+<h4>✅ Points forts</h4>
+<h4>⚠️ Points à améliorer</h4>
+<h4>💡 Recommandations</h4>
+Sois précis, bienveillant, pédagogique. Cite des extraits de l'élève pour étayer tes remarques.`;
+
+  const user = `Question 1 (3 pts) — Convergence textes 2 et 3 :
+${q1}
+
+Question 2 (1 pt) — Divergence texte 1 :
+${q2}`;
+
+  await callClaude(system, user, fbBody);
+  unlockCorrige();
+}
+
+// ── SUBMIT SUJET ──
+async function submitSujet(num) {
+  const fbId = 'fb-s' + num;
+  const fbBodyId = 'fb-s' + num + '-body';
+  const fb = document.getElementById(fbId);
+  const fbBody = document.getElementById(fbBodyId);
+  fb.classList.add('visible');
+
+  let system, user;
+
+  if (num === 1) {
+    const q1 = document.getElementById('s1-q1').value.trim();
+    const q2 = document.getElementById('s1-q2').value.trim();
+    const q3 = document.getElementById('s1-q3').value.trim();
+    const q4 = document.getElementById('s1-q4').value.trim();
+    if (!q1 || !q2 || !q3 || !q4) {
+      alert('Merci de répondre à toutes les questions du sujet 1 avant de soumettre.');
+      return;
+    }
+    const wc3 = countWords(q3);
+
+    system = `Tu es un professeur de français expert au niveau Terminale au Bénin. Tu corriges le Sujet 1 (Contraction de texte) d'une épreuve de français Bac portant sur un texte de Maxime da Cruz sur les langues nationales africaines (526 mots).
+Le texte explique : (1) l'importance des langues maternelles pour le développement endogène, (2) le contraste entre engagement officiel et inaction pratique des gouvernements africains, (3) la détermination des chercheurs malgré l'inertie, (4) le rôle de l'UNESCO et de l'ACALAN.
+Barème : Q1=1pt, Q2=3pts, Q3=5pts (résumé cible 132 mots ±10%), Q4=7pts (discussion argumentée).
+
+Réponds UNIQUEMENT en HTML simple. Structure :
+<h4>📊 Score global estimé</h4> (sur 16 pts, avec mention)
+<h4>Q1 — Formulation du contraste (1 pt)</h4>
+<h4>Q2 — Structure du texte (3 pts)</h4>  
+<h4>Q3 — Résumé (5 pts)</h4> (commente la fidélité aux idées, le respect du volume, la reformulation)
+<h4>Q4 — Discussion (7 pts)</h4> (commente la thèse, l'antithèse, la synthèse, les arguments, la langue)
+<h4>💡 Recommandations générales</h4>
+Sois précis, bienveillant, professionnel. Cite des extraits de l'élève.`;
+
+    user = `Q1 — Contraste paragraphe 2 :
+${q1}
+
+Q2 — Structure du texte :
+${q2}
+
+Q3 — Résumé (${wc3} mots) :
+${q3}
+
+Q4 — Discussion :
+${q4}`;
+
+  } else {
+    const q1 = document.getElementById('s2-q1').value.trim();
+    const q2 = document.getElementById('s2-q2').value.trim();
+    const q3 = document.getElementById('s2-q3').value.trim();
+    if (!q1 || !q2 || !q3) {
+      alert('Merci de répondre à toutes les questions du sujet 2 avant de soumettre.');
+      return;
+    }
+
+    system = `Tu es un professeur de français expert au niveau Terminale au Bénin. Tu corriges le Sujet 2 (Dissertation) d'une épreuve de français Bac.
+L'assertion à commenter est d'Adiafi (La carte d'identité) : « Si nous enterrons nos langues, dans le même cercueil, nous enfouissons à jamais nos valeurs culturelles, toutes nos valeurs culturelles, d'autant plus profondément que, n'ayant pas d'écriture, la langue reste l'unique archive. »
+Barème : Q1=2pts (problème posé), Q2=4pts (plan du corps), Q3=10pts (rédaction complète).
+
+Critères Q3 : Introduction (1.5pt), Développement/argumentation (5pts), Conclusion (1.5pt), Cohérence/structure (1pt), Qualité langue (1pt).
+
+Réponds UNIQUEMENT en HTML simple. Structure :
+<h4>📊 Score global estimé</h4> (sur 16 pts, avec mention)
+<h4>Q1 — Problème posé (2 pts)</h4>
+<h4>Q2 — Plan du corps (4 pts)</h4>
+<h4>Q3 — Rédaction complète (10 pts)</h4>
+  — Introduction, Développement, Conclusion, Langue
+<h4>✅ Points forts de la copie</h4>
+<h4>⚠️ Lacunes à corriger</h4>
+<h4>💡 Conseils pour progresser</h4>
+Sois précis, constructif, pédagogique. Cite des passages de l'élève pour illustrer tes remarques.`;
+
+    user = `Q1 — Problème posé :
+${q1}
+
+Q2 — Plan du corps :
+${q2}
+
+Q3 — Dissertation complète :
+${q3}`;
+  }
+
+  await callClaude(system, user, fbBody);
+  unlockCorrige();
+}
+</script>
+</body>
+</html>
