@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mon Espace – KNOWLEDGE BAC</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #0d1b2a;
+      font-family: 'Segoe UI', sans-serif;
+      color: #ffffff;
+      min-height: 100vh;
+    }
+
+    /* HEADER */
+    header {
+      background: #162032;
+      border-bottom: 2px solid #f5a623;
+      padding: 14px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header h1 {
+      font-size: 1.1rem;
+      font-weight: 800;
+    }
+    header h1 span { color: #f5a623; }
+    .btn-logout {
+      background: transparent;
+      border: 1px solid #f5a623;
+      color: #f5a623;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* CONTENU */
+    .container { padding: 20px 16px; max-width: 600px; margin: 0 auto; }
+
+    .bienvenue {
+      background: linear-gradient(135deg, #162032, #1e3048);
+      border: 1px solid #f5a623;
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+    .bienvenue p { color: #8899aa; font-size: 0.85rem; margin-bottom: 4px; }
+    .bienvenue h2 { font-size: 1.3rem; color: #ffffff; }
+
+    /* ALERTE ACCÈS */
+    .alerte {
+      background: #1a2d1a;
+      border: 1px solid #2d5a2d;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 24px;
+      color: #8abb8a;
+      font-size: 0.88rem;
+      line-height: 1.6;
+    }
+    .alerte strong { color: #6bffaa; }
+
+    /* SECTION TITRE */
+    .section-titre {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #8899aa;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+    }
+
+    /* LISTE DES MATIÈRES */
+    .matieres { margin-bottom: 28px; }
+
+    .matiere-card {
+      background: #162032;
+      border: 1px solid #1e3048;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .matiere-card.accorde { border-color: #2d5a2d; }
+    .matiere-card.bloque { opacity: 0.5; }
+
+    .matiere-info h3 { font-size: 0.95rem; font-weight: 700; }
+    .matiere-info p { font-size: 0.78rem; color: #8899aa; margin-top: 2px; }
+
+    .btn-acces {
+      background: #f5a623;
+      color: #0d1b2a;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 0.82rem;
+      cursor: pointer;
+      white-space: nowrap;
+      text-decoration: none;
+    }
+    .btn-acheter {
+      background: transparent;
+      color: #f5a623;
+      border: 1px solid #f5a623;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.82rem;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    /* OFFRES */
+    .offres { margin-bottom: 28px; }
+    .offre-card {
+      background: #162032;
+      border: 1px solid #1e3048;
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 10px;
+    }
+    .offre-card.featured { border-color: #f5a623; }
+    .offre-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .offre-header h3 { font-size: 1rem; font-weight: 700; }
+    .prix { color: #f5a623; font-weight: 800; font-size: 1.1rem; }
+    .offre-desc { color: #8899aa; font-size: 0.82rem; line-height: 1.5; margin-bottom: 12px; }
+    .badge {
+      display: inline-block;
+      background: #f5a623;
+      color: #0d1b2a;
+      font-size: 0.7rem;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 20px;
+      margin-bottom: 8px;
+    }
+
+    /* LOADING */
+    #loading {
+      text-align: center;
+      padding: 60px 20px;
+      color: #8899aa;
+    }
+    .spinner {
+      width: 36px; height: 36px;
+      border: 3px solid #1e3048;
+      border-top-color: #f5a623;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 16px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    #contenu { display: none; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>KNOWLEDGE <span>BAC</span></h1>
+    <button class="btn-logout" id="btn-logout">Déconnexion</button>
+  </header>
+
+  <div class="container">
+    <!-- CHARGEMENT -->
+    <div id="loading">
+      <div class="spinner"></div>
+      <p>Chargement de ton espace...</p>
+    </div>
+
+    <!-- CONTENU PRINCIPAL -->
+    <div id="contenu">
+
+      <div class="bienvenue">
+        <p>Bienvenue sur ta plateforme de révision 👋</p>
+        <h2 id="nom-candidat">Candidat</h2>
+      </div>
+
+      <div class="alerte">
+        <strong>🔔 Comment accéder aux tests ?</strong><br>
+        Choisis une offre ci-dessous, effectue ton paiement par Mobile Money, et ton accès sera activé automatiquement.
+      </div>
+
+      <div class="matieres">
+        <p class="section-titre">Mes tests disponibles</p>
+        <div id="liste-matieres">
+          <!-- Généré dynamiquement -->
+        </div>
+      </div>
+
+      <div class="offres">
+        <p class="section-titre">Acheter un accès</p>
+
+        <div class="offre-card">
+          <div class="offre-header">
+            <h3>📐 Mathématiques</h3>
+            <span class="prix">1 000 FCFA</span>
+          </div>
+          <p class="offre-desc">Accès complet aux tests de Maths – Terminale D. Corrections détaillées incluses.</p>
+          <button class="btn-acheter" onclick="acheter('maths-terminaleD', 1000)">Acheter – 1 000 FCFA</button>
+        </div>
+
+        <div class="offre-card">
+          <div class="offre-header">
+            <h3>🧬 SVT</h3>
+            <span class="prix">1 000 FCFA</span>
+          </div>
+          <p class="offre-desc">Accès complet aux tests de SVT – Terminale D.</p>
+          <button class="btn-acheter" onclick="acheter('svt-terminaleD', 1000)">Acheter – 1 000 FCFA</button>
+        </div>
+
+        <div class="offre-card">
+          <div class="offre-header">
+            <h3>⚗️ PCT</h3>
+            <span class="prix">1 000 FCFA</span>
+          </div>
+          <p class="offre-desc">Accès complet aux tests de PCT – Terminale C/D.</p>
+          <button class="btn-acheter" onclick="acheter('pct-terminaleCD', 1000)">Acheter – 1 000 FCFA</button>
+        </div>
+
+        <div class="offre-card featured">
+          <span class="badge">⭐ MEILLEURE OFFRE</span>
+          <div class="offre-header">
+            <h3>🎓 Pack Série D Complet</h3>
+            <span class="prix">3 000 FCFA</span>
+          </div>
+          <p class="offre-desc">Toutes les matières de la Série D : Maths, SVT, PCT, Français, Anglais, Histoire-Géo. Valable 90 jours.</p>
+          <button class="btn-acheter" onclick="acheter('pack-complet', 3000)">Acheter – 3 000 FCFA</button>
+        </div>
+      </div>
+
+    </div><!-- fin #contenu -->
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCzMuCMNMhEcDU2sJa9Fek2oY6U0_ICfc4",
+      authDomain: "knowledge-tests-secondaire.firebaseapp.com",
+      projectId: "knowledge-tests-secondaire",
+      storageBucket: "knowledge-tests-secondaire.firebasestorage.app",
+      messagingSenderId: "917702143533",
+      appId: "1:917702143533:web:88b3499673f8add10f52a4"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // Catalogue des matières disponibles
+    const catalogue = [
+      { id: "maths-terminaleD", nom: "Mathématiques", serie: "Terminale D", fichier: "test-maths-terminaleD.html" },
+      { id: "svt-terminaleD", nom: "SVT", serie: "Terminale D", fichier: "test-svt-terminaleD.html" },
+      { id: "pct-terminaleCD", nom: "PCT", serie: "Terminale C/D", fichier: "test-pct-terminaleCD.html" },
+      { id: "français-terminale", nom: "Français", serie: "Toutes séries", fichier: "test-francais-terminale.html" },
+      { id: "anglais-terminale", nom: "Anglais", serie: "Toutes séries", fichier: "test-anglais-terminale.html" },
+      { id: "histgeo-terminale", nom: "Histoire-Géographie", serie: "Terminale A/B", fichier: "test-histgeo-terminale.html" },
+    ];
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        window.location.href = "login.html";
+        return;
+      }
+
+      // Afficher le nom du candidat
+      document.getElementById("nom-candidat").textContent =
+        user.displayName || user.email;
+
+      // Charger les accès depuis Firestore
+      let matieres = [];
+      let expiration = null;
+      try {
+        const snap = await getDoc(doc(db, "acces", user.uid));
+        if (snap.exists()) {
+          matieres = snap.data().matieres || [];
+          expiration = snap.data().expiration?.toDate?.() || null;
+        }
+      } catch (e) {
+        console.log("Pas encore d'accès enregistré.");
+      }
+
+      // Générer la liste des matières
+      const liste = document.getElementById("liste-matieres");
+      catalogue.forEach(m => {
+        const aAcces = matieres.includes(m.id) || matieres.includes("pack-complet");
+        const expire = expiration && new Date() > expiration;
+        const actif = aAcces && !expire;
+
+        const card = document.createElement("div");
+        card.className = "matiere-card " + (actif ? "accorde" : "bloque");
+        card.innerHTML = `
+          <div class="matiere-info">
+            <h3>${m.nom}</h3>
+            <p>${m.serie}</p>
+          </div>
+          ${actif
+            ? `<a class="btn-acces" href="${m.fichier}">Accéder →</a>`
+            : `<span style="color:#8899aa;font-size:0.8rem;">🔒 Non acheté</span>`
+          }
+        `;
+        liste.appendChild(card);
+      });
+
+      // Afficher le contenu
+      document.getElementById("loading").style.display = "none";
+      document.getElementById("contenu").style.display = "block";
+    });
+
+    // Déconnexion
+    document.getElementById("btn-logout").addEventListener("click", async () => {
+      await signOut(auth);
+      window.location.href = "login.html";
+    });
+
+    // Achat (prépare l'intégration FedaPay plus tard)
+    window.acheter = function(matiereId, prix) {
+      alert(`Paiement Mobile Money bientôt disponible !\n\nMatière : ${matiereId}\nPrix : ${prix} FCFA\n\nPour l'instant, contacte-nous sur WhatsApp pour activer ton accès manuellement.`);
+    };
+  </script>
+</body>
+</html>
