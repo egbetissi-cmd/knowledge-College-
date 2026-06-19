@@ -1,0 +1,135 @@
+<!--
+=======================================================
+  KNOWLEDGE BAC – SCRIPT DE PROTECTION D'ACCÈS
+  À coller au début du <body> de chaque fichier test
+  Changer uniquement la valeur de MATIERE_ID ci-dessous
+=======================================================
+-->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
+  import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
+
+  // ✏️ CHANGER CETTE VALEUR POUR CHAQUE FICHIER TEST
+  // Exemples : "maths-terminaleD", "svt-terminaleD", "français-terminaleA"
+  const MATIERE_ID = "maths-terminaleD";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCzMuCMNMhEcDU2sJa9Fek2oY6U0_ICfc4",
+    authDomain: "knowledge-tests-secondaire.firebaseapp.com",
+    projectId: "knowledge-tests-secondaire",
+    storageBucket: "knowledge-tests-secondaire.firebasestorage.app",
+    messagingSenderId: "917702143533",
+    appId: "1:917702143533:web:88b3499673f8add10f52a4"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  // Cacher le contenu pendant la vérification
+  document.documentElement.style.visibility = "hidden";
+
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+      // Pas connecté → rediriger vers login
+      window.location.href = "login.html?redirect=" + encodeURIComponent(window.location.pathname);
+      return;
+    }
+
+    try {
+      // Vérifier dans Firestore si cet utilisateur a accès à cette matière
+      const ref = doc(db, "acces", user.uid);
+      const snap = await getDoc(ref);
+
+      if (!snap.exists()) {
+        // Aucun accès enregistré
+        bloquerAcces(user, "Aucun accès trouvé pour ce compte.");
+        return;
+      }
+
+      const data = snap.data();
+      const matieres = data.matieres || [];
+      const expiration = data.expiration?.toDate?.() || null;
+
+      const aAcces = matieres.includes(MATIERE_ID) || matieres.includes("pack-complet");
+
+      if (!aAcces) {
+        bloquerAcces(user, "Tu n'as pas accès à cette matière.");
+        return;
+      }
+
+      if (expiration && new Date() > expiration) {
+        bloquerAcces(user, "Ton accès a expiré. Renouvelle ton abonnement.");
+        return;
+      }
+
+      // ✅ Accès autorisé – afficher le test
+      document.documentElement.style.visibility = "visible";
+      afficherBandeauUtilisateur(user);
+
+    } catch (err) {
+      console.error("Erreur vérification accès:", err);
+      bloquerAcces(null, "Erreur de vérification. Vérifie ta connexion internet.");
+    }
+  });
+
+  function bloquerAcces(user, raison) {
+    document.documentElement.style.visibility = "visible";
+    document.body.innerHTML = `
+      <div style="
+        min-height:100vh; background:#0d1b2a; display:flex;
+        align-items:center; justify-content:center;
+        font-family:'Segoe UI',sans-serif; padding:20px;
+      ">
+        <div style="
+          background:#162032; border:1px solid #1e3048;
+          border-radius:16px; padding:36px 28px;
+          max-width:400px; width:100%; text-align:center;
+        ">
+          <div style="font-size:3rem; margin-bottom:16px;">🔒</div>
+          <h2 style="color:#ffffff; margin-bottom:12px;">Accès refusé</h2>
+          <p style="color:#8899aa; margin-bottom:24px; line-height:1.6;">${raison}</p>
+          <a href="dashboard.html" style="
+            display:block; background:#f5a623; color:#0d1b2a;
+            padding:14px; border-radius:10px; text-decoration:none;
+            font-weight:800; margin-bottom:12px;
+          ">Voir mes accès</a>
+          <a href="login.html" style="
+            display:block; color:#f5a623; font-size:0.9rem;
+          ">Se connecter avec un autre compte</a>
+        </div>
+      </div>
+    `;
+  }
+
+  function afficherBandeauUtilisateur(user) {
+    const bandeau = document.createElement("div");
+    bandeau.style.cssText = `
+      position:fixed; top:0; left:0; right:0; z-index:9999;
+      background:#0d1b2a; border-bottom:2px solid #f5a623;
+      padding:8px 16px; display:flex;
+      justify-content:space-between; align-items:center;
+      font-family:'Segoe UI',sans-serif; font-size:0.82rem;
+    `;
+    bandeau.innerHTML = `
+      <span style="color:#8899aa;">
+        👤 <strong style="color:#ffffff;">${user.displayName || user.email}</strong>
+      </span>
+      <button onclick="deconnexion()" style="
+        background:#f5a623; color:#0d1b2a; border:none;
+        padding:4px 12px; border-radius:6px;
+        font-weight:700; cursor:pointer; font-size:0.8rem;
+      ">Déconnexion</button>
+    `;
+    document.body.insertBefore(bandeau, document.body.firstChild);
+    // Ajouter un peu d'espace pour ne pas cacher le contenu
+    document.body.style.paddingTop = "42px";
+  }
+
+  // Fonction de déconnexion accessible globalement
+  window.deconnexion = async function() {
+    await auth.signOut();
+    window.location.href = "login.html";
+  };
+</script>

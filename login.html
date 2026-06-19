@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Connexion – Tests BAC Knowledge</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      background: #0d1b2a;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 20px;
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    .logo h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.5px;
+    }
+    .logo h1 span { color: #f5a623; }
+    .logo p {
+      color: #8899aa;
+      font-size: 0.9rem;
+      margin-top: 4px;
+    }
+
+    .card {
+      background: #162032;
+      border: 1px solid #1e3048;
+      border-radius: 16px;
+      padding: 32px 28px;
+      width: 100%;
+      max-width: 420px;
+    }
+
+    .tabs {
+      display: flex;
+      margin-bottom: 28px;
+      background: #0d1b2a;
+      border-radius: 10px;
+      padding: 4px;
+    }
+    .tab {
+      flex: 1;
+      text-align: center;
+      padding: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #8899aa;
+      transition: all 0.2s;
+      border: none;
+      background: transparent;
+    }
+    .tab.active {
+      background: #f5a623;
+      color: #0d1b2a;
+    }
+
+    .form-section { display: none; }
+    .form-section.active { display: block; }
+
+    label {
+      display: block;
+      color: #aabbcc;
+      font-size: 0.82rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      margin-top: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px 14px;
+      background: #0d1b2a;
+      border: 1px solid #1e3048;
+      border-radius: 8px;
+      color: #ffffff;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input:focus { border-color: #f5a623; }
+    input::placeholder { color: #445566; }
+
+    .btn {
+      width: 100%;
+      margin-top: 24px;
+      padding: 14px;
+      background: #f5a623;
+      color: #0d1b2a;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .btn:hover { opacity: 0.88; }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .message {
+      margin-top: 16px;
+      padding: 12px 14px;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      display: none;
+    }
+    .message.error { background: #2d0f0f; color: #ff6b6b; border: 1px solid #5c1a1a; }
+    .message.success { background: #0f2d1a; color: #6bffaa; border: 1px solid #1a5c2d; }
+
+    .forgot {
+      display: block;
+      text-align: right;
+      color: #f5a623;
+      font-size: 0.82rem;
+      margin-top: 8px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      text-decoration: underline;
+    }
+
+    .divider {
+      text-align: center;
+      color: #445566;
+      font-size: 0.8rem;
+      margin: 20px 0 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="logo">
+    <h1>KNOWLEDGE <span>BAC</span></h1>
+    <p>Plateforme de révision – Tests interactifs</p>
+  </div>
+
+  <div class="card">
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('login')">Se connecter</button>
+      <button class="tab" onclick="switchTab('register')">Créer un compte</button>
+    </div>
+
+    <!-- CONNEXION -->
+    <div class="form-section active" id="tab-login">
+      <label for="login-email">Adresse e-mail</label>
+      <input type="email" id="login-email" placeholder="ton.email@gmail.com" />
+
+      <label for="login-password">Mot de passe</label>
+      <input type="password" id="login-password" placeholder="••••••••" />
+      <button class="forgot" onclick="resetPassword()">Mot de passe oublié ?</button>
+
+      <button class="btn" id="btn-login" onclick="login()">Se connecter</button>
+      <div class="message" id="msg-login"></div>
+    </div>
+
+    <!-- INSCRIPTION -->
+    <div class="form-section" id="tab-register">
+      <label for="reg-nom">Nom complet</label>
+      <input type="text" id="reg-nom" placeholder="Ex : Kofi Mensah" />
+
+      <label for="reg-email">Adresse e-mail</label>
+      <input type="email" id="reg-email" placeholder="ton.email@gmail.com" />
+
+      <label for="reg-password">Mot de passe</label>
+      <input type="password" id="reg-password" placeholder="Au moins 6 caractères" />
+
+      <button class="btn" id="btn-register" onclick="register()">Créer mon compte</button>
+      <div class="message" id="msg-register"></div>
+    </div>
+
+    <p class="divider">Tests BAC Série A · B · C · D — KNOWLEDGE SARL</p>
+  </div>
+
+  <!-- FIREBASE SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+    import {
+      getAuth,
+      signInWithEmailAndPassword,
+      createUserWithEmailAndPassword,
+      sendPasswordResetEmail,
+      updateProfile,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCzMuCMNMhEcDU2sJa9Fek2oY6U0_ICfc4",
+      authDomain: "knowledge-tests-secondaire.firebaseapp.com",
+      projectId: "knowledge-tests-secondaire",
+      storageBucket: "knowledge-tests-secondaire.firebasestorage.app",
+      messagingSenderId: "917702143533",
+      appId: "1:917702143533:web:88b3499673f8add10f52a4"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // Si déjà connecté → rediriger vers le tableau de bord
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        window.location.href = "dashboard.html";
+      }
+    });
+
+    // Récupère le paramètre "redirect" dans l'URL si présent
+    function getRedirectUrl() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get("redirect") || "dashboard.html";
+    }
+
+    function showMessage(id, text, type) {
+      const el = document.getElementById(id);
+      el.textContent = text;
+      el.className = "message " + type;
+      el.style.display = "block";
+    }
+
+    function setLoading(btnId, loading) {
+      const btn = document.getElementById(btnId);
+      btn.disabled = loading;
+      btn.textContent = loading ? "Chargement..." : btn.dataset.label;
+    }
+
+    // Exposer les fonctions globalement
+    window.switchTab = function(tab) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
+      document.getElementById('tab-' + tab).classList.add('active');
+      event.target.classList.add('active');
+    };
+
+    window.login = async function() {
+      const email = document.getElementById('login-email').value.trim();
+      const password = document.getElementById('login-password').value;
+      if (!email || !password) {
+        showMessage('msg-login', 'Veuillez remplir tous les champs.', 'error');
+        return;
+      }
+      document.getElementById('btn-login').disabled = true;
+      document.getElementById('btn-login').textContent = 'Connexion...';
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        window.location.href = getRedirectUrl();
+      } catch (e) {
+        const msg = e.code === 'auth/invalid-credential'
+          ? 'Email ou mot de passe incorrect.'
+          : 'Erreur de connexion. Réessaie.';
+        showMessage('msg-login', msg, 'error');
+        document.getElementById('btn-login').disabled = false;
+        document.getElementById('btn-login').textContent = 'Se connecter';
+      }
+    };
+
+    window.register = async function() {
+      const nom = document.getElementById('reg-nom').value.trim();
+      const email = document.getElementById('reg-email').value.trim();
+      const password = document.getElementById('reg-password').value;
+      if (!nom || !email || !password) {
+        showMessage('msg-register', 'Veuillez remplir tous les champs.', 'error');
+        return;
+      }
+      if (password.length < 6) {
+        showMessage('msg-register', 'Le mot de passe doit contenir au moins 6 caractères.', 'error');
+        return;
+      }
+      document.getElementById('btn-register').disabled = true;
+      document.getElementById('btn-register').textContent = 'Création...';
+      try {
+        const cred = await createUserWithEmailAndPassword(auth, email, password);
+        await updateProfile(cred.user, { displayName: nom });
+        showMessage('msg-register', '✅ Compte créé ! Redirection...', 'success');
+        setTimeout(() => { window.location.href = getRedirectUrl(); }, 1500);
+      } catch (e) {
+        const msg = e.code === 'auth/email-already-in-use'
+          ? 'Cet email est déjà utilisé. Connecte-toi.'
+          : 'Erreur lors de la création du compte.';
+        showMessage('msg-register', msg, 'error');
+        document.getElementById('btn-register').disabled = false;
+        document.getElementById('btn-register').textContent = 'Créer mon compte';
+      }
+    };
+
+    window.resetPassword = async function() {
+      const email = document.getElementById('login-email').value.trim();
+      if (!email) {
+        showMessage('msg-login', 'Entre ton email ci-dessus puis clique ici.', 'error');
+        return;
+      }
+      try {
+        await sendPasswordResetEmail(auth, email);
+        showMessage('msg-login', '✅ Email de réinitialisation envoyé !', 'success');
+      } catch (e) {
+        showMessage('msg-login', 'Email introuvable ou erreur réseau.', 'error');
+      }
+    };
+  </script>
+</body>
+</html>
