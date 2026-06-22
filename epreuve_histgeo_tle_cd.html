@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Épreuve Histoire-Géographie — Terminale C-D</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Serif+4:wght@300;400;600&family=Space+Grotesk:wght@400;500;600&display=swap');
+  :root{
+    --ink:#1a1a2e;--bg:#f5f2ec;--warm:#fefcf8;
+    --ah:#5a1a8a;--al:#9a5ac4;--as:#f4edfb;
+    --gh:#1a5a3a;--gl:#3a9a6a;--gs:#e8f5ee;
+    --green:#1a6b3a;--red:#8b1a1a;
+    --gold:#7a6000;--gold-light:#fdf6e0;
+    --border:#d8d0c0;--muted:#7a7060;--shadow:rgba(26,26,46,0.07);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Source Serif 4',Georgia,serif;background:var(--bg);color:var(--ink);font-size:16px;line-height:1.78;}
+  header{background:linear-gradient(135deg,#1a1a2e 0%,#3a0a6a 50%,#0a3a20 100%);color:#fff;padding:2rem 2rem 1.6rem;text-align:center;}
+  .eyebrow{font-family:'Space Grotesk',sans-serif;font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:#c8a8f0;margin-bottom:.4rem;}
+  header h1{font-family:'Playfair Display',serif;font-size:clamp(1.4rem,4vw,2.1rem);color:#fff;}
+  .hmeta{display:flex;justify-content:center;flex-wrap:wrap;gap:1.6rem;margin-top:.9rem;font-family:'Space Grotesk',sans-serif;font-size:.78rem;color:#b8b0c8;letter-spacing:.05em;}
+  .tab-bar{display:flex;background:var(--warm);border-bottom:2px solid var(--border);overflow-x:auto;position:sticky;top:0;z-index:50;scrollbar-width:none;}
+  .tab-bar::-webkit-scrollbar{display:none;}
+  .tab-btn{font-family:'Space Grotesk',sans-serif;font-size:.73rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:.82rem 1.1rem;border:none;background:transparent;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap;transition:all .2s;}
+  .tab-btn:hover:not(.active){color:var(--ink);background:#f0ece0;}
+  .tab-btn.ah.active{color:var(--ah);border-bottom-color:var(--ah);}
+  .tab-btn.gh.active{color:var(--gh);border-bottom-color:var(--gh);}
+  .tab-btn.cr.active{color:#333;border-bottom-color:#333;}
+  main{max-width:860px;margin:0 auto;padding:2rem 1.5rem 5rem;}
+  .tab-panel{display:none;}.tab-panel.active{display:block;}
+  .card{background:var(--warm);border:1px solid var(--border);border-radius:4px;padding:1.7rem 1.9rem;margin-bottom:1.5rem;box-shadow:0 2px 8px var(--shadow);}
+  .clabel{font-family:'Space Grotesk',sans-serif;font-size:.64rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;margin-bottom:.4rem;}
+  .clabel.h{color:var(--al);}.clabel.g{color:var(--gl);}
+  .card h2{font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--ink);border-bottom:1px solid var(--border);padding-bottom:.55rem;margin-bottom:.9rem;}
+  .banner{color:#fff;font-family:'Space Grotesk',sans-serif;font-size:.79rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:.6rem 1.1rem;border-radius:4px;margin-bottom:1rem;display:flex;justify-content:space-between;align-items:center;}
+  .banner.h{background:var(--ah);}.banner.g{background:var(--gh);}
+  .bpts{background:rgba(255,255,255,0.22);padding:.12rem .55rem;border-radius:10px;font-size:.74rem;}
+  .crit-grid{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;margin-bottom:1.1rem;}
+  @media(max-width:560px){.crit-grid{grid-template-columns:1fr;}}
+  .crit-box{border-radius:4px;padding:.8rem 1rem;font-size:.85rem;}
+  .crit-box.h{background:var(--as);border:1px solid #d0b0e8;}
+  .crit-box.g{background:var(--gs);border:1px solid #a8d8b8;}
+  .crit-title{font-family:'Space Grotesk',sans-serif;font-size:.69rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.35rem;}
+  .crit-title.h{color:var(--ah);}.crit-title.g{color:var(--gh);}
+  .crit-box ul{padding-left:1.1rem;}.crit-box li{margin-bottom:.22rem;}
+  .ctx-box{border-radius:0 4px 4px 0;padding:1rem 1.3rem;font-size:.92rem;line-height:1.8;margin-bottom:1rem;}
+  .ctx-box.h{background:var(--as);border-left:4px solid var(--ah);}
+  .ctx-box.g{background:var(--gs);border-left:4px solid var(--gh);}
+  .consignes{background:#fff;border:1px solid var(--border);border-radius:4px;padding:.85rem 1.05rem;margin-bottom:.9rem;font-size:.88rem;font-family:'Space Grotesk',sans-serif;}
+  .consignes .ctitle{font-weight:700;margin-bottom:.4rem;font-size:.76rem;letter-spacing:.05em;text-transform:uppercase;}
+  .consignes.h .ctitle{color:var(--ah);}.consignes.g .ctitle{color:var(--gh);}
+  .consignes ol{padding-left:1.3rem;}.consignes li{margin-bottom:.28rem;}
+  .q-block{background:var(--warm);border:1px solid var(--border);border-radius:4px;padding:1.1rem 1.4rem;margin-bottom:.9rem;}
+  .q-head{display:flex;align-items:flex-start;gap:.75rem;margin-bottom:.6rem;}
+  .qn{color:#fff;font-family:'Space Grotesk',sans-serif;font-size:.73rem;font-weight:700;min-width:1.75rem;height:1.75rem;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:.1rem;}
+  .qn.h{background:var(--ah);}.qn.g{background:var(--gh);}
+  .q-txt{flex:1;font-size:.93rem;line-height:1.62;}
+  .pts{font-family:'Space Grotesk',sans-serif;font-size:.69rem;font-weight:600;color:var(--gold);background:var(--gold-light);border:1px solid #dfc96a;padding:.09rem .48rem;border-radius:10px;white-space:nowrap;flex-shrink:0;}
+  textarea.rep{width:100%;border:1.5px solid var(--border);border-radius:4px;padding:.68rem .85rem;font-family:'Source Serif 4',serif;font-size:.93rem;line-height:1.7;background:#fdfbf5;color:var(--ink);resize:vertical;transition:border-color .2s;}
+  textarea.rep:focus{outline:none;background:#fff;}
+  textarea.rep.h:focus{border-color:var(--al);}
+  textarea.rep.g:focus{border-color:var(--gl);}
+  .wc{font-family:'Space Grotesk',sans-serif;font-size:.69rem;color:var(--muted);text-align:right;margin-top:.25rem;}
+  /* VRAI/FAUX */
+  .vf-row{display:flex;align-items:flex-start;gap:.9rem;padding:.5rem 0;border-bottom:1px solid #eee;font-size:.92rem;}
+  .vf-row:last-child{border-bottom:none;}
+  .vf-stmt{flex:1;line-height:1.55;}
+  .vf-choices{display:flex;gap:.45rem;flex-shrink:0;}
+  .vf-choices label{display:flex;align-items:center;gap:.22rem;font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:600;cursor:pointer;padding:.2rem .6rem;border:1.5px solid var(--border);border-radius:4px;transition:all .15s;white-space:nowrap;}
+  .vf-choices input[type=radio]{display:none;}
+  .vf-choices label:has(input:checked){background:var(--gh);color:#fff;border-color:var(--gh);}
+  .hint{background:#fff;border:1px solid var(--border);border-radius:4px;padding:.65rem .9rem;margin-bottom:.6rem;font-size:.83rem;font-family:'Space Grotesk',sans-serif;color:var(--muted);}
+  .btn{display:block;width:100%;padding:.88rem;color:#fff;font-family:'Space Grotesk',sans-serif;font-size:.84rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;border:none;border-radius:4px;cursor:pointer;transition:background .2s;margin-top:1.2rem;}
+  .btn.h{background:var(--ah);}.btn.h:hover{background:#3a0a6a;}
+  .btn.g{background:var(--gh);}.btn.g:hover{background:#0a3820;}
+  .btn:disabled{opacity:.55;cursor:not-allowed;}
+  .fb-box{display:none;margin-top:1.1rem;border-radius:4px;overflow:hidden;}
+  .fb-box.visible{display:block;}
+  .fb-head{background:var(--ink);color:#fff;padding:.65rem 1.1rem;font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;}
+  .fb-body{background:var(--warm);border:1px solid var(--border);border-top:none;padding:1.1rem 1.4rem;font-size:.91rem;line-height:1.75;}
+  .fb-body.loading{display:flex;align-items:center;gap:.65rem;color:var(--muted);font-style:italic;font-size:.83rem;}
+  .spinner{width:.95rem;height:.95rem;border:2px solid var(--border);border-top-color:var(--ah);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .fb-body h4{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:1rem 0 .32rem;padding-bottom:.2rem;border-bottom:1px solid var(--border);}
+  .fb-body h4:first-child{margin-top:0;}
+  .fb-body p{margin-bottom:.5rem;}.fb-body ul{padding-left:1.15rem;}.fb-body li{margin-bottom:.25rem;}
+  .fb-body strong{color:var(--ah);}
+  .fb-body.geo strong{color:var(--gh);}
+  .cor-h{background:var(--as);border:1px solid #d0b0e8;border-left:4px solid var(--ah);border-radius:4px;padding:1.1rem 1.4rem;margin-bottom:1rem;font-size:.91rem;line-height:1.78;}
+  .cor-g{background:var(--gs);border:1px solid #a8d8b8;border-left:4px solid var(--gh);border-radius:4px;padding:1.1rem 1.4rem;margin-bottom:1rem;font-size:.91rem;line-height:1.78;}
+  .cor-h h3{font-family:'Playfair Display',serif;font-size:.98rem;color:var(--ah);margin-bottom:.55rem;}
+  .cor-g h3{font-family:'Playfair Display',serif;font-size:.98rem;color:var(--gh);margin-bottom:.55rem;}
+  .cor-h p,.cor-g p{margin-bottom:.42rem;}
+  .cor-h ul,.cor-g ul{padding-left:1.15rem;margin-bottom:.38rem;}
+  .cor-h li,.cor-g li{margin-bottom:.25rem;}
+  .vrai{color:#1a6b3a;font-weight:700;font-family:'Space Grotesk',sans-serif;}
+  .faux{color:#8b1a1a;font-weight:700;font-family:'Space Grotesk',sans-serif;}
+  .locked{background:var(--warm);border:2px dashed var(--border);border-radius:4px;padding:2.5rem;text-align:center;color:var(--muted);font-family:'Space Grotesk',sans-serif;font-size:.85rem;}
+  .locked .icon{font-size:2rem;margin-bottom:.5rem;}
+  @media(max-width:580px){main{padding:1.1rem .85rem 4rem;}.card{padding:1.1rem .95rem;}.q-block{padding:.95rem .85rem;}.vf-row{flex-direction:column;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">Deuxième Série de Production Scolaire · Premier Semestre · Année scolaire 2025-2026</div>
+  <h1>Histoire — Géographie</h1>
+  <div class="hmeta">
+    <span>📚 Classe : Terminale C-D</span>
+    <span>⏱ Durée : 2 heures</span>
+    <span>📊 Total : 20 points</span>
+  </div>
+</header>
+
+<div class="tab-bar">
+  <button class="tab-btn ah active" onclick="switchTab('hist',event)">📜 I — Histoire (10 pts)</button>
+  <button class="tab-btn gh" onclick="switchTab('geo',event)">🌍 II — Géographie (10 pts)</button>
+  <button class="tab-btn cr" onclick="switchTab('corrige',event)">✅ Corrigé</button>
+</div>
+
+<main>
+
+<!-- ══════════ HISTOIRE ══════════ -->
+<div class="tab-panel active" id="panel-hist">
+  <div class="card">
+    <div class="clabel h">Histoire — Dissertation</div>
+    <div class="banner h">I — Histoire : Dissertation sur l'ONU <span class="bpts">10 pts</span></div>
+
+    <div class="crit-grid">
+      <div class="crit-box h">
+        <div class="crit-title h">Critères minimaux</div>
+        <ul>
+          <li>Interprétation correcte de la situation</li>
+          <li>Utilisation correcte des outils de la discipline</li>
+          <li>Cohérence interne</li>
+        </ul>
+      </div>
+      <div class="crit-box h">
+        <div class="crit-title h">Critère de perfectionnement</div>
+        <ul><li>Maîtrise de la langue</li></ul>
+      </div>
+    </div>
+
+    <div class="ctx-box h">
+      <strong>Contexte d'évaluation :</strong> Les privilèges donnés à certaines nations membres de l'ONU sont contraires aux principes de l'organisation qui est créée pour maintenir la paix.<br><br>
+      <strong>Tâche :</strong> À partir des savoirs construits, tu es invité(e) à produire une dissertation sur les raisons de création et le fonctionnement de l'ONU.
+    </div>
+
+    <div class="consignes h">
+      <div class="ctitle">Consignes</div>
+      <ol>
+        <li>Présente le contexte de création de l'ONU.</li>
+        <li>Expose la composition et les attributions du principal organe exécutif de l'ONU.</li>
+        <li>Montre en quoi le droit de veto constitue une menace pour l'ONU.</li>
+      </ol>
+    </div>
+
+    <div class="hint">💡 <strong>Structure suggérée :</strong> Introduction · 1- Contexte de création de l'ONU · 2- Composition et attributions du Conseil de Sécurité · 3- Le droit de veto : une menace pour l'ONU · Conclusion</div>
+
+    <div class="q-block">
+      <div class="q-head"><div class="qn h">Intro</div>
+        <div class="q-txt"><strong>Introduction</strong> — Contexte général et annonce du plan.</div>
+        <div class="pts">~1 pt</div>
+      </div>
+      <textarea class="rep h" id="h0" rows="4" placeholder="Après la Seconde Guerre mondiale, les nations du monde ont cherché à construire un ordre international pacifique..."></textarea>
+      <div class="wc" id="wc-h0">0 mot</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-head"><div class="qn h">1</div>
+        <div class="q-txt"><strong>Présente le contexte de création de l'ONU</strong> (quand, pourquoi, où, par qui, les principes fondateurs).</div>
+        <div class="pts">~3 pts</div>
+      </div>
+      <textarea class="rep h" id="h1" rows="9" placeholder="L'ONU a été créée en 1945 à San Francisco...&#10;&#10;• Le contexte : fin de la 2nde Guerre mondiale, bilan humain et matériel catastrophique...&#10;• Les origines : Charte de l'Atlantique (1941), Déclaration des Nations Unies (1942)...&#10;• La Conférence de San Francisco (avril-juin 1945), signature le 26 juin 1945...&#10;• Les buts : maintien de la paix et sécurité collective, coopération internationale...&#10;• Les principes : égalité souveraine des États, règlement pacifique des différends..."></textarea>
+      <div class="wc" id="wc-h1">0 mot</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-head"><div class="qn h">2</div>
+        <div class="q-txt"><strong>Expose la composition et les attributions du principal organe exécutif de l'ONU</strong> (le Conseil de Sécurité).</div>
+        <div class="pts">~3 pts</div>
+      </div>
+      <textarea class="rep h" id="h2" rows="9" placeholder="Le principal organe exécutif de l'ONU est le Conseil de Sécurité.&#10;&#10;Composition :&#10;• 5 membres permanents (P5) : États-Unis, Russie, Chine, France, Royaume-Uni&#10;• 10 membres non permanents élus pour 2 ans par l'Assemblée générale&#10;&#10;Attributions :&#10;• Maintien de la paix et de la sécurité internationales&#10;• Autoriser l'emploi de la force militaire (sanctions, casques bleus)&#10;• Décisions s'imposent à tous les États membres (résolutions contraignantes)"></textarea>
+      <div class="wc" id="wc-h2">0 mot</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-head"><div class="qn h">3</div>
+        <div class="q-txt"><strong>Montre en quoi le droit de veto constitue une menace pour l'ONU.</strong></div>
+        <div class="pts">~3 pts</div>
+      </div>
+      <textarea class="rep h" id="h3" rows="8" placeholder="Le droit de veto est le pouvoir accordé aux 5 membres permanents de bloquer toute résolution du Conseil de Sécurité.&#10;&#10;• Il crée une inégalité entre les membres de l'ONU (contraire au principe d'égalité souveraine)&#10;• Il paralyse le Conseil de Sécurité : ex. veto soviétique pendant la Guerre froide, veto américain sur le conflit israélo-palestinien...&#10;• Il protège les intérêts nationaux des grandes puissances au détriment de la paix mondiale&#10;• Il remet en cause l'universalité et la crédibilité de l'organisation"></textarea>
+      <div class="wc" id="wc-h3">0 mot</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-head"><div class="qn h">Ccl</div>
+        <div class="q-txt"><strong>Conclusion</strong> — Synthèse et ouverture.</div>
+        <div class="pts">~1 pt</div>
+      </div>
+      <textarea class="rep h" id="hccl" rows="3" placeholder="En définitive, l'ONU, créée pour maintenir la paix, reste une organisation indispensable malgré ses limites..."></textarea>
+      <div class="wc" id="wc-hccl">0 mot</div>
+    </div>
+
+    <button class="btn h" id="btn-hist" onclick="submitSection('hist')">✦ Soumettre Histoire — Obtenir la correction IA</button>
+    <div class="fb-box" id="fb-hist">
+      <div class="fb-head">✦ Correction IA · Histoire — Dissertation sur l'ONU</div>
+      <div class="fb-body" id="fb-hist-body"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ GÉOGRAPHIE ══════════ -->
+<div class="tab-panel" id="panel-geo">
+  <div class="card">
+    <div class="clabel g">Géographie — Questions directes</div>
+    <div class="banner g">II — Géographie : Réponses directes <span class="bpts">10 pts</span></div>
+
+    <div class="ctx-box g">
+      Réponds directement aux instructions ci-dessous. Les questions portent sur l'agriculture, l'élevage, le tourisme et le transport au Bénin.
+    </div>
+
+    <!-- GEO Q1 -->
+    <div class="q-block">
+      <div class="q-head"><div class="qn g">1</div>
+        <div class="q-txt"><strong>Présente la politique sectorielle du gouvernement du Bénin dans l'agriculture.</strong></div>
+        <div class="pts">~3 pts</div>
+      </div>
+      <div class="hint">💡 Pense à : les plans de développement agricole, les programmes d'appui aux agriculteurs, la mécanisation, les cultures prioritaires, les structures d'encadrement (CARDER, MAEP...), le Plan Stratégique de Développement du Secteur Agricole (PSDSA).</div>
+      <textarea class="rep g" id="g1" rows="9" placeholder="La politique sectorielle du gouvernement béninois dans l'agriculture comprend :&#10;&#10;• Le Plan Stratégique de Développement du Secteur Agricole (PSDSA)...&#10;• L'Agenda pour la Transformation du secteur agricole (PAG)...&#10;• Le soutien aux filières prioritaires : coton, anacarde, maïs, manioc...&#10;• La mécanisation agricole et la mise en place de centres de mécanisation...&#10;• Le développement de l'irrigation et des bas-fonds...&#10;• Les structures d'encadrement : CARDER, MAEP, structures coopératives..."></textarea>
+      <div class="wc" id="wc-g1">0 mot</div>
+    </div>
+
+    <!-- GEO Q2 — VRAI/FAUX -->
+    <div class="q-block">
+      <div class="q-head"><div class="qn g">2</div>
+        <div class="q-txt"><strong>Réponds par vrai ou faux aux affirmations suivantes</strong> et justifie chaque réponse.</div>
+        <div class="pts">~3 pts</div>
+      </div>
+
+      <div style="margin-bottom:.8rem">
+        <div class="vf-row">
+          <div class="vf-stmt">a) Le problème foncier au Bénin est un handicap pour les activités agricoles.</div>
+          <div class="vf-choices">
+            <label><input type="radio" name="vf1" value="Vrai"><span>Vrai</span></label>
+            <label><input type="radio" name="vf1" value="Faux"><span>Faux</span></label>
+          </div>
+        </div>
+        <div class="vf-row">
+          <div class="vf-stmt">b) L'élevage au Bénin couvre totalement le besoin en protéine des béninois.</div>
+          <div class="vf-choices">
+            <label><input type="radio" name="vf2" value="Vrai"><span>Vrai</span></label>
+            <label><input type="radio" name="vf2" value="Faux"><span>Faux</span></label>
+          </div>
+        </div>
+        <div class="vf-row">
+          <div class="vf-stmt">c) La construction des hôtels est un atout pour le développement du tourisme au Bénin.</div>
+          <div class="vf-choices">
+            <label><input type="radio" name="vf3" value="Vrai"><span>Vrai</span></label>
+            <label><input type="radio" name="vf3" value="Faux"><span>Faux</span></label>
+          </div>
+        </div>
+      </div>
+
+      <textarea class="rep g" id="g2" rows="6" placeholder="Justification :&#10;a) ...car le problème foncier (conflits de propriété, accès difficile à la terre) limite l'investissement agricole.&#10;b) ...car la production animale reste insuffisante et le Bénin importe encore des produits carnés.&#10;c) ...car les infrastructures hôtelières améliorent l'accueil des touristes et augmentent les recettes touristiques."></textarea>
+      <div class="wc" id="wc-g2">0 mot</div>
+    </div>
+
+    <!-- GEO Q3 -->
+    <div class="q-block">
+      <div class="q-head"><div class="qn g">3</div>
+        <div class="q-txt"><strong>Donne ton opinion sur les différents efforts fournis par le gouvernement de la rupture pour dynamiser le transport terrestre.</strong></div>
+        <div class="pts">~4 pts</div>
+      </div>
+      <div class="hint">💡 Le gouvernement de la « rupture » = gouvernement Talon depuis 2016. Efforts : construction et réhabilitation de routes, voie express Cotonou-Porto-Novo, autoroute Cotonou-Sémè, ouvrages d'art, amélioration de la sécurité routière, réforme du secteur des transports.</div>
+      <textarea class="rep g" id="g3" rows="10" placeholder="À mon avis, le gouvernement de la rupture a fourni des efforts notables pour dynamiser le transport terrestre au Bénin :&#10;&#10;Aspects positifs :&#10;• Construction et réhabilitation de nombreuses routes bitumées...&#10;• Réalisation de la voie express Cotonou-Porto-Novo...&#10;• Construction de ponts et échangeurs...&#10;&#10;Limites :&#10;• Le réseau reste insuffisant dans les zones rurales du Nord...&#10;• Les travaux ont parfois perturbé la circulation urbaine...&#10;&#10;Conclusion : Ces efforts constituent une avancée significative pour le développement économique..."></textarea>
+      <div class="wc" id="wc-g3">0 mot</div>
+    </div>
+
+    <button class="btn g" id="btn-geo" onclick="submitSection('geo')">✦ Soumettre Géographie — Obtenir la correction IA</button>
+    <div class="fb-box" id="fb-geo">
+      <div class="fb-head">✦ Correction IA · Géographie — Questions directes</div>
+      <div class="fb-body geo" id="fb-geo-body"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ CORRIGÉ ══════════ -->
+<div class="tab-panel" id="panel-corrige">
+  <div id="corrige-locked" class="locked">
+    <div class="icon">🔒</div>
+    <p><strong>Le corrigé se déverrouille après soumission d'au moins une partie.</strong></p>
+    <p style="margin-top:.4rem">Traite les exercices d'abord, puis reviens ici.</p>
+  </div>
+  <div id="corrige-content" style="display:none">
+
+    <div class="card">
+      <div class="clabel h">Corrigé type</div>
+      <h2>I — Histoire : Dissertation sur l'ONU (10 pts)</h2>
+
+      <div class="cor-h">
+        <h3>Introduction</h3>
+        <p>La Seconde Guerre mondiale (1939-1945), par ses millions de morts et ses destructions massives, a révélé l'échec de la Société des Nations (SDN). Les puissances victorieuses ont alors décidé de créer une nouvelle organisation internationale capable de maintenir la paix et la sécurité dans le monde : l'ONU. Mais très vite, les privilèges accordés à certaines nations membres se sont révélés contraires aux principes fondateurs de l'organisation. Nous allons présenter le contexte de création de l'ONU, exposer la composition et les attributions de son principal organe exécutif, avant de montrer en quoi le droit de veto constitue une menace pour l'organisation.</p>
+      </div>
+
+      <div class="cor-h">
+        <h3>1 — Contexte de création de l'ONU (~3 pts)</h3>
+        <ul>
+          <li><strong>Contexte :</strong> La fin de la 2nde Guerre mondiale laisse un bilan humain et matériel catastrophique (50 à 80 millions de morts, destructions massives, génocides). La SDN ayant échoué à prévenir la guerre, les Alliés décident de créer une organisation plus efficace.</li>
+          <li><strong>Origines :</strong> Charte de l'Atlantique (août 1941, Roosevelt-Churchill) ; Déclaration des Nations Unies (janvier 1942, 26 pays alliés).</li>
+          <li><strong>Création officielle :</strong> Conférence de San Francisco (avril-juin 1945). La Charte des Nations Unies est signée le <strong>26 juin 1945</strong> par 51 États fondateurs. L'ONU entre en vigueur le 24 octobre 1945.</li>
+          <li><strong>Buts :</strong> maintenir la paix et la sécurité internationales, développer des relations amicales entre les nations, promouvoir la coopération internationale (économique, sociale, culturelle, humanitaire).</li>
+          <li><strong>Principes :</strong> égalité souveraine des États, règlement pacifique des différends, non-ingérence dans les affaires intérieures des États.</li>
+          <li><strong>Siège :</strong> New York (États-Unis). Aujourd'hui plus de 193 États membres.</li>
+        </ul>
+      </div>
+
+      <div class="cor-h">
+        <h3>2 — Composition et attributions du Conseil de Sécurité (~3 pts)</h3>
+        <p>Le principal organe exécutif de l'ONU est le <strong>Conseil de Sécurité</strong>.</p>
+        <p><strong>Composition :</strong></p>
+        <ul>
+          <li><strong>5 membres permanents (P5) :</strong> États-Unis, Russie (ex-URSS), Chine, France, Royaume-Uni — les puissances victorieuses de 1945.</li>
+          <li><strong>10 membres non permanents</strong> élus pour 2 ans par l'Assemblée Générale selon une répartition géographique.</li>
+        </ul>
+        <p><strong>Attributions :</strong></p>
+        <ul>
+          <li>Principale responsabilité du maintien de la paix et de la sécurité internationales</li>
+          <li>Autoriser l'emploi de la force militaire : déploiement des Casques bleus, sanctions économiques</li>
+          <li>Ses résolutions sont contraignantes pour tous les États membres de l'ONU</li>
+          <li>Recommander l'admission de nouveaux membres à l'Assemblée Générale</li>
+        </ul>
+      </div>
+
+      <div class="cor-h">
+        <h3>3 — Le droit de veto : une menace pour l'ONU (~3 pts)</h3>
+        <p>Le <strong>droit de veto</strong> est la prérogative accordée à chacun des 5 membres permanents du Conseil de Sécurité de <strong>bloquer toute résolution</strong>, même adoptée par les autres membres.</p>
+        <ul>
+          <li><strong>Une inégalité fondamentale :</strong> il crée une hiérarchie entre États membres, contraire au principe d'égalité souveraine inscrit dans la Charte.</li>
+          <li><strong>La paralysie du Conseil :</strong> pendant la Guerre froide, les veto soviétiques et américains répétés ont bloqué l'action de l'ONU. Ex : veto américain sur les résolutions condamnant Israël, veto russe sur la Syrie.</li>
+          <li><strong>Défense des intérêts nationaux :</strong> les P5 utilisent le veto pour protéger leurs alliés ou leurs propres intérêts géopolitiques, au détriment de la paix mondiale.</li>
+          <li><strong>Perte de crédibilité :</strong> face aux conflits que l'ONU ne peut pas résoudre à cause du veto, l'organisation perd en légitimité et en efficacité.</li>
+        </ul>
+      </div>
+
+      <div class="cor-h">
+        <h3>Conclusion</h3>
+        <p>En définitive, l'ONU, née des cendres de la Seconde Guerre mondiale, est une organisation indispensable pour la gouvernance mondiale. Son Conseil de Sécurité est son principal organe d'action, mais le droit de veto accordé aux cinq membres permanents constitue un frein majeur à son efficacité. Une réforme de ce droit est souvent évoquée mais difficile à mettre en œuvre, car elle nécessiterait précisément l'accord de ceux qui en bénéficient.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="clabel g">Corrigé type</div>
+      <h2>II — Géographie : Questions directes (10 pts)</h2>
+
+      <div class="cor-g">
+        <h3>Q1 — Politique sectorielle agricole du Bénin (~3 pts)</h3>
+        <p>Le gouvernement du Bénin a mis en place plusieurs instruments pour développer le secteur agricole :</p>
+        <ul>
+          <li><strong>Le Plan Stratégique de Développement du Secteur Agricole (PSDSA)</strong> et ses déclinaisons opérationnelles, qui fixent les objectifs de production, de productivité et de sécurité alimentaire.</li>
+          <li><strong>Le Programme d'Actions du Gouvernement (PAG)</strong> inclut des projets agricoles prioritaires : développement des filières coton, anacarde, maïs, manioc, palmier à huile.</li>
+          <li><strong>La mécanisation agricole</strong> : mise en place de centres de mécanisation, acquisition de tracteurs et équipements agricoles distribués aux producteurs.</li>
+          <li><strong>L'irrigation</strong> : aménagement des bas-fonds et périmètres irrigués pour réduire la dépendance à la pluviométrie.</li>
+          <li><strong>Les structures d'encadrement</strong> : CARDER (Centres d'Action Régionale pour le Développement Rural), MAEP (Ministère de l'Agriculture), coopératives agricoles.</li>
+          <li><strong>L'accès au financement</strong> : Fonds National de Développement Agricole (FNDA), microcrédits aux producteurs.</li>
+        </ul>
+      </div>
+
+      <div class="cor-g">
+        <h3>Q2 — Vrai ou Faux (~3 pts)</h3>
+        <ul>
+          <li><span class="vrai">VRAI</span> — Le problème foncier au Bénin est un handicap pour les activités agricoles. <em>En effet, les conflits de propriété foncière, l'insécurité juridique des terres, la fragmentation des parcelles et le manque d'accès à la terre pour les jeunes agriculteurs limitent l'investissement et la productivité agricoles.</em></li>
+          <li><span class="faux">FAUX</span> — L'élevage au Bénin ne couvre PAS totalement le besoin en protéine des béninois. <em>La production animale nationale (bovins, ovins, caprins, volaille) reste insuffisante pour satisfaire la demande intérieure. Le Bénin doit encore importer des produits carnés et de la volaille pour combler le déficit proteique.</em></li>
+          <li><span class="vrai">VRAI</span> — La construction des hôtels est un atout pour le développement du tourisme au Bénin. <em>Des infrastructures hôtelières de qualité améliorent l'accueil des touristes, prolongent leur séjour, augmentent les recettes touristiques et créent des emplois locaux dans le secteur de l'hôtellerie et de la restauration.</em></li>
+        </ul>
+      </div>
+
+      <div class="cor-g">
+        <h3>Q3 — Opinion sur les efforts du gouvernement de la rupture dans le transport terrestre (~4 pts)</h3>
+        <p>Le gouvernement de la rupture (Talon, depuis 2016) a fourni des efforts importants pour moderniser le transport terrestre au Bénin, avec des résultats contrastés :</p>
+        <p><strong>Aspects positifs :</strong></p>
+        <ul>
+          <li>Construction et réhabilitation de nombreuses routes bitumées dans les départements</li>
+          <li>Réalisation de la voie express Cotonou-Porto-Novo (désenclavement de la capitale)</li>
+          <li>Construction d'échangeurs, de ponts et d'ouvrages d'art à Cotonou</li>
+          <li>Réhabilitation des voiries urbaines dans plusieurs villes</li>
+          <li>Réforme du secteur des transports et amélioration de la sécurité routière</li>
+        </ul>
+        <p><strong>Limites et insuffisances :</strong></p>
+        <ul>
+          <li>Le réseau routier dans les zones rurales du Nord reste insuffisant et impraticable en saison des pluies</li>
+          <li>Les travaux de voirie ont parfois fortement perturbé la circulation à Cotonou pendant plusieurs années</li>
+          <li>Le coût élevé des travaux alourdit la dette publique</li>
+          <li>Le transport en commun urbain reste peu développé malgré quelques initiatives (bus SOTRA)</li>
+        </ul>
+        <p><strong>Bilan :</strong> Ces efforts constituent une avancée significative pour le désenclavement du territoire et le développement économique, mais des investissements supplémentaires restent nécessaires pour couvrir l'ensemble du territoire national et améliorer les transports collectifs urbains.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</main>
+
+<script>
+function switchTab(name,e){
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('panel-'+name).classList.add('active');
+  e.currentTarget.classList.add('active');
+}
+function cw(s){return s.trim().split(/\s+/).filter(w=>w.length>0).length;}
+document.querySelectorAll('textarea.rep').forEach(ta=>{
+  const wc=document.getElementById('wc-'+ta.id);
+  if(!wc)return;
+  ta.addEventListener('input',()=>{const n=cw(ta.value);wc.textContent=n+(n>1?' mots':' mot');});
+});
+let unlocked=false;
+function unlockCorrige(){
+  if(unlocked)return;unlocked=true;
+  document.getElementById('corrige-locked').style.display='none';
+  document.getElementById('corrige-content').style.display='block';
+}
+async function callClaude(sys,msg,el){
+  el.innerHTML='<div class="spinner"></div> L\'IA analyse ta réponse…';
+  el.classList.add('loading');
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1200,system:sys,messages:[{role:'user',content:msg}]})
+    });
+    const d=await r.json();
+    el.classList.remove('loading');
+    el.innerHTML=d.content.map(i=>i.text||'').join('\n');
+  }catch{
+    el.classList.remove('loading');
+    el.innerHTML='<p style="color:#8b1a1a">Erreur de connexion. Réessaie.</p>';
+  }
+}
+
+const SYS={
+hist:`Tu es un professeur d'Histoire expert au niveau Terminale C-D au Bénin. Tu corriges une dissertation (10 pts) sur la création et le fonctionnement de l'ONU.
+Éléments attendus :
+Introduction : contexte fin 2GM, échec SDN, création ONU, annonce plan.
+1-Contexte ONU (3pts) : Charte Atlantique 1941, Déclaration Nations Unies 1942, Conférence San Francisco avril-juin 1945, Charte signée 26 juin 1945, 51 États fondateurs, entrée en vigueur 24 oct 1945, siège New York, buts (paix, coopération), principes (égalité souveraine, règlement pacifique, non-ingérence).
+2-Conseil de Sécurité (3pts) : 5 membres permanents (USA, Russie, Chine, France, RU) + 10 non permanents élus 2 ans ; attributions : maintien paix, autoriser force militaire/Casques bleus, résolutions contraignantes.
+3-Droit de veto (3pts) : blocage résolutions par P5, inégalité entre États, paralysie pendant Guerre froide, défense intérêts nationaux, perte crédibilité ONU. Exemples : veto US sur Israël, veto russe sur Syrie.
+Conclusion : ONU indispensable mais réforme du veto nécessaire et difficile.
+Réponds UNIQUEMENT en HTML simple (p,h4,ul,li,strong). Structure : <h4>📊 Score estimé</h4>(sur 10 pts) <h4>Introduction</h4> <h4>1 — Contexte de création (3 pts)</h4> <h4>2 — Conseil de Sécurité (3 pts)</h4> <h4>3 — Droit de veto (3 pts)</h4> <h4>Conclusion</h4> <h4>💡 Conseils</h4> Sois précis et pédagogique.`,
+
+geo:`Tu es un professeur de Géographie expert au niveau Terminale C-D au Bénin. Tu corriges des questions directes (10 pts) sur le Bénin.
+Réponses attendues :
+Q1 (3pts) - Politique agricole béninoise : PSDSA, PAG, filières prioritaires (coton, anacarde, maïs, manioc, palmier à huile), mécanisation, irrigation, structures (CARDER, MAEP), financement (FNDA).
+Q2 (3pts) - Vrai/Faux : a)VRAI (problème foncier = conflits propriété, insécurité juridique, fragmentation parcelles) ; b)FAUX (élevage insuffisant, importations nécessaires) ; c)VRAI (hôtels = meilleur accueil, recettes, emplois).
+Q3 (4pts) - Opinion transport terrestre gouvernement rupture (Talon 2016+) : positif (voie express Cotonou-Porto-Novo, échangeurs, routes bitumées, réhabilitation voiries) + limites (zones rurales nord insuffisantes, perturbations chantiers, dette, transports communs peu développés) + bilan équilibré.
+Réponds UNIQUEMENT en HTML simple. Structure : <h4>📊 Score estimé</h4>(sur 10 pts) <h4>Q1 — Politique agricole (3 pts)</h4> <h4>Q2 — Vrai ou Faux (3 pts)</h4> <h4>Q3 — Transport terrestre (4 pts)</h4> <h4>💡 Conseils</h4> Vérifie l'exactitude des informations géographiques sur le Bénin. Bienveillant et précis.`
+};
+
+async function submitSection(sec){
+  document.getElementById('btn-'+sec).disabled=true;
+  const fb=document.getElementById('fb-'+sec);fb.classList.add('visible');
+  const body=document.getElementById('fb-'+sec+'-body');
+  let msg='';
+  if(sec==='hist'){
+    msg=`Introduction:\n${document.getElementById('h0').value||'(vide)'}\n\n1 (Contexte ONU):\n${document.getElementById('h1').value||'(vide)'}\n\n2 (Conseil de Sécurité):\n${document.getElementById('h2').value||'(vide)'}\n\n3 (Droit de veto):\n${document.getElementById('h3').value||'(vide)'}\n\nConclusion:\n${document.getElementById('hccl').value||'(vide)'}`;
+  }else{
+    const vf=[1,2,3].map(i=>{const s=document.querySelector(`input[name="vf${i}"]:checked`);return s?s.value:'Non répondu';});
+    msg=`Q1 (politique agricole):\n${document.getElementById('g1').value||'(vide)'}\n\nQ2 Vrai/Faux:\na) ${vf[0]}\nb) ${vf[1]}\nc) ${vf[2]}\nJustifications:\n${document.getElementById('g2').value||'(vide)'}\n\nQ3 (transport terrestre):\n${document.getElementById('g3').value||'(vide)'}`;
+  }
+  await callClaude(SYS[sec],msg,body);
+  unlockCorrige();
+}
+</script>
+</body>
+</html>

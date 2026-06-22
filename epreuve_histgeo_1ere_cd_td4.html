@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TD n°4 Histoire-Géographie — 1ères C&D</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Serif+4:wght@300;400;600&family=Space+Grotesk:wght@400;500;600&display=swap');
+  :root{
+    --ink:#1a1a2e;--bg:#f5f2ec;--warm:#fefcf8;
+    --gh:#1a5a3a;--gl:#3a9a6a;--gs:#e8f5ee;
+    --ah:#5a3a10;--al:#a06830;--as:#fdf4e8;
+    --green:#1a6b3a;--red:#8b1a1a;
+    --gold:#7a6000;--gold-light:#fdf6e0;
+    --border:#d8d0c0;--muted:#7a7060;--shadow:rgba(26,26,46,0.07);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Source Serif 4',Georgia,serif;background:var(--bg);color:var(--ink);font-size:16px;line-height:1.78;}
+  header{background:linear-gradient(135deg,#0a3a20 0%,#1a5a3a 50%,#3a2808 100%);color:#fff;padding:2rem 2rem 1.6rem;text-align:center;}
+  .eyebrow{font-family:'Space Grotesk',sans-serif;font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:#a0d8b8;margin-bottom:.4rem;}
+  header h1{font-family:'Playfair Display',serif;font-size:clamp(1.4rem,4vw,2.1rem);color:#fff;}
+  .hmeta{display:flex;justify-content:center;flex-wrap:wrap;gap:1.6rem;margin-top:.9rem;font-family:'Space Grotesk',sans-serif;font-size:.78rem;color:#a8c8b8;letter-spacing:.05em;}
+  .tab-bar{display:flex;background:var(--warm);border-bottom:2px solid var(--border);overflow-x:auto;position:sticky;top:0;z-index:50;scrollbar-width:none;}
+  .tab-bar::-webkit-scrollbar{display:none;}
+  .tab-btn{font-family:'Space Grotesk',sans-serif;font-size:.73rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:.82rem 1.1rem;border:none;background:transparent;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap;transition:all .2s;}
+  .tab-btn:hover:not(.active){color:var(--ink);background:#f0ece0;}
+  .tab-btn.gt.active{color:var(--gh);border-bottom-color:var(--gh);}
+  .tab-btn.ht.active{color:var(--ah);border-bottom-color:var(--ah);}
+  .tab-btn.cr.active{color:#333;border-bottom-color:#333;}
+  main{max-width:860px;margin:0 auto;padding:2rem 1.5rem 5rem;}
+  .tab-panel{display:none;}.tab-panel.active{display:block;}
+  .card{background:var(--warm);border:1px solid var(--border);border-radius:4px;padding:1.7rem 1.9rem;margin-bottom:1.5rem;box-shadow:0 2px 8px var(--shadow);}
+  .clabel{font-family:'Space Grotesk',sans-serif;font-size:.64rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;margin-bottom:.4rem;}
+  .clabel.g{color:var(--gl);}.clabel.h{color:var(--al);}
+  .card h2{font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--ink);border-bottom:1px solid var(--border);padding-bottom:.55rem;margin-bottom:.9rem;}
+  .banner{color:#fff;font-family:'Space Grotesk',sans-serif;font-size:.79rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:.6rem 1.1rem;border-radius:4px;margin-bottom:1rem;display:flex;justify-content:space-between;align-items:center;}
+  .banner.g{background:var(--gh);}.banner.h{background:var(--ah);}
+  .bpts{background:rgba(255,255,255,0.22);padding:.12rem .55rem;border-radius:10px;font-size:.74rem;}
+  .crit-grid{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;margin-bottom:1.1rem;}
+  @media(max-width:560px){.crit-grid{grid-template-columns:1fr;}}
+  .crit-box{border-radius:4px;padding:.8rem 1rem;font-size:.85rem;}
+  .crit-box.g{background:var(--gs);border:1px solid #a8d8b8;}
+  .crit-box.h{background:var(--as);border:1px solid #e0c0a0;}
+  .crit-title{font-family:'Space Grotesk',sans-serif;font-size:.69rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.35rem;}
+  .crit-title.g{color:var(--gh);}.crit-title.h{color:var(--ah);}
+  .crit-box ul{padding-left:1.1rem;}.crit-box li{margin-bottom:.22rem;}
+  .ctx-box{border-radius:0 4px 4px 0;padding:1rem 1.3rem;font-size:.93rem;line-height:1.8;margin-bottom:1rem;}
+  .ctx-box.g{background:var(--gs);border-left:4px solid var(--gh);}
+  .ctx-box.h{background:var(--as);border-left:4px solid var(--ah);}
+  .consignes{background:#fff;border:1px solid var(--border);border-radius:4px;padding:.85rem 1.05rem;margin-bottom:.9rem;font-size:.88rem;font-family:'Space Grotesk',sans-serif;}
+  .consignes .ctitle{font-weight:700;margin-bottom:.4rem;font-size:.76rem;letter-spacing:.05em;text-transform:uppercase;}
+  .consignes.g .ctitle{color:var(--gh);}.consignes.h .ctitle{color:var(--ah);}
+  .consignes ol{padding-left:1.3rem;}.consignes li{margin-bottom:.28rem;}
+  .q-block{background:var(--warm);border:1px solid var(--border);border-radius:4px;padding:1.1rem 1.4rem;margin-bottom:.9rem;}
+  .q-head{display:flex;align-items:flex-start;gap:.75rem;margin-bottom:.6rem;}
+  .qn{color:#fff;font-family:'Space Grotesk',sans-serif;font-size:.73rem;font-weight:700;min-width:1.75rem;height:1.75rem;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:.1rem;}
+  .qn.g{background:var(--gh);}.qn.h{background:var(--ah);}
+  .q-txt{flex:1;font-size:.93rem;line-height:1.62;}
+  .pts{font-family:'Space Grotesk',sans-serif;font-size:.69rem;font-weight:600;color:var(--gold);background:var(--gold-light);border:1px solid #dfc96a;padding:.09rem .48rem;border-radius:10px;white-space:nowrap;flex-shrink:0;}
+  textarea.rep{width:100%;border:1.5px solid var(--border);border-radius:4px;padding:.68rem .85rem;font-family:'Source Serif 4',serif;font-size:.93rem;line-height:1.7;background:#fdfbf5;color:var(--ink);resize:vertical;transition:border-color .2s;}
+  textarea.rep:focus{outline:none;background:#fff;}
+  textarea.rep.g:focus{border-color:var(--gl);}
+  textarea.rep.h:focus{border-color:var(--al);}
+  textarea.rep.xl{min-height:200px;}
+  .wc{font-family:'Space Grotesk',sans-serif;font-size:.69rem;color:var(--muted);text-align:right;margin-top:.25rem;}
+  .hint{background:#fff;border:1px solid var(--border);border-radius:4px;padding:.65rem .9rem;margin-bottom:.6rem;font-size:.83rem;font-family:'Space Grotesk',sans-serif;color:var(--muted);}
+  /* VF */
+  .vf-row{display:flex;align-items:flex-start;gap:.9rem;padding:.5rem 0;border-bottom:1px solid #eee;font-size:.92rem;}
+  .vf-row:last-child{border-bottom:none;}
+  .vf-stmt{flex:1;line-height:1.55;}
+  .vf-choices{display:flex;gap:.45rem;flex-shrink:0;}
+  .vf-choices label{display:flex;align-items:center;gap:.22rem;font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:600;cursor:pointer;padding:.2rem .6rem;border:1.5px solid var(--border);border-radius:4px;transition:all .15s;white-space:nowrap;}
+  .vf-choices input[type=radio]{display:none;}
+  .vf-choices label:has(input:checked){background:var(--ah);color:#fff;border-color:var(--ah);}
+  /* BUTTONS */
+  .btn{display:block;width:100%;padding:.88rem;color:#fff;font-family:'Space Grotesk',sans-serif;font-size:.84rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;border:none;border-radius:4px;cursor:pointer;transition:background .2s;margin-top:1.2rem;}
+  .btn.g{background:var(--gh);}.btn.g:hover{background:#0a3820;}
+  .btn.h{background:var(--ah);}.btn.h:hover{background:#3a2008;}
+  .btn:disabled{opacity:.55;cursor:not-allowed;}
+  /* FB */
+  .fb-box{display:none;margin-top:1.1rem;border-radius:4px;overflow:hidden;}
+  .fb-box.visible{display:block;}
+  .fb-head{background:var(--ink);color:#fff;padding:.65rem 1.1rem;font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;}
+  .fb-body{background:var(--warm);border:1px solid var(--border);border-top:none;padding:1.1rem 1.4rem;font-size:.91rem;line-height:1.75;}
+  .fb-body.loading{display:flex;align-items:center;gap:.65rem;color:var(--muted);font-style:italic;font-size:.83rem;}
+  .spinner{width:.95rem;height:.95rem;border:2px solid var(--border);border-top-color:var(--gh);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .fb-body h4{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:1rem 0 .32rem;padding-bottom:.2rem;border-bottom:1px solid var(--border);}
+  .fb-body h4:first-child{margin-top:0;}
+  .fb-body p{margin-bottom:.5rem;}.fb-body ul{padding-left:1.15rem;}.fb-body li{margin-bottom:.25rem;}
+  .fb-body strong{color:var(--gh);}
+  .fb-body.hist strong{color:var(--ah);}
+  /* CORRIGÉ */
+  .cor-g{background:var(--gs);border:1px solid #a8d8b8;border-left:4px solid var(--gh);border-radius:4px;padding:1.1rem 1.4rem;margin-bottom:1rem;font-size:.91rem;line-height:1.78;}
+  .cor-h{background:var(--as);border:1px solid #e0c0a0;border-left:4px solid var(--ah);border-radius:4px;padding:1.1rem 1.4rem;margin-bottom:1rem;font-size:.91rem;line-height:1.78;}
+  .cor-g h3{font-family:'Playfair Display',serif;font-size:.98rem;color:var(--gh);margin-bottom:.55rem;}
+  .cor-h h3{font-family:'Playfair Display',serif;font-size:.98rem;color:var(--ah);margin-bottom:.55rem;}
+  .cor-g p,.cor-h p{margin-bottom:.42rem;}
+  .cor-g ul,.cor-h ul{padding-left:1.15rem;margin-bottom:.38rem;}
+  .cor-g li,.cor-h li{margin-bottom:.28rem;}
+  .vrai{color:#1a6b3a;font-weight:700;font-family:'Space Grotesk',sans-serif;}
+  .faux{color:#8b1a1a;font-weight:700;font-family:'Space Grotesk',sans-serif;}
+  .trans-tag{font-family:'Space Grotesk',sans-serif;font-size:.76rem;font-weight:700;color:var(--gh);background:#d4eedd;border:1px solid #a0c8b0;border-radius:4px;padding:.18rem .55rem;display:inline-block;margin:.35rem 0;}
+  .locked{background:var(--warm);border:2px dashed var(--border);border-radius:4px;padding:2.5rem;text-align:center;color:var(--muted);font-family:'Space Grotesk',sans-serif;font-size:.85rem;}
+  .locked .icon{font-size:2rem;margin-bottom:.5rem;}
+  @media(max-width:580px){main{padding:1.1rem .85rem 4rem;}.card{padding:1.1rem .95rem;}.q-block{padding:.95rem .85rem;}.vf-row{flex-direction:column;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">Travaux Dirigés n°4 · Samedi 25 Avril 2026 · Année scolaire 2025-2026</div>
+  <h1>Histoire — Géographie</h1>
+  <div class="hmeta">
+    <span>📚 Classe : 1ères C&D</span>
+    <span>⏱ Durée : 3 heures (07H–10H)</span>
+    <span>📊 Total : 20 points</span>
+  </div>
+</header>
+
+<div class="tab-bar">
+  <button class="tab-btn gt active" onclick="switchTab('geo',event)">🌍 I — Géographie (10 pts)</button>
+  <button class="tab-btn ht" onclick="switchTab('hist',event)">📜 II — Histoire (10 pts)</button>
+  <button class="tab-btn cr" onclick="switchTab('corrige',event)">✅ Corrigé type</button>
+</div>
+
+<main>
+
+<!-- ══════════ GÉOGRAPHIE ══════════ -->
+<div class="tab-panel active" id="panel-geo">
+  <div class="card">
+    <div class="clabel g">Géographie — Dissertation</div>
+    <div class="banner g">I — Géographie : La pauvreté dans le monde <span class="bpts">10 pts</span></div>
+
+    <div class="crit-grid">
+      <div class="crit-box g">
+        <div class="crit-title g">Critères minimaux</div>
+        <ul>
+          <li>Interprétation correcte de la situation</li>
+          <li>Utilisation correcte des outils de la discipline</li>
+          <li>Cohérence interne</li>
+        </ul>
+      </div>
+      <div class="crit-box g">
+        <div class="crit-title g">Critère de perfectionnement</div>
+        <ul><li>Originalité de la production</li></ul>
+      </div>
+    </div>
+
+    <div class="ctx-box g">
+      <strong>Contexte d'évaluation / Tâche :</strong> La pauvreté, un fléau social et universel, n'épargne aucun continent. Mais l'inégalité du développement économique accentue le phénomène plus dans les pays du tiers monde que dans les pays développés. Utilise tes connaissances pour mieux faire comprendre ce phénomène.
+    </div>
+
+    <div class="consignes g">
+      <div class="ctitle">Consignes</div>
+      <ol>
+        <li>Présente les causes politiques de la pauvreté.</li>
+        <li>Décris les manifestations économiques de la pauvreté dans le monde.</li>
+        <li>Donne ton point de vue sur la persistance de la pauvreté dans les pays en voie de développement.</li>
+      </ol>
+    </div>
+
+    <div class="hint">💡 <strong>Structure attendue :</strong> Introduction · 1- Causes politiques · <em>Transition</em> · 2- Manifestations économiques · <em>Transition</em> · 3- Persistance dans les PVD · Conclusion</div>
+
+    <!-- INTRO -->
+    <div class="q-block">
+      <div class="q-head"><div class="qn g">Intro</div>
+        <div class="q-txt"><strong>Introduction</strong> — Accroche, définition de la pauvreté, annonce du plan.</div>
+        <div class="pts">~1 pt</div>
+      </div>
+      <textarea class="rep g" id="g0" rows="4" placeholder="La pauvreté est un phénomène mondial qui..."></textarea>
+      <div class="wc" id="wc-g0">0 mot</div>
+    </div>
+
+    <!-- Q1 -->
+    <div class="q-block">
+      <div class="q-head"><div class="qn g">1</div>
+        <div class="q-txt"><strong>Présente les causes politiques de la pauvreté.</strong></div>
+        <div class="pts">~3 pts</div>
+      </div>
+      <textarea class="rep g xl" id="g1" rows="10" placeholder="Les causes politiques de la pauvreté sont :&#10;&#10;• L'instabilité politique et les guerres civiles...&#10;• La mauvaise gouvernance et la corruption...&#10;• Les politiques économiques inadaptées...&#10;• Le néocolonialisme et la dépendance...&#10;• L'absence de démocratie et d'État de droit..."></textarea>
+      <div class="wc" id="wc-g1">0 mot</div>
+    </div>
+
+    <!-- T1 -->
+    <div class="q-block">
+      <div class="q-head"><div class="qn g">T1</div>
+        <div class="q-txt"><strong>Phrase de transition 1</strong></div><div class="pts">~0,5 pt</div>
+      </div>
+      <textarea class="rep g" id="gt1" rows="2" placeholder="Ces causes politiques se traduisent par diverses manifestations économiques..."></textarea>
+      <div class="wc" id="wc-gt1">0 mot</div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="q-block">
+      <div class="q-head"><div class="qn g">2</div>
+        <div class="q-txt"><strong>Décris les manifestations économiques de la pauvreté dans le monde.</strong></div>
+        <div class="pts">~3 pts</div>
+      </div>
+      <textarea class="rep g xl" id="g2" rows="10" placeholder="Les manifestations économiques de la pauvreté se traduisent par :&#10;&#10;• Le faible revenu par habitant et le chômage massif...&#10;• La malnutrition et la faim (sous-alimentation)...&#10;• L'accès difficile aux soins de santé...&#10;• Le manque d'accès à l'éducation et à l'eau potable...&#10;• L'endettement des États et la fuite des capitaux...&#10;• Les inégalités sociales croissantes..."></textarea>
+      <div class="wc" id="wc-g2">0 mot</div>
+    </div>
+
+    <!-- T2 -->
+    <div class="q-block">
+      <div class="q-head"><div class="qn g">T2</div>
+        <div class="q-txt"><strong>Phrase de transition 2</strong></div><div class="pts">~0,5 pt</div>
+      </div>
+      <textarea class="rep g" id="gt2" rows="2" placeholder="Malgré la conscience de ce fléau, la pauvreté persiste dans les pays en voie de développement pour plusieurs raisons..."></textarea>
+      <div class="wc" id="wc-gt2">0 mot</div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="q-block">
+      <div class="q-head"><div class="qn g">3</div>
+        <div class="q-txt"><strong>Donne ton point de vue sur la persistance de la pauvreté dans les pays en voie de développement.</strong></div>
+        <div class="pts">~2 pts</div>
+      </div>
+      <textarea class="rep g" id="g3" rows="8" placeholder="À mon avis, la pauvreté persiste dans les PVD en raison de :&#10;&#10;• La spirale de la dette extérieure...&#10;• La dépendance aux matières premières et la détérioration des termes de l'échange...&#10;• L'insuffisance des investissements dans l'éducation et la santé...&#10;• Les effets des changements climatiques...&#10;• La croissance démographique non maîtrisée..."></textarea>
+      <div class="wc" id="wc-g3">0 mot</div>
+    </div>
+
+    <!-- CONCLUSION -->
+    <div class="q-block">
+      <div class="q-head"><div class="qn g">Ccl</div>
+        <div class="q-txt"><strong>Conclusion</strong> — Synthèse et perspective.</div>
+        <div class="pts">~1 pt</div>
+      </div>
+      <textarea class="rep g" id="gccl" rows="3" placeholder="En définitive, la pauvreté est un fléau multidimensionnel dont l'éradication passe par..."></textarea>
+      <div class="wc" id="wc-gccl">0 mot</div>
+    </div>
+
+    <button class="btn g" id="btn-geo" onclick="submitSection('geo')">✦ Soumettre Géographie — Obtenir la correction IA</button>
+    <div class="fb-box" id="fb-geo">
+      <div class="fb-head">✦ Correction IA · Géographie — La pauvreté dans le monde</div>
+      <div class="fb-body" id="fb-geo-body"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ HISTOIRE ══════════ -->
+<div class="tab-panel" id="panel-hist">
+  <div class="card">
+    <div class="clabel h">Histoire — Questions directes</div>
+    <div class="banner h">II — Histoire : La détente (1954-1975) <span class="bpts">10 pts</span></div>
+
+    <!-- 2-1 -->
+    <div class="q-block">
+      <div class="q-head"><div class="qn h">2-1</div>
+        <div class="q-txt"><strong>Expose les événements de la détente dans les relations internationales de 1954 à 1962.</strong></div>
+        <div class="pts">~5 pts</div>
+      </div>
+      <div class="hint">💡 Pense à : mort de Staline (1953), discours de Khrouchtchev et déstalinisation (1956), Conférence de Bandung (1955), coexistence pacifique, Crise de Suez (1956), accords de Genève (1954), "esprit de Genève", crise des missiles de Cuba (1962)...</div>
+      <textarea class="rep h xl" id="h1" rows="14" placeholder="Les événements de la détente de 1954 à 1962 :&#10;&#10;• 1953 : mort de Staline → changement de cap soviétique...&#10;• 1954 : Accords de Genève sur l'Indochine...&#10;• 1955 : Conférence de Bandung (non-alignement)...&#10;• 1955 : 'Esprit de Genève' — sommet des 4 Grands...&#10;• 1956 : Rapport Khrouchtchev et déstalinisation...&#10;• 1956 : Doctrine de coexistence pacifique...&#10;• 1959 : Visite de Khrouchtchev aux États-Unis...&#10;• 1962 : Crise des missiles de Cuba (retour des tensions)..."></textarea>
+      <div class="wc" id="wc-h1">0 mot</div>
+    </div>
+
+    <!-- 2-2 VRAI/FAUX -->
+    <div class="q-block">
+      <div class="q-head"><div class="qn h">2-2</div>
+        <div class="q-txt"><strong>Réponds par vrai ou faux aux affirmations suivantes et justifie.</strong></div>
+        <div class="pts">~3 pts</div>
+      </div>
+      <div style="margin-bottom:.8rem">
+        <div class="vf-row">
+          <div class="vf-stmt">a) Nikita Khrouchtchev, un américain épris de paix, lance l'idée de coexistence pacifique avec l'URSS en 1956.</div>
+          <div class="vf-choices">
+            <label><input type="radio" name="vf1" value="Vrai"><span>Vrai</span></label>
+            <label><input type="radio" name="vf1" value="Faux"><span>Faux</span></label>
+          </div>
+        </div>
+        <div class="vf-row">
+          <div class="vf-stmt">b) La conférence de Bandung est tenue en Indonésie en 1955.</div>
+          <div class="vf-choices">
+            <label><input type="radio" name="vf2" value="Vrai"><span>Vrai</span></label>
+            <label><input type="radio" name="vf2" value="Faux"><span>Faux</span></label>
+          </div>
+        </div>
+        <div class="vf-row">
+          <div class="vf-stmt">c) Staline est mort en mars 1956.</div>
+          <div class="vf-choices">
+            <label><input type="radio" name="vf3" value="Vrai"><span>Vrai</span></label>
+            <label><input type="radio" name="vf3" value="Faux"><span>Faux</span></label>
+          </div>
+        </div>
+      </div>
+      <textarea class="rep h" id="h2" rows="6" placeholder="Justifications :&#10;a) ...&#10;b) ...&#10;c) ..."></textarea>
+      <div class="wc" id="wc-h2">0 mot</div>
+    </div>
+
+    <!-- 2-3 -->
+    <div class="q-block">
+      <div class="q-head"><div class="qn h">2-3</div>
+        <div class="q-txt"><strong>Donne ton point de vue sur les efforts fournis par les deux superpuissances pour maîtriser le feu nucléaire entre 1962 et 1975.</strong></div>
+        <div class="pts">~2 pts</div>
+      </div>
+      <div class="hint">💡 Pense à : Ligne téléphonique directe Moscou-Washington (téléphone rouge, 1963), Traité d'interdiction partielle des essais nucléaires (1963), Traité de Non-Prolifération nucléaire (TNP, 1968), accords SALT I (1972), Conférence d'Helsinki (1975)...</div>
+      <textarea class="rep h" id="h3" rows="8" placeholder="À mon avis, les deux superpuissances ont fourni des efforts significatifs pour maîtriser le feu nucléaire :&#10;&#10;• 1963 : mise en place du téléphone rouge Moscou-Washington après la crise de Cuba...&#10;• 1963 : Traité de Moscou d'interdiction partielle des essais nucléaires...&#10;• 1968 : Traité de Non-Prolifération nucléaire (TNP)...&#10;• 1972 : Accords SALT I (limitation des armements stratégiques)...&#10;• 1975 : Conférence d'Helsinki sur la sécurité en Europe..."></textarea>
+      <div class="wc" id="wc-h3">0 mot</div>
+    </div>
+
+    <button class="btn h" id="btn-hist" onclick="submitSection('hist')">✦ Soumettre Histoire — Obtenir la correction IA</button>
+    <div class="fb-box" id="fb-hist">
+      <div class="fb-head">✦ Correction IA · Histoire — La détente (1954-1975)</div>
+      <div class="fb-body hist" id="fb-hist-body"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ CORRIGÉ ══════════ -->
+<div class="tab-panel" id="panel-corrige">
+  <div id="corrige-locked" class="locked">
+    <div class="icon">🔒</div>
+    <p><strong>Le corrigé type se déverrouille après soumission d'au moins une partie.</strong></p>
+    <p style="margin-top:.4rem">Traite les exercices d'abord, puis reviens ici.</p>
+  </div>
+  <div id="corrige-content" style="display:none">
+
+    <div class="card">
+      <div class="clabel g">Corrigé type</div>
+      <h2>I — Géographie : La pauvreté dans le monde (10 pts)</h2>
+
+      <div class="cor-g">
+        <h3>Introduction</h3>
+        <p>La pauvreté est l'état dans lequel se trouve une personne ou une population qui manque des ressources matérielles, économiques et sociales nécessaires à une vie décente. Fléau universel, elle n'épargne aucun continent, mais frappe plus durement les pays du tiers monde en raison des inégalités de développement économique. Nous allons présenter les causes politiques de la pauvreté, décrire ses manifestations économiques dans le monde, avant de donner notre point de vue sur sa persistance dans les pays en voie de développement.</p>
+      </div>
+
+      <div class="cor-g">
+        <h3>1 — Les causes politiques de la pauvreté (~3 pts)</h3>
+        <p>La pauvreté a de nombreuses causes d'ordre politique :</p>
+        <ul>
+          <li><strong>L'instabilité politique et les conflits armés :</strong> les guerres civiles et les coups d'État détruisent les infrastructures, provoquent des déplacements de populations, anéantissent les activités économiques et découragent les investisseurs étrangers. Des pays comme la Somalie, le Soudan du Sud, la République Centrafricaine en sont des exemples emblématiques.</li>
+          <li><strong>La mauvaise gouvernance et la corruption :</strong> des dirigeants incompétents ou corrompus détournent les ressources publiques au profit d'une minorité, privant les populations des services essentiels (éducation, santé, infrastructures). La corruption fragilise l'État et décourage l'initiative privée.</li>
+          <li><strong>Les politiques économiques inadaptées :</strong> certains gouvernements adoptent des politiques fiscales, commerciales ou budgétaires qui défavorisent les plus pauvres, accentuent les inégalités et freinent la croissance inclusive.</li>
+          <li><strong>Le néocolonialisme et la dépendance :</strong> les pays du Sud restent souvent liés à d'anciens pays colonisateurs par des accords inégaux, des dettes héritées et des relations commerciales défavorables qui perpétuent leur sous-développement.</li>
+          <li><strong>L'absence d'État de droit :</strong> sans institutions solides, sans justice indépendante ni respect des droits de propriété, les investissements productifs et le développement économique durable sont impossibles.</li>
+        </ul>
+        <div class="trans-tag">Transition 1 :</div>
+        <p>Ces causes politiques engendrent de nombreuses manifestations économiques de la pauvreté à travers le monde.</p>
+      </div>
+
+      <div class="cor-g">
+        <h3>2 — Les manifestations économiques de la pauvreté dans le monde (~3 pts)</h3>
+        <p>La pauvreté se traduit par de multiples manifestations économiques et sociales :</p>
+        <ul>
+          <li><strong>Le faible revenu et le chômage massif :</strong> des centaines de millions de personnes vivent avec moins de 2,15 dollars par jour (seuil de pauvreté absolue fixé par la Banque mondiale). Le chômage, surtout des jeunes, est endémique dans les pays en développement.</li>
+          <li><strong>La malnutrition et la faim :</strong> selon la FAO, plus de 700 millions de personnes souffrent de sous-alimentation chronique dans le monde, notamment en Afrique subsaharienne et en Asie du Sud.</li>
+          <li><strong>L'accès limité aux soins de santé :</strong> les populations pauvres n'ont pas accès aux médicaments, aux hôpitaux ni aux médecins, ce qui entraîne une mortalité infantile et maternelle élevée.</li>
+          <li><strong>L'analphabétisme et l'exclusion scolaire :</strong> des millions d'enfants, notamment des filles dans les pays du tiers monde, n'ont pas accès à l'éducation, perpétuant le cycle intergénérationnel de la pauvreté.</li>
+          <li><strong>L'endettement des États :</strong> les pays pauvres consacrent une part importante de leurs budgets au remboursement de dettes extérieures, au détriment des investissements sociaux.</li>
+          <li><strong>Les inégalités sociales croissantes :</strong> la concentration des richesses entre les mains d'une minorité aggrave les fractures sociales et réduit les opportunités pour le plus grand nombre.</li>
+        </ul>
+        <div class="trans-tag">Transition 2 :</div>
+        <p>Malgré la prise de conscience internationale, la pauvreté persiste dans les pays en voie de développement pour des raisons profondes et structurelles.</p>
+      </div>
+
+      <div class="cor-g">
+        <h3>3 — Point de vue sur la persistance de la pauvreté dans les PVD (~2 pts)</h3>
+        <p>À mon avis, la persistance de la pauvreté dans les pays en voie de développement s'explique par un ensemble de facteurs structurels qui se renforcent mutuellement :</p>
+        <ul>
+          <li><strong>La spirale de la dette extérieure :</strong> les remboursements absorbent des ressources qui auraient pu financer l'éducation, la santé et les infrastructures, piégeant ces pays dans un cycle d'appauvrissement.</li>
+          <li><strong>La détérioration des termes de l'échange :</strong> les PVD exportent des matières premières à bas prix et importent des produits manufacturés coûteux, ce qui dégrade leur balance commerciale.</li>
+          <li><strong>Les effets des changements climatiques :</strong> les pays pauvres sont les plus vulnérables aux sécheresses, inondations et catastrophes naturelles qui détruisent les récoltes et les infrastructures.</li>
+          <li><strong>La croissance démographique non maîtrisée :</strong> dans certaines régions d'Afrique, la croissance de la population dépasse celle de la production économique, diluant les richesses disponibles.</li>
+          <li><strong>Le manque de volonté politique :</strong> sans réformes profondes et sans investissements durables dans le capital humain, la pauvreté ne peut être éradiquée.</li>
+        </ul>
+        <p>Il est donc urgent que la communauté internationale et les gouvernements des PVD s'engagent résolument dans des politiques de développement inclusif pour briser ce cycle infernal.</p>
+      </div>
+
+      <div class="cor-g">
+        <h3>Conclusion</h3>
+        <p>En définitive, la pauvreté est un fléau multidimensionnel aux racines politiques, économiques et sociales profondes. Elle se manifeste par la misère, la faim, l'analphabétisme et la maladie, et persiste dans les PVD à cause de facteurs structurels difficiles à surmonter. Son éradication passe par une bonne gouvernance, une coopération internationale équitable, l'annulation des dettes injustes et des investissements massifs dans l'éducation et la santé des populations.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="clabel h">Corrigé type</div>
+      <h2>II — Histoire : La détente dans les relations internationales (10 pts)</h2>
+
+      <div class="cor-h">
+        <h3>2-1 — Les événements de la détente de 1954 à 1962 (~5 pts)</h3>
+        <p>La période 1954-1962 est marquée par une série d'événements qui témoignent d'une volonté de détente entre les deux blocs, même si des crises graves viennent régulièrement la fragiliser.</p>
+        <ul>
+          <li><strong>1953 — Mort de Staline :</strong> la disparition du dictateur soviétique ouvre une période de changement. Son successeur Nikita Khrouchtchev adopte une ligne plus souple vis-à-vis de l'Occident.</li>
+          <li><strong>1954 — Accords de Genève :</strong> ils mettent fin à la guerre d'Indochine et constituent un premier signe de règlement négocié d'un conflit issu de la Guerre froide.</li>
+          <li><strong>1955 — Conférence de Bandung :</strong> 29 pays d'Afrique et d'Asie se réunissent en Indonésie et proclament le non-alignement. Ce mouvement tiers-mondiste s'affirme en dehors des deux blocs et contribue à atténuer les tensions bipolaires.</li>
+          <li><strong>1955 — Sommet de Genève et « esprit de Genève » :</strong> les chefs d'État des quatre Grandes puissances (USA, URSS, France, Royaume-Uni) se rencontrent à Genève. C'est la première rencontre au sommet depuis Potsdam (1945), symbolisant une volonté de dialogue.</li>
+          <li><strong>1956 — Rapport Khrouchtchev et déstalinisation :</strong> lors du XX<sup>e</sup> Congrès du PCUS, Khrouchtchev dénonce les crimes de Staline et lance la déstalinisation. Il prône la <strong>coexistence pacifique</strong> entre les deux blocs.</li>
+          <li><strong>1959 — Visite de Khrouchtchev aux États-Unis :</strong> le dirigeant soviétique rencontre le président Eisenhower à Camp David. Cette rencontre symbolise le dialogue Est-Ouest malgré les tensions persistantes.</li>
+          <li><strong>Octobre 1962 — Crise des missiles de Cuba :</strong> elle constitue le paroxysme des tensions de la Guerre froide. Les États-Unis découvrent l'installation de missiles soviétiques à Cuba. Après 13 jours de crise intense, un accord est trouvé : l'URSS retire ses missiles et les États-Unis s'engagent à ne pas envahir Cuba. Cette crise, qui faillit déclencher une guerre nucléaire, accélère paradoxalement les efforts de maîtrise des armements.</li>
+        </ul>
+      </div>
+
+      <div class="cor-h">
+        <h3>2-2 — Vrai ou Faux (~3 pts)</h3>
+        <ul>
+          <li><span class="faux">FAUX</span> — Khrouchtchev n'est pas américain, il est <strong>soviétique</strong> (dirigeant de l'URSS de 1953 à 1964). C'est lui qui lance l'idée de coexistence pacifique lors du XX<sup>e</sup> Congrès du PCUS en 1956.</li>
+          <li><span class="vrai">VRAI</span> — La conférence de Bandung s'est bien tenue en <strong>Indonésie</strong> (ville de Bandung) en <strong>avril 1955</strong>. Elle a réuni 29 pays d'Afrique et d'Asie pour proclamer le non-alignement.</li>
+          <li><span class="faux">FAUX</span> — Staline est mort le <strong>5 mars 1953</strong>, et non en 1956. En 1956, c'est Khrouchtchev qui dénonce les crimes de Staline lors du XX<sup>e</sup> Congrès du PCUS (déstalinisation).</li>
+        </ul>
+      </div>
+
+      <div class="cor-h">
+        <h3>2-3 — Efforts des superpuissances pour maîtriser le feu nucléaire (1962-1975) (~2 pts)</h3>
+        <p>À mon avis, les deux superpuissances ont fourni des efforts notables et significatifs pour maîtriser le danger nucléaire après la crise de Cuba, même si ces efforts restent insuffisants au regard des arsenaux accumulés :</p>
+        <ul>
+          <li><strong>1963 — Mise en place du « téléphone rouge » :</strong> une ligne directe de communication entre Moscou et Washington est établie pour éviter toute escalade accidentelle vers la guerre nucléaire.</li>
+          <li><strong>1963 — Traité de Moscou :</strong> les États-Unis, l'URSS et le Royaume-Uni signent un traité d'interdiction partielle des essais nucléaires dans l'atmosphère, sous l'eau et dans l'espace.</li>
+          <li><strong>1968 — Traité de Non-Prolifération nucléaire (TNP) :</strong> signé par de nombreux pays, il vise à empêcher la dissémination des armes nucléaires à de nouveaux États et à promouvoir le désarmement progressif.</li>
+          <li><strong>1972 — Accords SALT I :</strong> les États-Unis (Nixon) et l'URSS (Brejnev) signent le premier accord de limitation des armements stratégiques, plafonnant le nombre de missiles balistiques de chaque côté.</li>
+          <li><strong>1975 — Actes d'Helsinki :</strong> la Conférence sur la Sécurité et la Coopération en Europe (CSCE) consacre la détente en reconnaissant les frontières issues de la Seconde Guerre mondiale et en promouvant la coopération entre Est et Ouest.</li>
+        </ul>
+        <p>Ces efforts ont permis de réduire le risque d'une guerre nucléaire accidentelle et de poser les bases du désarmement, même si la course aux armements s'est poursuivie et que la menace nucléaire n'a pas été totalement écartée.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</main>
+
+<script>
+function switchTab(name,e){
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('panel-'+name).classList.add('active');
+  e.currentTarget.classList.add('active');
+}
+function cw(s){return s.trim().split(/\s+/).filter(w=>w.length>0).length;}
+document.querySelectorAll('textarea.rep').forEach(ta=>{
+  const wc=document.getElementById('wc-'+ta.id);
+  if(!wc)return;
+  ta.addEventListener('input',()=>{const n=cw(ta.value);wc.textContent=n+(n>1?' mots':' mot');});
+});
+let unlocked=false;
+function unlockCorrige(){
+  if(unlocked)return;unlocked=true;
+  document.getElementById('corrige-locked').style.display='none';
+  document.getElementById('corrige-content').style.display='block';
+}
+async function callClaude(sys,msg,el){
+  el.innerHTML='<div class="spinner"></div> L\'IA analyse ta réponse…';
+  el.classList.add('loading');
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1200,system:sys,messages:[{role:'user',content:msg}]})
+    });
+    const d=await r.json();
+    el.classList.remove('loading');
+    el.innerHTML=d.content.map(i=>i.text||'').join('\n');
+  }catch{
+    el.classList.remove('loading');
+    el.innerHTML='<p style="color:#8b1a1a">Erreur de connexion. Réessaie.</p>';
+  }
+}
+
+const SYS={
+geo:`Tu es un professeur de Géographie expert au niveau 1ère C&D au Bénin. Tu corriges une dissertation (10 pts) sur la pauvreté dans le monde.
+Éléments attendus :
+Intro : définition pauvreté, universalité du phénomène, annonce plan.
+1-Causes politiques (3pts) : instabilité/guerres civiles, mauvaise gouvernance/corruption, politiques économiques inadaptées, néocolonialisme/dépendance, absence État de droit.
+Transition1 : lien causes→manifestations.
+2-Manifestations économiques (3pts) : faible revenu/chômage, malnutrition/faim (700M personnes selon FAO), accès limité santé, analphabétisme, endettement États, inégalités sociales.
+Transition2 : lien manifestations→persistance PVD.
+3-Point de vue persistance PVD (2pts) : spirale dette extérieure, détérioration termes échange, changements climatiques, croissance démographique non maîtrisée, manque volonté politique.
+Conclusion : éradication par bonne gouvernance, coopération internationale équitable, annulation dettes, investissements dans éducation/santé.
+Réponds UNIQUEMENT en HTML simple (p,h4,ul,li,strong). Structure : <h4>📊 Score estimé</h4>(sur 10 pts) <h4>Introduction</h4> <h4>1 — Causes politiques (3 pts)</h4> <h4>Transitions</h4> <h4>2 — Manifestations économiques (3 pts)</h4> <h4>3 — Persistance dans les PVD (2 pts)</h4> <h4>Conclusion</h4> <h4>💡 Conseils</h4> Sois précis et encourage l'élève.`,
+
+hist:`Tu es un professeur d'Histoire expert au niveau 1ère C&D au Bénin. Tu corriges des questions sur la détente dans les relations internationales (10 pts).
+Réponses attendues :
+2-1 (5pts) Événements détente 1954-1962 : mort Staline 1953, Accords Genève 1954 (Indochine), Conférence Bandung 1955 (Indonésie, non-alignement), Sommet Genève 1955 (esprit de Genève), rapport Khrouchtchev et déstalinisation 1956, coexistence pacifique, visite Khrouchtchev aux USA 1959, Crise des missiles Cuba octobre 1962.
+2-2 (3pts) Vrai/Faux : a)FAUX (Khrouchtchev est soviétique, pas américain) ; b)VRAI (Bandung, Indonésie, 1955) ; c)FAUX (Staline mort le 5 mars 1953, pas 1956 — en 1956 c'est la déstalinisation par Khrouchtchev).
+2-3 (2pts) Efforts maîtrise nucléaire 1962-1975 : téléphone rouge Moscou-Washington 1963, Traité Moscou interdiction partielle essais nucléaires 1963, TNP 1968, Accords SALT I 1972, Actes d'Helsinki 1975.
+Réponds UNIQUEMENT en HTML simple. Structure : <h4>📊 Score estimé</h4>(sur 10 pts) <h4>2-1 — Événements de la détente (5 pts)</h4> <h4>2-2 — Vrai ou Faux (3 pts)</h4> <h4>2-3 — Maîtrise du feu nucléaire (2 pts)</h4> <h4>💡 Conseils</h4> Vérifie la précision des dates et des faits historiques. Sois pédagogique.`
+};
+
+async function submitSection(sec){
+  document.getElementById('btn-'+sec).disabled=true;
+  const fb=document.getElementById('fb-'+sec);fb.classList.add('visible');
+  const body=document.getElementById('fb-'+sec+'-body');
+  let msg='';
+  if(sec==='geo'){
+    msg=`Introduction:\n${document.getElementById('g0').value||'(vide)'}\n\n1 (causes politiques):\n${document.getElementById('g1').value||'(vide)'}\n\nTransition1:\n${document.getElementById('gt1').value||'(vide)'}\n\n2 (manifestations économiques):\n${document.getElementById('g2').value||'(vide)'}\n\nTransition2:\n${document.getElementById('gt2').value||'(vide)'}\n\n3 (persistance PVD):\n${document.getElementById('g3').value||'(vide)'}\n\nConclusion:\n${document.getElementById('gccl').value||'(vide)'}`;
+  }else{
+    const vf=[1,2,3].map(i=>{const s=document.querySelector(`input[name="vf${i}"]:checked`);return s?s.value:'Non répondu';});
+    msg=`2-1 (événements détente 1954-1962):\n${document.getElementById('h1').value||'(vide)'}\n\n2-2 Vrai/Faux:\na) ${vf[0]}\nb) ${vf[1]}\nc) ${vf[2]}\nJustifications:\n${document.getElementById('h2').value||'(vide)'}\n\n2-3 (maîtrise nucléaire 1962-1975):\n${document.getElementById('h3').value||'(vide)'}`;
+  }
+  await callClaude(SYS[sec],msg,body);
+  unlockCorrige();
+}
+</script>
+</body>
+</html>

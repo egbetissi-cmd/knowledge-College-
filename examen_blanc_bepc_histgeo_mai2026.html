@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Examen Blanc BEPC — Histoire-Géographie — Mai 2026</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Serif+4:wght@300;400;600&family=Space+Grotesk:wght@400;500;600&display=swap');
+  :root{
+    --ink:#1a1a2e;--bg:#f5f2ec;--warm:#fefcf8;
+    --ah:#6a1a1a;--al:#b04040;--as:#fdf0ee;
+    --gh:#1a4a7a;--gl:#3a7ac4;--gs:#e8f0fb;
+    --green:#1a6b3a;--red:#8b1a1a;
+    --gold:#7a6000;--gold-light:#fdf6e0;
+    --border:#d8d0c0;--muted:#7a7060;--shadow:rgba(26,26,46,0.07);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Source Serif 4',Georgia,serif;background:var(--bg);color:var(--ink);font-size:16px;line-height:1.78;}
+  header{background:linear-gradient(135deg,#3a0808 0%,#6a1a1a 40%,#1a2a5a 100%);color:#fff;padding:2rem 2rem 1.6rem;text-align:center;}
+  .eyebrow{font-family:'Space Grotesk',sans-serif;font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:#e0a8a8;margin-bottom:.4rem;}
+  header h1{font-family:'Playfair Display',serif;font-size:clamp(1.3rem,4vw,2rem);color:#fff;margin-bottom:.2rem;}
+  .header-sub{font-family:'Space Grotesk',sans-serif;font-size:.82rem;color:#d0b8b8;margin-top:.3rem;}
+  .hmeta{display:flex;justify-content:center;flex-wrap:wrap;gap:1.4rem;margin-top:.9rem;font-family:'Space Grotesk',sans-serif;font-size:.76rem;color:#c8b8b8;letter-spacing:.05em;}
+  .tab-bar{display:flex;background:var(--warm);border-bottom:2px solid var(--border);overflow-x:auto;position:sticky;top:0;z-index:50;scrollbar-width:none;}
+  .tab-bar::-webkit-scrollbar{display:none;}
+  .tab-btn{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:.82rem 1.1rem;border:none;background:transparent;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap;transition:all .2s;}
+  .tab-btn:hover:not(.active){color:var(--ink);background:#f0ece0;}
+  .tab-btn.ht.active{color:var(--ah);border-bottom-color:var(--ah);}
+  .tab-btn.gt.active{color:var(--gh);border-bottom-color:var(--gh);}
+  .tab-btn.cr.active{color:#333;border-bottom-color:#333;}
+  main{max-width:860px;margin:0 auto;padding:2rem 1.5rem 5rem;}
+  .tab-panel{display:none;}.tab-panel.active{display:block;}
+  .card{background:var(--warm);border:1px solid var(--border);border-radius:4px;padding:1.7rem 1.9rem;margin-bottom:1.5rem;box-shadow:0 2px 8px var(--shadow);}
+  .clabel{font-family:'Space Grotesk',sans-serif;font-size:.64rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;margin-bottom:.4rem;}
+  .clabel.h{color:var(--al);}.clabel.g{color:var(--gl);}
+  .card h2{font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--ink);border-bottom:1px solid var(--border);padding-bottom:.55rem;margin-bottom:.9rem;}
+  .banner{color:#fff;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:.6rem 1.1rem;border-radius:4px;margin-bottom:1rem;display:flex;justify-content:space-between;align-items:center;}
+  .banner.h{background:var(--ah);}.banner.g{background:var(--gh);}
+  .bpts{background:rgba(255,255,255,0.22);padding:.12rem .55rem;border-radius:10px;font-size:.72rem;}
+  .crit-grid{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;margin-bottom:1.1rem;}
+  @media(max-width:560px){.crit-grid{grid-template-columns:1fr;}}
+  .crit-box{border-radius:4px;padding:.8rem 1rem;font-size:.85rem;}
+  .crit-box.h{background:var(--as);border:1px solid #e0b8b8;}
+  .crit-box.g{background:var(--gs);border:1px solid #b8c8e8;}
+  .crit-title{font-family:'Space Grotesk',sans-serif;font-size:.69rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.35rem;}
+  .crit-title.h{color:var(--ah);}.crit-title.g{color:var(--gh);}
+  .crit-box ul{padding-left:1.1rem;}.crit-box li{margin-bottom:.22rem;}
+  .ctx-box{border-radius:0 4px 4px 0;padding:1rem 1.3rem;font-size:.93rem;line-height:1.8;margin-bottom:1rem;}
+  .ctx-box.h{background:var(--as);border-left:4px solid var(--ah);}
+  .ctx-box.g{background:var(--gs);border-left:4px solid var(--gh);}
+  /* TEXTE */
+  .texte-box{background:#fffdf8;border:1px solid #e8d8c0;border-left:4px solid var(--ah);border-radius:0 4px 4px 0;padding:1.3rem 1.5rem;font-size:.94rem;line-height:1.88;margin-bottom:1rem;}
+  .texte-box p{margin-bottom:.75rem;}.texte-box p:last-child{margin-bottom:0;}
+  .texte-box .source{font-family:'Space Grotesk',sans-serif;font-size:.74rem;color:var(--muted);margin-top:.9rem;font-style:italic;border-top:1px solid #e8d8c0;padding-top:.5rem;}
+  .consignes{background:#fff;border:1px solid var(--border);border-radius:4px;padding:.85rem 1.05rem;margin-bottom:.9rem;font-size:.88rem;font-family:'Space Grotesk',sans-serif;}
+  .consignes .ctitle{font-weight:700;margin-bottom:.4rem;font-size:.76rem;letter-spacing:.05em;text-transform:uppercase;}
+  .consignes.h .ctitle{color:var(--ah);}.consignes.g .ctitle{color:var(--gh);}
+  .consignes ul{padding-left:1.3rem;}.consignes li{margin-bottom:.28rem;}
+  .q-block{background:var(--warm);border:1px solid var(--border);border-radius:4px;padding:1.1rem 1.4rem;margin-bottom:.9rem;}
+  .q-head{display:flex;align-items:flex-start;gap:.75rem;margin-bottom:.6rem;}
+  .qn{color:#fff;font-family:'Space Grotesk',sans-serif;font-size:.73rem;font-weight:700;min-width:1.75rem;height:1.75rem;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:.1rem;}
+  .qn.h{background:var(--ah);}.qn.g{background:var(--gh);}
+  .q-txt{flex:1;font-size:.93rem;line-height:1.62;}
+  .pts{font-family:'Space Grotesk',sans-serif;font-size:.69rem;font-weight:600;color:var(--gold);background:var(--gold-light);border:1px solid #dfc96a;padding:.09rem .48rem;border-radius:10px;white-space:nowrap;flex-shrink:0;}
+  textarea.rep{width:100%;border:1.5px solid var(--border);border-radius:4px;padding:.68rem .85rem;font-family:'Source Serif 4',serif;font-size:.93rem;line-height:1.7;background:#fdfbf5;color:var(--ink);resize:vertical;transition:border-color .2s;}
+  textarea.rep:focus{outline:none;background:#fff;}
+  textarea.rep.h:focus{border-color:var(--al);}
+  textarea.rep.g:focus{border-color:var(--gl);}
+  textarea.rep.xl{min-height:160px;}
+  .wc{font-family:'Space Grotesk',sans-serif;font-size:.69rem;color:var(--muted);text-align:right;margin-top:.25rem;}
+  .hint{background:#fff;border:1px solid var(--border);border-radius:4px;padding:.65rem .9rem;margin-bottom:.6rem;font-size:.83rem;font-family:'Space Grotesk',sans-serif;color:var(--muted);}
+  .btn{display:block;width:100%;padding:.88rem;color:#fff;font-family:'Space Grotesk',sans-serif;font-size:.84rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;border:none;border-radius:4px;cursor:pointer;transition:background .2s;margin-top:1.2rem;}
+  .btn.h{background:var(--ah);}.btn.h:hover{background:#3a0808;}
+  .btn.g{background:var(--gh);}.btn.g:hover{background:#0a1a4a;}
+  .btn:disabled{opacity:.55;cursor:not-allowed;}
+  .fb-box{display:none;margin-top:1.1rem;border-radius:4px;overflow:hidden;}
+  .fb-box.visible{display:block;}
+  .fb-head{background:var(--ink);color:#fff;padding:.65rem 1.1rem;font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;}
+  .fb-body{background:var(--warm);border:1px solid var(--border);border-top:none;padding:1.1rem 1.4rem;font-size:.91rem;line-height:1.75;}
+  .fb-body.loading{display:flex;align-items:center;gap:.65rem;color:var(--muted);font-style:italic;font-size:.83rem;}
+  .spinner{width:.95rem;height:.95rem;border:2px solid var(--border);border-top-color:var(--ah);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .fb-body h4{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:1rem 0 .32rem;padding-bottom:.2rem;border-bottom:1px solid var(--border);}
+  .fb-body h4:first-child{margin-top:0;}
+  .fb-body p{margin-bottom:.5rem;}.fb-body ul{padding-left:1.15rem;}.fb-body li{margin-bottom:.25rem;}
+  .fb-body strong{color:var(--ah);}
+  .fb-body.geo strong{color:var(--gh);}
+  .cor-h{background:var(--as);border:1px solid #e0b8b8;border-left:4px solid var(--ah);border-radius:4px;padding:1.1rem 1.4rem;margin-bottom:1rem;font-size:.91rem;line-height:1.78;}
+  .cor-g{background:var(--gs);border:1px solid #b8c8e8;border-left:4px solid var(--gh);border-radius:4px;padding:1.1rem 1.4rem;margin-bottom:1rem;font-size:.91rem;line-height:1.78;}
+  .cor-h h3{font-family:'Playfair Display',serif;font-size:.98rem;color:var(--ah);margin-bottom:.55rem;}
+  .cor-g h3{font-family:'Playfair Display',serif;font-size:.98rem;color:var(--gh);margin-bottom:.55rem;}
+  .cor-h p,.cor-g p{margin-bottom:.42rem;}
+  .cor-h ul,.cor-g ul{padding-left:1.15rem;margin-bottom:.38rem;}
+  .cor-h li,.cor-g li{margin-bottom:.28rem;}
+  .trans-tag{font-family:'Space Grotesk',sans-serif;font-size:.75rem;font-weight:700;color:var(--gh);background:#d4e4f8;border:1px solid #a8c0e8;border-radius:4px;padding:.18rem .55rem;display:inline-block;margin:.35rem 0;}
+  .locked{background:var(--warm);border:2px dashed var(--border);border-radius:4px;padding:2.5rem;text-align:center;color:var(--muted);font-family:'Space Grotesk',sans-serif;font-size:.85rem;}
+  .locked .icon{font-size:2rem;margin-bottom:.5rem;}
+  @media(max-width:580px){main{padding:1.1rem .85rem 4rem;}.card{padding:1.1rem .95rem;}.q-block{padding:.95rem .85rem;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">Examen Blanc Diocésain du BEPC · 5ème Édition · Session de Mai 2026</div>
+  <h1>Histoire — Géographie</h1>
+  <div class="header-sub">Direction Diocésaine de l'Enseignement Catholique de Porto-Novo</div>
+  <div class="hmeta">
+    <span>📘 Indice : 125J</span>
+    <span>⏱ Durée : 2 heures</span>
+    <span>⚖️ Coef. : 2</span>
+  </div>
+</header>
+
+<div class="tab-bar">
+  <button class="tab-btn ht active" onclick="switchTab('hist',event)">📜 I — Histoire</button>
+  <button class="tab-btn gt" onclick="switchTab('geo',event)">🌍 II — Géographie</button>
+  <button class="tab-btn cr" onclick="switchTab('corrige',event)">✅ Corrigé type</button>
+</div>
+
+<main>
+
+<!-- ══ HISTOIRE ══ -->
+<div class="tab-panel active" id="panel-hist">
+  <div class="card">
+    <div class="clabel h">Histoire — Explication de texte</div>
+    <div class="banner h">I — Histoire : L'impérialisme européen en Afrique (XIXe–XXe s.) <span class="bpts">10 pts</span></div>
+
+    <div class="crit-grid">
+      <div class="crit-box h">
+        <div class="crit-title h">Critères minimaux</div>
+        <ul>
+          <li>Interprétation correcte de la situation</li>
+          <li>Utilisation correcte des outils de la discipline</li>
+          <li>Cohérence interne</li>
+        </ul>
+      </div>
+      <div class="crit-box h">
+        <div class="crit-title h">Critère de perfectionnement</div>
+        <ul><li>Originalité de la langue</li></ul>
+      </div>
+    </div>
+
+    <div class="ctx-box h">
+      <strong>Contexte d'évaluation :</strong> L'impérialisme européen des XIXe et XXe siècles a laissé des séquelles sur les peuples africains ; lesquelles continuent de peser sur le développement des États modernes.<br><br>
+      <strong>Tâche :</strong> Te fondant sur tes savoirs construits et tes connaissances, tu es invité(e) à produire une explication cohérente sur les conséquences de l'impérialisme européen en Afrique aux XIX<sup>e</sup> et XX<sup>e</sup> siècles.
+    </div>
+
+    <div class="texte-box">
+      <p>On peut facilement imaginer les problèmes de développement que posent le manque ou le nombre limité de ressources naturelles, de terres fertiles et d'accès à la mer pour les pays africains qui ont fait cet héritage malencontreux. (…) Il faut mentionner un autre aspect important, mais négatif, de l'impact du colonialisme, l'affaiblissement des systèmes de gouvernement indigènes… Certaines puissances coloniales comme la France, nous l'avons vu, ont également aboli plusieurs monarchies traditionnelles, déposé certaines familles régnantes et nommé à des postes des gens qui n'y pouvaient prétendre pour en faire des fonctionnaires au service des autorités coloniales… Toutefois, les fonctionnaires coloniaux installés sur place ont assumé auprès de ces chefs traditionnels un rôle de dictateur et non de conseiller ; ils les ont également utilisés pour mettre en œuvre certaines mesures jugées odieuses par leurs sujets, comme le travail forcé et le recrutement obligatoire des hommes par les armées coloniales… Un autre impact négatif du colonialisme, du point de vue politique, est la mentalité qu'il a créée chez les Africains et par laquelle toute propriété publique n'appartenait pas au peuple, mais aux autorités coloniales blanches. On pouvait et on devait donc en profiter à la moindre occasion.</p>
+      <div class="source"><strong>Source :</strong> Boahen Adu Albert. (sous dir.), "le colonialisme en Afrique : impact et signification" in <em>Histoire Générale de l'Afrique, Volume VII. L'Afrique sous domination coloniale 1880-1935</em>, édition UNESCO, Paris, 2000, pp. 842-843.</div>
+    </div>
+
+    <div class="consignes h">
+      <div class="ctitle">Consignes</div>
+      <ul>
+        <li>Introduis le texte en insistant sur la source et l'idée générale.</li>
+        <li>Explique les conséquences de l'impérialisme européen en Afrique aux XIX<sup>e</sup> et XX<sup>e</sup> siècles.</li>
+        <li>Mets en évidence l'intérêt de l'étude de ce texte.</li>
+      </ul>
+    </div>
+
+    <div class="q-block">
+      <div class="q-head"><div class="qn h">1</div>
+        <div class="q-txt"><strong>Introduis le texte</strong> en insistant sur la source et l'idée générale.</div>
+        <div class="pts">~2 pts</div>
+      </div>
+      <textarea class="rep h" id="h1" rows="5" placeholder="Ce texte est un extrait de...&#10;&#10;Il est tiré de l'ouvrage...&#10;&#10;L'idée générale est..."></textarea>
+      <div class="wc" id="wc-h1">0 mot</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-head"><div class="qn h">2</div>
+        <div class="q-txt"><strong>Explique les conséquences de l'impérialisme européen en Afrique</strong> aux XIX<sup>e</sup> et XX<sup>e</sup> siècles, en t'appuyant sur le texte et tes connaissances.</div>
+        <div class="pts">~6 pts</div>
+      </div>
+      <div class="hint">💡 Pense à : conséquences économiques (spoliation des terres, exploitation des ressources, travail forcé) · conséquences politiques (destruction des structures politiques traditionnelles, mauvaise gouvernance héritée) · conséquences sociales et culturelles (déportation, ségrégation, destruction des cultures) · mentalités héritées</div>
+      <textarea class="rep h xl" id="h2" rows="16" placeholder="Les conséquences de l'impérialisme européen en Afrique sont multiples :&#10;&#10;A- Conséquences économiques :&#10;• Spoliation des terres fertiles et des ressources naturelles...&#10;• Le travail forcé imposé aux populations africaines...&#10;• Accès limité à la mer pour de nombreux pays africains...&#10;&#10;B- Conséquences politiques :&#10;• Affaiblissement et destruction des systèmes de gouvernement indigènes...&#10;• Abolition de monarchies traditionnelles...&#10;• Création d'une mentalité de corruption héritée du colonialisme...&#10;&#10;C- Conséquences sociales et culturelles :&#10;• Recrutement obligatoire des hommes pour les armées coloniales...&#10;• Déstructuration des sociétés africaines..."></textarea>
+      <div class="wc" id="wc-h2">0 mot</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-head"><div class="qn h">3</div>
+        <div class="q-txt"><strong>Mets en évidence l'intérêt de l'étude de ce texte.</strong></div>
+        <div class="pts">~2 pts</div>
+      </div>
+      <textarea class="rep h" id="h3" rows="5" placeholder="L'étude de ce texte présente plusieurs intérêts :&#10;&#10;Sur le plan historique...&#10;Sur le plan politique...&#10;Sur le plan du développement de l'Afrique contemporaine..."></textarea>
+      <div class="wc" id="wc-h3">0 mot</div>
+    </div>
+
+    <button class="btn h" id="btn-hist" onclick="submitSection('hist')">✦ Soumettre Histoire — Obtenir la correction IA</button>
+    <div class="fb-box" id="fb-hist">
+      <div class="fb-head">✦ Correction IA · Histoire — Impérialisme européen en Afrique</div>
+      <div class="fb-body" id="fb-hist-body"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ GÉOGRAPHIE ══ -->
+<div class="tab-panel" id="panel-geo">
+  <div class="card">
+    <div class="clabel g">Géographie — Dissertation</div>
+    <div class="banner g">II — Géographie : La CEDEAO et l'intégration économique <span class="bpts">10 pts</span></div>
+
+    <div class="ctx-box g">
+      <strong>Contexte d'évaluation :</strong> Au cours de la célébration du cinquantième anniversaire de la CEDEAO, le bilan à mi-parcours révèle encore des insuffisances notamment dans les échanges au sein de ses États membres.<br><br>
+      <strong>Tâche :</strong> Utilise tes connaissances pour produire un exposé cohérent sur les potentialités disponibles au sein de l'espace CEDEAO pour faciliter son intégration économique.
+    </div>
+
+    <div class="consignes g">
+      <div class="ctitle">Consignes</div>
+      <ul>
+        <li>1 — Expose les étapes d'une intégration économique.</li>
+        <li>2 — Présente les potentialités disponibles pour faciliter les échanges au sein de l'espace CEDEAO.</li>
+        <li>3 — Donne ton opinion sur la libre circulation des biens et des personnes prônée au sein de cet espace CEDEAO.</li>
+      </ul>
+    </div>
+
+    <div class="hint">💡 <strong>Structure attendue :</strong> Introduction · 1- Étapes intégration économique · <em>Transition</em> · 2- Potentialités CEDEAO · <em>Transition</em> · 3- Opinion sur libre circulation · Conclusion</div>
+
+    <div class="q-block">
+      <div class="q-head"><div class="qn g">Intro</div>
+        <div class="q-txt"><strong>Introduction</strong></div><div class="pts">~1 pt</div>
+      </div>
+      <textarea class="rep g" id="g0" rows="4" placeholder="La CEDEAO (Communauté Économique des États de l'Afrique de l'Ouest) a été créée le 28 mai 1975 à Lagos..."></textarea>
+      <div class="wc" id="wc-g0">0 mot</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-head"><div class="qn g">1</div>
+        <div class="q-txt"><strong>Expose les étapes d'une intégration économique.</strong></div>
+        <div class="pts">~3 pts</div>
+      </div>
+      <div class="hint">💡 Théorie de Balassa (1961) : Zone de libre-échange → Union douanière → Marché commun → Union économique → Union économique et monétaire complète</div>
+      <textarea class="rep g xl" id="g1" rows="10" placeholder="L'intégration économique se réalise progressivement à travers plusieurs étapes :&#10;&#10;Étape 1 : La zone de libre-échange (suppression des droits de douane entre États membres)&#10;Étape 2 : L'union douanière (tarif extérieur commun)&#10;Étape 3 : Le marché commun (libre circulation des personnes, biens, services, capitaux)&#10;Étape 4 : L'union économique (harmonisation des politiques économiques)&#10;Étape 5 : L'union économique et monétaire (monnaie unique)"></textarea>
+      <div class="wc" id="wc-g1">0 mot</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-head"><div class="qn g">T1</div>
+        <div class="q-txt"><strong>Phrase de transition 1</strong></div><div class="pts">~0,5 pt</div>
+      </div>
+      <textarea class="rep g" id="gt1" rows="2" placeholder="Ces étapes théoriques de l'intégration économique nécessitent des potentialités concrètes pour être mises en œuvre au sein de l'espace CEDEAO."></textarea>
+      <div class="wc" id="wc-gt1">0 mot</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-head"><div class="qn g">2</div>
+        <div class="q-txt"><strong>Présente les potentialités disponibles pour faciliter les échanges au sein de l'espace CEDEAO.</strong></div>
+        <div class="pts">~3 pts</div>
+      </div>
+      <div class="hint">💡 Ressources naturelles complémentaires · Population importante (400 M hab.) · Monnaie commune (Eco en projet, CFA pour certains) · Infrastructures (routes, ports, corridors) · Protocole de libre circulation · Marché commun CEDEAO · Passeport CEDEAO</div>
+      <textarea class="rep g xl" id="g2" rows="10" placeholder="L'espace CEDEAO dispose de nombreuses potentialités pour faciliter l'intégration économique :&#10;&#10;• Un vaste marché : 15 États membres, environ 400 millions d'habitants...&#10;• Des ressources naturelles complémentaires : pétrole (Nigeria, Ghana), or (Mali, Ghana), coton (Bénin, Burkina), cacao (Côte d'Ivoire)...&#10;• Le Protocole de libre circulation des personnes, biens et services (1979)...&#10;• Le passeport CEDEAO facilitant les déplacements...&#10;• Des infrastructures de transport : corridors routiers, ports (Abidjan, Cotonou, Dakar, Lagos)...&#10;• La monnaie commune en projet : l'Eco..."></textarea>
+      <div class="wc" id="wc-g2">0 mot</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-head"><div class="qn g">T2</div>
+        <div class="q-txt"><strong>Phrase de transition 2</strong></div><div class="pts">~0,5 pt</div>
+      </div>
+      <textarea class="rep g" id="gt2" rows="2" placeholder="Ces potentialités soutiennent la libre circulation des biens et des personnes, mais cette politique suscite des opinions contrastées."></textarea>
+      <div class="wc" id="wc-gt2">0 mot</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-head"><div class="qn g">3</div>
+        <div class="q-txt"><strong>Donne ton opinion sur la libre circulation des biens et des personnes</strong> prônée au sein de l'espace CEDEAO.</div>
+        <div class="pts">~2 pts</div>
+      </div>
+      <textarea class="rep g" id="g3" rows="8" placeholder="À mon avis, la libre circulation des biens et des personnes est une politique fondamentale pour l'intégration de la CEDEAO :&#10;&#10;Aspects positifs :&#10;• Elle facilite les échanges commerciaux entre États membres...&#10;• Elle favorise la mobilité des travailleurs et le partage des compétences...&#10;&#10;Défis et limites :&#10;• Elle est souvent entravée par des barrières informelles et des rackets aux postes frontières...&#10;• Elle peut favoriser la migration irrégulière et le commerce illicite...&#10;&#10;Conclusion : Malgré les obstacles, c'est une politique indispensable au décollage économique de la sous-région..."></textarea>
+      <div class="wc" id="wc-g3">0 mot</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-head"><div class="qn g">Ccl</div>
+        <div class="q-txt"><strong>Conclusion</strong></div><div class="pts">~1 pt</div>
+      </div>
+      <textarea class="rep g" id="gccl" rows="3" placeholder="En définitive, la CEDEAO dispose des atouts nécessaires pour réussir son intégration économique..."></textarea>
+      <div class="wc" id="wc-gccl">0 mot</div>
+    </div>
+
+    <button class="btn g" id="btn-geo" onclick="submitSection('geo')">✦ Soumettre Géographie — Obtenir la correction IA</button>
+    <div class="fb-box" id="fb-geo">
+      <div class="fb-head">✦ Correction IA · Géographie — CEDEAO et intégration économique</div>
+      <div class="fb-body geo" id="fb-geo-body"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CORRIGÉ ══ -->
+<div class="tab-panel" id="panel-corrige">
+  <div id="corrige-locked" class="locked">
+    <div class="icon">🔒</div>
+    <p><strong>Le corrigé type se déverrouille après soumission d'au moins une partie.</strong></p>
+    <p style="margin-top:.4rem">Traite les exercices d'abord, puis reviens ici.</p>
+  </div>
+  <div id="corrige-content" style="display:none">
+
+    <div class="card">
+      <div class="clabel h">Corrigé type</div>
+      <h2>I — Histoire : L'impérialisme européen en Afrique (10 pts)</h2>
+
+      <div class="cor-h">
+        <h3>1 — Introduction du texte (~2 pts)</h3>
+        <p>Le texte soumis à notre réflexion est un extrait de l'ouvrage collectif dirigé par <strong>Boahen Adu Albert</strong>, intitulé <em>« le colonialisme en Afrique : impact et signification »</em>, publié dans <em>Histoire Générale de l'Afrique, Volume VII — L'Afrique sous domination coloniale 1880-1935</em>, aux éditions UNESCO, Paris, 2000, pages 842-843.</p>
+        <p><strong>Idée générale :</strong> Ce texte traite des <strong>conséquences négatives de l'impérialisme européen sur les sociétés africaines</strong> aux XIX<sup>e</sup> et XX<sup>e</sup> siècles, notamment la spoliation des ressources naturelles, l'affaiblissement des systèmes politiques traditionnels, l'imposition du travail forcé et la création d'une mentalité corruptrice héritée du colonialisme.</p>
+      </div>
+
+      <div class="cor-h">
+        <h3>2 — Les conséquences de l'impérialisme européen en Afrique (~6 pts)</h3>
+        <p>L'impérialisme européen a engendré de profondes conséquences sur l'Afrique, que l'on peut regrouper en trois catégories :</p>
+
+        <p><strong>A — Conséquences économiques</strong></p>
+        <ul>
+          <li><strong>La spoliation des ressources :</strong> comme le souligne le texte, le colonialisme a privé de nombreux pays africains de leurs terres fertiles et de leurs ressources naturelles. Les puissances coloniales ont exploité ces ressources (minerais, bois, caoutchouc, ivoire, arachides) au profit de leurs métropoles, sans réinvestissement dans les économies locales.</li>
+          <li><strong>Le travail forcé :</strong> les populations africaines ont été contraintes de travailler gratuitement ou pour des salaires dérisoires à la construction des routes, des voies ferrées, des bâtiments coloniaux. Le texte mentionne explicitement « le travail forcé » comme l'une des mesures odieuses imposées par les fonctionnaires coloniaux.</li>
+          <li><strong>L'enclavement de nombreux pays :</strong> le texte évoque « le nombre limité de ressources naturelles, de terres fertiles et d'accès à la mer pour les pays africains ». Le tracé arbitraire des frontières coloniales (Conférence de Berlin 1884-1885) a enfermé plusieurs pays sans accès à la mer (Mali, Burkina Faso, Niger, Tchad…).</li>
+          <li><strong>Le recrutement militaire :</strong> les hommes africains ont été enrôlés de force dans les armées coloniales (les Tirailleurs sénégalais, les soldats des guerres mondiales) privant l'Afrique de forces vives pour son économie.</li>
+        </ul>
+
+        <p><strong>B — Conséquences politiques</strong></p>
+        <ul>
+          <li><strong>Destruction des structures politiques traditionnelles :</strong> le texte indique que certaines puissances coloniales « ont aboli plusieurs monarchies traditionnelles, déposé certaines familles régnantes ». Des royaumes millénaires comme le Dahomey, l'Empire Ashanti ou les royaumes du Sahel ont été démantelés.</li>
+          <li><strong>Corruption des chefs traditionnels :</strong> ceux qui furent maintenus au pouvoir furent utilisés comme relais d'une administration coloniale autoritaire. « Les fonctionnaires coloniaux installés sur place ont assumé auprès de ces chefs traditionnels un rôle de dictateur et non de conseiller. »</li>
+          <li><strong>Héritage d'une mentalité corruptrice :</strong> le texte souligne l'un des héritages les plus durables et les plus néfastes : « toute propriété publique n'appartenait pas au peuple, mais aux autorités coloniales blanches. On pouvait et on devait donc en profiter à la moindre occasion. » Cette mentalité explique en partie la corruption endémique qui gangrène de nombreux États africains contemporains.</li>
+        </ul>
+
+        <p><strong>C — Conséquences sociales et culturelles</strong></p>
+        <ul>
+          <li>L'imposition des langues européennes au détriment des langues africaines a fragilisé les cultures locales.</li>
+          <li>La déstructuration des sociétés traditionnelles et des familles par les déplacements forcés liés au travail et à la guerre a affaibli le tissu social africain.</li>
+          <li>L'introduction d'un système éducatif colonial assimilationniste a créé des élites déracinées, plus proches des valeurs occidentales que des réalités africaines.</li>
+        </ul>
+      </div>
+
+      <div class="cor-h">
+        <h3>3 — Intérêt de l'étude du texte (~2 pts)</h3>
+        <p>L'étude de ce texte présente un intérêt majeur à plusieurs niveaux :</p>
+        <ul>
+          <li><strong>Sur le plan historique :</strong> il permet de comprendre les mécanismes de domination coloniale et leurs effets dévastateurs sur les sociétés africaines entre 1880 et 1935. Il offre une perspective africaine sur la colonisation, grâce à l'autorité académique de Boahen Adu Albert et de l'UNESCO.</li>
+          <li><strong>Sur le plan politique et économique :</strong> il éclaire les racines historiques des problèmes de développement que connaissent encore aujourd'hui de nombreux États africains : mauvaise gouvernance, corruption, enclavement, dépendance économique. Ces séquelles coloniales expliquent les défis actuels du continent.</li>
+          <li><strong>Sur le plan pédagogique :</strong> il invite les jeunes Africains à prendre conscience de leur histoire pour mieux construire l'avenir de leur continent, en surmontant les héritages négatifs du colonialisme par une bonne gouvernance et une solidarité africaine renforcée.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="clabel g">Corrigé type</div>
+      <h2>II — Géographie : La CEDEAO et l'intégration économique (10 pts)</h2>
+
+      <div class="cor-g">
+        <h3>Introduction</h3>
+        <p>La Communauté Économique des États de l'Afrique de l'Ouest (CEDEAO) a été créée le <strong>28 mai 1975</strong> à Lagos (Nigeria) par le Traité de Lagos. Elle regroupe aujourd'hui <strong>15 États membres</strong> et environ <strong>400 millions d'habitants</strong>. À l'occasion du cinquantième anniversaire de l'organisation, le bilan révèle encore des insuffisances dans les échanges entre ses États membres. Nous allons exposer les étapes théoriques de l'intégration économique, présenter les potentialités disponibles pour faciliter les échanges dans l'espace CEDEAO, avant de donner notre opinion sur la libre circulation des biens et des personnes.</p>
+      </div>
+
+      <div class="cor-g">
+        <h3>1 — Les étapes d'une intégration économique (~3 pts)</h3>
+        <p>Selon l'économiste <strong>Béla Balassa</strong> (1961), l'intégration économique se réalise progressivement à travers cinq étapes :</p>
+        <ul>
+          <li><strong>Étape 1 — La zone de libre-échange :</strong> les États membres suppriment les droits de douane et les barrières tarifaires entre eux, tout en conservant leurs propres politiques commerciales vis-à-vis des pays tiers. Exemple : la ZLECAF (Zone de Libre-Échange Continentale Africaine).</li>
+          <li><strong>Étape 2 — L'union douanière :</strong> en plus de la zone de libre-échange, les États membres adoptent un <strong>tarif extérieur commun (TEC)</strong> vis-à-vis des pays non membres. La CEDEAO a adopté son TEC en 2014.</li>
+          <li><strong>Étape 3 — Le marché commun :</strong> à l'union douanière s'ajoute la <strong>libre circulation des quatre facteurs de production</strong> : biens, services, capitaux et personnes. C'est l'étape que tente d'atteindre la CEDEAO avec son protocole de libre circulation.</li>
+          <li><strong>Étape 4 — L'union économique :</strong> les États harmonisent leurs politiques économiques (fiscales, budgétaires, commerciales) au-delà du marché commun.</li>
+          <li><strong>Étape 5 — L'union économique et monétaire complète :</strong> adoption d'une <strong>monnaie unique</strong> et d'une politique monétaire commune. Pour la CEDEAO, c'est l'Eco, dont la mise en œuvre est encore en cours de négociation.</li>
+        </ul>
+        <div class="trans-tag">Transition 1 :</div>
+        <p>Ces étapes théoriques s'appuient sur des potentialités concrètes que l'espace CEDEAO possède pour faciliter son intégration économique.</p>
+      </div>
+
+      <div class="cor-g">
+        <h3>2 — Les potentialités disponibles pour faciliter les échanges au sein de la CEDEAO (~3 pts)</h3>
+        <ul>
+          <li><strong>Un vaste marché démographique :</strong> avec environ 400 millions d'habitants (soit plus que l'Union Européenne), la CEDEAO constitue un marché intérieur de grande taille, attractif pour les investisseurs.</li>
+          <li><strong>Des ressources naturelles complémentaires :</strong> le Nigeria et le Ghana disposent de pétrole ; le Mali, la Guinée et le Ghana possèdent de l'or ; la Côte d'Ivoire produit du cacao et du café ; le Bénin, le Burkina Faso et le Mali cultivent du coton. Cette complémentarité économique est un atout majeur pour les échanges intrarégionaux.</li>
+          <li><strong>Le Protocole sur la libre circulation des personnes (1979) :</strong> ce protocole permet aux ressortissants des États membres de circuler librement dans l'espace CEDEAO sans visa pour une durée de 90 jours et d'établir leur résidence et d'exercer une activité économique.</li>
+          <li><strong>Le passeport CEDEAO :</strong> adopté en 2000, il facilite les déplacements des citoyens de la sous-région.</li>
+          <li><strong>Les corridors de transport :</strong> des axes routiers régionaux et des ports (Abidjan, Cotonou, Lomé, Dakar, Lagos) facilitent le commerce sous-régional.</li>
+          <li><strong>Le Tarif Extérieur Commun (TEC) :</strong> entré en vigueur en 2015, il harmonise les droits de douane des 15 États membres vis-à-vis des pays extérieurs.</li>
+          <li><strong>La monnaie commune en projet — l'Eco :</strong> si elle est adoptée, elle éliminera les coûts de change et facilitera considérablement les transactions commerciales.</li>
+        </ul>
+        <div class="trans-tag">Transition 2 :</div>
+        <p>Ces potentialités soutiennent la politique de libre circulation des biens et des personnes, mais cette dernière suscite des opinions contrastées.</p>
+      </div>
+
+      <div class="cor-g">
+        <h3>3 — Opinion sur la libre circulation des biens et des personnes (~2 pts)</h3>
+        <p>À mon avis, la libre circulation des biens et des personnes est une politique fondamentale pour le succès de l'intégration de la CEDEAO, mais elle doit être accompagnée de mesures complémentaires pour surmonter ses limites :</p>
+        <p><strong>Arguments favorables :</strong></p>
+        <ul>
+          <li>Elle stimule les échanges commerciaux intrarégionaux, favorisant la croissance économique de la sous-région.</li>
+          <li>Elle permet aux travailleurs qualifiés de se déplacer là où leurs compétences sont nécessaires, réduisant les inégalités de développement entre pays membres.</li>
+          <li>Elle renforce le sentiment d'appartenance à une communauté africaine commune et contribue à la paix et à la stabilité politique sous-régionale.</li>
+          <li>Elle favorise les investissements transfrontaliers et le développement de l'entrepreneuriat dans la sous-région.</li>
+        </ul>
+        <p><strong>Difficultés et limites :</strong></p>
+        <ul>
+          <li>Elle est souvent entravée par des <strong>barrières non tarifaires</strong> : rackets aux postes frontières, tracasseries administratives, corruption des agents de sécurité.</li>
+          <li>Elle peut faciliter la <strong>migration irrégulière</strong> et le <strong>commerce illicite</strong> (armes, drogues, produits de contrefaçon).</li>
+          <li>Les <strong>inégalités économiques</strong> entre États membres (Nigeria vs Guinée-Bissau) risquent de provoquer des flux migratoires déséquilibrés.</li>
+          <li>Certains États membres tardent à ratifier ou à appliquer les protocoles de libre circulation par crainte de perdre des recettes douanières.</li>
+        </ul>
+        <p>Je considère néanmoins que les bénéfices de la libre circulation l'emportent largement sur ses inconvénients. Des mécanismes de contrôle renforcés, une lutte efficace contre la corruption et des politiques sociales d'accompagnement permettraient de maximiser ses avantages pour tous les États membres.</p>
+      </div>
+
+      <div class="cor-g">
+        <h3>Conclusion</h3>
+        <p>En définitive, la CEDEAO dispose de réelles potentialités — démographiques, naturelles, institutionnelles et géographiques — pour réussir son intégration économique. La libre circulation des biens et des personnes, malgré ses difficultés de mise en œuvre, demeure le pilier fondamental de ce projet d'intégration. Pour que la CEDEAO tienne ses promesses à l'occasion de son cinquantième anniversaire et au-delà, il est urgent de renforcer les infrastructures communes, d'adopter la monnaie unique Eco et de lutter résolument contre la corruption aux frontières.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</main>
+
+<script>
+function switchTab(name,e){
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('panel-'+name).classList.add('active');
+  e.currentTarget.classList.add('active');
+}
+function cw(s){return s.trim().split(/\s+/).filter(w=>w.length>0).length;}
+document.querySelectorAll('textarea.rep').forEach(ta=>{
+  const wc=document.getElementById('wc-'+ta.id);
+  if(!wc)return;
+  ta.addEventListener('input',()=>{const n=cw(ta.value);wc.textContent=n+(n>1?' mots':' mot');});
+});
+let unlocked=false;
+function unlockCorrige(){
+  if(unlocked)return;unlocked=true;
+  document.getElementById('corrige-locked').style.display='none';
+  document.getElementById('corrige-content').style.display='block';
+}
+async function callClaude(sys,msg,el){
+  el.innerHTML='<div class="spinner"></div> L\'IA analyse ta réponse…';
+  el.classList.add('loading');
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1200,system:sys,messages:[{role:'user',content:msg}]})
+    });
+    const d=await r.json();
+    el.classList.remove('loading');
+    el.innerHTML=d.content.map(i=>i.text||'').join('\n');
+  }catch{
+    el.classList.remove('loading');
+    el.innerHTML='<p style="color:#8b1a1a">Erreur de connexion. Réessaie.</p>';
+  }
+}
+const SYS={
+hist:`Tu es un professeur d'Histoire expert au niveau BEPC (3ème) au Bénin. Tu corriges une explication de texte (10 pts) sur les conséquences de l'impérialisme européen en Afrique aux XIXe et XXe siècles.
+Source : Boahen Adu Albert, "le colonialisme en Afrique : impact et signification" in Histoire Générale de l'Afrique, Vol.VII, UNESCO, Paris, 2000, pp.842-843.
+Réponses attendues :
+1-Introduction (2pts) : présentation de la source (auteur Boahen Adu Albert, ouvrage, édition UNESCO 2000), idée générale = conséquences négatives du colonialisme sur l'Afrique (économiques, politiques, sociales, mentalités).
+2-Conséquences (6pts) : A)Économiques : spoliation terres/ressources, travail forcé, enclavement (pays sans accès à la mer), recrutement militaire ; B)Politiques : destruction monarchies traditionnelles, corruption chefs locaux utilisés comme relais, mentalité corruptrice héritée ("toute propriété publique...") ; C)Sociales/culturelles : déstructuration sociétés, imposition cultures européennes.
+3-Intérêt (2pts) : historique (mécanismes colonisation 1880-1935), politique/économique (racines problèmes développement actuels : corruption, enclavement, dépendance), pédagogique (conscience historique pour l'avenir).
+Réponds UNIQUEMENT en HTML simple (p,h4,ul,li,strong). Structure : <h4>📊 Score estimé</h4>(sur 10 pts) <h4>1 — Introduction (2 pts)</h4> <h4>2 — Conséquences (6 pts)</h4> <h4>3 — Intérêt (2 pts)</h4> <h4>💡 Conseils</h4> Sois précis et pédagogique. Appuie-toi sur les citations du texte dans tes remarques.`,
+geo:`Tu es un professeur de Géographie expert au niveau BEPC (3ème) au Bénin. Tu corriges une dissertation (10 pts) sur la CEDEAO et l'intégration économique en Afrique de l'Ouest.
+Éléments attendus :
+Intro : CEDEAO créée 28 mai 1975 Lagos, 15 États, 400M habitants, bilan 50 ans insuffisant dans échanges, annonce plan.
+1-Étapes intégration économique (3pts) selon Balassa : zone libre-échange (suppression droits douane), union douanière (TEC adopté CEDEAO 2014), marché commun (libre circulation 4 facteurs), union économique (harmonisation politiques), union monétaire (monnaie unique Eco).
+T1 : lien étapes→potentialités.
+2-Potentialités CEDEAO (3pts) : vaste marché 400M hab., ressources naturelles complémentaires (pétrole Nigeria/Ghana, or Mali/Ghana, cacao Côte d'Ivoire, coton Bénin/Burkina), Protocole libre circulation 1979, passeport CEDEAO 2000, corridors transport/ports (Abidjan/Cotonou/Dakar/Lagos/Lomé), TEC en vigueur 2015, monnaie Eco en projet.
+T2 : lien potentialités→opinion libre circulation.
+3-Opinion libre circulation (2pts) : positif (échanges commerciaux, mobilité travailleurs, paix régionale, investissements) + limites (barrières non tarifaires/rackets, migration irrégulière, commerce illicite, inégalités entre pays membres, résistances étatiques) + bilan : avantages > inconvénients si gouvernance renforcée.
+Conclusion : potentialités réelles, libre circulation fondamentale, urgence Eco + lutte corruption + infrastructures.
+Réponds UNIQUEMENT en HTML simple. Structure : <h4>📊 Score estimé</h4>(sur 10 pts) <h4>Introduction</h4> <h4>1 — Étapes intégration (3 pts)</h4> <h4>Transitions</h4> <h4>2 — Potentialités CEDEAO (3 pts)</h4> <h4>3 — Libre circulation (2 pts)</h4> <h4>Conclusion</h4> <h4>💡 Conseils</h4> Sois précis et encourage l'élève.`
+};
+async function submitSection(sec){
+  document.getElementById('btn-'+sec).disabled=true;
+  const fb=document.getElementById('fb-'+sec);fb.classList.add('visible');
+  const body=document.getElementById('fb-'+sec+'-body');
+  let msg='';
+  if(sec==='hist'){
+    msg=`1(intro texte):\n${document.getElementById('h1').value||'(vide)'}\n\n2(conséquences):\n${document.getElementById('h2').value||'(vide)'}\n\n3(intérêt):\n${document.getElementById('h3').value||'(vide)'}`;
+  }else{
+    msg=`Intro:\n${document.getElementById('g0').value||'(vide)'}\n\n1(étapes intégration):\n${document.getElementById('g1').value||'(vide)'}\n\nT1:\n${document.getElementById('gt1').value||'(vide)'}\n\n2(potentialités CEDEAO):\n${document.getElementById('g2').value||'(vide)'}\n\nT2:\n${document.getElementById('gt2').value||'(vide)'}\n\n3(opinion libre circulation):\n${document.getElementById('g3').value||'(vide)'}\n\nCcl:\n${document.getElementById('gccl').value||'(vide)'}`;
+  }
+  await callClaude(SYS[sec],msg,body);
+  unlockCorrige();
+}
+</script>
+</body>
+</html>

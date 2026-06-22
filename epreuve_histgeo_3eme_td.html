@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TD Histoire-Géographie — 3ème — 25 octobre 2025</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Serif+4:wght@300;400;600&family=Space+Grotesk:wght@400;500;600&display=swap');
+  :root{
+    --ink:#1a1a2e;--bg:#f5f2ec;--warm:#fefcf8;
+    --ah:#7a4a10;--al:#c08040;--as:#fdf4e8;
+    --gh:#1a5a3a;--gl:#3a9a6a;--gs:#e8f5ee;
+    --green:#1a6b3a;--red:#8b1a1a;
+    --gold:#7a6000;--gold-light:#fdf6e0;
+    --border:#d8d0c0;--muted:#7a7060;--shadow:rgba(26,26,46,0.07);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Source Serif 4',Georgia,serif;background:var(--bg);color:var(--ink);font-size:16px;line-height:1.78;}
+
+  header{background:linear-gradient(135deg,#1a1a2e 0%,#3a2808 50%,#0a3a20 100%);color:#fff;padding:2rem 2rem 1.6rem;text-align:center;}
+  .eyebrow{font-family:'Space Grotesk',sans-serif;font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:#d0b888;margin-bottom:.4rem;}
+  header h1{font-family:'Playfair Display',serif;font-size:clamp(1.4rem,4vw,2.1rem);color:#fff;}
+  .hmeta{display:flex;justify-content:center;flex-wrap:wrap;gap:1.6rem;margin-top:.9rem;font-family:'Space Grotesk',sans-serif;font-size:.78rem;color:#b8b0a0;letter-spacing:.05em;}
+
+  .tab-bar{display:flex;background:var(--warm);border-bottom:2px solid var(--border);overflow-x:auto;position:sticky;top:0;z-index:50;scrollbar-width:none;}
+  .tab-bar::-webkit-scrollbar{display:none;}
+  .tab-btn{font-family:'Space Grotesk',sans-serif;font-size:.73rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:.82rem 1.1rem;border:none;background:transparent;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap;transition:all .2s;}
+  .tab-btn:hover:not(.active){color:var(--ink);background:#f0ece0;}
+  .tab-btn.ah.active{color:var(--ah);border-bottom-color:var(--ah);}
+  .tab-btn.gh.active{color:var(--gh);border-bottom-color:var(--gh);}
+  .tab-btn.cr.active{color:#333;border-bottom-color:#333;}
+
+  main{max-width:860px;margin:0 auto;padding:2rem 1.5rem 5rem;}
+  .tab-panel{display:none;}.tab-panel.active{display:block;}
+
+  .card{background:var(--warm);border:1px solid var(--border);border-radius:4px;padding:1.7rem 1.9rem;margin-bottom:1.5rem;box-shadow:0 2px 8px var(--shadow);}
+  .clabel{font-family:'Space Grotesk',sans-serif;font-size:.64rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;margin-bottom:.4rem;}
+  .clabel.h{color:var(--al);}
+  .clabel.g{color:var(--gl);}
+  .card h2{font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--ink);border-bottom:1px solid var(--border);padding-bottom:.55rem;margin-bottom:.9rem;}
+
+  /* BANNER */
+  .banner{color:#fff;font-family:'Space Grotesk',sans-serif;font-size:.79rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:.6rem 1.1rem;border-radius:4px;margin-bottom:1rem;display:flex;justify-content:space-between;align-items:center;}
+  .banner.h{background:var(--ah);}.banner.g{background:var(--gh);}
+  .bpts{background:rgba(255,255,255,0.22);padding:.12rem .55rem;border-radius:10px;font-size:.74rem;}
+
+  /* CRITÈRES */
+  .crit-grid{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;margin-bottom:1.1rem;}
+  @media(max-width:560px){.crit-grid{grid-template-columns:1fr;}}
+  .crit-box{border-radius:4px;padding:.8rem 1rem;font-size:.85rem;}
+  .crit-box.h{background:var(--as);border:1px solid #e0c0a0;}
+  .crit-box.g{background:var(--gs);border:1px solid #a8d8b8;}
+  .crit-title{font-family:'Space Grotesk',sans-serif;font-size:.69rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.35rem;}
+  .crit-title.h{color:var(--ah);}.crit-title.g{color:var(--gh);}
+  .crit-box ul{padding-left:1.1rem;}.crit-box li{margin-bottom:.22rem;}
+
+  /* TEXTE */
+  .texte-box{background:var(--as);border-left:4px solid var(--ah);border-radius:0 4px 4px 0;padding:1.2rem 1.4rem;font-size:.94rem;line-height:1.85;margin-bottom:1rem;}
+  .texte-box p{margin-bottom:.7rem;}.texte-box p:last-child{margin-bottom:0;}
+  .texte-box .source{font-family:'Space Grotesk',sans-serif;font-size:.73rem;color:var(--muted);margin-top:.8rem;font-style:italic;border-top:1px solid #e0c8a0;padding-top:.45rem;text-align:right;}
+
+  /* GEO CTX */
+  .geo-ctx{background:var(--gs);border-left:4px solid var(--gh);border-radius:0 4px 4px 0;padding:1rem 1.3rem;font-size:.92rem;line-height:1.8;margin-bottom:1rem;}
+
+  /* CONSIGNES */
+  .consignes{background:#fff;border:1px solid var(--border);border-radius:4px;padding:.9rem 1.1rem;margin-bottom:1rem;font-size:.88rem;font-family:'Space Grotesk',sans-serif;}
+  .consignes .ctitle{font-weight:700;margin-bottom:.4rem;font-size:.78rem;letter-spacing:.05em;text-transform:uppercase;}
+  .consignes.h .ctitle{color:var(--ah);}
+  .consignes.g .ctitle{color:var(--gh);}
+  .consignes ul{padding-left:1.1rem;}.consignes li{margin-bottom:.22rem;}
+
+  /* QUESTIONS */
+  .q-block{background:var(--warm);border:1px solid var(--border);border-radius:4px;padding:1.1rem 1.4rem;margin-bottom:.9rem;}
+  .q-head{display:flex;align-items:flex-start;gap:.75rem;margin-bottom:.65rem;}
+  .qn{color:#fff;font-family:'Space Grotesk',sans-serif;font-size:.73rem;font-weight:700;min-width:1.75rem;height:1.75rem;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:.1rem;}
+  .qn.h{background:var(--ah);}.qn.g{background:var(--gh);}
+  .q-txt{flex:1;font-size:.93rem;line-height:1.62;}
+  .pts{font-family:'Space Grotesk',sans-serif;font-size:.69rem;font-weight:600;color:var(--gold);background:var(--gold-light);border:1px solid #dfc96a;padding:.09rem .48rem;border-radius:10px;white-space:nowrap;flex-shrink:0;}
+  textarea.rep{width:100%;min-height:100px;border:1.5px solid var(--border);border-radius:4px;padding:.68rem .85rem;font-family:'Source Serif 4',serif;font-size:.93rem;line-height:1.7;background:#fdfbf5;color:var(--ink);resize:vertical;transition:border-color .2s;}
+  textarea.rep:focus{outline:none;background:#fff;}
+  textarea.rep.h:focus{border-color:var(--al);}
+  textarea.rep.g:focus{border-color:var(--gl);}
+  textarea.rep.xl{min-height:220px;}
+  .wc{font-family:'Space Grotesk',sans-serif;font-size:.69rem;color:var(--muted);text-align:right;margin-top:.25rem;}
+
+  /* HINT */
+  .hint{background:#fff;border:1px solid var(--border);border-radius:4px;padding:.7rem .9rem;margin-bottom:.6rem;font-size:.84rem;font-family:'Space Grotesk',sans-serif;color:var(--muted);}
+
+  /* BUTTONS */
+  .btn{display:block;width:100%;padding:.88rem;color:#fff;font-family:'Space Grotesk',sans-serif;font-size:.84rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;border:none;border-radius:4px;cursor:pointer;transition:background .2s;margin-top:1.2rem;}
+  .btn.h{background:var(--ah);}.btn.h:hover{background:#4a2808;}
+  .btn.g{background:var(--gh);}.btn.g:hover{background:#0a3820;}
+  .btn:disabled{opacity:.55;cursor:not-allowed;}
+
+  /* FEEDBACK */
+  .fb-box{display:none;margin-top:1.1rem;border-radius:4px;overflow:hidden;}
+  .fb-box.visible{display:block;}
+  .fb-head{background:var(--ink);color:#fff;padding:.65rem 1.1rem;font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;}
+  .fb-body{background:var(--warm);border:1px solid var(--border);border-top:none;padding:1.1rem 1.4rem;font-size:.91rem;line-height:1.75;}
+  .fb-body.loading{display:flex;align-items:center;gap:.65rem;color:var(--muted);font-style:italic;font-size:.83rem;}
+  .spinner{width:.95rem;height:.95rem;border:2px solid var(--border);border-top-color:var(--ah);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .fb-body h4{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:1rem 0 .32rem;padding-bottom:.2rem;border-bottom:1px solid var(--border);}
+  .fb-body h4:first-child{margin-top:0;}
+  .fb-body p{margin-bottom:.5rem;}.fb-body ul{padding-left:1.15rem;}.fb-body li{margin-bottom:.25rem;}
+  .fb-body strong{color:var(--ah);}
+  .fb-body.geo strong{color:var(--gh);}
+
+  /* CORRIGÉ */
+  .cor-h{background:var(--as);border:1px solid #e0c0a0;border-left:4px solid var(--ah);border-radius:4px;padding:1.1rem 1.4rem;margin-bottom:1rem;font-size:.91rem;line-height:1.78;}
+  .cor-g{background:var(--gs);border:1px solid #a8d8b8;border-left:4px solid var(--gh);border-radius:4px;padding:1.1rem 1.4rem;margin-bottom:1rem;font-size:.91rem;line-height:1.78;}
+  .cor-h h3{font-family:'Playfair Display',serif;font-size:.98rem;color:var(--ah);margin-bottom:.55rem;}
+  .cor-g h3{font-family:'Playfair Display',serif;font-size:.98rem;color:var(--gh);margin-bottom:.55rem;}
+  .cor-h p,.cor-g p{margin-bottom:.42rem;}
+  .cor-h ul,.cor-g ul{padding-left:1.15rem;margin-bottom:.38rem;}
+  .cor-h li,.cor-g li{margin-bottom:.25rem;}
+  .transition-tag{font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:700;color:var(--gh);background:#d4eedd;border:1px solid #a0c8b0;border-radius:4px;padding:.2rem .6rem;display:inline-block;margin:.4rem 0;}
+  .locked{background:var(--warm);border:2px dashed var(--border);border-radius:4px;padding:2.5rem;text-align:center;color:var(--muted);font-family:'Space Grotesk',sans-serif;font-size:.85rem;}
+  .locked .icon{font-size:2rem;margin-bottom:.5rem;}
+  @media(max-width:580px){main{padding:1.1rem .85rem 4rem;}.card{padding:1.1rem .95rem;}.q-block{padding:.95rem .85rem;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">Travaux de Renforcement des Capacités · Samedi 25 Octobre 2025 · Année scolaire 2025-2026</div>
+  <h1>Histoire — Géographie</h1>
+  <div class="hmeta">
+    <span>🗺️ Classe : 3ème</span>
+    <span>⏱ Durée : 2 heures</span>
+    <span>📊 Total : 20 points</span>
+  </div>
+</header>
+
+<div class="tab-bar">
+  <button class="tab-btn ah active" onclick="switchTab('hist',event)">📜 I — Histoire</button>
+  <button class="tab-btn gh" onclick="switchTab('geo',event)">🌍 II — Géographie</button>
+  <button class="tab-btn cr" onclick="switchTab('corrige',event)">✅ Corrigé type</button>
+</div>
+
+<main>
+
+<!-- ══════════ HISTOIRE ══════════ -->
+<div class="tab-panel active" id="panel-hist">
+  <div class="card">
+    <div class="clabel h">Compétence disciplinaire</div>
+    <div class="banner h">I — Histoire : Explication de texte <span class="bpts">10 pts</span></div>
+
+    <div class="crit-grid">
+      <div class="crit-box h">
+        <div class="crit-title h">Critères minimaux</div>
+        <ul>
+          <li>Interprétation correcte de la situation</li>
+          <li>Utilisation correcte des outils de la discipline</li>
+          <li>Cohérence interne</li>
+        </ul>
+      </div>
+      <div class="crit-box h">
+        <div class="crit-title h">Critère de perfectionnement</div>
+        <ul><li>Maîtrise de la langue</li></ul>
+      </div>
+    </div>
+
+    <div style="background:var(--as);border:1px solid #e0c8a0;border-radius:4px;padding:.85rem 1.05rem;margin-bottom:.9rem;font-size:.88rem;">
+      <strong>Contexte d'évaluation :</strong> Avec la révolution industrielle qui va asseoir le pouvoir de la bourgeoisie, les progrès scientifiques et techniques ne vont pas libérer l'homme mais au contraire l'asservir davantage.<br><br>
+      <strong>Tâche :</strong> Explique à partir du texte ci-après et de tes connaissances, les conditions de vie et de travail des ouvriers en Europe aux XIX<sup>e</sup> et XX<sup>e</sup> siècles.
+    </div>
+
+    <div class="texte-box">
+      <p>… Avec la révolution industrielle, le nombre des ouvriers travaillant en usine augmente. Ce sont souvent des artisans sans travail, des paysans contraints de quitter la terre. On leur impose un travail dur. Les journées de travail sont longues. Aucune règle d'hygiène ou de sécurité n'existe, et la discipline est sévère. Une grande partie de la main-d'œuvre est formée de femmes et d'enfants travaillant à partir de 6 ou 8 ans, pour un salaire minime. Les salaires sont bas ; ils diminuent même, à cause du chômage et de la main-d'œuvre abondante. Ils vivent aussi près des usines et sont logés dans des banlieues des villes, se nourrissant de pain et de pommes de terre.</p>
+      <div class="source">Tiré de : J. M. Lambin, <em>Histoire-Géographie 4e, Initiation économique</em>, Éd. Hachette, France, 1992, p. 148</div>
+    </div>
+
+    <div class="consignes h">
+      <div class="ctitle">Consignes</div>
+      <ul>
+        <li>Présente le texte.</li>
+        <li>Explique les conditions de travail et de vie des ouvriers du XIX<sup>e</sup> siècle en Europe.</li>
+        <li>Dégage l'intérêt de l'étude de ce texte.</li>
+      </ul>
+    </div>
+
+    <!-- Q1 -->
+    <div class="q-block">
+      <div class="q-head">
+        <div class="qn h">1</div>
+        <div class="q-txt"><strong>Présente le texte</strong> (nature, source, auteur, date, idée générale).</div>
+        <div class="pts">~2 pts</div>
+      </div>
+      <textarea class="rep h" id="h1" rows="5" placeholder="Ce texte est un extrait de...&#10;&#10;Il est tiré de...&#10;&#10;L'idée générale est..."></textarea>
+      <div class="wc" id="wc-h1">0 mot</div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="q-block">
+      <div class="q-head">
+        <div class="qn h">2</div>
+        <div class="q-txt"><strong>Explique les conditions de travail et de vie des ouvriers</strong> du XIX<sup>e</sup> siècle en Europe en t'appuyant sur des citations du texte.</div>
+        <div class="pts">~6 pts</div>
+      </div>
+      <div class="hint">💡 Pense à : les conditions de travail (durée, hygiène, discipline, salaires, travail des enfants) <strong>ET</strong> les conditions de vie (logement, alimentation). Appuie-toi sur des citations du texte.</div>
+      <textarea class="rep h xl" id="h2" rows="14" placeholder="A- Les conditions de travail :&#10;&#10;...&#10;&#10;B- Les conditions de vie :&#10;&#10;..."></textarea>
+      <div class="wc" id="wc-h2">0 mot</div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="q-block">
+      <div class="q-head">
+        <div class="qn h">3</div>
+        <div class="q-txt"><strong>Dégage l'intérêt de l'étude</strong> de ce texte.</div>
+        <div class="pts">~2 pts</div>
+      </div>
+      <textarea class="rep h" id="h3" rows="4" placeholder="L'étude de ce texte présente un intérêt...&#10;&#10;Sur le plan historique...&#10;Sur le plan social..."></textarea>
+      <div class="wc" id="wc-h3">0 mot</div>
+    </div>
+
+    <button class="btn h" id="btn-hist" onclick="submitSection('hist')">✦ Soumettre Histoire — Obtenir la correction IA</button>
+    <div class="fb-box" id="fb-hist">
+      <div class="fb-head">✦ Correction IA · Histoire — Explication de texte</div>
+      <div class="fb-body" id="fb-hist-body"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ GÉOGRAPHIE ══════════ -->
+<div class="tab-panel" id="panel-geo">
+  <div class="card">
+    <div class="clabel g">Géographie — Dissertation</div>
+    <div class="banner g">II — Géographie : Dissertation <span class="bpts">10 pts</span></div>
+
+    <div class="geo-ctx">
+      <strong>Contexte d'évaluation :</strong> Malgré sa situation économique peu reluisante, le Bénin dispose d'une diversité de ressources susceptibles de contribuer à son développement mais reste cependant confronté à des menaces.<br><br>
+      <strong>Tâche/Consigne :</strong> Pour ta contribution à la valorisation des richesses agricoles dont dispose le Bénin, tu es invité(e) à produire une analyse cohérente <em>(Introduction, corps du devoir avec des phrases de transition et conclusion)</em> afin de montrer l'importance de ces ressources et les menaces auxquelles elles sont confrontées.
+    </div>
+
+    <div class="consignes g">
+      <div class="ctitle">Instructions</div>
+      <ul>
+        <li>Présente les ressources agricoles disponibles au Bénin.</li>
+        <li>Expose l'utilité de ces ressources dans le processus du développement du pays.</li>
+        <li>Détermine les menaces auxquelles ces ressources agricoles sont confrontées.</li>
+      </ul>
+    </div>
+
+    <div class="hint" style="border-left:3px solid var(--gh);background:var(--gs);">
+      📝 <strong>Structure attendue :</strong> Introduction · 1- Ressources agricoles disponibles · <em>Transition</em> · 2- Utilité de ces ressources · <em>Transition</em> · 3- Les menaces · Conclusion
+    </div>
+
+    <!-- Introduction -->
+    <div class="q-block">
+      <div class="q-head">
+        <div class="qn g">Intro</div>
+        <div class="q-txt"><strong>Introduction</strong> — Présente le contexte et annonce le plan.</div>
+        <div class="pts">~1 pt</div>
+      </div>
+      <textarea class="rep g" id="g0" rows="4" placeholder="Le Bénin est un pays de l'Afrique de l'Ouest qui dispose de nombreuses ressources..."></textarea>
+      <div class="wc" id="wc-g0">0 mot</div>
+    </div>
+
+    <!-- Q1 -->
+    <div class="q-block">
+      <div class="q-head">
+        <div class="qn g">1</div>
+        <div class="q-txt"><strong>Présente les ressources agricoles disponibles au Bénin</strong> (cultures vivrières, maraîchères, commerciales/rente).</div>
+        <div class="pts">~3 pts</div>
+      </div>
+      <textarea class="rep g" id="g1" rows="8" placeholder="Les ressources agricoles sont les produits issus de l'agriculture...&#10;&#10;• Cultures vivrières : maïs, riz, sorgho, igname, manioc, patate douce...&#10;• Cultures maraîchères : légumes, piments, tomate, gombo...&#10;• Cultures commerciales/de rente : coton, palmier à huile, arachides, noix de karité, ananas, anacarde, canne à sucre..."></textarea>
+      <div class="wc" id="wc-g1">0 mot</div>
+    </div>
+
+    <!-- Transition 1 -->
+    <div class="q-block">
+      <div class="q-head">
+        <div class="qn g">T1</div>
+        <div class="q-txt"><strong>Phrase de transition 1</strong> — Relie la partie 1 à la partie 2.</div>
+        <div class="pts">~0,5 pt</div>
+      </div>
+      <textarea class="rep g" id="gt1" rows="2" placeholder="Ces diverses ressources agricoles sont très capitales pour le développement économique du pays."></textarea>
+      <div class="wc" id="wc-gt1">0 mot</div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="q-block">
+      <div class="q-head">
+        <div class="qn g">2</div>
+        <div class="q-txt"><strong>Expose l'utilité de ces ressources</strong> dans le processus du développement du Bénin.</div>
+        <div class="pts">~3 pts</div>
+      </div>
+      <textarea class="rep g" id="g2" rows="8" placeholder="Les ressources agricoles contribuent à la croissance économique...&#10;&#10;• Alimentation : source incontournable d'alimentation...&#10;• Commerce : font l'objet d'un large commerce...&#10;• Industrie et artisanat : matières premières (coton → textile/huileries, palmier à huile → artisanat, fruits → jus, canne → sucre...)"></textarea>
+      <div class="wc" id="wc-g2">0 mot</div>
+    </div>
+
+    <!-- Transition 2 -->
+    <div class="q-block">
+      <div class="q-head">
+        <div class="qn g">T2</div>
+        <div class="q-txt"><strong>Phrase de transition 2</strong> — Relie la partie 2 à la partie 3.</div>
+        <div class="pts">~0,5 pt</div>
+      </div>
+      <textarea class="rep g" id="gt2" rows="2" placeholder="Malgré l'importance économique de ces ressources, elles sont confrontées à d'énormes menaces."></textarea>
+      <div class="wc" id="wc-gt2">0 mot</div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="q-block">
+      <div class="q-head">
+        <div class="qn g">3</div>
+        <div class="q-txt"><strong>Détermine les menaces</strong> auxquelles ces ressources agricoles sont confrontées au Bénin.</div>
+        <div class="pts">~2 pts</div>
+      </div>
+      <textarea class="rep g" id="g3" rows="7" placeholder="Diverses menaces pèsent sur les ressources agricoles du Bénin :&#10;&#10;• Insuffisance d'encadrement et de suivi scientifique et technique&#10;• Aléas climatiques : sécheresses prolongées, inondations&#10;• Invasions de criquets&#10;• Désertification dans le Nord (Karimama, Banikoara, Kandi, Nikki, Ouaké...)&#10;• Mauvaise conservation des produits agricoles&#10;• Pollution chimique des sols (mauvaise utilisation des engrais et intrants)"></textarea>
+      <div class="wc" id="wc-g3">0 mot</div>
+    </div>
+
+    <!-- Conclusion -->
+    <div class="q-block">
+      <div class="q-head">
+        <div class="qn g">Ccl</div>
+        <div class="q-txt"><strong>Conclusion</strong> — Fais la synthèse et ouvre sur une perspective.</div>
+        <div class="pts">~1 pt</div>
+      </div>
+      <textarea class="rep g" id="gccl" rows="4" placeholder="Le Bénin dispose d'énormes ressources dont celles agricoles qui contribuent énormément au développement économique du pays. Malheureusement ces ressources sont confrontées à des problèmes qui freinent le développement du pays. Il urge d'apporter des solutions..."></textarea>
+      <div class="wc" id="wc-gccl">0 mot</div>
+    </div>
+
+    <button class="btn g" id="btn-geo" onclick="submitSection('geo')">✦ Soumettre Géographie — Obtenir la correction IA</button>
+    <div class="fb-box" id="fb-geo">
+      <div class="fb-head">✦ Correction IA · Géographie — Dissertation</div>
+      <div class="fb-body geo" id="fb-geo-body"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ CORRIGÉ ══════════ -->
+<div class="tab-panel" id="panel-corrige">
+  <div id="corrige-locked" class="locked">
+    <div class="icon">🔒</div>
+    <p><strong>Le corrigé type se déverrouille après soumission d'au moins une partie.</strong></p>
+    <p style="margin-top:.4rem">Traite les exercices d'abord, puis reviens ici.</p>
+  </div>
+  <div id="corrige-content" style="display:none">
+
+    <div class="card">
+      <div class="clabel h">Corrigé type</div>
+      <h2>I — Histoire : Explication de texte (10 pts)</h2>
+
+      <div class="cor-h">
+        <h3>1 — Présentation du texte (~2 pts)</h3>
+        <p>Le texte soumis à notre réflexion est un extrait de la page 148 du document intitulé <em>Histoire-Géographie 4e, Initiation économique</em>, écrit par <strong>J. M. Lambin</strong> et paru aux éditions Hachette en France en 1992.</p>
+        <p><strong>Idée générale :</strong> Ce texte traite des conditions de vie et de travail des ouvriers en Europe aux XIX<sup>e</sup> et XX<sup>e</sup> siècles dans le contexte de la révolution industrielle. Ces conditions étaient particulièrement pénibles et difficiles.</p>
+      </div>
+
+      <div class="cor-h">
+        <h3>2 — Conditions de travail et de vie des ouvriers (~6 pts)</h3>
+        <p>La révolution industrielle des XIX<sup>e</sup> et XX<sup>e</sup> siècles a entraîné la naissance de deux classes sociales aux intérêts opposés. Les ouvriers travaillaient et vivaient dans des conditions pénibles.</p>
+
+        <p><strong>A — Les conditions de travail :</strong></p>
+        <ul>
+          <li><strong>Des journées de travail très longues :</strong> Quand l'auteur déclare « Les journées de travail sont longues », il fait allusion aux conditions de travail car les ouvriers avaient de longues heures de travail, de 12 à 15 heures par jour.</li>
+          <li><strong>Absence de règles d'hygiène et de sécurité :</strong> Quand J. M. Lambin affirme « Aucune règle d'hygiène ou de sécurité n'existe, et la discipline est sévère », il veut mettre l'accent sur les conditions de travail dans la mesure où les ouvriers travaillaient dans des ateliers dangereux, bruyants, sans éclairage et sans aération, avec une pression de la part du patronat.</li>
+          <li><strong>Exploitation du travail des femmes et des enfants :</strong> Le travail des femmes et des enfants n'était pas réglementé. « Une grande partie de la main-d'œuvre est formée de femmes et d'enfants travaillant à partir de 6 ou 8 ans, pour un salaire minime. »</li>
+          <li><strong>Des salaires très bas :</strong> Les salaires étaient bas et diminuaient à cause du chômage et de l'abondance de main-d'œuvre.</li>
+        </ul>
+
+        <p><strong>B — Les conditions de vie :</strong></p>
+        <ul>
+          <li><strong>Un logement précaire :</strong> Quand l'auteur souligne « Ils vivent aussi près des usines et sont logés dans des banlieues des villes », il fait référence aux conditions de vie des ouvriers car ils vivaient dans des maisons sales, proches des industries et exposés aux dangers provenant des explosions.</li>
+          <li><strong>Une alimentation insuffisante :</strong> Ils se nourrissaient de pain et de pommes de terre, une nourriture pauvre et peu diversifiée.</li>
+        </ul>
+      </div>
+
+      <div class="cor-h">
+        <h3>3 — Intérêt de l'étude du texte (~2 pts)</h3>
+        <p>Le texte étudié a permis d'approfondir nos connaissances sur les conditions de travail et de vie des ouvriers du XIX<sup>e</sup> siècle en Europe. Ces mauvaises conditions de vie et de travail vont entraîner des luttes ouvrières qui ne sont pas sans résultats (obtention de droits sociaux, réduction du temps de travail, interdiction du travail des enfants).</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="clabel g">Corrigé type</div>
+      <h2>II — Géographie : Dissertation (10 pts)</h2>
+
+      <div class="cor-g">
+        <h3>Introduction</h3>
+        <p>Le Bénin est un pays de l'Afrique de l'Ouest qui dispose de nombreuses ressources favorables à son développement. Parmi ces ressources figurent celles agricoles qui sont d'une importance capitale pour le développement du pays mais confrontées à de nombreuses menaces. Il s'agit de présenter les ressources agricoles disponibles au Bénin, d'exposer l'utilité de ces ressources dans le processus du développement du pays et de déterminer les menaces auxquelles ces ressources agricoles sont confrontées.</p>
+      </div>
+
+      <div class="cor-g">
+        <h3>1 — Présentation des ressources agricoles disponibles au Bénin</h3>
+        <p>Les ressources agricoles sont les produits issus de l'agriculture. Elles constituent la source incontournable de l'alimentation de la population béninoise. La variété des sols plus ou moins fertiles, la diversité climatique et le réseau hydrographique permettent au pays d'avoir des ressources agricoles variées. Ce sont :</p>
+        <ul>
+          <li><strong>Les cultures vivrières</strong> composées de céréales telles que le maïs, le riz, le sorgho ; les tubercules dont l'igname, le manioc, la patate douce ; les légumineuses dont le haricot, le voandzou, la sésame.</li>
+          <li><strong>Les cultures maraîchères</strong> composées de légumes, piments, tomate, gombo.</li>
+          <li><strong>Les cultures commerciales ou de rente</strong> caractérisées surtout par une production cotonnière ; les oléagineux comme le palmier à huile, les arachides, la noix de karité, la noix de coco ; et les autres produits comme l'ananas, l'anacarde, la canne à sucre.</li>
+        </ul>
+        <div class="transition-tag">Transition 1 :</div>
+        <p>Ces diverses ressources agricoles sont très capitales pour le développement économique du pays.</p>
+      </div>
+
+      <div class="cor-g">
+        <h3>2 — Exposition de l'utilité de ces ressources dans le processus du développement du pays</h3>
+        <p>Les ressources agricoles contribuent à la croissance économique et à l'amélioration des conditions d'existence des populations. Elles constituent la source incontournable de l'alimentation de la population béninoise. Elles font l'objet d'un large commerce et fournissent à l'industrie et à l'artisanat des matières premières :</p>
+        <ul>
+          <li>C'est le cas du <strong>coton</strong> qui sert de matière première aux industries textiles et aux huileries.</li>
+          <li>Du <strong>palmier à huile</strong> qui sert aussi de matière première à l'artisanat pour la fabrication de l'huile de palme, des savons.</li>
+          <li>Les <strong>fruits</strong> tels que l'ananas, la mangue, l'orange servent à la production des jus de fruits.</li>
+          <li>La <strong>canne à sucre</strong> sert à la fabrication du sucre.</li>
+        </ul>
+        <div class="transition-tag">Transition 2 :</div>
+        <p>Malgré l'importance économique de ces ressources, elles sont confrontées à d'énormes menaces.</p>
+      </div>
+
+      <div class="cor-g">
+        <h3>3 — Détermination des menaces auxquelles ces ressources agricoles sont confrontées</h3>
+        <p>Diverses menaces pèsent sur les ressources agricoles du Bénin. Il s'agit entre autres de :</p>
+        <ul>
+          <li>L'insuffisance d'encadrement et/ou de suivi scientifique et technique</li>
+          <li>Les aléas climatiques notamment les sécheresses trop prolongées et les inondations</li>
+          <li>Les invasions de criquets</li>
+          <li>La désertification dans certaines régions du Nord-Bénin telles que Karimama, Banikoara, Kandi, Nikki, Ouaké, rendant de plus en plus difficile l'agriculture</li>
+          <li>La mauvaise conservation des produits agricoles</li>
+          <li>La pollution chimique des sols par une mauvaise utilisation des engrais et intrants agricoles</li>
+        </ul>
+      </div>
+
+      <div class="cor-g">
+        <h3>Conclusion</h3>
+        <p>Le Bénin dispose d'énormes ressources dont celles agricoles qui contribuent énormément au développement économique du pays. Malheureusement, ces ressources sont confrontées à des problèmes qui freinent le développement du pays. Il urge d'apporter des solutions à ces différents problèmes afin qu'elles soient mieux gérées pour le développement économique du pays.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</main>
+
+<script>
+function switchTab(name,e){
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('panel-'+name).classList.add('active');
+  e.currentTarget.classList.add('active');
+}
+function cw(s){return s.trim().split(/\s+/).filter(w=>w.length>0).length;}
+document.querySelectorAll('textarea.rep').forEach(ta=>{
+  const wc=document.getElementById('wc-'+ta.id);
+  if(!wc)return;
+  ta.addEventListener('input',()=>{const n=cw(ta.value);wc.textContent=n+(n>1?' mots':' mot');});
+});
+let unlocked=false;
+function unlockCorrige(){
+  if(unlocked)return;unlocked=true;
+  document.getElementById('corrige-locked').style.display='none';
+  document.getElementById('corrige-content').style.display='block';
+}
+async function callClaude(sys,msg,el){
+  el.innerHTML='<div class="spinner"></div> L\'IA analyse ta réponse…';
+  el.classList.add('loading');
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1200,system:sys,messages:[{role:'user',content:msg}]})
+    });
+    const d=await r.json();
+    el.classList.remove('loading');
+    el.innerHTML=d.content.map(i=>i.text||'').join('\n');
+  }catch{
+    el.classList.remove('loading');
+    el.innerHTML='<p style="color:#8b1a1a">Erreur de connexion. Réessaie.</p>';
+  }
+}
+
+const SYS={
+hist:`Tu es un professeur d'Histoire expert au niveau 3ème au Bénin. Tu corriges une explication de texte (10 pts) sur les conditions de vie et de travail des ouvriers en Europe aux XIXe et XXe siècles.
+Texte de J. M. Lambin, Histoire-Géographie 4e, Initiation économique, Hachette, France, 1992, p.148.
+CORRIGÉ TYPE OFFICIEL :
+1-Présentation (2pts) : extrait p.148, ouvrage de J.M.Lambin, Hachette 1992. Idée générale : conditions pénibles des ouvriers.
+2-Conditions (6pts) : A-Travail : journées longues (12-15h/jour), pas de règles d'hygiène ni de sécurité, discipline sévère, travail femmes et enfants dès 6-8 ans, salaires bas qui diminuent. B-Vie : logement précaire en banlieues sales près des usines, alimentation insuffisante (pain et pommes de terre). Appui sur citations du texte.
+3-Intérêt (2pts) : approfondi les connaissances sur conditions ouvrières XIXe siècle ; ces mauvaises conditions vont entraîner des luttes ouvrières avec des résultats.
+Réponds UNIQUEMENT en HTML simple (p,h4,ul,li,strong). Structure : <h4>📊 Score estimé</h4>(sur 10 pts) <h4>1 — Présentation (2 pts)</h4> <h4>2 — Conditions de travail (3 pts) et de vie (3 pts)</h4> <h4>3 — Intérêt (2 pts)</h4> <h4>💡 Conseils</h4> Sois précis et pédagogique. Cite les extraits de l'élève.`,
+
+geo:`Tu es un professeur de Géographie expert au niveau 3ème au Bénin. Tu corriges une dissertation (10 pts) sur les ressources agricoles du Bénin.
+CORRIGÉ TYPE OFFICIEL :
+Introduction : contexte Bénin pays AO avec ressources agricoles importantes mais confrontées à des menaces + annonce du plan.
+1-Ressources (3pts) : cultures vivrières (maïs, riz, sorgho, igname, manioc, patate douce, haricot, voandzou, sésame), cultures maraîchères (légumes, piments, tomate, gombo), cultures commerciales/rente (coton, palmier à huile, arachides, noix de karité, noix de coco, ananas, anacarde, canne à sucre).
+Transition1 : "Ces diverses ressources agricoles sont très capitales pour le développement économique du pays."
+2-Utilité (3pts) : alimentation population, large commerce, matières premières industrie et artisanat (coton→textiles/huileries, palmier à huile→huile de palme/savons, fruits→jus, canne à sucre→sucre).
+Transition2 : "Malgré l'importance économique de ces ressources, elles sont confrontées à d'énormes menaces."
+3-Menaces (2pts) : insuffisance d'encadrement scientifique/technique, aléas climatiques (sécheresses/inondations), invasions de criquets, désertification Nord-Bénin (Karimama, Banikoara, Kandi, Nikki, Ouaké), mauvaise conservation des produits, pollution chimique des sols.
+Conclusion : synthèse + urgence de solutions.
+Réponds UNIQUEMENT en HTML simple. Structure : <h4>📊 Score estimé</h4>(sur 10 pts) <h4>Introduction</h4> <h4>1 — Ressources agricoles (3 pts)</h4> <h4>Transitions</h4> <h4>2 — Utilité (3 pts)</h4> <h4>3 — Menaces (2 pts)</h4> <h4>Conclusion</h4> <h4>💡 Conseils</h4> Vérifie la présence des phrases de transition. Sois précis et encourage l'élève.`
+};
+
+async function submitSection(sec){
+  document.getElementById('btn-'+sec).disabled=true;
+  const fb=document.getElementById('fb-'+sec);fb.classList.add('visible');
+  const body=document.getElementById('fb-'+sec+'-body');
+  let msg='';
+  if(sec==='hist'){
+    msg=`1 (Présentation):\n${document.getElementById('h1').value||'(vide)'}\n\n2 (Conditions travail et vie):\n${document.getElementById('h2').value||'(vide)'}\n\n3 (Intérêt):\n${document.getElementById('h3').value||'(vide)'}`;
+  }else{
+    msg=`Introduction:\n${document.getElementById('g0').value||'(vide)'}\n\n1 (Ressources):\n${document.getElementById('g1').value||'(vide)'}\n\nTransition1:\n${document.getElementById('gt1').value||'(vide)'}\n\n2 (Utilité):\n${document.getElementById('g2').value||'(vide)'}\n\nTransition2:\n${document.getElementById('gt2').value||'(vide)'}\n\n3 (Menaces):\n${document.getElementById('g3').value||'(vide)'}\n\nConclusion:\n${document.getElementById('gccl').value||'(vide)'}`;
+  }
+  await callClaude(SYS[sec],msg,body);
+  unlockCorrige();
+}
+</script>
+</body>
+</html>
