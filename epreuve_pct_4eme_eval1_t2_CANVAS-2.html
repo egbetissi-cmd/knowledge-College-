@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PCT 4ème — 1ère Évaluation Sommative 2ème Trimestre 2023-2024</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Serif+4:wght@300;400;600&family=Space+Grotesk:wght@400;500;600&display=swap');
+  :root{
+    --ink:#1a1a2e;--bg:#f2f5f3;--warm:#fefffe;
+    --ch:#1a5a2a;--chl:#3a9a5a;--chs:#e8f5ee;
+    --ph:#1a3a8a;--phl:#4a6ac4;--phs:#e8f0fb;
+    --gold:#7a6000;--gold-light:#fdf6e0;
+    --border:#c8d0c8;--muted:#607060;--shadow:rgba(26,46,26,0.07);
+    --red:#8b1a1a;--green:#1a6b3a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Source Serif 4',Georgia,serif;background:var(--bg);color:var(--ink);font-size:16px;line-height:1.78;}
+  header{background:linear-gradient(135deg,#0a2a18 0%,#1a5a2a 45%,#0a1a5a 100%);color:#fff;padding:2rem 2rem 1.6rem;text-align:center;}
+  .eyebrow{font-family:'Space Grotesk',sans-serif;font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:#90d8a8;margin-bottom:.4rem;}
+  header h1{font-family:'Playfair Display',serif;font-size:clamp(1.3rem,4vw,1.9rem);color:#fff;}
+  .hmeta{display:flex;justify-content:center;flex-wrap:wrap;gap:1.4rem;margin-top:.9rem;font-family:'Space Grotesk',sans-serif;font-size:.76rem;color:#90b8d0;letter-spacing:.05em;}
+  .tab-bar{display:flex;background:var(--warm);border-bottom:2px solid var(--border);overflow-x:auto;position:sticky;top:0;z-index:50;scrollbar-width:none;}
+  .tab-bar::-webkit-scrollbar{display:none;}
+  .tab-btn{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:.82rem 1.1rem;border:none;background:transparent;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap;transition:all .2s;}
+  .tab-btn:hover:not(.active){color:var(--ink);background:#edf5ee;}
+  .tab-btn.ch.active{color:var(--ch);border-bottom-color:var(--ch);}
+  .tab-btn.ph.active{color:var(--ph);border-bottom-color:var(--ph);}
+  .tab-btn.cr.active{color:#333;border-bottom-color:#333;}
+  main{max-width:880px;margin:0 auto;padding:2rem 1.5rem 5rem;}
+  .tab-panel{display:none;}.tab-panel.active{display:block;}
+  .card{background:var(--warm);border:1px solid var(--border);border-radius:4px;padding:1.7rem 1.9rem;margin-bottom:1.5rem;box-shadow:0 2px 8px var(--shadow);}
+  .card h2{font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--ink);border-bottom:1px solid var(--border);padding-bottom:.55rem;margin-bottom:.9rem;}
+  .banner{color:#fff;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:.6rem 1.1rem;border-radius:4px;margin-bottom:1rem;display:flex;justify-content:space-between;align-items:center;}
+  .banner.ch{background:var(--ch);}.banner.ph{background:var(--ph);}
+  .bpts{background:rgba(255,255,255,0.22);padding:.12rem .55rem;border-radius:10px;font-size:.73rem;}
+  .ctx-box{border-radius:0 4px 4px 0;padding:.95rem 1.2rem;font-size:.91rem;line-height:1.82;margin-bottom:.9rem;}
+  .ctx-box.ch{background:var(--chs);border-left:4px solid var(--ch);}
+  .ctx-box.ph{background:var(--phs);border-left:4px solid var(--ph);}
+  .donnees{background:#fff;border:1px solid var(--border);border-radius:4px;padding:.85rem 1.05rem;margin-bottom:.85rem;font-size:.87rem;line-height:1.75;}
+  .donnees .dtitle{font-family:'Space Grotesk',sans-serif;font-size:.71rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.35rem;}
+  .donnees.ch .dtitle{color:var(--ch);}.donnees.ph .dtitle{color:var(--ph);}
+  .donnees ul{padding-left:1.2rem;}.donnees li{margin-bottom:.2rem;}
+  /* TABLES */
+  .data-table{width:100%;border-collapse:collapse;font-size:.84rem;margin:.6rem 0;}
+  .data-table th{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:600;padding:.45rem .6rem;text-align:center;border:1.5px solid var(--border);}
+  .data-table th.ch{background:var(--ch);color:#fff;border-color:var(--ch);}
+  .data-table th.ph{background:var(--ph);color:#fff;border-color:var(--ph);}
+  .data-table td{border:1.5px solid var(--border);padding:.42rem .55rem;text-align:center;}
+  .data-table input.ti{width:100%;border:1.5px solid var(--border);border-radius:3px;padding:.26rem .4rem;font-family:'Space Grotesk',sans-serif;font-size:.78rem;background:#fdfbf8;}
+  .data-table input.ti:focus{outline:none;border-color:var(--chl);background:#fff;}
+  /* IONS TABLEAU */
+  .ions-table{width:100%;border-collapse:collapse;font-size:.86rem;margin:.6rem 0;}
+  .ions-table th{background:var(--ch);color:#fff;font-family:'Space Grotesk',sans-serif;font-size:.73rem;padding:.5rem .6rem;text-align:center;border:1px solid var(--ch);}
+  .ions-table td{border:1.5px solid var(--border);padding:.5rem .6rem;vertical-align:top;}
+  .ions-table td.cat{font-weight:700;background:var(--chs);font-family:'Space Grotesk',sans-serif;font-size:.78rem;text-align:center;}
+  .ions-table textarea.ions-cell{width:100%;border:1.5px solid var(--border);border-radius:3px;padding:.3rem .5rem;font-family:'Space Grotesk',sans-serif;font-size:.78rem;background:#fdfbf8;min-height:50px;resize:vertical;}
+  .ions-table textarea.ions-cell:focus{outline:none;border-color:var(--chl);background:#fff;}
+  /* ASSOCIATION TABLEAU */
+  .assoc-flex{display:grid;grid-template-columns:1fr 2fr;gap:.5rem;margin:.5rem 0;}
+  .assoc-num{background:var(--chs);border:1px solid #a8d8b8;border-radius:4px;padding:.4rem .7rem;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.85rem;color:var(--ch);text-align:center;}
+  .assoc-sel select{width:100%;border:1.5px solid var(--border);border-radius:4px;padding:.32rem .5rem;font-family:'Space Grotesk',sans-serif;font-size:.8rem;background:#fff;}
+  .assoc-sel select:focus{outline:none;border-color:var(--chl);}
+  .def-list{background:#fff;border:1px solid var(--border);border-radius:4px;padding:.8rem 1rem;font-size:.84rem;line-height:1.7;margin-bottom:.7rem;}
+  .def-list table{width:100%;border-collapse:collapse;}
+  .def-list td{padding:.2rem .4rem;vertical-align:top;}
+  .def-list td.letter{font-weight:700;color:var(--ch);width:1.3rem;}
+  /* QUESTIONS */
+  .q-block{background:var(--warm);border:1px solid var(--border);border-radius:4px;padding:1.05rem 1.3rem;margin-bottom:.85rem;}
+  .q-head{display:flex;align-items:flex-start;gap:.7rem;margin-bottom:.55rem;}
+  .qn{color:#fff;font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;min-width:1.7rem;height:1.7rem;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:.1rem;}
+  .qn.ch{background:var(--ch);}.qn.ph{background:var(--ph);}
+  .q-txt{flex:1;font-size:.92rem;line-height:1.6;}
+  .pts{font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:600;color:var(--gold);background:var(--gold-light);border:1px solid #dfc96a;padding:.08rem .45rem;border-radius:10px;white-space:nowrap;flex-shrink:0;}
+  textarea.rep{width:100%;border:1.5px solid var(--border);border-radius:4px;padding:.65rem .82rem;font-family:'Source Serif 4',serif;font-size:.92rem;line-height:1.7;background:#fdfbf8;color:var(--ink);resize:vertical;transition:border-color .2s;}
+  textarea.rep:focus{outline:none;background:#fff;}
+  textarea.rep.ch:focus{border-color:var(--chl);}
+  textarea.rep.ph:focus{border-color:var(--phl);}
+  .wc{font-family:'Space Grotesk',sans-serif;font-size:.68rem;color:var(--muted);text-align:right;margin-top:.22rem;}
+  .hint{background:#fff;border:1px solid var(--border);border-radius:4px;padding:.6rem .85rem;margin-bottom:.52rem;font-size:.8rem;font-family:'Space Grotesk',sans-serif;color:var(--muted);}
+  /* SCHEMAS */
+  .schema-box{background:#fff;border:1px solid var(--border);border-radius:4px;padding:.9rem;margin:.6rem 0;text-align:center;}
+  .schema-box svg{max-width:100%;}
+  .schema-label{font-family:'Space Grotesk',sans-serif;font-size:.74rem;font-weight:700;color:var(--ph);margin-top:.3rem;}
+  /* BOUTONS */
+  .btn{display:block;width:100%;padding:.85rem;color:#fff;font-family:'Space Grotesk',sans-serif;font-size:.83rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;border:none;border-radius:4px;cursor:pointer;transition:background .2s;margin-top:1.1rem;}
+  .btn.ch{background:var(--ch);}.btn.ch:hover{background:#0a3820;}
+  .btn.ph{background:var(--ph);}.btn.ph:hover{background:#0a1a5a;}
+  .btn:disabled{opacity:.55;cursor:not-allowed;}
+  /* FEEDBACK */
+  .fb-box{display:none;margin-top:1rem;border-radius:4px;overflow:hidden;}
+  .fb-box.visible{display:block;}
+  .fb-head{background:var(--ink);color:#fff;padding:.62rem 1.05rem;font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;}
+  .fb-body{background:var(--warm);border:1px solid var(--border);border-top:none;padding:1.05rem 1.3rem;font-size:.9rem;line-height:1.74;}
+  .fb-body.loading{display:flex;align-items:center;gap:.6rem;color:var(--muted);font-style:italic;font-size:.82rem;}
+  .spinner{width:.9rem;height:.9rem;border:2px solid var(--border);border-top-color:var(--ch);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .fb-body h4{font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:1rem 0 .3rem;padding-bottom:.2rem;border-bottom:1px solid var(--border);}
+  .fb-body h4:first-child{margin-top:0;}
+  .fb-body p{margin-bottom:.5rem;}.fb-body ul{padding-left:1.1rem;}.fb-body li{margin-bottom:.25rem;}
+  .fb-body strong{color:var(--ch);}
+  .fb-body.ph strong{color:var(--ph);}
+  /* CORRIGÉ */
+  .cor{border-radius:4px;padding:1.05rem 1.3rem;margin-bottom:.9rem;font-size:.9rem;line-height:1.78;}
+  .cor.ch{background:var(--chs);border:1px solid #a8d8b8;border-left:4px solid var(--ch);}
+  .cor.ph{background:var(--phs);border:1px solid #b8c8e8;border-left:4px solid var(--ph);}
+  .cor h3{font-family:'Playfair Display',serif;font-size:.97rem;margin-bottom:.5rem;}
+  .cor.ch h3{color:var(--ch);}.cor.ph h3{color:var(--ph);}
+  .cor p{margin-bottom:.4rem;}.cor ul{padding-left:1.1rem;margin-bottom:.38rem;}.cor li{margin-bottom:.28rem;}
+  .math{font-family:'Times New Roman',serif;font-size:.97rem;background:#fff;border:1px solid var(--border);border-radius:3px;padding:.2rem .52rem;display:inline-block;margin:.16rem 0;}
+  table.cor-table{width:100%;border-collapse:collapse;font-size:.84rem;margin:.55rem 0;}
+  table.cor-table th{color:#fff;font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:600;padding:.46rem .6rem;text-align:center;border:1px solid var(--border);}
+  table.cor-table th.ch{background:var(--ch);}table.cor-table th.ph{background:var(--ph);}
+  table.cor-table td{border:1.5px solid var(--border);padding:.42rem .6rem;text-align:center;}
+  table.cor-table td.left{text-align:left;}
+  .locked{background:var(--warm);border:2px dashed var(--border);border-radius:4px;padding:2.5rem;text-align:center;color:var(--muted);font-family:'Space Grotesk',sans-serif;font-size:.85rem;}
+  .locked .icon{font-size:2rem;margin-bottom:.5rem;}
+  /* ═══ CANVAS DE DESSIN (widget réutilisable) ═══ */
+  .draw-widget{background:#fff;border:1.5px solid var(--border);border-radius:6px;padding:.8rem;margin:.7rem 0;}
+  .draw-widget-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem;flex-wrap:wrap;gap:.4rem;}
+  .draw-title{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ph);}
+  .draw-tools{display:flex;gap:.35rem;flex-wrap:wrap;}
+  .draw-btn{font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:600;padding:.32rem .6rem;border-radius:4px;border:1.5px solid var(--border);background:#fff;color:var(--muted);cursor:pointer;transition:all .15s;}
+  .draw-btn:hover{background:#f0f0f5;}
+  .draw-btn.active{background:var(--ph);color:#fff;border-color:var(--ph);}
+  .draw-btn.danger{color:var(--red);border-color:#e0b0b0;}
+  .draw-btn.danger:hover{background:#fdf0f0;}
+  .draw-color-row{display:flex;gap:.3rem;align-items:center;}
+  .draw-color{width:22px;height:22px;border-radius:50%;border:2px solid #fff;outline:1.5px solid var(--border);cursor:pointer;flex-shrink:0;}
+  .draw-color.selected{outline:2px solid var(--ink);outline-offset:1px;}
+  .draw-canvas-wrap{position:relative;border:1.5px dashed var(--border);border-radius:4px;overflow:hidden;background:#fdfdfd;touch-action:none;line-height:0;}
+  .draw-canvas-wrap canvas{display:block;width:100%;height:auto;touch-action:none;cursor:crosshair;}
+  .draw-canvas-wrap canvas#ph24cv-overlay,
+  .draw-canvas-wrap canvas[id$="-overlay"]{position:absolute;top:0;left:0;pointer-events:none;}
+  .draw-hint-text{font-family:'Space Grotesk',sans-serif;font-size:.72rem;color:var(--muted);margin-top:.4rem;text-align:center;}
+  .draw-status{font-family:'Space Grotesk',sans-serif;font-size:.68rem;color:var(--green);margin-top:.3rem;display:none;text-align:center;}
+  .draw-status.show{display:block;}
+  /* ── Onglets internes Dessiner / Photo ── */
+  .dw-tabbar{display:flex;gap:.3rem;margin-bottom:.7rem;border-bottom:1.5px solid var(--border);}
+  .dw-tab{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:600;padding:.45rem .8rem;border:none;background:transparent;color:var(--muted);cursor:pointer;border-bottom:2.5px solid transparent;margin-bottom:-1.5px;transition:all .15s;}
+  .dw-tab:hover{color:var(--ink);}
+  .dw-tab.active{color:var(--ph);border-bottom-color:var(--ph);}
+  .dw-panel{display:none;}
+  .dw-panel.active{display:block;}
+  /* ── Capture photo ── */
+  .photo-capture-btn{display:block;width:100%;padding:.9rem;background:var(--phs);border:2px dashed var(--ph);border-radius:6px;color:var(--ph);font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;cursor:pointer;transition:all .15s;text-align:center;}
+  .photo-capture-btn:hover{background:#dde8fb;}
+  .photo-preview-wrap{margin-top:.7rem;text-align:center;}
+  .photo-preview-wrap img{max-width:100%;max-height:320px;border-radius:6px;border:1.5px solid var(--border);}
+  @media(max-width:580px){main{padding:1.1rem .85rem 4rem;}.card{padding:1.1rem .95rem;}.q-block{padding:.95rem .85rem;}.assoc-flex{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">Première Évaluation Sommative · Deuxième Trimestre · Année scolaire 2023-2024</div>
+  <h1>Épreuve de PCT</h1>
+  <div class="hmeta">
+    <span>⚗️ Classe : 4ème</span>
+    <span>⏱ Durée : 2 heures</span>
+    <span>⚖️ Coefficient : 2</span>
+  </div>
+</header>
+
+<div class="tab-bar">
+  <button class="tab-btn ch active" onclick="switchTab('chimie',event)">🧪 A — Chimie & Techno</button>
+  <button class="tab-btn ph" onclick="switchTab('physique',event)">🔬 B — Physique & Techno</button>
+  <button class="tab-btn cr" onclick="switchTab('corrige',event)">✅ Corrigé type</button>
+</div>
+
+<main>
+
+<!-- ══ CHIMIE ══ -->
+<div class="tab-panel active" id="panel-chimie">
+  <div class="card">
+    <div class="banner ch">A — Chimie & Technologie : Métaux, ions et alliages <span class="bpts">~20 pts</span></div>
+
+    <div class="ctx-box ch">
+      <strong>Contexte :</strong> Un élève de la 4ème rend visite à son frère aîné, fondeur et forgeron, dans son atelier et y découvre des objets métalliques, en aluminium, en cuivre, en fer, en zinc, une marmite en laiton et une bouteille d'eau minérale. Il remarque que pour bien donner une bonne forme aux objets, son frère donne des coups de marteau sur ces métaux posés sur une enclume. Ces observations lui rappellent ses cours dans lesquels ils ont également étudié la structure électronique des atomes et leur processus d'ionisation.
+    </div>
+
+    <!-- SUPPORT IONS -->
+    <div class="donnees ch">
+      <div class="dtitle">Support — Symboles des entités chimiques (eau minérale Possotomè)</div>
+      <p style="font-family:'Times New Roman',serif;font-size:.95rem">Cl⁻ ; SO₄²⁻ ; NO₃⁻ ; HCO₃⁻ ; Na⁺ ; Mg²⁺ ; H₃O⁺ ; Ca²⁺</p>
+    </div>
+
+    <!-- TABLEAU 1 -->
+    <div class="donnees ch">
+      <div class="dtitle">Tableau 1 à compléter</div>
+      <table class="ions-table">
+        <tr>
+          <th>Ions</th>
+          <th>Ions monoatomiques</th>
+          <th>Ions polyatomiques</th>
+        </tr>
+        <tr>
+          <td class="cat">Cations</td>
+          <td><textarea class="ions-cell" id="t1_cat_mono" placeholder="Na⁺, Mg²⁺..."></textarea></td>
+          <td><textarea class="ions-cell" id="t1_cat_poly" placeholder="H₃O⁺..."></textarea></td>
+        </tr>
+        <tr>
+          <td class="cat">Anions</td>
+          <td><textarea class="ions-cell" id="t1_an_mono" placeholder="Cl⁻..."></textarea></td>
+          <td><textarea class="ions-cell" id="t1_an_poly" placeholder="SO₄²⁻, NO₃⁻, HCO₃⁻..."></textarea></td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- TABLEAU 2 : MÉTAUX -->
+    <div class="donnees ch">
+      <div class="dtitle">Tableau 2 — Traits caractéristiques des métaux usuels</div>
+      <div style="overflow-x:auto">
+        <table class="data-table">
+          <tr>
+            <th class="ch"></th><th class="ch">Zinc</th><th class="ch">Fer</th><th class="ch">Aluminium</th><th class="ch">Cuivre</th>
+          </tr>
+          <tr>
+            <td style="font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:600;text-align:left">Masse volumique</td>
+            <td>7,1 g/cm³</td><td>7,81 g/cm³</td><td>2,71 g/cm³</td><td>8,91 g/cm³</td>
+          </tr>
+          <tr>
+            <td style="font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:600;text-align:left">Température de fusion</td>
+            <td>420 °C</td><td>1535 °C</td><td>660 °C</td><td>1080 °C</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- LAITON -->
+    <div class="donnees ch">
+      <div class="dtitle">À propos du bol en laiton</div>
+      <ul>
+        <li>La marmite en laiton a une masse <strong>m = 5 kg</strong> et est constituée d'une masse m₁ de cuivre et d'une masse m₂ de zinc.</li>
+        <li>Le pourcentage en masse du cuivre contenu dans le laiton est de <strong>64 %</strong>.</li>
+      </ul>
+    </div>
+
+    <!-- PARTIE 1 : ASSOCIATION -->
+    <div style="font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;color:var(--ch);letter-spacing:.06em;text-transform:uppercase;margin-bottom:.6rem">Partie 1 — Mobilisation des ressources</div>
+
+    <div class="q-block">
+      <div class="q-head">
+        <div class="qn ch">1.1</div>
+        <div class="q-txt"><strong>Associe chaque expression à sa définition</strong> en recopiant l'expression suivie de sa définition.</div>
+        <div class="pts">~3,5 pts</div>
+      </div>
+
+      <div class="def-list">
+        <strong style="font-family:'Space Grotesk',sans-serif;font-size:.74rem;letter-spacing:.06em;color:var(--ch)">DÉFINITIONS</strong>
+        <table>
+          <tr><td class="letter">a</td><td>Aptitude d'un métal à résister à la rupture par traction</td></tr>
+          <tr><td class="letter">b</td><td>Propriété d'un métal à se laisser réduire en plaques ou feuilles minces.</td></tr>
+          <tr><td class="letter">c</td><td>Résistance opposée à la pénétration.</td></tr>
+          <tr><td class="letter">d</td><td>Aptitude d'un métal à conserver une déformation.</td></tr>
+          <tr><td class="letter">e</td><td>Propriété d'un métal à se laisser étirer en fil.</td></tr>
+          <tr><td class="letter">f</td><td>Aptitude d'un métal à reprendre sa forme initiale lorsque cesse la cause de la déformation.</td></tr>
+          <tr><td class="letter">g</td><td>Mélange intime de deux ou plusieurs corps dont l'un au moins est un métal.</td></tr>
+        </table>
+      </div>
+
+      <div class="assoc-flex">
+        <div class="assoc-num">1. La plasticité</div>
+        <div class="assoc-sel"><select id="e1"><option value="">— Choisir —</option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option><option>f</option><option>g</option></select></div>
+        <div class="assoc-num">2. L'élasticité</div>
+        <div class="assoc-sel"><select id="e2"><option value="">— Choisir —</option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option><option>f</option><option>g</option></select></div>
+        <div class="assoc-num">3. La ténacité</div>
+        <div class="assoc-sel"><select id="e3"><option value="">— Choisir —</option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option><option>f</option><option>g</option></select></div>
+        <div class="assoc-num">4. La ductilité</div>
+        <div class="assoc-sel"><select id="e4"><option value="">— Choisir —</option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option><option>f</option><option>g</option></select></div>
+        <div class="assoc-num">5. La dureté</div>
+        <div class="assoc-sel"><select id="e5"><option value="">— Choisir —</option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option><option>f</option><option>g</option></select></div>
+        <div class="assoc-num">6. La malléabilité</div>
+        <div class="assoc-sel"><select id="e6"><option value="">— Choisir —</option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option><option>f</option><option>g</option></select></div>
+        <div class="assoc-num">7. L'alliage</div>
+        <div class="assoc-sel"><select id="e7"><option value="">— Choisir —</option><option>a</option><option>b</option><option>c</option><option>d</option><option>e</option><option>f</option><option>g</option></select></div>
+      </div>
+    </div>
+
+    <!-- PARTIE 2 -->
+    <div style="font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;color:var(--ch);letter-spacing:.06em;text-transform:uppercase;margin:.8rem 0 .6rem">Partie 2 — Résolution de problème</div>
+
+    <div class="q-block">
+      <div class="q-head">
+        <div class="qn ch">1.2</div>
+        <div class="q-txt"><strong>Reproduis et complète le Tableau 1</strong> par les entités chimiques figurant sur la bouteille d'eau minérale de Possotomè.</div>
+        <div class="pts">~4 pts</div>
+      </div>
+      <textarea class="rep ch" id="ch12" rows="6" placeholder="Cations monoatomiques : Na⁺, Mg²⁺, Ca²⁺&#10;Cations polyatomiques : H₃O⁺&#10;Anions monoatomiques : Cl⁻&#10;Anions polyatomiques : SO₄²⁻, NO₃⁻, HCO₃⁻"></textarea>
+      <div class="wc" id="wc-ch12">0 mot</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-head">
+        <div class="qn ch">1.3</div>
+        <div class="q-txt"><strong>Exploite le tableau 2</strong> du support et range ces quatre métaux du plus lourd au plus léger, puis du plus fusible au moins fusible.</div>
+        <div class="pts">~4 pts</div>
+      </div>
+      <div class="hint">💡 Plus lourd = masse volumique la plus élevée · Plus fusible = température de fusion la plus basse</div>
+      <textarea class="rep ch" id="ch13" rows="7" placeholder="Du plus lourd au plus léger (masse volumique décroissante) :&#10;Cuivre (8,91) > Fer (7,81) > Zinc (7,1) > Aluminium (2,71)&#10;&#10;Du plus fusible au moins fusible (température de fusion croissante) :&#10;Zinc (420°C) < Aluminium (660°C) < Cuivre (1080°C) < Fer (1535°C)"></textarea>
+      <div class="wc" id="wc-ch13">0 mot</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-head">
+        <div class="qn ch">1.4</div>
+        <div class="q-txt"><strong>Détermine les masses m₁ et m₂</strong> du cuivre et du zinc ayant servi à la fabrication de la marmite.</div>
+        <div class="pts">~4 pts</div>
+      </div>
+      <div class="hint">💡 m = 5 kg · Cuivre = 64% de la masse · Zinc = 36% de la masse (100% - 64%)</div>
+      <textarea class="rep ch" id="ch14" rows="6" placeholder="Masse de cuivre m₁ = 64% × m = 0,64 × 5 = ... kg&#10;&#10;Masse de zinc m₂ = 36% × m = 0,36 × 5 = ... kg&#10;&#10;Vérification : m₁ + m₂ = ... = 5 kg"></textarea>
+      <div class="wc" id="wc-ch14">0 mot</div>
+    </div>
+
+    <button class="btn ch" id="btn-ch" onclick="submitPart('ch')">✦ Soumettre Chimie — Obtenir la correction IA</button>
+    <div class="fb-box" id="fb-ch"><div class="fb-head">✦ Correction IA · Chimie — Métaux et ions</div><div class="fb-body" id="fb-ch-body"></div></div>
+  </div>
+</div>
+
+<!-- ══ PHYSIQUE ══ -->
+<div class="tab-panel" id="panel-physique">
+  <div class="card">
+    <div class="banner ph">B — Physique & Technologie : Interactions mécaniques et Résultante des forces <span class="bpts">~20 pts</span></div>
+
+    <div class="ctx-box ph">
+      <strong>Contexte :</strong> Au cours de ses recherches, un élève en classe de 4ème scientifique découvre dans un document de PCT des situations d'évaluations. Jugeant deux de ces évaluations intéressantes, il décide alors d'exploiter les savoirs contraints pour résoudre le problème posé dans chaque situation.
+    </div>
+
+    <!-- SITUATION 1 : PENDULE + AIMANT + RESSORT -->
+    <div class="donnees ph">
+      <div class="dtitle">Situation 1 — Interaction mécanique</div>
+
+      <div class="schema-box">
+        <svg width="280" height="380" viewBox="0 0 280 380" xmlns="http://www.w3.org/2000/svg">
+          <!-- Support haut hachuré -->
+          <rect x="80" y="10" width="120" height="10" fill="#888"/>
+          <line x1="85" y1="10" x2="78" y2="20" stroke="#555" stroke-width="1.2"/>
+          <line x1="100" y1="10" x2="93" y2="20" stroke="#555" stroke-width="1.2"/>
+          <line x1="115" y1="10" x2="108" y2="20" stroke="#555" stroke-width="1.2"/>
+          <line x1="130" y1="10" x2="123" y2="20" stroke="#555" stroke-width="1.2"/>
+          <line x1="145" y1="10" x2="138" y2="20" stroke="#555" stroke-width="1.2"/>
+          <line x1="160" y1="10" x2="153" y2="20" stroke="#555" stroke-width="1.2"/>
+          <line x1="175" y1="10" x2="168" y2="20" stroke="#555" stroke-width="1.2"/>
+          <line x1="190" y1="10" x2="183" y2="20" stroke="#555" stroke-width="1.2"/>
+          <line x1="205" y1="10" x2="198" y2="20" stroke="#555" stroke-width="1.2"/>
+
+          <!-- Point d'attache -->
+          <circle cx="140" cy="20" r="2.5" fill="#222"/>
+
+          <!-- Position verticale (pointillés) -->
+          <line x1="140" y1="20" x2="140" y2="130" stroke="#333" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <!-- Bille en fer position verticale (gauche) -->
+          <circle cx="140" cy="130" r="13" fill="#333"/>
+
+          <!-- Position inclinée (trait plein) -->
+          <line x1="140" y1="20" x2="220" y2="115" stroke="#222" stroke-width="2"/>
+          <!-- Aimant (bille à droite, inclinée) -->
+          <circle cx="220" cy="115" r="13" fill="#222"/>
+
+          <!-- Arc angle entre les deux positions au point d'attache -->
+          <path d="M 140 38 A 18 18 0 0 1 152 30" fill="none" stroke="#555" stroke-width="1.2"/>
+
+          <!-- Trajectoire pointillée (arc de cercle) entre les 2 billes -->
+          <path d="M 140 130 Q 180 145 220 115" fill="none" stroke="#333" stroke-width="1.2" stroke-dasharray="3,3"/>
+
+          <!-- Bloc gris (aimant) -->
+          <rect x="95" y="148" width="125" height="65" fill="#e0e0e0" stroke="#555" stroke-width="2"/>
+
+          <!-- Ressort -->
+          <line x1="157" y1="213" x2="157" y2="225" stroke="#333" stroke-width="1.5"/>
+          <path d="M 145 225 Q 170 232 145 240 Q 170 247 145 254 Q 170 261 145 268 Q 170 275 145 282 Q 170 289 145 296 Q 170 303 157 308"
+                fill="none" stroke="#333" stroke-width="1.8"/>
+          <line x1="157" y1="308" x2="157" y2="320" stroke="#333" stroke-width="1.5"/>
+
+          <!-- Sol hachuré -->
+          <rect x="100" y="320" width="115" height="10" fill="#888"/>
+          <line x1="105" y1="320" x2="98" y2="330" stroke="#555" stroke-width="1.2"/>
+          <line x1="120" y1="320" x2="113" y2="330" stroke="#555" stroke-width="1.2"/>
+          <line x1="135" y1="320" x2="128" y2="330" stroke="#555" stroke-width="1.2"/>
+          <line x1="150" y1="320" x2="143" y2="330" stroke="#555" stroke-width="1.2"/>
+          <line x1="165" y1="320" x2="158" y2="330" stroke="#555" stroke-width="1.2"/>
+          <line x1="180" y1="320" x2="173" y2="330" stroke="#555" stroke-width="1.2"/>
+          <line x1="195" y1="320" x2="188" y2="330" stroke="#555" stroke-width="1.2"/>
+          <line x1="210" y1="320" x2="203" y2="330" stroke="#555" stroke-width="1.2"/>
+
+          <!-- Légendes -->
+          <text x="10" y="350" font-size="11" font-family="sans-serif" fill="#333">(Brique)</text>
+          <text x="10" y="368" font-size="11" font-family="sans-serif" fill="#333">(Aimant)</text>
+        </svg>
+        <div class="schema-label">Figure 1 — Pendule (bille en fer attirée par aimant)</div>
+      </div>
+
+      <div class="schema-box">
+        <svg width="220" height="80" viewBox="0 0 220 80" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="15" width="100" height="50" fill="#d4783a" stroke="#a04a1a" stroke-width="2"/>
+          <rect x="110" y="15" width="60" height="50" fill="#fff" stroke="#888" stroke-width="2"/>
+          <text x="55" y="44" text-anchor="middle" font-size="9" font-family="sans-serif" fill="#fff" font-weight="700">Ressort</text>
+          <text x="140" y="44" text-anchor="middle" font-size="9" font-family="sans-serif" fill="#666">Bille en fer</text>
+        </svg>
+        <div class="schema-label">Figure 2 — Ressort/aimant et bille en fer (deuxième config.)</div>
+      </div>
+
+      <ul style="margin-top:.5rem">
+        <li><strong>Brique</strong> et <strong>aimant</strong> : éléments fixes du dispositif (Figure 1)</li>
+        <li><strong>Ressort</strong> et <strong>bille en fer</strong> : éléments du dispositif (Figure 2)</li>
+        <li>Une bille en fer suspendue, attirée par un aimant, dévie de sa position verticale</li>
+      </ul>
+    </div>
+
+    <!-- SITUATION 2 : RÉSULTANTE -->
+    <div class="donnees ph">
+      <div class="dtitle">Situation 2 — Résultante de deux forces</div>
+
+      <div class="schema-box">
+        <svg width="220" height="240" viewBox="0 0 220 240" xmlns="http://www.w3.org/2000/svg">
+          <!-- Barre AB -->
+          <line x1="5" y1="20" x2="210" y2="20" stroke="#222" stroke-width="3"/>
+          <text x="10" y="40" font-size="11" font-family="serif" fill="#333">A</text>
+          <text x="195" y="40" font-size="11" font-family="serif" fill="#333">B</text>
+
+          <!-- F1 verticale gauche -->
+          <line x1="35" y1="20" x2="35" y2="135" stroke="#222" stroke-width="1.8" marker-end="url(#arrPh)"/>
+          <text x="42" y="50" font-size="11" font-family="serif" fill="#222">F⃗₁</text>
+
+          <!-- F2 verticale droite (plus longue) -->
+          <line x1="185" y1="20" x2="185" y2="200" stroke="#222" stroke-width="1.8" marker-end="url(#arrPh)"/>
+          <text x="192" y="120" font-size="11" font-family="serif" fill="#222">F⃗₂</text>
+
+          <defs>
+            <marker id="arrPh" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L6,3 z" fill="#222"/>
+            </marker>
+          </defs>
+        </svg>
+        <div class="schema-label">Cas c) — Forces parallèles F⃗₁ et F⃗₂ aux extrémités A et B</div>
+      </div>
+
+      <div class="schema-box">
+        <svg width="240" height="180" viewBox="0 0 240 180" xmlns="http://www.w3.org/2000/svg">
+          <!-- Cas a : forces colinéaires même sens -->
+          <circle cx="20" cy="35" r="3" fill="#222"/>
+          <text x="6" y="25" font-size="11" font-family="serif" fill="#333">O</text>
+          <line x1="20" y1="35" x2="100" y2="35" stroke="#222" stroke-width="1.8" marker-end="url(#arrPh2)"/>
+          <text x="40" y="25" font-size="10" font-family="serif" fill="#222">F⃗₁</text>
+          <line x1="100" y1="35" x2="180" y2="35" stroke="#222" stroke-width="1.8" marker-end="url(#arrPh2)"/>
+          <text x="125" y="25" font-size="10" font-family="serif" fill="#222">F⃗₂</text>
+
+          <!-- Cas b : angle 30° -->
+          <line x1="20" y1="100" x2="120" y2="100" stroke="#222" stroke-width="1.8" marker-end="url(#arrPh2)"/>
+          <text x="50" y="92" font-size="10" font-family="serif" fill="#222">F⃗₁</text>
+          <path d="M 38 100 A 20 20 0 0 1 45 110" fill="none" stroke="#555" stroke-width="1"/>
+          <text x="42" y="120" font-size="9" fill="#555">30°</text>
+          <line x1="20" y1="100" x2="150" y2="175" stroke="#222" stroke-width="1.8" marker-end="url(#arrPh2)"/>
+          <text x="75" y="145" font-size="10" font-family="serif" fill="#222">F⃗₂</text>
+
+          <defs>
+            <marker id="arrPh2" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L6,3 z" fill="#222"/>
+            </marker>
+          </defs>
+        </svg>
+        <div class="schema-label">Cas a) F⃗₁, F⃗₂ colinéaires (point O) · Cas b) angle 30° entre F⃗₁ et F⃗₂</div>
+      </div>
+
+      <ul style="margin-top:.5rem">
+        <li><strong>Données :</strong> F₁ = 20 N · F₂ = 30 N · AB = 7 m</li>
+        <li><strong>Échelles :</strong> 1 cm → 10 N (forces) · 1 cm → 1 m (longueurs)</li>
+      </ul>
+    </div>
+
+    <!-- PARTIE 1 PHYSIQUE -->
+    <div style="font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;color:var(--ph);letter-spacing:.06em;text-transform:uppercase;margin:.8rem 0 .6rem">Partie 1 — Mobilisation des ressources</div>
+
+    <div class="q-block">
+      <div class="q-head">
+        <div class="qn ph">1.1</div>
+        <div class="q-txt"><strong>Énonce le principe des interactions mécaniques.</strong></div>
+        <div class="pts">~2 pts</div>
+      </div>
+      <textarea class="rep ph" id="ph11" rows="4" placeholder="Lorsqu'un corps A exerce une action sur un corps B, le corps B exerce simultanément sur le corps A une action de même intensité, de même droite d'action mais de sens contraire."></textarea>
+      <div class="wc" id="wc-ph11">0 mot</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-head">
+        <div class="qn ph">1.2</div>
+        <div class="q-txt"><strong>Définis chacun des termes suivants :</strong> Force ; Résultante de deux forces.</div>
+        <div class="pts">~2 pts</div>
+      </div>
+      <textarea class="rep ph" id="ph12" rows="5" placeholder="Force : action mécanique exercée par un objet sur un autre, capable de modifier le mouvement, la forme ou l'état de repos d'un corps.&#10;&#10;Résultante de deux forces : force unique qui produirait le même effet que les deux forces agissant simultanément sur un même corps."></textarea>
+      <div class="wc" id="wc-ph12">0 mot</div>
+    </div>
+
+    <!-- PARTIE 2 PHYSIQUE -->
+    <div style="font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;color:var(--ph);letter-spacing:.06em;text-transform:uppercase;margin:.8rem 0 .6rem">Partie 2 — Résolution de problème</div>
+
+    <div class="q-block">
+      <div class="q-head">
+        <div class="qn ph">2.1</div>
+        <div class="q-txt"><strong>Cite et explique les différentes catégories d'interactions mécaniques</strong> que tu connais.</div>
+        <div class="pts">~3 pts</div>
+      </div>
+      <textarea class="rep ph" id="ph21" rows="6" placeholder="Il existe deux catégories d'interactions mécaniques :&#10;&#10;• Les interactions de contact (ou actions de contact) : les corps en interaction se touchent. Ex : pression d'une main sur un objet, force d'un ressort sur un solide...&#10;&#10;• Les interactions à distance : les corps en interaction ne se touchent pas. Ex : attraction magnétique (aimant), force de gravitation (poids), force électrique..."></textarea>
+      <div class="wc" id="wc-ph21">0 mot</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-head">
+        <div class="qn ph">2.2</div>
+        <div class="q-txt"><strong>Analyse les figures 1 et 2</strong> et dis le type d'interaction mécanique mis en jeu entre l'aimant et la bille en fer (figure 1), puis entre la brique/ressort et la bille en fer (figure 2).</div>
+        <div class="pts">~3 pts</div>
+      </div>
+      <textarea class="rep ph" id="ph22" rows="6" placeholder="Figure 1 — Aimant et bille en fer : interaction à distance (action magnétique, les deux corps ne se touchent pas).&#10;&#10;Figure 2 — Ressort et bille en fer : interaction de contact (le ressort touche directement la bille)."></textarea>
+      <div class="wc" id="wc-ph22">0 mot</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-head">
+        <div class="qn ph">2.3</div>
+        <div class="q-txt"><strong>Nomme le groupe de forces F⃗₁ et F⃗₂</strong> dans chacun des cas a, b et c.</div>
+        <div class="pts">~3 pts</div>
+      </div>
+      <div class="hint">💡 Cas a : même droite d'action → colinéaires. Cas b : droites sécantes en un point → concourantes. Cas c : même direction, ne se rencontrent jamais → parallèles.</div>
+      <textarea class="rep ph" id="ph23" rows="6" placeholder="Cas a) F⃗₁ et F⃗₂ ont la même droite d'action → forces colinéaires&#10;&#10;Cas b) F⃗₁ et F⃗₂ ont des droites d'action qui se coupent en un point → forces concourantes&#10;&#10;Cas c) F⃗₁ et F⃗₂ ont des droites d'action parallèles qui ne se rencontrent jamais → forces parallèles"></textarea>
+      <div class="wc" id="wc-ph23">0 mot</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-head">
+        <div class="qn ph">2.4</div>
+        <div class="q-txt">En utilisant l'échelle donnée, <strong>construis et donne les caractéristiques de la résultante R⃗</strong> des forces F⃗₁ et F⃗₂ dans chacun des cas a, b et c.</div>
+        <div class="pts">~7 pts</div>
+      </div>
+      <div class="hint">💡 F₁=20N, F₂=30N. Échelles : 1cm→10N, 1cm→1m. Cas a (colinéaires même sens) : R=F₁+F₂. Cas b (concourantes 30°) : R=√(F₁²+F₂²+2F₁F₂cos30°). Cas c (parallèles même sens) : R=F₁+F₂, point d'application par les moments.</div>
+
+      <!-- ═══ WIDGET DE DESSIN + PHOTO ═══ -->
+      <div class="draw-widget">
+        <div class="dw-tabbar">
+          <button type="button" class="dw-tab active" id="dwtab-draw-ph24" onclick="switchDrawMode('ph24','draw')">✏️ Dessiner à l'écran</button>
+          <button type="button" class="dw-tab" id="dwtab-photo-ph24" onclick="switchDrawMode('ph24','photo')">📷 Photo de ma feuille</button>
+        </div>
+
+        <!-- MODE DESSIN -->
+        <div class="dw-panel active" id="dwpanel-draw-ph24">
+          <div class="draw-widget-head">
+            <span class="draw-title">Construction graphique</span>
+            <div class="draw-tools">
+              <button type="button" class="draw-btn active" id="dtool-pen-ph24cv" onclick="setDrawTool('ph24cv','pen')">✏️ Main levée</button>
+              <button type="button" class="draw-btn" id="dtool-line-ph24cv" onclick="setDrawTool('ph24cv','line')">📏 Ligne</button>
+              <button type="button" class="draw-btn" id="dtool-circle-ph24cv" onclick="setDrawTool('ph24cv','circle')">⭕ Cercle</button>
+              <button type="button" class="draw-btn" id="dtool-fill-ph24cv" onclick="setDrawTool('ph24cv','fill')">🪣 Remplir</button>
+              <button type="button" class="draw-btn" id="dtool-erase-ph24cv" onclick="setDrawTool('ph24cv','erase')">🧽 Gomme</button>
+              <button type="button" class="draw-btn" id="dtool-undo-ph24cv" onclick="undoDrawCanvas('ph24cv')">↩️ Annuler</button>
+              <button type="button" class="draw-btn danger" onclick="clearDrawCanvas('ph24cv')">🗑️ Effacer tout</button>
+            </div>
+          </div>
+          <div class="draw-color-row" id="ph24cv-colors" style="margin-bottom:.5rem"></div>
+          <div class="draw-canvas-wrap">
+            <canvas id="ph24cv" width="600" height="380"></canvas>
+            <canvas id="ph24cv-overlay" width="600" height="380"></canvas>
+          </div>
+          <div class="draw-hint-text">Main levée : tracé libre · Ligne : glisse d'un point à l'autre · Cercle : glisse du centre vers le bord · Remplir : touche une zone fermée · Annuler : retire ta dernière action.</div>
+          <div class="draw-status" id="ph24cv-status">✓ Dessin enregistré</div>
+        </div>
+
+        <!-- MODE PHOTO -->
+        <div class="dw-panel" id="dwpanel-photo-ph24">
+          <p class="draw-hint-text" style="margin-bottom:.6rem">Tu peux traiter cette question sur papier (cahier, brouillon) puis prendre une photo nette de ta construction pour qu'elle soit corrigée.</p>
+          <input type="file" accept="image/*" capture="environment" id="ph24-photo-input" style="display:none" onchange="handlePhotoCapture('ph24', this)">
+          <button type="button" class="photo-capture-btn" onclick="document.getElementById('ph24-photo-input').click()">📷 Prendre une photo / Choisir une image</button>
+          <div class="photo-preview-wrap" id="ph24-photo-preview-wrap" style="display:none">
+            <img id="ph24-photo-preview" alt="Aperçu de la photo">
+            <button type="button" class="draw-btn danger" style="margin-top:.5rem" onclick="clearPhotoCapture('ph24')">🗑️ Retirer la photo</button>
+          </div>
+          <div class="draw-status" id="ph24-photo-status">✓ Photo prête à être envoyée</div>
+        </div>
+      </div>
+
+
+      <textarea class="rep ph" id="ph24" rows="14" placeholder="CAS a) — Forces colinéaires de même sens :&#10;R = F₁ + F₂ = 20 + 30 = 50 N&#10;Direction : même droite que F₁ et F₂&#10;Sens : même sens que F₁ et F₂&#10;Point d'application : O&#10;Représentation : flèche de 5 cm (échelle 1cm=10N)&#10;&#10;CAS b) — Forces concourantes (angle 30°) :&#10;R = √(F₁² + F₂² + 2×F₁×F₂×cos30°)&#10;R = √(400 + 900 + 2×20×30×0,866)&#10;R = √(1300 + 1039,2) = √2339,2 ≈ ... N&#10;Construction : parallélogramme des forces&#10;&#10;CAS c) — Forces parallèles (même sens, A et B) :&#10;R = F₁ + F₂ = 20 + 30 = 50 N&#10;Point d'application O sur AB :&#10;R × OA = F₂ × AB&#10;50 × OA = 30 × 7&#10;OA = 210/50 = ... m&#10;OB = 7 - ... = ... m"></textarea>
+      <div class="wc" id="wc-ph24">0 mot</div>
+    </div>
+
+    <button class="btn ph" id="btn-ph" onclick="submitPart('ph')">✦ Soumettre Physique — Obtenir la correction IA</button>
+    <div class="fb-box" id="fb-ph"><div class="fb-head">✦ Correction IA · Physique — Interactions et Résultante</div><div class="fb-body ph" id="fb-ph-body"></div></div>
+  </div>
+</div>
+
+<!-- ══ CORRIGÉ ══ -->
+<div class="tab-panel" id="panel-corrige">
+  <div id="corrige-locked" class="locked">
+    <div class="icon">🔒</div>
+    <p><strong>Le corrigé type se déverrouille après soumission d'au moins une partie.</strong></p>
+    <p style="margin-top:.4rem">Traite les exercices d'abord, puis reviens ici.</p>
+  </div>
+  <div id="corrige-content" style="display:none">
+
+    <div class="card">
+      <h2>A — Chimie : Métaux, ions et alliages (20 pts)</h2>
+
+      <div class="cor ch">
+        <h3>1.1 — Association expressions/définitions (~3,5 pts)</h3>
+        <ul>
+          <li>1. La plasticité → <strong>d)</strong> aptitude à conserver une déformation</li>
+          <li>2. L'élasticité → <strong>f)</strong> aptitude à reprendre sa forme initiale</li>
+          <li>3. La ténacité → <strong>a)</strong> résiste à la rupture par traction</li>
+          <li>4. La ductilité → <strong>e)</strong> se laisser étirer en fil</li>
+          <li>5. La dureté → <strong>c)</strong> résistance opposée à la pénétration</li>
+          <li>6. La malléabilité → <strong>b)</strong> se laisser réduire en plaques/feuilles minces</li>
+          <li>7. L'alliage → <strong>g)</strong> mélange intime de 2+ corps dont au moins 1 métal</li>
+        </ul>
+      </div>
+
+      <div class="cor ch">
+        <h3>1.2 — Tableau 1 complété (~4 pts)</h3>
+        <table class="cor-table">
+          <tr><th class="ch"></th><th class="ch">Ions monoatomiques</th><th class="ch">Ions polyatomiques</th></tr>
+          <tr><td class="left"><strong>Cations</strong></td><td>Na⁺, Mg²⁺, Ca²⁺</td><td>H₃O⁺</td></tr>
+          <tr><td class="left"><strong>Anions</strong></td><td>Cl⁻</td><td>SO₄²⁻, NO₃⁻, HCO₃⁻</td></tr>
+        </table>
+      </div>
+
+      <div class="cor ch">
+        <h3>1.3 — Classement des métaux (~4 pts)</h3>
+        <p><strong>Du plus lourd au plus léger</strong> (masse volumique décroissante) :</p>
+        <p class="math">Cuivre (8,91) &gt; Fer (7,81) &gt; Zinc (7,1) &gt; Aluminium (2,71)</p>
+        <p><strong>Du plus fusible au moins fusible</strong> (température de fusion croissante) :</p>
+        <p class="math">Zinc (420°C) &lt; Aluminium (660°C) &lt; Cuivre (1080°C) &lt; Fer (1535°C)</p>
+      </div>
+
+      <div class="cor ch">
+        <h3>1.4 — Masses m₁ et m₂ de la marmite en laiton (~4 pts)</h3>
+        <p>Masse totale : m = 5 kg · Cuivre = 64% · Zinc = 36% (100%−64%)</p>
+        <p class="math">m₁ (cuivre) = 64% × 5 = 0,64 × 5 = <strong>3,2 kg</strong></p>
+        <p class="math">m₂ (zinc) = 36% × 5 = 0,36 × 5 = <strong>1,8 kg</strong></p>
+        <p>Vérification : 3,2 + 1,8 = 5 kg ✓</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>B — Physique : Interactions et Résultante (20 pts)</h2>
+
+      <div class="cor ph">
+        <h3>1.1 — Principe des interactions mécaniques (~2 pts)</h3>
+        <p>Lorsqu'un corps A exerce une action mécanique sur un corps B, le corps B exerce simultanément sur le corps A une action mécanique de <strong>même intensité</strong>, de <strong>même droite d'action</strong>, mais de <strong>sens contraire</strong>.</p>
+      </div>
+
+      <div class="cor ph">
+        <h3>1.2 — Définitions (~2 pts)</h3>
+        <p><strong>Force :</strong> action mécanique exercée par un corps sur un autre, capable de provoquer ou modifier un mouvement, déformer un corps, ou maintenir un état d'équilibre.</p>
+        <p><strong>Résultante de deux forces :</strong> force unique qui produit le même effet que les deux forces agissant simultanément sur le même corps.</p>
+      </div>
+
+      <div class="cor ph">
+        <h3>2.1 — Catégories d'interactions mécaniques (~3 pts)</h3>
+        <ul>
+          <li><strong>Interactions de contact :</strong> les corps en interaction se touchent directement. Exemples : pression, frottement, force d'un ressort sur un objet, choc.</li>
+          <li><strong>Interactions à distance :</strong> les corps en interaction ne se touchent pas. Exemples : attraction magnétique, force de pesanteur (poids), force électrique.</li>
+        </ul>
+      </div>
+
+      <div class="cor ph">
+        <h3>2.2 — Types d'interactions Figures 1 et 2 (~3 pts)</h3>
+        <ul>
+          <li><strong>Aimant et bille en fer (Figure 1) :</strong> interaction <strong>à distance</strong> (action magnétique, les deux corps ne se touchent pas — la bille est attirée et dévie de sa position verticale).</li>
+          <li><strong>Ressort et bille en fer / brique (Figure 2) :</strong> interaction <strong>de contact</strong> (les corps se touchent directement).</li>
+        </ul>
+      </div>
+
+      <div class="cor ph">
+        <h3>2.3 — Groupe de forces dans chaque cas (~3 pts)</h3>
+        <ul>
+          <li><strong>Cas a)</strong> F⃗₁ et F⃗₂ ont la même droite d'action → forces <strong>colinéaires</strong>.</li>
+          <li><strong>Cas b)</strong> F⃗₁ et F⃗₂ ont des droites d'action sécantes (angle 30°) → forces <strong>concourantes</strong>.</li>
+          <li><strong>Cas c)</strong> F⃗₁ et F⃗₂ ont des droites d'action parallèles (appliquées en A et B) → forces <strong>parallèles</strong>.</li>
+        </ul>
+      </div>
+
+      <div class="cor ph">
+        <h3>2.4 — Résultantes R⃗ dans chaque cas (~7 pts)</h3>
+        <p><strong>Données :</strong> F₁ = 20 N · F₂ = 30 N · AB = 7 m · Échelles : 1cm→10N et 1cm→1m</p>
+
+        <p><strong>Cas a) Forces colinéaires (même sens) :</strong></p>
+        <p class="math">R = F₁ + F₂ = 20 + 30 = <strong>50 N</strong></p>
+        <p>Direction : même droite d'action · Sens : même sens que F₁ et F₂ · Représentation : 5 cm à l'échelle.</p>
+
+        <p><strong>Cas b) Forces concourantes (angle 30°) :</strong></p>
+        <p class="math">R = √(F₁² + F₂² + 2F₁F₂cos30°) = √(400+900+2×20×30×0,866)</p>
+        <p class="math">R = √(1300 + 1039,2) = √2339,2 ≈ <strong>48,4 N</strong></p>
+        <p>Construction par la méthode du parallélogramme des forces.</p>
+
+        <p><strong>Cas c) Forces parallèles (même sens, A et B) :</strong></p>
+        <p class="math">R = F₁ + F₂ = 20 + 30 = <strong>50 N</strong> (vers le bas)</p>
+        <p>Point d'application O sur [AB] (moments par rapport à A) :</p>
+        <p class="math">R × OA = F₂ × AB → 50 × OA = 30 × 7 → OA = 210/50 = <strong>4,2 m</strong></p>
+        <p class="math">OB = AB − OA = 7 − 4,2 = <strong>2,8 m</strong></p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</main>
+
+<script>
+/* ═══════════════════════════════════════════════
+   WIDGET DE DESSIN RÉUTILISABLE (canvas tactile)
+   Outils : main levée, ligne, cercle, remplissage, gomme, annuler
+   + Mode photo (capture caméra / galerie)
+   ═══════════════════════════════════════════════ */
+const DRAW_COLORS = ['#1a1a2e','#1a3a8a','#8b1a1a','#1a5a2a','#7a5000'];
+const drawState = {}; // par canvasId : état complet
+const photoState = {}; // par baseId : {dataUrl, mediaType}
+const MAX_UNDO = 15;
+
+function initDrawCanvas(canvasId){
+  const canvas = document.getElementById(canvasId);
+  const overlay = document.getElementById(canvasId+'-overlay');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const octx = overlay ? overlay.getContext('2d') : null;
+  ctx.fillStyle = '#fdfdfd';
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+
+  drawState[canvasId] = {
+    tool:'pen', color: DRAW_COLORS[0], drawing:false,
+    startX:0, startY:0, lastX:0, lastY:0,
+    ctx, octx, overlay, hasContent:false,
+    history: [] // pile de snapshots ImageData pour l'undo
+  };
+
+  pushHistory(canvasId); // état vierge comme point de départ
+
+  // Palette de couleurs
+  const colorRow = document.getElementById(canvasId+'-colors');
+  if(colorRow){
+    colorRow.innerHTML='';
+    DRAW_COLORS.forEach((c,i)=>{
+      const dot=document.createElement('div');
+      dot.className='draw-color'+(i===0?' selected':'');
+      dot.style.background=c;
+      dot.onclick=()=>{
+        drawState[canvasId].color=c;
+        colorRow.querySelectorAll('.draw-color').forEach(d=>d.classList.remove('selected'));
+        dot.classList.add('selected');
+      };
+      colorRow.appendChild(dot);
+    });
+  }
+
+  function getPos(e){
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    const cx = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+    const cy = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
+    return { x: cx*scaleX, y: cy*scaleY };
+  }
+
+  function markUsed(){
+    drawState[canvasId].hasContent = true;
+    document.getElementById(canvasId+'-status')?.classList.add('show');
+  }
+
+  function clearOverlay(){
+    if(octx) octx.clearRect(0,0,overlay.width,overlay.height);
+  }
+
+  // ── Flood fill (remplissage) ──
+  function floodFill(x, y, fillColor){
+    x = Math.round(x); y = Math.round(y);
+    const w = canvas.width, h = canvas.height;
+    if(x<0||y<0||x>=w||y>=h) return;
+    const imgData = ctx.getImageData(0,0,w,h);
+    const data = imgData.data;
+    const idx = (px,py)=> (py*w+px)*4;
+    const startIdx = idx(x,y);
+    const startR=data[startIdx], startG=data[startIdx+1], startB=data[startIdx+2], startA=data[startIdx+3];
+
+    const fr = parseInt(fillColor.slice(1,3),16);
+    const fg = parseInt(fillColor.slice(3,5),16);
+    const fb = parseInt(fillColor.slice(5,7),16);
+
+    if(startR===fr && startG===fg && startB===fb) return;
+
+    const matchTol = 40;
+    function matches(px,py){
+      const i = idx(px,py);
+      return Math.abs(data[i]-startR)<=matchTol && Math.abs(data[i+1]-startG)<=matchTol &&
+             Math.abs(data[i+2]-startB)<=matchTol && Math.abs(data[i+3]-startA)<=matchTol;
+    }
+
+    const stack = [[x,y]];
+    let safety = 0;
+    const maxOps = w*h;
+    while(stack.length && safety < maxOps){
+      const [px,py] = stack.pop();
+      if(px<0||py<0||px>=w||py>=h) continue;
+      if(!matches(px,py)) continue;
+      const i = idx(px,py);
+      data[i]=fr; data[i+1]=fg; data[i+2]=fb; data[i+3]=255;
+      stack.push([px+1,py],[px-1,py],[px,py+1],[px,py-1]);
+      safety++;
+    }
+    ctx.putImageData(imgData,0,0);
+  }
+
+  function start(e){
+    e.preventDefault();
+    const s = drawState[canvasId];
+    const pos = getPos(e);
+    s.startX = pos.x; s.startY = pos.y;
+    s.lastX = pos.x; s.lastY = pos.y;
+
+    if(s.tool === 'fill'){
+      floodFill(pos.x, pos.y, s.color);
+      markUsed();
+      pushHistory(canvasId); // action atomique → snapshot immédiat
+      return;
+    }
+    s.drawing = true;
+  }
+
+  function move(e){
+    const s = drawState[canvasId];
+    if(!s.drawing) return;
+    e.preventDefault();
+    const pos = getPos(e);
+
+    if(s.tool === 'pen' || s.tool === 'erase'){
+      s.ctx.strokeStyle = s.tool==='erase' ? '#fdfdfd' : s.color;
+      s.ctx.lineWidth = s.tool==='erase' ? 22 : 2.5;
+      s.ctx.beginPath();
+      s.ctx.moveTo(s.lastX, s.lastY);
+      s.ctx.lineTo(pos.x, pos.y);
+      s.ctx.stroke();
+      s.lastX = pos.x; s.lastY = pos.y;
+      markUsed();
+    }
+    else if(s.tool === 'line'){
+      clearOverlay();
+      if(s.octx){
+        s.octx.strokeStyle = s.color;
+        s.octx.lineWidth = 2.5;
+        s.octx.setLineDash([5,4]);
+        s.octx.beginPath();
+        s.octx.moveTo(s.startX, s.startY);
+        s.octx.lineTo(pos.x, pos.y);
+        s.octx.stroke();
+        s.octx.setLineDash([]);
+      }
+      s.lastX = pos.x; s.lastY = pos.y;
+    }
+    else if(s.tool === 'circle'){
+      clearOverlay();
+      if(s.octx){
+        const r = Math.hypot(pos.x-s.startX, pos.y-s.startY);
+        s.octx.strokeStyle = s.color;
+        s.octx.lineWidth = 2.5;
+        s.octx.setLineDash([5,4]);
+        s.octx.beginPath();
+        s.octx.arc(s.startX, s.startY, r, 0, Math.PI*2);
+        s.octx.stroke();
+        s.octx.setLineDash([]);
+      }
+      s.lastX = pos.x; s.lastY = pos.y;
+    }
+  }
+
+  function end(){
+    const s = drawState[canvasId];
+    if(!s.drawing) return;
+    s.drawing = false;
+    let acted = false;
+
+    if(s.tool === 'line'){
+      s.ctx.strokeStyle = s.color;
+      s.ctx.lineWidth = 2.5;
+      s.ctx.beginPath();
+      s.ctx.moveTo(s.startX, s.startY);
+      s.ctx.lineTo(s.lastX, s.lastY);
+      s.ctx.stroke();
+      clearOverlay();
+      markUsed();
+      acted = true;
+    }
+    else if(s.tool === 'circle'){
+      const r = Math.hypot(s.lastX-s.startX, s.lastY-s.startY);
+      s.ctx.strokeStyle = s.color;
+      s.ctx.lineWidth = 2.5;
+      s.ctx.beginPath();
+      s.ctx.arc(s.startX, s.startY, r, 0, Math.PI*2);
+      s.ctx.stroke();
+      clearOverlay();
+      markUsed();
+      acted = true;
+    }
+    else if(s.tool === 'pen' || s.tool === 'erase'){
+      acted = true; // un trait main levée vient de se terminer
+    }
+
+    if(acted) pushHistory(canvasId);
+  }
+
+  canvas.addEventListener('mousedown', start);
+  canvas.addEventListener('mousemove', move);
+  window.addEventListener('mouseup', end);
+  canvas.addEventListener('touchstart', start, {passive:false});
+  canvas.addEventListener('touchmove', move, {passive:false});
+  canvas.addEventListener('touchend', end);
+}
+
+function pushHistory(canvasId){
+  const s = drawState[canvasId];
+  if(!s) return;
+  const snap = s.ctx.getImageData(0,0,s.ctx.canvas.width,s.ctx.canvas.height);
+  s.history.push(snap);
+  if(s.history.length > MAX_UNDO) s.history.shift();
+}
+
+function undoDrawCanvas(canvasId){
+  const s = drawState[canvasId];
+  if(!s || s.history.length <= 1) return; // garder au moins l'état vierge
+  s.history.pop(); // retire l'état courant
+  const prev = s.history[s.history.length-1];
+  s.ctx.putImageData(prev, 0, 0);
+  // Recalcule hasContent : compare au fond uni pour savoir si la page est redevenue vierge
+  s.hasContent = s.history.length > 1;
+  if(!s.hasContent) document.getElementById(canvasId+'-status')?.classList.remove('show');
+}
+
+function setDrawTool(canvasId, tool){
+  if(!drawState[canvasId]) return;
+  drawState[canvasId].tool = tool;
+  ['pen','line','circle','fill','erase'].forEach(t=>{
+    document.getElementById('dtool-'+t+'-'+canvasId)?.classList.toggle('active', t===tool);
+  });
+}
+
+function clearDrawCanvas(canvasId){
+  const canvas = document.getElementById(canvasId);
+  const overlay = document.getElementById(canvasId+'-overlay');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = '#fdfdfd';
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  if(overlay) overlay.getContext('2d').clearRect(0,0,overlay.width,overlay.height);
+  drawState[canvasId].hasContent = false;
+  drawState[canvasId].history = [];
+  pushHistory(canvasId);
+  document.getElementById(canvasId+'-status')?.classList.remove('show');
+}
+
+function getDrawCanvasBase64(canvasId){
+  const canvas = document.getElementById(canvasId);
+  if(!canvas || !drawState[canvasId] || !drawState[canvasId].hasContent) return null;
+  return canvas.toDataURL('image/png').split(',')[1];
+}
+
+/* ── Onglets internes Dessiner / Photo ── */
+function switchDrawMode(baseId, mode){
+  document.getElementById('dwtab-draw-'+baseId)?.classList.toggle('active', mode==='draw');
+  document.getElementById('dwtab-photo-'+baseId)?.classList.toggle('active', mode==='photo');
+  document.getElementById('dwpanel-draw-'+baseId)?.classList.toggle('active', mode==='draw');
+  document.getElementById('dwpanel-photo-'+baseId)?.classList.toggle('active', mode==='photo');
+}
+
+/* ── Capture photo ── */
+function handlePhotoCapture(baseId, inputEl){
+  const file = inputEl.files && inputEl.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = (e)=>{
+    photoState[baseId] = { dataUrl: e.target.result, mediaType: file.type || 'image/jpeg' };
+    const img = document.getElementById(baseId+'-photo-preview');
+    const wrap = document.getElementById(baseId+'-photo-preview-wrap');
+    if(img) img.src = e.target.result;
+    if(wrap) wrap.style.display = 'block';
+    document.getElementById(baseId+'-photo-status')?.classList.add('show');
+  };
+  reader.readAsDataURL(file);
+}
+
+function clearPhotoCapture(baseId){
+  delete photoState[baseId];
+  const wrap = document.getElementById(baseId+'-photo-preview-wrap');
+  if(wrap) wrap.style.display = 'none';
+  document.getElementById(baseId+'-photo-status')?.classList.remove('show');
+  const input = document.getElementById(baseId+'-photo-input');
+  if(input) input.value = '';
+}
+
+function getPhotoBase64(baseId){
+  const p = photoState[baseId];
+  if(!p) return null;
+  return { base64: p.dataUrl.split(',')[1], mediaType: p.mediaType };
+}
+
+// Initialise tous les canvas présents sur la page
+document.addEventListener('DOMContentLoaded', ()=>{
+  document.querySelectorAll('.draw-canvas-wrap canvas:not([id$="-overlay"])').forEach(c=>initDrawCanvas(c.id));
+});
+</script>
+<script>
+function switchTab(name,e){
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('panel-'+name).classList.add('active');
+  e.currentTarget.classList.add('active');
+}
+function cw(s){return s.trim().split(/\s+/).filter(w=>w.length>0).length;}
+document.querySelectorAll('textarea.rep').forEach(ta=>{
+  const wc=document.getElementById('wc-'+ta.id);
+  if(!wc)return;
+  ta.addEventListener('input',()=>{const n=cw(ta.value);wc.textContent=n+(n>1?' mots':' mot');});
+});
+let unlocked=false;
+function unlockCorrige(){
+  if(unlocked)return;unlocked=true;
+  document.getElementById('corrige-locked').style.display='none';
+  document.getElementById('corrige-content').style.display='block';
+}
+async function callClaude(sys,msg,el,images){
+  // images = tableau de {base64, mediaType} ou null
+  const hasImg = images && images.length>0;
+  el.innerHTML='<div class="spinner"></div> L\'IA corrige ta réponse'+(hasImg?' (texte + image'+(images.length>1?'s':'')+')':'')+'…';
+  el.classList.add('loading');
+  try{
+    let content = msg;
+    if(hasImg){
+      content = [{type:'text', text: msg + '\n\n(Un ou plusieurs dessins/photos ont été joints — analyse-les aussi dans ta correction.)'}];
+      images.forEach(img=>{
+        content.push({type:'image', source:{type:'base64', media_type: img.mediaType || 'image/png', data: img.base64}});
+      });
+    }
+    const r=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1300,system:sys,messages:[{role:'user',content:content}]})
+    });
+    const d=await r.json();
+    el.classList.remove('loading');
+    el.innerHTML=d.content.map(i=>i.text||'').join('\n');
+  }catch{
+    el.classList.remove('loading');
+    el.innerHTML='<p style="color:#8b1a1a">Erreur. Réessaie.</p>';
+  }
+}
+const SYS={
+ch:`Tu es un professeur de PCT expert au niveau 4ème au Bénin. Tu corriges la partie Chimie (20 pts) sur les métaux, ions et alliages (laiton).
+Réponses:
+1.1 (3,5pts) Associations: 1=d(plasticité), 2=f(élasticité), 3=a(ténacité), 4=e(ductilité), 5=c(dureté), 6=b(malléabilité), 7=g(alliage).
+1.2 (4pts) Tableau ions eau Possotomè: Cations mono=Na⁺,Mg²⁺,Ca²⁺; Cations poly=H₃O⁺; Anions mono=Cl⁻; Anions poly=SO₄²⁻,NO₃⁻,HCO₃⁻.
+1.3 (4pts) Plus lourd→léger: Cuivre(8,91)>Fer(7,81)>Zinc(7,1)>Aluminium(2,71). Plus fusible→moins: Zinc(420°)<Aluminium(660°)<Cuivre(1080°)<Fer(1535°).
+1.4 (4pts) m=5kg laiton, Cu=64%, Zn=36%. m1(Cu)=0,64×5=3,2kg. m2(Zn)=0,36×5=1,8kg.
+HTML simple: <h4>📊 Score estimé</h4>(sur 20pts) <h4>1.1 Associations (3,5pts)</h4> <h4>1.2 Tableau ions (4pts)</h4> <h4>1.3 Classement métaux (4pts)</h4> <h4>1.4 Masses m1 m2 (4pts)</h4> <h4>💡 Conseils</h4>`,
+ph:`Tu es un professeur de PCT expert au niveau 4ème au Bénin. Tu corriges la partie Physique (20 pts) sur les interactions mécaniques et la résultante de forces.
+Réponses:
+1.1 (2pts) Principe interactions: corps A sur B → B sur A même intensité, même droite d'action, sens contraire.
+1.2 (2pts) Force=action mécanique modifiant mouvement/forme/équilibre. Résultante=force unique produisant même effet que 2 forces simultanées.
+2.1 (3pts) Catégories: contact (corps se touchent: pression, ressort) et à distance (corps ne se touchent pas: magnétisme, poids).
+2.2 (3pts) Aimant/bille fer Fig1=interaction à distance(magnétique). Ressort/bille Fig2=interaction de contact.
+2.3 (3pts) Cas a=forces colinéaires(même droite). Cas b=forces concourantes(droites sécantes,angle30°). Cas c=forces parallèles(A et B).
+2.4 (7pts) F1=20N,F2=30N,AB=7m. Cas a: R=F1+F2=50N. Cas b: R=√(F1²+F2²+2F1F2cos30°)=√2339,2≈48,4N. Cas c: R=F1+F2=50N, OA=F2×AB/R=30×7/50=4,2m, OB=7-4,2=2,8m.
+Si une image (dessin à l'écran ou photo de feuille) est jointe, vérifie aussi sa qualité graphique : présence du parallélogramme des forces, respect approximatif de l'échelle, position cohérente du point O, sens des flèches. Si c'est une photo de cahier, tu peux aussi évaluer le texte manuscrit qu'elle contient. Commente brièvement dans une section dédiée.
+HTML simple: <h4>📊 Score estimé</h4>(sur 20pts) <h4>1.1 Principe (2pts)</h4> <h4>1.2 Définitions (2pts)</h4> <h4>2.1 Catégories (3pts)</h4> <h4>2.2 Types interactions (3pts)</h4> <h4>2.3 Groupes forces (3pts)</h4> <h4>2.4 Résultantes (7pts)</h4> <h4>✏️ Mon dessin / Ma photo</h4>(uniquement si une image a été jointe) <h4>💡 Conseils</h4>`
+};
+async function submitPart(part){
+  document.getElementById('btn-'+part).disabled=true;
+  const fb=document.getElementById('fb-'+part);fb.classList.add('visible');
+  const body=document.getElementById('fb-'+part+'-body');
+  let msg='';
+  let images=[];
+  if(part==='ch'){
+    const assocs=[1,2,3,4,5,6,7].map(i=>`${i}=${document.getElementById('e'+i).value||'—'}`).join(', ');
+    msg=`1.1 Associations: ${assocs}\n\n1.2:\n${document.getElementById('ch12').value||'(vide)'}\n\n1.3:\n${document.getElementById('ch13').value||'(vide)'}\n\n1.4:\n${document.getElementById('ch14').value||'(vide)'}`;
+  }else{
+    msg=`1.1:\n${document.getElementById('ph11').value||'(vide)'}\n\n1.2:\n${document.getElementById('ph12').value||'(vide)'}\n\n2.1:\n${document.getElementById('ph21').value||'(vide)'}\n\n2.2:\n${document.getElementById('ph22').value||'(vide)'}\n\n2.3:\n${document.getElementById('ph23').value||'(vide)'}\n\n2.4:\n${document.getElementById('ph24').value||'(vide)'}`;
+    const canvasB64 = getDrawCanvasBase64('ph24cv');
+    if(canvasB64) images.push({base64: canvasB64, mediaType:'image/png'});
+    const photo = getPhotoBase64('ph24');
+    if(photo) images.push(photo);
+  }
+  await callClaude(SYS[part],msg,body,images);
+  unlockCorrige();
+}
+</script>
+</body>
+</html>
