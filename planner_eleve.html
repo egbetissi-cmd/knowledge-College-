@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mon Planificateur — KNOWLEDGE</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Source+Serif+4:wght@300;400;600&display=swap');
+  :root{
+    --ink:#1a1a2e;--bg:#f2f3f8;--warm:#fefcff;
+    --violet:#7C3AED;--bleu:#2563EB;--vert:#059669;--orange:#EA580C;--rose:#DB2777;
+    --border:#d8d5e5;--muted:#606070;--shadow:rgba(26,26,46,0.08);
+    --green:#1a6b3a;--red:#c0392b;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Source Serif 4',Georgia,serif;background:var(--bg);color:var(--ink);font-size:16px;line-height:1.6;padding-bottom:5rem;}
+  header{background:linear-gradient(135deg,#1a0a3e 0%,#7C3AED 100%);color:#fff;padding:1.6rem 1.4rem 1.3rem;text-align:center;}
+  header h1{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:700;}
+  header p{font-family:'Space Grotesk',sans-serif;font-size:.76rem;color:#d8c8f5;margin-top:.3rem;}
+  .tab-bar{display:flex;background:var(--warm);border-bottom:2px solid var(--border);position:sticky;top:0;z-index:40;}
+  .tab-btn{flex:1;font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:600;padding:.85rem;border:none;background:transparent;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;transition:all .15s;}
+  .tab-btn.active{color:var(--violet);border-bottom-color:var(--violet);}
+  main{max-width:640px;margin:0 auto;padding:1.2rem 1rem;}
+  .panel{display:none;}
+  .panel.active{display:block;}
+
+  .add-card{background:var(--warm);border:1px solid var(--border);border-radius:10px;padding:1.1rem;margin-bottom:1.2rem;box-shadow:0 2px 10px var(--shadow);}
+  .add-card h2{font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;margin-bottom:.8rem;color:var(--violet);}
+  .field{margin-bottom:.7rem;}
+  .field label{display:block;font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:600;color:var(--muted);margin-bottom:.3rem;text-transform:uppercase;letter-spacing:.04em;}
+  .field input[type=text],.field input[type=date],.field input[type=time],.field select,.field textarea{
+    width:100%;border:1.5px solid var(--border);border-radius:6px;padding:.55rem .7rem;font-family:'Source Serif 4',serif;font-size:.92rem;background:#fff;color:var(--ink);
+  }
+  .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--violet);}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;}
+  .color-picker{display:flex;gap:.5rem;flex-wrap:wrap;}
+  .color-dot{width:32px;height:32px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:all .15s;position:relative;}
+  .color-dot.selected{border-color:var(--ink);transform:scale(1.1);}
+  .color-dot.selected::after{content:'✓';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#fff;font-size:.85rem;font-weight:700;}
+  .prio-row{display:flex;gap:.4rem;}
+  .prio-btn{flex:1;font-family:'Space Grotesk',sans-serif;font-size:.74rem;font-weight:600;padding:.5rem;border-radius:6px;border:1.5px solid var(--border);background:#fff;cursor:pointer;text-align:center;transition:all .15s;}
+  .prio-btn.selected{color:#fff;border-color:transparent;}
+  .prio-btn[data-p=haute].selected{background:#DC2626;}
+  .prio-btn[data-p=moyenne].selected{background:#D97706;}
+  .prio-btn[data-p=basse].selected{background:#059669;}
+  .alarm-toggle{display:flex;align-items:center;gap:.5rem;font-family:'Space Grotesk',sans-serif;font-size:.82rem;margin-bottom:.7rem;}
+  .alarm-toggle input{width:auto;transform:scale(1.3);}
+  .btn-add{display:block;width:100%;padding:.8rem;background:var(--violet);color:#fff;border:none;border-radius:6px;font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;letter-spacing:.03em;cursor:pointer;margin-top:.3rem;}
+  .btn-add:hover{background:#6a2ad0;}
+  .subject-field{display:none;}
+  .subject-field.show{display:block;}
+
+  .filters{display:flex;gap:.4rem;margin-bottom:.9rem;overflow-x:auto;padding-bottom:.2rem;}
+  .filter-chip{font-family:'Space Grotesk',sans-serif;font-size:.74rem;font-weight:600;padding:.35rem .8rem;border-radius:20px;border:1.5px solid var(--border);background:#fff;color:var(--muted);cursor:pointer;white-space:nowrap;transition:all .15s;}
+  .filter-chip.active{background:var(--ink);color:#fff;border-color:var(--ink);}
+  .task-item{background:var(--warm);border:1px solid var(--border);border-left:5px solid #ccc;border-radius:8px;padding:.85rem 1rem;margin-bottom:.6rem;display:flex;align-items:flex-start;gap:.7rem;box-shadow:0 1px 4px var(--shadow);}
+  .task-item.done{opacity:.55;}
+  .task-item.done .task-title{text-decoration:line-through;}
+  .task-check{width:22px;height:22px;border-radius:50%;border:2px solid var(--border);background:#fff;cursor:pointer;flex-shrink:0;margin-top:.15rem;display:flex;align-items:center;justify-content:center;font-size:.7rem;color:#fff;transition:all .15s;}
+  .task-check.checked{background:var(--green);border-color:var(--green);}
+  .task-body{flex:1;min-width:0;}
+  .task-title{font-size:.95rem;font-weight:600;}
+  .task-meta{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.3rem;font-family:'Space Grotesk',sans-serif;font-size:.7rem;color:var(--muted);}
+  .task-badge{padding:.12rem .5rem;border-radius:10px;font-weight:600;}
+  .task-desc{font-size:.82rem;color:var(--muted);margin-top:.3rem;}
+  .task-actions{display:flex;flex-direction:column;gap:.3rem;flex-shrink:0;}
+  .task-del{background:none;border:none;color:#c0392b;cursor:pointer;font-size:.85rem;padding:.2rem;}
+  .empty-state{text-align:center;padding:3rem 1rem;color:var(--muted);font-family:'Space Grotesk',sans-serif;font-size:.85rem;}
+
+  .cal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.9rem;}
+  .cal-nav{background:var(--warm);border:1.5px solid var(--border);border-radius:6px;width:34px;height:34px;font-size:1rem;cursor:pointer;color:var(--violet);}
+  .cal-month-label{font-family:'Space Grotesk',sans-serif;font-size:.95rem;font-weight:700;}
+  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;}
+  .cal-dow{font-family:'Space Grotesk',sans-serif;font-size:.65rem;font-weight:700;text-align:center;color:var(--muted);padding:.3rem 0;}
+  .cal-day{background:var(--warm);border:1px solid var(--border);border-radius:5px;min-height:56px;padding:.25rem;font-family:'Space Grotesk',sans-serif;font-size:.72rem;cursor:pointer;position:relative;}
+  .cal-day.other-month{opacity:.3;}
+  .cal-day.today{border-color:var(--violet);border-width:2px;}
+  .cal-day.selected{background:#f0e8fd;}
+  .cal-day-num{font-weight:700;}
+  .cal-dots{display:flex;gap:2px;flex-wrap:wrap;margin-top:.2rem;}
+  .cal-dot{width:6px;height:6px;border-radius:50%;}
+  .cal-day-tasks{margin-top:1rem;}
+  .cal-day-tasks h3{font-family:'Space Grotesk',sans-serif;font-size:.8rem;margin-bottom:.6rem;color:var(--violet);}
+
+  .alarm-banner{position:fixed;top:0;left:0;right:0;background:linear-gradient(135deg,#DC2626,#EA580C);color:#fff;padding:1rem 1.2rem;z-index:200;display:none;box-shadow:0 4px 20px rgba(0,0,0,.3);animation:slideDown .3s;}
+  .alarm-banner.show{display:flex;align-items:center;gap:.8rem;}
+  @keyframes slideDown{from{transform:translateY(-100%);}to{transform:translateY(0);}}
+  .alarm-icon{font-size:1.8rem;flex-shrink:0;}
+  .alarm-text{flex:1;font-family:'Space Grotesk',sans-serif;}
+  .alarm-text strong{display:block;font-size:.9rem;}
+  .alarm-text span{font-size:.76rem;opacity:.9;}
+  .alarm-dismiss{background:#fff;color:#DC2626;border:none;border-radius:6px;padding:.5rem .9rem;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.78rem;cursor:pointer;flex-shrink:0;}
+
+  .warning-box{background:#fff3e0;border:1px solid #e0b070;border-radius:8px;padding:.8rem 1rem;font-family:'Space Grotesk',sans-serif;font-size:.75rem;color:#8a5a00;margin-bottom:1rem;line-height:1.6;}
+
+  @media(max-width:480px){.row2{grid-template-columns:1fr;}.cal-day{min-height:44px;}}
+</style>
+</head>
+<body>
+
+<div class="alarm-banner" id="alarmBanner">
+  <div class="alarm-icon">⏰</div>
+  <div class="alarm-text">
+    <strong id="alarmTitle">Rappel de tâche</strong>
+    <span id="alarmSubtitle"></span>
+  </div>
+  <button class="alarm-dismiss" onclick="dismissAlarm()">OK</button>
+</div>
+
+<header>
+  <h1>📋 Mon Planificateur Élève</h1>
+  <p>KNOWLEDGE COLLÈGE — Organise tes révisions et ta journée</p>
+</header>
+
+<div class="tab-bar">
+  <button class="tab-btn active" id="tabbtn-list" onclick="switchPanel('list')">📝 Liste</button>
+  <button class="tab-btn" id="tabbtn-cal" onclick="switchPanel('cal')">📅 Calendrier</button>
+</div>
+
+<main>
+
+  <div class="warning-box">
+    ⚠️ <strong>Important :</strong> les rappels sonores/visuels ne fonctionnent que si cette page reste ouverte dans un onglet du navigateur (même en arrière-plan). Le téléphone ne peut pas se réveiller tout seul depuis un simple fichier web. Pour ne rien manquer, garde l'onglet ouvert ou épingle-le.
+  </div>
+
+  <div class="panel active" id="panel-list">
+
+    <div class="add-card">
+      <h2>➕ Nouvelle tâche</h2>
+      <div class="field">
+        <label>Titre</label>
+        <input type="text" id="f-title" placeholder="Ex : Réviser le chapitre sur les fonctions">
+      </div>
+      <div class="field">
+        <label>Description (optionnel)</label>
+        <textarea id="f-desc" rows="2" placeholder="Détails supplémentaires..."></textarea>
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label>Date</label>
+          <input type="date" id="f-date">
+        </div>
+        <div class="field">
+          <label>Heure</label>
+          <input type="time" id="f-time">
+        </div>
+      </div>
+      <div class="field">
+        <label>Type de tâche</label>
+        <select id="f-cat" onchange="onCategoryChange()">
+          <option>🙏 Prière</option>
+          <option selected>📖 Réviser un cours</option>
+          <option>📝 Traiter une épreuve</option>
+          <option>✏️ Faire un devoir / exercices</option>
+          <option>🧪 Travaux pratiques</option>
+          <option>👥 Groupe de travail</option>
+          <option>🏃 Sport / Détente</option>
+          <option>🏠 Tâche personnelle</option>
+          <option>👨‍👩‍👧 Famille</option>
+          <option>📌 Autre</option>
+        </select>
+      </div>
+      <div class="field subject-field" id="subjectField">
+        <label>Matière concernée</label>
+        <select id="f-subject">
+          <option>Mathématiques</option>
+          <option>PCT (Physique-Chimie-Technologie)</option>
+          <option>SVT</option>
+          <option>Français</option>
+          <option>Anglais</option>
+          <option>Espagnol</option>
+          <option>Histoire-Géographie</option>
+          <option>Philosophie</option>
+          <option>EPS</option>
+          <option>Informatique</option>
+          <option>Autre matière</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Couleur</label>
+        <div class="color-picker" id="colorPicker"></div>
+      </div>
+      <div class="field">
+        <label>Priorité</label>
+        <div class="prio-row" id="prioRow">
+          <button type="button" class="prio-btn" data-p="haute" onclick="selectPrio('haute')">🔴 Haute</button>
+          <button type="button" class="prio-btn" data-p="moyenne" onclick="selectPrio('moyenne')">🟠 Moyenne</button>
+          <button type="button" class="prio-btn" data-p="basse" onclick="selectPrio('basse')">🟢 Basse</button>
+        </div>
+      </div>
+      <div class="alarm-toggle">
+        <input type="checkbox" id="f-alarm" checked>
+        <label for="f-alarm">🔔 Activer un rappel à l'heure indiquée</label>
+      </div>
+      <button class="btn-add" onclick="addTask()">Ajouter la tâche</button>
+    </div>
+
+    <div class="filters" id="filterRow"></div>
+
+    <div id="taskList"></div>
+  </div>
+
+  <div class="panel" id="panel-cal">
+    <div class="cal-header">
+      <button class="cal-nav" onclick="changeMonth(-1)">‹</button>
+      <div class="cal-month-label" id="calMonthLabel"></div>
+      <button class="cal-nav" onclick="changeMonth(1)">›</button>
+    </div>
+    <div class="cal-grid" id="calGrid"></div>
+    <div class="cal-day-tasks" id="calDayTasks"></div>
+  </div>
+
+</main>
+
+<script>
+const COLORS = [
+  { name: "Violet", hex: "#7C3AED" },
+  { name: "Bleu",   hex: "#2563EB" },
+  { name: "Vert",   hex: "#059669" },
+  { name: "Orange", hex: "#EA580C" },
+  { name: "Rose",   hex: "#DB2777" }
+];
+
+const CATEGORIES = [
+  '🙏 Prière',
+  '📖 Réviser un cours',
+  '📝 Traiter une épreuve',
+  '✏️ Faire un devoir / exercices',
+  '🧪 Travaux pratiques',
+  '👥 Groupe de travail',
+  '🏃 Sport / Détente',
+  '🏠 Tâche personnelle',
+  '👨‍👩‍👧 Famille',
+  '📌 Autre'
+];
+
+const SUBJECT_CATEGORIES = ['📖 Réviser un cours', '📝 Traiter une épreuve', '✏️ Faire un devoir / exercices', '🧪 Travaux pratiques'];
+
+let tasks = [];
+let selectedColor = COLORS[0].hex;
+let selectedPrio = 'moyenne';
+let activeFilter = 'toutes';
+let calDate = new Date();
+let calSelectedDay = null;
+let alarmedTaskIds = new Set();
+let alarmCheckInterval = null;
+
+async function saveTasks(){
+  try{
+    await window.storage.set('planner-tasks', JSON.stringify(tasks), false);
+  }catch(e){ console.error('Erreur sauvegarde', e); }
+}
+async function loadTasks(){
+  try{
+    const res = await window.storage.get('planner-tasks', false);
+    if(res && res.value){
+      tasks = JSON.parse(res.value);
+    }
+  }catch(e){
+    tasks = [];
+  }
+}
+
+function initColorPicker(){
+  const wrap = document.getElementById('colorPicker');
+  wrap.innerHTML = '';
+  COLORS.forEach((c,i)=>{
+    const dot = document.createElement('div');
+    dot.className = 'color-dot' + (c.hex===selectedColor?' selected':'');
+    dot.style.background = c.hex;
+    dot.title = c.name;
+    dot.onclick = ()=>{
+      selectedColor = c.hex;
+      wrap.querySelectorAll('.color-dot').forEach(d=>d.classList.remove('selected'));
+      dot.classList.add('selected');
+    };
+    wrap.appendChild(dot);
+  });
+}
+
+function selectPrio(p){
+  selectedPrio = p;
+  document.querySelectorAll('.prio-btn').forEach(b=>b.classList.toggle('selected', b.dataset.p===p));
+}
+
+function onCategoryChange(){
+  const cat = document.getElementById('f-cat').value;
+  const subjField = document.getElementById('subjectField');
+  subjField.classList.toggle('show', SUBJECT_CATEGORIES.includes(cat));
+}
+
+async function addTask(){
+  const title = document.getElementById('f-title').value.trim();
+  if(!title){ alert('Merci de donner un titre à la tâche.'); return; }
+  const desc = document.getElementById('f-desc').value.trim();
+  const date = document.getElementById('f-date').value;
+  const time = document.getElementById('f-time').value;
+  const cat = document.getElementById('f-cat').value;
+  const needsSubject = SUBJECT_CATEGORIES.includes(cat);
+  const subject = needsSubject ? document.getElementById('f-subject').value : '';
+  const alarmOn = document.getElementById('f-alarm').checked;
+
+  const task = {
+    id: Date.now().toString(36) + Math.random().toString(36).slice(2,6),
+    title, desc, date, time, cat, subject,
+    color: selectedColor,
+    priority: selectedPrio,
+    alarm: alarmOn && !!(date && time),
+    done: false,
+    created: new Date().toISOString()
+  };
+  tasks.push(task);
+  await saveTasks();
+
+  document.getElementById('f-title').value='';
+  document.getElementById('f-desc').value='';
+  document.getElementById('f-date').value='';
+  document.getElementById('f-time').value='';
+  document.getElementById('f-alarm').checked=true;
+  selectedPrio='moyenne';
+  document.querySelectorAll('.prio-btn').forEach(b=>b.classList.remove('selected'));
+
+  renderTaskList();
+  renderCalendar();
+}
+
+async function toggleDone(id){
+  const t = tasks.find(x=>x.id===id);
+  if(t){ t.done = !t.done; await saveTasks(); renderTaskList(); renderCalendar(); }
+}
+async function deleteTask(id){
+  if(!confirm('Supprimer cette tâche ?')) return;
+  tasks = tasks.filter(x=>x.id!==id);
+  await saveTasks();
+  renderTaskList();
+  renderCalendar();
+}
+
+function initFilters(){
+  const cats = ['toutes', ...CATEGORIES];
+  const row = document.getElementById('filterRow');
+  row.innerHTML='';
+  cats.forEach(c=>{
+    const chip = document.createElement('button');
+    chip.className='filter-chip'+(c===activeFilter?' active':'');
+    chip.textContent = c==='toutes' ? 'Toutes' : c;
+    chip.onclick = ()=>{ activeFilter=c; initFilters(); renderTaskList(); };
+    row.appendChild(chip);
+  });
+}
+
+function fmtDate(d){
+  if(!d) return '';
+  const [y,m,day] = d.split('-');
+  return `${day}/${m}/${y}`;
+}
+function taskMetaLine(t){
+  let parts = [];
+  if(t.date) parts.push(`📅 ${fmtDate(t.date)}${t.time?' à '+t.time:''}`);
+  return parts;
+}
+function renderTaskList(){
+  const list = document.getElementById('taskList');
+  let filtered = activeFilter==='toutes' ? tasks : tasks.filter(t=>t.cat===activeFilter);
+  filtered = filtered.slice().sort((a,b)=>{
+    if(a.done!==b.done) return a.done?1:-1;
+    return (a.date+a.time).localeCompare(b.date+b.time);
+  });
+
+  if(filtered.length===0){
+    list.innerHTML = '<div class="empty-state">Aucune tâche pour le moment. Ajoute-en une ci-dessus ✏️</div>';
+    return;
+  }
+
+  list.innerHTML = filtered.map(t=>`
+    <div class="task-item ${t.done?'done':''}" style="border-left-color:${t.color}">
+      <div class="task-check ${t.done?'checked':''}" onclick="toggleDone('${t.id}')">${t.done?'✓':''}</div>
+      <div class="task-body">
+        <div class="task-title">${escapeHtml(t.title)}</div>
+        ${t.desc?`<div class="task-desc">${escapeHtml(t.desc)}</div>`:''}
+        <div class="task-meta">
+          ${taskMetaLine(t).map(p=>`<span>${p}</span>`).join('')}
+          <span class="task-badge" style="background:${t.color}22;color:${t.color}">${escapeHtml(t.cat)}</span>
+          ${t.subject?`<span class="task-badge" style="background:#eee;color:#444">📘 ${escapeHtml(t.subject)}</span>`:''}
+          <span class="task-badge" style="background:${prioColor(t.priority)}22;color:${prioColor(t.priority)}">${prioLabel(t.priority)}</span>
+          ${t.alarm?'<span>🔔</span>':''}
+        </div>
+      </div>
+      <div class="task-actions">
+        <button class="task-del" onclick="deleteTask('${t.id}')">🗑️</button>
+      </div>
+    </div>
+  `).join('');
+}
+function prioColor(p){ return p==='haute'?'#DC2626':p==='basse'?'#059669':'#D97706'; }
+function prioLabel(p){ return p==='haute'?'🔴 Haute':p==='basse'?'🟢 Basse':'🟠 Moyenne'; }
+function escapeHtml(s){ const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+
+function switchPanel(name){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('panel-'+name).classList.add('active');
+  document.getElementById('tabbtn-'+name).classList.add('active');
+  if(name==='cal') renderCalendar();
+}
+
+function changeMonth(delta){
+  calDate.setMonth(calDate.getMonth()+delta);
+  calSelectedDay = null;
+  renderCalendar();
+}
+function renderCalendar(){
+  const year = calDate.getFullYear();
+  const month = calDate.getMonth();
+  const monthNames = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+  document.getElementById('calMonthLabel').textContent = `${monthNames[month]} ${year}`;
+
+  const grid = document.getElementById('calGrid');
+  grid.innerHTML = '';
+  ['Lu','Ma','Me','Je','Ve','Sa','Di'].forEach(d=>{
+    const el = document.createElement('div');
+    el.className='cal-dow'; el.textContent=d;
+    grid.appendChild(el);
+  });
+
+  const firstDay = new Date(year, month, 1);
+  let startOffset = firstDay.getDay()===0 ? 6 : firstDay.getDay()-1;
+  const daysInMonth = new Date(year, month+1, 0).getDate();
+  const daysInPrevMonth = new Date(year, month, 0).getDate();
+
+  const todayStr = new Date().toISOString().slice(0,10);
+
+  let cells = [];
+  for(let i=startOffset;i>0;i--){
+    cells.push({day: daysInPrevMonth-i+1, other:true, dateStr:null});
+  }
+  for(let d=1; d<=daysInMonth; d++){
+    const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    cells.push({day:d, other:false, dateStr});
+  }
+  while(cells.length % 7 !== 0){
+    cells.push({day: cells.length - (startOffset+daysInMonth) + 1, other:true, dateStr:null});
+  }
+
+  cells.forEach(cell=>{
+    const el = document.createElement('div');
+    el.className = 'cal-day' + (cell.other?' other-month':'') + (cell.dateStr===todayStr?' today':'') + (cell.dateStr===calSelectedDay?' selected':'');
+    const dayTasks = cell.dateStr ? tasks.filter(t=>t.date===cell.dateStr) : [];
+    el.innerHTML = `<div class="cal-day-num">${cell.day}</div><div class="cal-dots">${dayTasks.slice(0,4).map(t=>`<span class="cal-dot" style="background:${t.color}"></span>`).join('')}</div>`;
+    if(cell.dateStr){
+      el.onclick = ()=>{ calSelectedDay = cell.dateStr; renderCalendar(); };
+    }
+    grid.appendChild(el);
+  });
+
+  renderCalDayTasks();
+}
+function renderCalDayTasks(){
+  const wrap = document.getElementById('calDayTasks');
+  if(!calSelectedDay){ wrap.innerHTML=''; return; }
+  const dayTasks = tasks.filter(t=>t.date===calSelectedDay).sort((a,b)=>(a.time||'').localeCompare(b.time||''));
+  const [y,m,d] = calSelectedDay.split('-');
+  wrap.innerHTML = `<h3>📌 Tâches du ${d}/${m}/${y}</h3>` + (dayTasks.length===0
+    ? '<div class="empty-state">Aucune tâche ce jour-là.</div>'
+    : dayTasks.map(t=>`
+      <div class="task-item ${t.done?'done':''}" style="border-left-color:${t.color}">
+        <div class="task-check ${t.done?'checked':''}" onclick="toggleDone('${t.id}')">${t.done?'✓':''}</div>
+        <div class="task-body">
+          <div class="task-title">${escapeHtml(t.title)}</div>
+          ${t.desc?`<div class="task-desc">${escapeHtml(t.desc)}</div>`:''}
+          <div class="task-meta">
+            ${t.time?`<span>🕐 ${t.time}</span>`:''}
+            <span class="task-badge" style="background:${t.color}22;color:${t.color}">${escapeHtml(t.cat)}</span>
+            ${t.subject?`<span class="task-badge" style="background:#eee;color:#444">📘 ${escapeHtml(t.subject)}</span>`:''}
+            <span class="task-badge" style="background:${prioColor(t.priority)}22;color:${prioColor(t.priority)}">${prioLabel(t.priority)}</span>
+          </div>
+        </div>
+        <div class="task-actions"><button class="task-del" onclick="deleteTask('${t.id}')">🗑️</button></div>
+      </div>
+    `).join(''));
+}
+
+function checkAlarms(){
+  const now = new Date();
+  const nowDate = now.toISOString().slice(0,10);
+  const nowTime = now.toTimeString().slice(0,5);
+
+  tasks.forEach(t=>{
+    if(t.alarm && !t.done && t.date===nowDate && t.time===nowTime && !alarmedTaskIds.has(t.id)){
+      triggerAlarm(t);
+      alarmedTaskIds.add(t.id);
+    }
+  });
+}
+function triggerAlarm(task){
+  const subj = task.subject ? ` (${task.subject})` : '';
+  document.getElementById('alarmTitle').textContent = '⏰ ' + task.title + subj;
+  document.getElementById('alarmSubtitle').textContent = task.desc || `${task.cat}`;
+  document.getElementById('alarmBanner').classList.add('show');
+  playAlarmSound();
+  if('vibrate' in navigator) navigator.vibrate([300,150,300,150,300]);
+}
+function dismissAlarm(){
+  document.getElementById('alarmBanner').classList.remove('show');
+}
+function playAlarmSound(){
+  try{
+    const ctx = new (window.AudioContext||window.webkitAudioContext)();
+    let t = ctx.currentTime;
+    for(let i=0;i<3;i++){
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.frequency.value = 880;
+      osc.connect(gain); gain.connect(ctx.destination);
+      gain.gain.setValueAtTime(0.3, t);
+      gain.gain.exponentialRampToValueAtTime(0.001, t+0.4);
+      osc.start(t); osc.stop(t+0.4);
+      t += 0.5;
+    }
+  }catch(e){ console.warn('Son indisponible', e); }
+}
+
+document.addEventListener('DOMContentLoaded', async ()=>{
+  await loadTasks();
+  initColorPicker();
+  initFilters();
+  onCategoryChange();
+  renderTaskList();
+  renderCalendar();
+  alarmCheckInterval = setInterval(checkAlarms, 15000);
+  checkAlarms();
+
+  document.getElementById('f-date').value = new Date().toISOString().slice(0,10);
+});
+</script>
+</body>
+</html>
