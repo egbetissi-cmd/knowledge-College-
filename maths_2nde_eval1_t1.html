@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maths 2nde C/D — 1ère Évaluation Sommative T1</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Serif+4:wght@300;400;600&family=Space+Grotesk:wght@400;500;600&display=swap');
+  :root{
+    --ink:#1a1a2e;--bg:#f2f3f8;--warm:#fefcff;
+    --p1:#1a4a8a;--p1l:#4a7ac4;--p1s:#e8f0fb;
+    --p2:#6a1a3a;--p2l:#c44a7a;--p2s:#fbe8f0;
+    --p3:#1a5a2a;--p3l:#3a9a5a;--p3s:#e8f5ee;
+    --gold:#7a6000;--gold-light:#fdf6e0;
+    --border:#c8c0d8;--muted:#606070;--shadow:rgba(26,26,46,0.07);
+    --green:#1a6b3a;--red:#8b1a1a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Source Serif 4',Georgia,serif;background:var(--bg);color:var(--ink);font-size:16px;line-height:1.78;}
+  header{background:linear-gradient(135deg,#0a1a4a 0%,#1a4a8a 45%,#4a0a2a 100%);color:#fff;padding:2rem 2rem 1.6rem;text-align:center;}
+  .eyebrow{font-family:'Space Grotesk',sans-serif;font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:#b0c8f0;margin-bottom:.4rem;}
+  header h1{font-family:'Playfair Display',serif;font-size:clamp(1.3rem,4vw,1.9rem);color:#fff;}
+  .hsub{font-family:'Space Grotesk',sans-serif;font-size:.8rem;color:#b0c0e0;margin-top:.25rem;}
+  .hmeta{display:flex;justify-content:center;flex-wrap:wrap;gap:1.3rem;margin-top:.9rem;font-family:'Space Grotesk',sans-serif;font-size:.74rem;color:#a0b8e0;letter-spacing:.05em;}
+  .tab-bar{display:flex;background:var(--warm);border-bottom:2px solid var(--border);overflow-x:auto;position:sticky;top:0;z-index:50;scrollbar-width:none;}
+  .tab-bar::-webkit-scrollbar{display:none;}
+  .tab-btn{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:.78rem 1rem;border:none;background:transparent;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap;transition:all .2s;}
+  .tab-btn:hover:not(.active){color:var(--ink);background:#edeafb;}
+  .tab-btn.p1.active{color:var(--p1);border-bottom-color:var(--p1);}
+  .tab-btn.p2.active{color:var(--p2);border-bottom-color:var(--p2);}
+  .tab-btn.p3.active{color:var(--p3);border-bottom-color:var(--p3);}
+  .tab-btn.cr.active{color:#333;border-bottom-color:#333;}
+  main{max-width:900px;margin:0 auto;padding:2rem 1.5rem 5rem;}
+  .tab-panel{display:none;}.tab-panel.active{display:block;}
+  .card{background:var(--warm);border:1px solid var(--border);border-radius:4px;padding:1.7rem 1.9rem;margin-bottom:1.5rem;box-shadow:0 2px 8px var(--shadow);}
+  .card h2{font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--ink);border-bottom:1px solid var(--border);padding-bottom:.55rem;margin-bottom:.9rem;}
+  .banner{color:#fff;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:.6rem 1.1rem;border-radius:4px;margin-bottom:1rem;display:flex;justify-content:space-between;align-items:center;}
+  .banner.p1{background:var(--p1);}.banner.p2{background:var(--p2);}.banner.p3{background:var(--p3);}
+  .bpts{background:rgba(255,255,255,0.22);padding:.12rem .55rem;border-radius:10px;font-size:.73rem;}
+  .ctx-box{border-radius:0 4px 4px 0;padding:.9rem 1.15rem;font-size:.91rem;line-height:1.8;margin-bottom:.9rem;}
+  .ctx-box.p1{background:var(--p1s);border-left:4px solid var(--p1);}
+  .ctx-box.p2{background:var(--p2s);border-left:4px solid var(--p2);}
+  .ctx-box.p3{background:var(--p3s);border-left:4px solid var(--p3);}
+  .fig-box{background:#fff;border:1px solid var(--border);border-radius:4px;padding:.8rem;margin:.6rem 0;text-align:center;}
+  .fig-box svg{max-width:100%;}
+  .fig-label{font-family:'Space Grotesk',sans-serif;font-size:.74rem;font-weight:700;color:var(--p1);margin-top:.3rem;}
+  .info-box{background:#fff;border:1px solid var(--border);border-radius:4px;padding:.85rem 1.05rem;margin-bottom:.85rem;font-size:.88rem;line-height:1.75;}
+  .info-box .ititle{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--p1);margin-bottom:.35rem;}
+  .info-box ul{padding-left:1.2rem;}.info-box li{margin-bottom:.22rem;}
+  .q-block{background:var(--warm);border:1px solid var(--border);border-radius:4px;padding:1.05rem 1.3rem;margin-bottom:.85rem;}
+  .q-head{display:flex;align-items:flex-start;gap:.7rem;margin-bottom:.55rem;}
+  .qn{color:#fff;font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;min-width:1.7rem;height:1.7rem;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:.1rem;}
+  .qn.p1{background:var(--p1);}.qn.p2{background:var(--p2);}.qn.p3{background:var(--p3);}
+  .q-txt{flex:1;font-size:.92rem;line-height:1.6;}
+  .pts{font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:600;color:var(--gold);background:var(--gold-light);border:1px solid #dfc96a;padding:.08rem .45rem;border-radius:10px;white-space:nowrap;flex-shrink:0;}
+  .sub-q{font-size:.9rem;margin:.38rem 0 .38rem 1rem;line-height:1.6;}
+  textarea.rep{width:100%;border:1.5px solid var(--border);border-radius:4px;padding:.65rem .82rem;font-family:'Source Serif 4',serif;font-size:.92rem;line-height:1.7;background:#fdfbf8;color:var(--ink);resize:vertical;transition:border-color .2s;}
+  textarea.rep:focus{outline:none;background:#fff;}
+  textarea.rep.p1:focus{border-color:var(--p1l);}
+  textarea.rep.p2:focus{border-color:var(--p2l);}
+  textarea.rep.p3:focus{border-color:var(--p3l);}
+  .wc{font-family:'Space Grotesk',sans-serif;font-size:.68rem;color:var(--muted);text-align:right;margin-top:.22rem;}
+  .hint{background:#fff;border:1px solid var(--border);border-radius:4px;padding:.6rem .85rem;margin-bottom:.52rem;font-size:.81rem;font-family:'Space Grotesk',sans-serif;color:var(--muted);}
+  /* BARÈME BOX */
+  .bareme-box{background:var(--gold-light);border:1px solid #dfc96a;border-radius:4px;padding:.8rem 1.1rem;font-size:.85rem;margin-bottom:1rem;font-family:'Space Grotesk',sans-serif;}
+  .bareme-box strong{color:var(--gold);}
+  /* BOUTONS */
+  .btn{display:block;width:100%;padding:.85rem;color:#fff;font-family:'Space Grotesk',sans-serif;font-size:.83rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;border:none;border-radius:4px;cursor:pointer;transition:background .2s;margin-top:1.1rem;}
+  .btn.p1{background:var(--p1);}.btn.p1:hover{background:#0a1a5a;}
+  .btn.p2{background:var(--p2);}.btn.p2:hover{background:#3a0a20;}
+  .btn.p3{background:var(--p3);}.btn.p3:hover{background:#0a3818;}
+  .btn:disabled{opacity:.55;cursor:not-allowed;}
+  /* FEEDBACK */
+  .fb-box{display:none;margin-top:1rem;border-radius:4px;overflow:hidden;}
+  .fb-box.visible{display:block;}
+  .fb-head{background:var(--ink);color:#fff;padding:.62rem 1.05rem;font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;}
+  .fb-body{background:var(--warm);border:1px solid var(--border);border-top:none;padding:1.05rem 1.3rem;font-size:.9rem;line-height:1.74;}
+  .fb-body.loading{display:flex;align-items:center;gap:.6rem;color:var(--muted);font-style:italic;font-size:.82rem;}
+  .spinner{width:.9rem;height:.9rem;border:2px solid var(--border);border-top-color:var(--p1);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .fb-body h4{font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:1rem 0 .3rem;padding-bottom:.2rem;border-bottom:1px solid var(--border);}
+  .fb-body h4:first-child{margin-top:0;}
+  .fb-body p{margin-bottom:.5rem;}.fb-body ul{padding-left:1.1rem;}.fb-body li{margin-bottom:.25rem;}
+  .fb-body strong{color:var(--p1);}
+  .fb-body.p2 strong{color:var(--p2);}
+  .fb-body.p3 strong{color:var(--p3);}
+  /* CORRIGÉ */
+  .cor{border-radius:4px;padding:1.05rem 1.3rem;margin-bottom:.9rem;font-size:.9rem;line-height:1.78;}
+  .cor.p1{background:var(--p1s);border:1px solid #b8c8e8;border-left:4px solid var(--p1);}
+  .cor.p2{background:var(--p2s);border:1px solid #e8b8c8;border-left:4px solid var(--p2);}
+  .cor.p3{background:var(--p3s);border:1px solid #a8d8b8;border-left:4px solid var(--p3);}
+  .cor h3{font-family:'Playfair Display',serif;font-size:.97rem;margin-bottom:.5rem;}
+  .cor.p1 h3{color:var(--p1);}.cor.p2 h3{color:var(--p2);}.cor.p3 h3{color:var(--p3);}
+  .cor p{margin-bottom:.4rem;}.cor ul{padding-left:1.1rem;margin-bottom:.38rem;}.cor li{margin-bottom:.28rem;}
+  .math{font-family:'Times New Roman',serif;font-size:.97rem;background:#fff;border:1px solid var(--border);border-radius:3px;padding:.2rem .52rem;display:inline-block;margin:.16rem 0;}
+  .locked{background:var(--warm);border:2px dashed var(--border);border-radius:4px;padding:2.5rem;text-align:center;color:var(--muted);font-family:'Space Grotesk',sans-serif;font-size:.85rem;}
+  .locked .icon{font-size:2rem;margin-bottom:.5rem;}
+  /* ═══ WIDGET DESSIN + PHOTO ═══ */
+  .draw-widget{background:#fff;border:1.5px solid var(--border);border-radius:6px;padding:.8rem;margin:.7rem 0;}
+  .dw-tabbar{display:flex;gap:.3rem;margin-bottom:.7rem;border-bottom:1.5px solid var(--border);}
+  .dw-tab{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:600;padding:.45rem .8rem;border:none;background:transparent;color:var(--muted);cursor:pointer;border-bottom:2.5px solid transparent;margin-bottom:-1.5px;transition:all .15s;}
+  .dw-tab:hover{color:var(--ink);}
+  .dw-tab.active{color:var(--p1);border-bottom-color:var(--p1);}
+  .dw-panel{display:none;}
+  .dw-panel.active{display:block;}
+  .draw-widget-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem;flex-wrap:wrap;gap:.4rem;}
+  .draw-title{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--p1);}
+  .draw-tools{display:flex;gap:.35rem;flex-wrap:wrap;}
+  .draw-btn{font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:600;padding:.32rem .6rem;border-radius:4px;border:1.5px solid var(--border);background:#fff;color:var(--muted);cursor:pointer;transition:all .15s;}
+  .draw-btn:hover{background:#f0f0f5;}
+  .draw-btn.active{background:var(--p1);color:#fff;border-color:var(--p1);}
+  .draw-btn.danger{color:var(--red);border-color:#e0b0b0;}
+  .draw-btn.danger:hover{background:#fdf0f0;}
+  .draw-color-row{display:flex;gap:.3rem;align-items:center;}
+  .draw-color{width:22px;height:22px;border-radius:50%;border:2px solid #fff;outline:1.5px solid var(--border);cursor:pointer;flex-shrink:0;}
+  .draw-color.selected{outline:2px solid var(--ink);outline-offset:1px;}
+  .draw-canvas-wrap{position:relative;border:1.5px dashed var(--border);border-radius:4px;overflow:hidden;background:#fdfdfd;touch-action:none;line-height:0;}
+  .draw-canvas-wrap canvas{display:block;width:100%;height:auto;touch-action:none;cursor:crosshair;}
+  .draw-canvas-wrap canvas[id$="-overlay"]{position:absolute;top:0;left:0;pointer-events:none;}
+  .draw-hint-text{font-family:'Space Grotesk',sans-serif;font-size:.72rem;color:var(--muted);margin-top:.4rem;text-align:center;}
+  .draw-status{font-family:'Space Grotesk',sans-serif;font-size:.68rem;color:var(--green);margin-top:.3rem;display:none;text-align:center;}
+  .draw-status.show{display:block;}
+  .photo-capture-btn{display:block;width:100%;padding:.9rem;background:var(--p1s);border:2px dashed var(--p1);border-radius:6px;color:var(--p1);font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;cursor:pointer;transition:all .15s;text-align:center;}
+  .photo-capture-btn:hover{background:#dde8fb;}
+  .photo-preview-wrap{margin-top:.7rem;text-align:center;}
+  .photo-preview-wrap img{max-width:100%;max-height:320px;border-radius:6px;border:1.5px solid var(--border);}
+  .local-warning{background:#fff3e0;border:1px solid #e0b070;border-radius:4px;padding:.6rem .8rem;font-family:'Space Grotesk',sans-serif;font-size:.74rem;color:#8a5a00;margin-bottom:.6rem;display:none;}
+  .local-warning.show{display:block;}
+  @media(max-width:580px){main{padding:1.1rem .85rem 4rem;}.card{padding:1.1rem .95rem;}.q-block{padding:.95rem .85rem;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">Première Évaluation Sommative · Premier Trimestre · Configuration de l'espace</div>
+  <h1>Épreuve de Mathématiques — 2nde C/D</h1>
+  <div class="hsub">Contexte : Retenue d'eau du village de Bio</div>
+  <div class="hmeta">
+    <span>📐 3 Problèmes</span>
+    <span>⏱ Durée : 3 heures</span>
+    <span>⚖️ Coefficient : 3</span>
+    <span>📊 Barème : 18 pts + 2 pts perfectionnement</span>
+  </div>
+</header>
+
+<div class="tab-bar">
+  <button class="tab-btn p1 active" onclick="switchTab('p1',event)">📐 Problème 1</button>
+  <button class="tab-btn p2" onclick="switchTab('p2',event)">🔷 Problème 2</button>
+  <button class="tab-btn p3" onclick="switchTab('p3',event)">📦 Problème 3</button>
+  <button class="tab-btn cr" onclick="switchTab('corrige',event)">✅ Corrigé type</button>
+</div>
+
+<main>
+
+<div class="local-warning" id="local-warning">⚠️ Ce fichier semble être ouvert en local (hors ligne). L'accès à l'appareil photo peut ne pas fonctionner dans ce mode — ouvre le lien en ligne (https://...) pour utiliser cette fonctionnalité.</div>
+
+<!-- ══════ CONTEXTE GÉNÉRAL ══════ -->
+<div class="tab-panel active" id="panel-p1">
+  <div class="card">
+    <div class="ctx-box p1">
+      <strong>Contexte :</strong> Pour répondre aux besoins en eau de ses cultures, un cultivateur du village de Bio décide de construire une retenue d'eau. L'ingénieur en charge de l'ouvrage lui propose la construction d'un réservoir ayant la forme de la figure suivante.<br><br>
+      À la vue du dessin de la retenue d'eau, Koffi, fils du cultivateur, a affirmé qu'il y a sur ce dessin des notions de la configuration de l'espace étudiées en classe de seconde scientifique.<br><br>
+      <strong>Tâche :</strong> Tu es invité(e) à confirmer les propos de Koffi en utilisant tes connaissances sur la configuration de l'espace pour résoudre les trois problèmes suivants.
+    </div>
+
+    <div class="fig-box">
+      <svg width="320" height="280" viewBox="0 0 320 280" xmlns="http://www.w3.org/2000/svg">
+        <!-- Base cube ABCD-EFGH (arrière, pointillés = cachés) -->
+        <!-- Face avant ABCD -->
+        <polygon points="55,175 145,175 145,235 55,235" fill="none" stroke="#1a4a8a" stroke-width="1.8"/>
+        <!-- Face arrière EFGH (décalée, pointillés partiels) -->
+        <polygon points="30,150 120,150 120,210 30,210" fill="none" stroke="#1a4a8a" stroke-width="1.3" stroke-dasharray="4,3"/>
+        <!-- liaisons cube -->
+        <line x1="55" y1="175" x2="30" y2="150" stroke="#1a4a8a" stroke-width="1.3" stroke-dasharray="4,3"/>
+        <line x1="145" y1="175" x2="120" y2="150" stroke="#1a4a8a" stroke-width="1.8"/>
+        <line x1="145" y1="235" x2="120" y2="210" stroke="#1a4a8a" stroke-width="1.8"/>
+        <line x1="55" y1="235" x2="30" y2="210" stroke="#1a4a8a" stroke-width="1.3" stroke-dasharray="4,3"/>
+
+        <!-- Pyramide SABCD (sommet S en haut) -->
+        <circle cx="150" cy="35" r="1.5" fill="#333"/>
+        <line x1="150" y1="35" x2="30" y2="150" stroke="#333" stroke-width="1.5" stroke-dasharray="3,2"/>
+        <line x1="150" y1="35" x2="120" y2="150" stroke="#333" stroke-width="1.8"/>
+        <line x1="150" y1="35" x2="55" y2="175" stroke="#333" stroke-width="1.8"/>
+        <line x1="150" y1="35" x2="145" y2="175" stroke="#333" stroke-width="1.8"/>
+
+        <!-- Points I, J, K, l' sur les arêtes de la pyramide -->
+        <circle cx="95" cy="105" r="2" fill="#8b1a1a"/>
+        <text x="82" y="100" font-size="10" font-family="serif" fill="#8b1a1a">I</text>
+        <circle cx="135" cy="105" r="2" fill="#8b1a1a"/>
+        <text x="140" y="100" font-size="10" font-family="serif" fill="#8b1a1a">K</text>
+        <circle cx="105" cy="120" r="2" fill="#8b1a1a"/>
+        <text x="108" y="130" font-size="10" font-family="serif" fill="#8b1a1a">J</text>
+        <line x1="95" y1="105" x2="135" y2="105" stroke="#8b1a1a" stroke-width="1.3" stroke-dasharray="2,2"/>
+        <line x1="95" y1="105" x2="105" y2="120" stroke="#8b1a1a" stroke-width="1.3" stroke-dasharray="2,2"/>
+        <line x1="135" y1="105" x2="105" y2="120" stroke="#8b1a1a" stroke-width="1.3" stroke-dasharray="2,2"/>
+
+        <!-- Prisme EFGH-S'CGH (bas droite, autre compartiment) -->
+        <polygon points="120,210 205,225 195,270 110,255" fill="none" stroke="#1a5a2a" stroke-width="1.8"/>
+        <!-- C, G, H labels -->
+        <text x="195" y="220" font-size="10" font-family="serif" fill="#1a5a2a">C</text>
+        <text x="195" y="270" font-size="10" font-family="serif" fill="#1a5a2a">G</text>
+        <text x="118" y="265" font-size="10" font-family="serif" fill="#1a5a2a">H</text>
+
+        <!-- S' en bas à droite -->
+        <circle cx="270" cy="255" r="1.5" fill="#333"/>
+        <text x="275" y="260" font-size="10" font-family="serif" fill="#333">S'</text>
+        <line x1="205" y1="225" x2="270" y2="255" stroke="#333" stroke-width="1.5"/>
+        <line x1="195" y1="270" x2="270" y2="255" stroke="#333" stroke-width="1.5"/>
+        <line x1="110" y1="255" x2="270" y2="255" stroke="#333" stroke-width="1.3" stroke-dasharray="3,2"/>
+
+        <!-- l' milieu de HC -->
+        <circle cx="157" cy="217" r="2" fill="#8b1a1a"/>
+        <text x="160" y="212" font-size="9" font-family="serif" fill="#8b1a1a">l'</text>
+
+        <!-- Labels sommets principaux -->
+        <text x="45" y="248" font-size="10" font-family="serif" fill="#1a4a8a">A</text>
+        <text x="150" y="248" font-size="10" font-family="serif" fill="#1a4a8a">D</text>
+        <text x="18" y="220" font-size="10" font-family="serif" fill="#1a4a8a">E</text>
+        <text x="20" y="145" font-size="10" font-family="serif" fill="#1a4a8a">F</text>
+        <text x="152" y="30" font-size="11" font-family="serif" fill="#333" font-weight="700">S</text>
+      </svg>
+      <div class="fig-label">Retenue d'eau — Pyramide SABCD sur base ABCDEFGH + compartiment S'CGH</div>
+    </div>
+
+    <div class="info-box">
+      <div class="ititle">Informations</div>
+      <ul>
+        <li>AB = AE = 50 cm</li>
+        <li>I milieu de [SA] · J milieu de [SD] · K milieu de [SC]</li>
+        <li>l' (I' ) milieu de [HC]</li>
+      </ul>
+    </div>
+
+    <div class="banner p1">Problème 1 — Nature des compartiments et perspective cavalière</div>
+
+    <div class="q-block">
+      <div class="q-head"><div class="qn p1">1</div>
+        <div class="q-txt"><strong>Identifie la forme géométrique des compartiments ABCD, EFGH et S'CGH.</strong></div>
+        <div class="pts">~1,5 pt</div>
+      </div>
+      <textarea class="rep p1" id="q1" rows="4" placeholder="ABCD est ...&#10;EFGH est ...&#10;S'CGH est ..."></textarea>
+      <div class="wc" id="wc-q1">0 mot</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-head"><div class="qn p1">2</div>
+        <div class="q-txt"><strong>Représente en perspective cavalière la figure ABCDEFG</strong> à l'échelle 1/10. On donne a = 45° et K = ½.</div>
+        <div class="pts">~2 pts</div>
+      </div>
+      <div class="hint">💡 Perspective cavalière : les arêtes de face gardent leur vraie grandeur, les arêtes fuyantes sont tracées avec un angle a=45° et un coefficient de réduction K=½. Échelle 1/10 → AB=50cm devient 5cm sur le dessin.</div>
+
+      <!-- WIDGET DESSIN + PHOTO -->
+      <div class="draw-widget">
+        <div class="dw-tabbar">
+          <button type="button" class="dw-tab active" id="dwtab-draw-q2" onclick="switchDrawMode('q2','draw')">✏️ Dessiner à l'écran</button>
+          <button type="button" class="dw-tab" id="dwtab-photo-q2" onclick="switchDrawMode('q2','photo')">📷 Photo de ma feuille</button>
+        </div>
+        <div class="dw-panel active" id="dwpanel-draw-q2">
+          <div class="draw-widget-head">
+            <span class="draw-title">Perspective cavalière ABCDEFG</span>
+            <div class="draw-tools">
+              <button type="button" class="draw-btn active" id="dtool-pen-q2cv" onclick="setDrawTool('q2cv','pen')">✏️ Main levée</button>
+              <button type="button" class="draw-btn" id="dtool-line-q2cv" onclick="setDrawTool('q2cv','line')">📏 Ligne</button>
+              <button type="button" class="draw-btn" id="dtool-circle-q2cv" onclick="setDrawTool('q2cv','circle')">⭕ Cercle</button>
+              <button type="button" class="draw-btn" id="dtool-fill-q2cv" onclick="setDrawTool('q2cv','fill')">🪣 Remplir</button>
+              <button type="button" class="draw-btn" id="dtool-erase-q2cv" onclick="setDrawTool('q2cv','erase')">🧽 Gomme</button>
+              <button type="button" class="draw-btn" id="dtool-undo-q2cv" onclick="undoDrawCanvas('q2cv')">↩️ Annuler</button>
+              <button type="button" class="draw-btn danger" onclick="clearDrawCanvas('q2cv')">🗑️ Effacer tout</button>
+            </div>
+          </div>
+          <div class="draw-color-row" id="q2cv-colors" style="margin-bottom:.5rem"></div>
+          <div class="draw-canvas-wrap">
+            <canvas id="q2cv" width="600" height="420"></canvas>
+            <canvas id="q2cv-overlay" width="600" height="420"></canvas>
+          </div>
+          <div class="draw-hint-text">Construis la perspective cavalière avec les outils ci-dessus.</div>
+          <div class="draw-status" id="q2cv-status">✓ Dessin enregistré</div>
+        </div>
+        <div class="dw-panel" id="dwpanel-photo-q2">
+          <p class="draw-hint-text" style="margin-bottom:.6rem">Tu peux construire cette figure sur papier avec ta règle et ton rapporteur, puis prendre une photo nette pour qu'elle soit corrigée.</p>
+          <input type="file" accept="image/*" capture="environment" id="q2-photo-input" style="display:none" onchange="handlePhotoCapture('q2', this)">
+          <button type="button" class="photo-capture-btn" onclick="document.getElementById('q2-photo-input').click()">📷 Prendre une photo / Choisir une image</button>
+          <div class="photo-preview-wrap" id="q2-photo-preview-wrap" style="display:none">
+            <img id="q2-photo-preview" alt="Aperçu de la photo">
+            <button type="button" class="draw-btn danger" style="margin-top:.5rem" onclick="clearPhotoCapture('q2')">🗑️ Retirer la photo</button>
+          </div>
+          <div class="draw-status" id="q2-photo-status">✓ Photo prête à être envoyée</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-head"><div class="qn p1">3</div>
+        <div class="q-txt">On considère le compartiment S'CGH et I' milieu de [HC]. Par un point M de [S'G], on mène la parallèle (Δ) à (GI').</div>
+      </div>
+      <div class="sub-q"><strong>a-</strong> Démontre que la droite (Δ) est sécante au plan (S'CH).</div>
+      <div class="sub-q"><strong>b-</strong> Démontre que la droite (Δ) est parallèle au plan (S'I'G).</div>
+      <div class="sub-q"><strong>c-</strong> Déduis-en que la droite (Δ) est incluse dans le plan (S'I'G).</div>
+      <div class="pts" style="display:inline-block;margin-top:.4rem">~3 pts</div>
+      <div class="hint">💡 (Δ) passe par M∈[S'G] et est parallèle à (GI'). Pense au théorème du toit et aux positions relatives droite/plan.</div>
+      <textarea class="rep p1" id="q3" rows="10" placeholder="a- (Δ) sécante à (S'CH) :&#10;M ∈ [S'G] donc M ∈ plan (S'CH) (car G et S' appartiennent à ce plan)...&#10;&#10;b- (Δ) parallèle à (S'I'G) :&#10;(Δ) est parallèle à (GI') et (GI') ⊂ plan (S'I'G)...&#10;&#10;c- (Δ) incluse dans (S'I'G) :&#10;(Δ) passe par M qui appartient à (S'I'G) et (Δ) est parallèle à ce plan..."></textarea>
+      <div class="wc" id="wc-q3">0 mot</div>
+    </div>
+
+    <button class="btn p1" id="btn-p1" onclick="submitProb('p1')">✦ Soumettre Problème 1 — Correction IA</button>
+    <div class="fb-box" id="fb-p1"><div class="fb-head">✦ Correction IA · Problème 1</div><div class="fb-body" id="fb-p1-body"></div></div>
+  </div>
+</div>
+
+<!-- ══════ PROBLÈME 2 ══════ -->
+<div class="tab-panel" id="panel-p2">
+  <div class="card">
+    <div class="banner p2">Problème 2 — Pyramide SABCD et plan sécant (IJK)</div>
+
+    <div class="ctx-box p2">
+      Le cultivateur est particulièrement intéressé par la forme de la pyramide SABCD qui contient deux compartiments séparés par un plan (IJK) où les points I, J et K sont les milieux respectifs des segments [SA], [SD] et [SC].
+    </div>
+
+    <div class="q-block">
+      <div class="q-head"><div class="qn p2">4</div>
+        <div class="q-txt"><strong>Démontre que les points I, J et K déterminent un plan.</strong></div>
+        <div class="pts">~2 pts</div>
+      </div>
+      <div class="hint">💡 Trois points déterminent un plan s'ils ne sont pas alignés.</div>
+      <textarea class="rep p2" id="q4" rows="5" placeholder="I, J, K sont les milieux respectifs de [SA], [SD], [SC].&#10;S, A, D, C ne sont pas coplanaires (SABCD est une pyramide) donc I, J, K ne sont pas alignés.&#10;Donc I, J et K déterminent un plan (IJK)."></textarea>
+      <div class="wc" id="wc-q4">0 mot</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-head"><div class="qn p2">5</div>
+        <div class="q-txt"><strong>Démontre que la droite (AC) est parallèle au plan (EHG).</strong></div>
+        <div class="pts">~2 pts</div>
+      </div>
+      <div class="hint">💡 Cherche une droite du plan (EHG) parallèle à (AC), en utilisant les propriétés du parallélépipède ABCDEFGH.</div>
+      <textarea class="rep p2" id="q5" rows="6" placeholder="Dans le parallélépipède ABCDEFGH, la face EFGH est parallèle à la face ABCD.&#10;Or (AC) ⊂ plan (ABCD).&#10;Le plan (ABCD) est parallèle au plan (EFGH) donc toute droite du plan (ABCD), en particulier (AC), est parallèle au plan (EFGH) = (EHG)."></textarea>
+      <div class="wc" id="wc-q5">0 mot</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-head"><div class="qn p2">6</div>
+        <div class="q-txt">a- <strong>Justifie que la droite (JK) est parallèle à (AB).</strong></div>
+        <div class="pts">~2 pts</div>
+      </div>
+      <div class="hint">💡 Théorème des milieux dans le triangle SCD (ou SDC).</div>
+      <textarea class="rep p2" id="q6a" rows="4" placeholder="J milieu de [SD], K milieu de [SC].&#10;Dans le triangle SDC, (JK) est la droite des milieux : (JK) ∥ (DC).&#10;Or dans le parallélogramme ABCD, (DC) ∥ (AB).&#10;Donc (JK) ∥ (AB)."></textarea>
+      <div class="wc" id="wc-q6a">0 mot</div>
+
+      <div style="margin-top:.6rem">
+        <div class="q-head"><div class="qn p2">6b</div>
+          <div class="q-txt"><strong>Démontre que les plans (IJK) et (ADC) sont parallèles.</strong></div>
+          <div class="pts">~2 pts</div>
+        </div>
+        <div class="hint">💡 Un plan est parallèle à un autre s'il contient deux droites sécantes chacune parallèle à ce dernier.</div>
+        <textarea class="rep p2" id="q6b" rows="6" placeholder="On a (JK) ∥ (AB) (question 6a) or (AB) ⊂ (ADC)... donc (JK) ∥ (ADC).&#10;De même, dans le triangle SAD, (IJ) est la droite des milieux → (IJ) ∥ (AD)... or (AD) ⊂ (ADC), donc (IJ) ∥ (ADC).&#10;(IJ) et (JK) sont deux droites sécantes du plan (IJK), toutes deux parallèles au plan (ADC).&#10;Donc le plan (IJK) est parallèle au plan (ADC)."></textarea>
+        <div class="wc" id="wc-q6b">0 mot</div>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-head"><div class="qn p2">7</div>
+        <div class="q-txt"><strong>Démontre que les plans (SAC) et (SBD) sont sécants</strong> puis précise leur intersection.</div>
+        <div class="pts">~2 pts</div>
+      </div>
+      <div class="hint">💡 Cherche un point commun évident (intersection des diagonales de la base) puis un second point (S).</div>
+      <textarea class="rep p2" id="q7" rows="6" placeholder="Soit O le point d'intersection des diagonales [AC] et [BD] de la base ABCD.&#10;O ∈ (AC) ⊂ (SAC) et O ∈ (BD) ⊂ (SBD) → O est un point commun aux deux plans.&#10;S appartient aussi aux deux plans (SAC) et (SBD) (sommet commun).&#10;Les plans (SAC) et (SBD) ont donc deux points communs distincts S et O → ils sont sécants.&#10;Leur intersection est la droite (SO)."></textarea>
+      <div class="wc" id="wc-q7">0 mot</div>
+    </div>
+
+    <button class="btn p2" id="btn-p2" onclick="submitProb('p2')">✦ Soumettre Problème 2 — Correction IA</button>
+    <div class="fb-box" id="fb-p2"><div class="fb-head">✦ Correction IA · Problème 2</div><div class="fb-body p2" id="fb-p2-body"></div></div>
+  </div>
+</div>
+
+<!-- ══════ PROBLÈME 3 ══════ -->
+<div class="tab-panel" id="panel-p3">
+  <div class="card">
+    <div class="banner p3">Problème 3 — Pavé droit ABCDEFGH</div>
+
+    <div class="ctx-box p3">
+      L'ingénieur propose à nouveau un réservoir ayant la forme d'un pavé droit de dimensions <strong>6 cm, 4 cm et 3 cm</strong>.
+    </div>
+
+    <div class="q-block">
+      <div class="q-head"><div class="qn p3">8a</div>
+        <div class="q-txt"><strong>Représente en perspective cavalière ce pavé droit</strong> en utilisant le code (a = 45° et K = ½).</div>
+        <div class="pts">~2 pts</div>
+      </div>
+
+      <!-- WIDGET DESSIN + PHOTO -->
+      <div class="draw-widget">
+        <div class="dw-tabbar">
+          <button type="button" class="dw-tab active" id="dwtab-draw-q8" onclick="switchDrawMode('q8','draw')">✏️ Dessiner à l'écran</button>
+          <button type="button" class="dw-tab" id="dwtab-photo-q8" onclick="switchDrawMode('q8','photo')">📷 Photo de ma feuille</button>
+        </div>
+        <div class="dw-panel active" id="dwpanel-draw-q8">
+          <div class="draw-widget-head">
+            <span class="draw-title">Pavé droit 6×4×3 cm</span>
+            <div class="draw-tools">
+              <button type="button" class="draw-btn active" id="dtool-pen-q8cv" onclick="setDrawTool('q8cv','pen')">✏️ Main levée</button>
+              <button type="button" class="draw-btn" id="dtool-line-q8cv" onclick="setDrawTool('q8cv','line')">📏 Ligne</button>
+              <button type="button" class="draw-btn" id="dtool-circle-q8cv" onclick="setDrawTool('q8cv','circle')">⭕ Cercle</button>
+              <button type="button" class="draw-btn" id="dtool-fill-q8cv" onclick="setDrawTool('q8cv','fill')">🪣 Remplir</button>
+              <button type="button" class="draw-btn" id="dtool-erase-q8cv" onclick="setDrawTool('q8cv','erase')">🧽 Gomme</button>
+              <button type="button" class="draw-btn" id="dtool-undo-q8cv" onclick="undoDrawCanvas('q8cv')">↩️ Annuler</button>
+              <button type="button" class="draw-btn danger" onclick="clearDrawCanvas('q8cv')">🗑️ Effacer tout</button>
+            </div>
+          </div>
+          <div class="draw-color-row" id="q8cv-colors" style="margin-bottom:.5rem"></div>
+          <div class="draw-canvas-wrap">
+            <canvas id="q8cv" width="600" height="380"></canvas>
+            <canvas id="q8cv-overlay" width="600" height="380"></canvas>
+          </div>
+          <div class="draw-hint-text">Construis le pavé droit ABCDEFGH en perspective cavalière.</div>
+          <div class="draw-status" id="q8cv-status">✓ Dessin enregistré</div>
+        </div>
+        <div class="dw-panel" id="dwpanel-photo-q8">
+          <p class="draw-hint-text" style="margin-bottom:.6rem">Tu peux construire cette figure sur papier, puis prendre une photo nette pour qu'elle soit corrigée.</p>
+          <input type="file" accept="image/*" capture="environment" id="q8-photo-input" style="display:none" onchange="handlePhotoCapture('q8', this)">
+          <button type="button" class="photo-capture-btn" onclick="document.getElementById('q8-photo-input').click()">📷 Prendre une photo / Choisir une image</button>
+          <div class="photo-preview-wrap" id="q8-photo-preview-wrap" style="display:none">
+            <img id="q8-photo-preview" alt="Aperçu de la photo">
+            <button type="button" class="draw-btn danger" style="margin-top:.5rem" onclick="clearPhotoCapture('q8')">🗑️ Retirer la photo</button>
+          </div>
+          <div class="draw-status" id="q8-photo-status">✓ Photo prête à être envoyée</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-head"><div class="qn p3">8b</div>
+        <div class="q-txt"><strong>Démontre que les plans (ABC) et (EFG) sont strictement parallèles.</strong></div>
+        <div class="pts">~2 pts</div>
+      </div>
+      <textarea class="rep p3" id="q8b" rows="5" placeholder="Dans le pavé droit ABCDEFGH, les faces ABCD et EFGH sont deux faces opposées.&#10;(AB) ∥ (EF) et (AD) ∥ (EH) (arêtes du pavé)...&#10;Les plans (ABC)=(ABCD) et (EFG)=(EFGH) sont donc parallèles, et ils sont distincts (strictement parallèles)."></textarea>
+      <div class="wc" id="wc-q8b">0 mot</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-head"><div class="qn p3">9</div>
+        <div class="q-txt"><strong>Démontre que le plan (FGC) est sécant aux plans (ABC) et (EFG)</strong> puis déduis-en que les droites (BC) et (FG) sont parallèles.</div>
+        <div class="pts">~2,5 pts</div>
+      </div>
+      <div class="hint">💡 Le plan (FGC) coupe (ABC) suivant (BC) et coupe (EFG) suivant (FG). Utilise le théorème du toit (deux plans parallèles coupés par un même plan sécant ont des intersections parallèles).</div>
+      <textarea class="rep p3" id="q9" rows="7" placeholder="(FGC) est sécant à (ABC) : C ∈ (FGC) et C ∈ (ABC), donc les plans se coupent en une droite passant par C, notée (BC) car B ∈ (FGC) aussi (car B,C,F,G coplanaires)...&#10;&#10;(FGC) est sécant à (EFG) selon la droite (FG) (F,G ∈ les deux plans)&#10;&#10;Or (ABC) ∥ (EFG) (question 8b), et (FGC) les coupe selon (BC) et (FG).&#10;D'après le théorème du toit : (BC) ∥ (FG)."></textarea>
+      <div class="wc" id="wc-q9">0 mot</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-head"><div class="qn p3">10</div>
+        <div class="q-txt">On désigne par T le milieu du segment [BD] et N celui de [DC].</div>
+      </div>
+      <div class="sub-q"><strong>a-</strong> Justifie que les droites (NT) et (BC) sont parallèles puis déduis-en que les droites (FG) et (NT) sont parallèles.</div>
+      <div class="sub-q"><strong>b-</strong> Calcule BD et NT.</div>
+      <div class="pts" style="display:inline-block;margin-top:.4rem">~4 pts</div>
+      <div class="hint">💡 T milieu [BD], N milieu [DC] → théorème des milieux dans le triangle BCD. Pavé 6×4×3 : identifie quelles arêtes correspondent à BD (diagonale d'une face) selon le repère ABCDEFGH standard.</div>
+      <textarea class="rep p3" id="q10" rows="10" placeholder="a- Dans le triangle BCD, T milieu de [BD] et N milieu de [DC].&#10;D'après le théorème des milieux : (NT) ∥ (BC) et NT = BC/2.&#10;Or (BC) ∥ (FG) (question 9), donc par transitivité (NT) ∥ (FG).&#10;&#10;b- Calcul de BD :&#10;Si ABCD est un rectangle de côtés AB et AD, alors BD est la diagonale.&#10;BD² = AB² + AD² = ... + ... (Pythagore)&#10;BD = √... = ... cm&#10;&#10;Calcul de NT = BC/2 = .../2 = ... cm"></textarea>
+      <div class="wc" id="wc-q10">0 mot</div>
+    </div>
+
+    <button class="btn p3" id="btn-p3" onclick="submitProb('p3')">✦ Soumettre Problème 3 — Correction IA</button>
+    <div class="fb-box" id="fb-p3"><div class="fb-head">✦ Correction IA · Problème 3</div><div class="fb-body p3" id="fb-p3-body"></div></div>
+  </div>
+</div>
+
+<!-- ══════ CORRIGÉ ══════ -->
+<div class="tab-panel" id="panel-corrige">
+  <div id="corrige-locked" class="locked">
+    <div class="icon">🔒</div>
+    <p><strong>Le corrigé se déverrouille après soumission d'au moins un problème.</strong></p>
+    <p style="margin-top:.4rem">Traite les problèmes d'abord !</p>
+  </div>
+  <div id="corrige-content" style="display:none">
+
+    <div class="card">
+      <div class="bareme-box">
+        <strong>📊 Barème :</strong> 18 points répartis sur les 3 problèmes + <strong>2 points de critère de perfectionnement</strong> (clarté, rigueur de rédaction, qualité des figures) attribués uniquement aux copies ayant obtenu <strong>≥ 12/20</strong> sur la partie évaluation des critères minimaux.
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Problème 1 — Compartiments et positions relatives (~6,5 pts)</h2>
+
+      <div class="cor p1">
+        <h3>Q1 — Nature des compartiments (1,5 pt)</h3>
+        <ul>
+          <li><strong>ABCD</strong> est un <strong>carré</strong> (AB = AE = 50 cm suggère que les faces latérales du pavé sont carrées si toutes les arêtes de base sont égales — à confirmer selon la figure : ABCD est la base du parallélépipède, généralement un rectangle ou carré).</li>
+          <li><strong>EFGH</strong> est un <strong>carré</strong> (face opposée à ABCD dans le parallélépipède, superposable par translation).</li>
+          <li><strong>S'CGH</strong> est un <strong>tétraèdre</strong> (4 sommets non coplanaires formant une pyramide à base triangulaire).</li>
+        </ul>
+      </div>
+
+      <div class="cor p1">
+        <h3>Q2 — Perspective cavalière (2 pts)</h3>
+        <p>Construction attendue : arêtes de face en vraie grandeur à l'échelle 1/10 (AB=50cm→5cm), arêtes fuyantes tracées à 45° avec un coefficient de réduction K=½ (donc AE=50cm→5cm puis ×½=2,5cm sur le dessin pour la fuyante).</p>
+        <p style="font-size:.86rem;color:var(--muted)">Voir le dessin ou la photo soumis par l'élève pour l'évaluation graphique précise.</p>
+      </div>
+
+      <div class="cor p1">
+        <h3>Q3 — Droite (Δ) : position relative avec les plans (3 pts)</h3>
+        <p><strong>a) (Δ) sécante à (S'CH) :</strong> M ∈ [S'G] et G ∉ plan (S'CH) en général (sauf cas particulier), donc (Δ), passant par M et parallèle à (GI'), n'est pas incluse dans (S'CH) mais le coupe en un point (car (GI') n'est pas parallèle à ce plan). (Δ) est donc sécante à (S'CH).</p>
+        <p><strong>b) (Δ) parallèle à (S'I'G) :</strong> (Δ) est parallèle à (GI') par construction, et (GI') est une droite du plan (S'I'G) (car G et I' appartiennent tous deux à ce plan). Une droite parallèle à une droite d'un plan est parallèle à ce plan (si elle n'est pas incluse dedans) → (Δ) ∥ (S'I'G).</p>
+        <p><strong>c) (Δ) incluse dans (S'I'G) :</strong> (Δ) passe par M ∈ [S'G] ⊂ plan (S'I'G) (car S' et G appartiennent au plan (S'I'G)). Une droite parallèle à un plan et passant par un point de ce plan est incluse dans ce plan. Donc (Δ) ⊂ (S'I'G).</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Problème 2 — Pyramide SABCD et plan (IJK) (~8 pts)</h2>
+
+      <div class="cor p2">
+        <h3>Q4 — I, J, K déterminent un plan (2 pts)</h3>
+        <p>I, J, K sont les milieux respectifs de [SA], [SD], [SC], trois arêtes distinctes de la pyramide SABCD issues du sommet S. Comme S, A, D, C ne sont pas coplanaires (pyramide à base non dégénérée), les points I, J, K ne sont pas alignés. <strong>Trois points non alignés déterminent un plan unique</strong> : le plan (IJK).</p>
+      </div>
+
+      <div class="cor p2">
+        <h3>Q5 — (AC) parallèle à (EHG) (2 pts)</h3>
+        <p>Dans le parallélépipède ABCDEFGH, les faces ABCD et EFGH sont parallèles (faces opposées). Or (AC) est une droite du plan (ABCD). Comme (ABCD) ∥ (EFGH), toute droite du plan (ABCD) est parallèle au plan (EFGH). Donc <strong>(AC) ∥ (EHG)</strong>.</p>
+      </div>
+
+      <div class="cor p2">
+        <h3>Q6a — (JK) parallèle à (AB) (2 pts)</h3>
+        <p>Dans le triangle SDC, J est le milieu de [SD] et K est le milieu de [SC]. D'après le <strong>théorème de la droite des milieux</strong> : (JK) ∥ (DC).</p>
+        <p>Or ABCD est un parallélogramme (base du prisme/pyramide), donc (DC) ∥ (AB).</p>
+        <p>Par transitivité : <strong>(JK) ∥ (AB)</strong>.</p>
+      </div>
+
+      <div class="cor p2">
+        <h3>Q6b — Plans (IJK) et (ADC) parallèles (2 pts)</h3>
+        <p>De même que pour JK, dans le triangle SAD : I milieu [SA], J milieu [SD] → (IJ) ∥ (AD) (théorème des milieux).</p>
+        <p>On a (IJ) ∥ (AD) avec (AD) ⊂ (ADC) → (IJ) ∥ (ADC).</p>
+        <p>On a (JK) ∥ (AB) avec (AB) ∥ (DC) ⊂ (ADC) → (JK) ∥ (ADC).</p>
+        <p>(IJ) et (JK) sont deux droites sécantes en J, du plan (IJK), toutes deux parallèles au plan (ADC).</p>
+        <p><strong>Donc le plan (IJK) est parallèle au plan (ADC).</strong></p>
+      </div>
+
+      <div class="cor p2">
+        <h3>Q7 — Plans (SAC) et (SBD) sécants (2 pts)</h3>
+        <p>Soit O le point d'intersection des diagonales [AC] et [BD] du quadrilatère ABCD.</p>
+        <p>O ∈ (AC) ⊂ (SAC) et O ∈ (BD) ⊂ (SBD) → O est commun aux deux plans.</p>
+        <p>S appartient également aux deux plans (sommet commun de la pyramide).</p>
+        <p>Les plans (SAC) et (SBD) ont deux points communs distincts S et O → ils sont <strong>sécants</strong> selon la droite <strong>(SO)</strong>.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Problème 3 — Pavé droit (~10,5 pts)</h2>
+
+      <div class="cor p3">
+        <h3>Q8a — Perspective cavalière du pavé (2 pts)</h3>
+        <p>Pavé droit 6×4×3 cm, code a=45°, K=½. Les arêtes de face conservent leur longueur réelle ; les arêtes fuyantes sont tracées à 45° avec une longueur réduite de moitié.</p>
+        <p style="font-size:.86rem;color:var(--muted)">Voir dessin/photo soumis par l'élève.</p>
+      </div>
+
+      <div class="cor p3">
+        <h3>Q8b — Plans (ABC) et (EFG) strictement parallèles (2 pts)</h3>
+        <p>Dans le pavé droit ABCDEFGH, ABCD et EFGH sont des faces opposées : (AB) ∥ (EF), (AD) ∥ (EH) — deux couples de droites sécantes respectivement parallèles.</p>
+        <p>Donc les plans (ABC)=(ABCD) et (EFG)=(EFGH) sont <strong>parallèles</strong>, et distincts (donc strictement parallèles).</p>
+      </div>
+
+      <div class="cor p3">
+        <h3>Q9 — Plan (FGC) sécant à (ABC) et (EFG), puis (BC) ∥ (FG) (2,5 pts)</h3>
+        <p>(FGC) contient C, commun avec (ABC), et F,G communs avec (EFG). Comme ces plans ne sont pas confondus, (FGC) coupe (ABC) selon une droite passant par C : c'est <strong>(BC)</strong> (car B, C, F, G sont coplanaires dans (FGC)).</p>
+        <p>De même, (FGC) coupe (EFG) selon <strong>(FG)</strong>.</p>
+        <p>Comme (ABC) ∥ (EFG) et que le plan (FGC) les coupe selon (BC) et (FG) respectivement, le <strong>théorème du toit</strong> donne : <strong>(BC) ∥ (FG)</strong>.</p>
+      </div>
+
+      <div class="cor p3">
+        <h3>Q10a — (NT) ∥ (BC) puis (FG) ∥ (NT) (2 pts)</h3>
+        <p>Dans le triangle BCD, T milieu de [BD], N milieu de [DC]. D'après le théorème des milieux : <strong>(NT) ∥ (BC)</strong> et NT = BC/2.</p>
+        <p>Or (BC) ∥ (FG) (question 9), donc par transitivité : <strong>(NT) ∥ (FG)</strong>.</p>
+      </div>
+
+      <div class="cor p3">
+        <h3>Q10b — Calcul de BD et NT (2 pts)</h3>
+        <p>Le pavé droit a pour dimensions 6 cm, 4 cm et 3 cm. Si ABCD est la face de base rectangle avec AB=6cm et AD=4cm (ou selon la configuration de la figure), BD est la diagonale de cette face.</p>
+        <p class="math">BD² = AB² + AD² = 6² + 4² = 36 + 16 = 52</p>
+        <p class="math">BD = √52 = 2√13 ≈ <strong>7,21 cm</strong></p>
+        <p class="math">NT = BC/2 = AD/2 = 4/2 = <strong>2 cm</strong></p>
+        <p style="font-size:.85rem;color:var(--muted)">NB : Les valeurs exactes dépendent du placement précis des sommets A,B,C,D sur le pavé selon la figure de l'élève ; adapter si une autre face sert de base.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</main>
+
+<script>
+/* ═══════════════════════════════════════════════
+   WIDGET DE DESSIN RÉUTILISABLE (canvas tactile)
+   Outils : main levée, ligne, cercle, remplissage, gomme, annuler
+   + Mode photo (capture caméra / galerie)
+   ═══════════════════════════════════════════════ */
+const DRAW_COLORS = ['#1a1a2e','#1a3a8a','#8b1a1a','#1a5a2a','#7a5000'];
+const drawState = {};
+const photoState = {};
+const MAX_UNDO = 15;
+
+function initDrawCanvas(canvasId){
+  const canvas = document.getElementById(canvasId);
+  const overlay = document.getElementById(canvasId+'-overlay');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const octx = overlay ? overlay.getContext('2d') : null;
+  ctx.fillStyle = '#fdfdfd';
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+
+  drawState[canvasId] = {
+    tool:'pen', color: DRAW_COLORS[0], drawing:false,
+    startX:0, startY:0, lastX:0, lastY:0,
+    ctx, octx, overlay, hasContent:false,
+    history: []
+  };
+
+  pushHistory(canvasId);
+
+  const colorRow = document.getElementById(canvasId+'-colors');
+  if(colorRow){
+    colorRow.innerHTML='';
+    DRAW_COLORS.forEach((c,i)=>{
+      const dot=document.createElement('div');
+      dot.className='draw-color'+(i===0?' selected':'');
+      dot.style.background=c;
+      dot.onclick=()=>{
+        drawState[canvasId].color=c;
+        colorRow.querySelectorAll('.draw-color').forEach(d=>d.classList.remove('selected'));
+        dot.classList.add('selected');
+      };
+      colorRow.appendChild(dot);
+    });
+  }
+
+  function getPos(e){
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    const cx = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+    const cy = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
+    return { x: cx*scaleX, y: cy*scaleY };
+  }
+
+  function markUsed(){
+    drawState[canvasId].hasContent = true;
+    document.getElementById(canvasId+'-status')?.classList.add('show');
+  }
+
+  function clearOverlay(){
+    if(octx) octx.clearRect(0,0,overlay.width,overlay.height);
+  }
+
+  function floodFill(x, y, fillColor){
+    x = Math.round(x); y = Math.round(y);
+    const w = canvas.width, h = canvas.height;
+    if(x<0||y<0||x>=w||y>=h) return;
+    const imgData = ctx.getImageData(0,0,w,h);
+    const data = imgData.data;
+    const idx = (px,py)=> (py*w+px)*4;
+    const startIdx = idx(x,y);
+    const startR=data[startIdx], startG=data[startIdx+1], startB=data[startIdx+2], startA=data[startIdx+3];
+    const fr = parseInt(fillColor.slice(1,3),16);
+    const fg = parseInt(fillColor.slice(3,5),16);
+    const fb = parseInt(fillColor.slice(5,7),16);
+    if(startR===fr && startG===fg && startB===fb) return;
+    const matchTol = 40;
+    function matches(px,py){
+      const i = idx(px,py);
+      return Math.abs(data[i]-startR)<=matchTol && Math.abs(data[i+1]-startG)<=matchTol &&
+             Math.abs(data[i+2]-startB)<=matchTol && Math.abs(data[i+3]-startA)<=matchTol;
+    }
+    const stack = [[x,y]];
+    let safety = 0;
+    const maxOps = w*h;
+    while(stack.length && safety < maxOps){
+      const [px,py] = stack.pop();
+      if(px<0||py<0||px>=w||py>=h) continue;
+      if(!matches(px,py)) continue;
+      const i = idx(px,py);
+      data[i]=fr; data[i+1]=fg; data[i+2]=fb; data[i+3]=255;
+      stack.push([px+1,py],[px-1,py],[px,py+1],[px,py-1]);
+      safety++;
+    }
+    ctx.putImageData(imgData,0,0);
+  }
+
+  function start(e){
+    e.preventDefault();
+    const s = drawState[canvasId];
+    const pos = getPos(e);
+    s.startX = pos.x; s.startY = pos.y;
+    s.lastX = pos.x; s.lastY = pos.y;
+    if(s.tool === 'fill'){
+      floodFill(pos.x, pos.y, s.color);
+      markUsed();
+      pushHistory(canvasId);
+      return;
+    }
+    s.drawing = true;
+  }
+
+  function move(e){
+    const s = drawState[canvasId];
+    if(!s.drawing) return;
+    e.preventDefault();
+    const pos = getPos(e);
+    if(s.tool === 'pen' || s.tool === 'erase'){
+      s.ctx.strokeStyle = s.tool==='erase' ? '#fdfdfd' : s.color;
+      s.ctx.lineWidth = s.tool==='erase' ? 22 : 2.5;
+      s.ctx.beginPath();
+      s.ctx.moveTo(s.lastX, s.lastY);
+      s.ctx.lineTo(pos.x, pos.y);
+      s.ctx.stroke();
+      s.lastX = pos.x; s.lastY = pos.y;
+      markUsed();
+    }
+    else if(s.tool === 'line'){
+      clearOverlay();
+      if(s.octx){
+        s.octx.strokeStyle = s.color;
+        s.octx.lineWidth = 2.5;
+        s.octx.setLineDash([5,4]);
+        s.octx.beginPath();
+        s.octx.moveTo(s.startX, s.startY);
+        s.octx.lineTo(pos.x, pos.y);
+        s.octx.stroke();
+        s.octx.setLineDash([]);
+      }
+      s.lastX = pos.x; s.lastY = pos.y;
+    }
+    else if(s.tool === 'circle'){
+      clearOverlay();
+      if(s.octx){
+        const r = Math.hypot(pos.x-s.startX, pos.y-s.startY);
+        s.octx.strokeStyle = s.color;
+        s.octx.lineWidth = 2.5;
+        s.octx.setLineDash([5,4]);
+        s.octx.beginPath();
+        s.octx.arc(s.startX, s.startY, r, 0, Math.PI*2);
+        s.octx.stroke();
+        s.octx.setLineDash([]);
+      }
+      s.lastX = pos.x; s.lastY = pos.y;
+    }
+  }
+
+  function end(){
+    const s = drawState[canvasId];
+    if(!s.drawing) return;
+    s.drawing = false;
+    let acted = false;
+    if(s.tool === 'line'){
+      s.ctx.strokeStyle = s.color;
+      s.ctx.lineWidth = 2.5;
+      s.ctx.beginPath();
+      s.ctx.moveTo(s.startX, s.startY);
+      s.ctx.lineTo(s.lastX, s.lastY);
+      s.ctx.stroke();
+      clearOverlay();
+      markUsed();
+      acted = true;
+    }
+    else if(s.tool === 'circle'){
+      const r = Math.hypot(s.lastX-s.startX, s.lastY-s.startY);
+      s.ctx.strokeStyle = s.color;
+      s.ctx.lineWidth = 2.5;
+      s.ctx.beginPath();
+      s.ctx.arc(s.startX, s.startY, r, 0, Math.PI*2);
+      s.ctx.stroke();
+      clearOverlay();
+      markUsed();
+      acted = true;
+    }
+    else if(s.tool === 'pen' || s.tool === 'erase'){
+      acted = true;
+    }
+    if(acted) pushHistory(canvasId);
+  }
+
+  canvas.addEventListener('mousedown', start);
+  canvas.addEventListener('mousemove', move);
+  window.addEventListener('mouseup', end);
+  canvas.addEventListener('touchstart', start, {passive:false});
+  canvas.addEventListener('touchmove', move, {passive:false});
+  canvas.addEventListener('touchend', end);
+}
+
+function pushHistory(canvasId){
+  const s = drawState[canvasId];
+  if(!s) return;
+  const snap = s.ctx.getImageData(0,0,s.ctx.canvas.width,s.ctx.canvas.height);
+  s.history.push(snap);
+  if(s.history.length > MAX_UNDO) s.history.shift();
+}
+
+function undoDrawCanvas(canvasId){
+  const s = drawState[canvasId];
+  if(!s || s.history.length <= 1) return;
+  s.history.pop();
+  const prev = s.history[s.history.length-1];
+  s.ctx.putImageData(prev, 0, 0);
+  s.hasContent = s.history.length > 1;
+  if(!s.hasContent) document.getElementById(canvasId+'-status')?.classList.remove('show');
+}
+
+function setDrawTool(canvasId, tool){
+  if(!drawState[canvasId]) return;
+  drawState[canvasId].tool = tool;
+  ['pen','line','circle','fill','erase'].forEach(t=>{
+    document.getElementById('dtool-'+t+'-'+canvasId)?.classList.toggle('active', t===tool);
+  });
+}
+
+function clearDrawCanvas(canvasId){
+  const canvas = document.getElementById(canvasId);
+  const overlay = document.getElementById(canvasId+'-overlay');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = '#fdfdfd';
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  if(overlay) overlay.getContext('2d').clearRect(0,0,overlay.width,overlay.height);
+  drawState[canvasId].hasContent = false;
+  drawState[canvasId].history = [];
+  pushHistory(canvasId);
+  document.getElementById(canvasId+'-status')?.classList.remove('show');
+}
+
+function getDrawCanvasBase64(canvasId){
+  const canvas = document.getElementById(canvasId);
+  if(!canvas || !drawState[canvasId] || !drawState[canvasId].hasContent) return null;
+  return canvas.toDataURL('image/png').split(',')[1];
+}
+
+function switchDrawMode(baseId, mode){
+  document.getElementById('dwtab-draw-'+baseId)?.classList.toggle('active', mode==='draw');
+  document.getElementById('dwtab-photo-'+baseId)?.classList.toggle('active', mode==='photo');
+  document.getElementById('dwpanel-draw-'+baseId)?.classList.toggle('active', mode==='draw');
+  document.getElementById('dwpanel-photo-'+baseId)?.classList.toggle('active', mode==='photo');
+}
+
+function handlePhotoCapture(baseId, inputEl){
+  const file = inputEl.files && inputEl.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = (e)=>{
+    photoState[baseId] = { dataUrl: e.target.result, mediaType: file.type || 'image/jpeg' };
+    const img = document.getElementById(baseId+'-photo-preview');
+    const wrap = document.getElementById(baseId+'-photo-preview-wrap');
+    if(img) img.src = e.target.result;
+    if(wrap) wrap.style.display = 'block';
+    document.getElementById(baseId+'-photo-status')?.classList.add('show');
+  };
+  reader.readAsDataURL(file);
+}
+
+function clearPhotoCapture(baseId){
+  delete photoState[baseId];
+  const wrap = document.getElementById(baseId+'-photo-preview-wrap');
+  if(wrap) wrap.style.display = 'none';
+  document.getElementById(baseId+'-photo-status')?.classList.remove('show');
+  const input = document.getElementById(baseId+'-photo-input');
+  if(input) input.value = '';
+}
+
+function getPhotoBase64(baseId){
+  const p = photoState[baseId];
+  if(!p) return null;
+  return { base64: p.dataUrl.split(',')[1], mediaType: p.mediaType };
+}
+
+document.addEventListener('DOMContentLoaded', ()=>{
+  document.querySelectorAll('.draw-canvas-wrap canvas:not([id$="-overlay"])').forEach(c=>initDrawCanvas(c.id));
+  // Avertissement si ouvert en local
+  if(location.protocol === 'file:'){
+    document.getElementById('local-warning')?.classList.add('show');
+  }
+});
+</script>
+<script>
+function switchTab(name,e){
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('panel-'+name).classList.add('active');
+  e.currentTarget.classList.add('active');
+}
+function cw(s){return s.trim().split(/\s+/).filter(w=>w.length>0).length;}
+document.querySelectorAll('textarea.rep').forEach(ta=>{
+  const wc=document.getElementById('wc-'+ta.id);
+  if(!wc)return;
+  ta.addEventListener('input',()=>{const n=cw(ta.value);wc.textContent=n+(n>1?' mots':' mot');});
+});
+let unlocked=false;
+function unlockCorrige(){
+  if(unlocked)return;unlocked=true;
+  document.getElementById('corrige-locked').style.display='none';
+  document.getElementById('corrige-content').style.display='block';
+}
+async function callClaude(sys,msg,el,images){
+  const hasImg = images && images.length>0;
+  el.innerHTML='<div class="spinner"></div> L\'IA corrige ta réponse'+(hasImg?' (texte + image'+(images.length>1?'s':'')+')':'')+'…';
+  el.classList.add('loading');
+  try{
+    let content = msg;
+    if(hasImg){
+      content = [{type:'text', text: msg + '\n\n(Un ou plusieurs dessins/photos ont été joints — analyse-les aussi dans ta correction, notamment pour évaluer les constructions géométriques demandées.)'}];
+      images.forEach(img=>{
+        content.push({type:'image', source:{type:'base64', media_type: img.mediaType || 'image/png', data: img.base64}});
+      });
+    }
+    const r=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1500,system:sys,messages:[{role:'user',content:content}]})
+    });
+    const d=await r.json();
+    el.classList.remove('loading');
+    el.innerHTML=d.content.map(i=>i.text||'').join('\n');
+  }catch{
+    el.classList.remove('loading');
+    el.innerHTML='<p style="color:#8b1a1a">Erreur. Réessaie.</p>';
+  }
+}
+
+const BAREME_NOTE = `Barème global : cette épreuve est notée sur 18 points pour les critères minimaux (exactitude mathématique, rigueur de démonstration) + 2 points de critère de perfectionnement (clarté de rédaction, qualité des figures/schémas) attribués uniquement si la note des critères minimaux est ≥ 12/20. Répartis ton score estimé sur 18 pts pour cette partie, puis indique séparément si les 2 pts de perfectionnement semblent mérités selon la qualité de rédaction et des figures/dessins fournis.`;
+
+const SYS={
+p1:`Tu es un professeur de Mathématiques expert au niveau 2nde C/D au Bénin (géométrie dans l'espace). Tu corriges le Problème 1 (~6,5 pts sur 18) sur un pavé/pyramide (retenue d'eau).
+${BAREME_NOTE}
+Réponses attendues:
+Q1(1,5pt): ABCD=carré ou rectangle (base du pavé), EFGH=carré ou rectangle (face opposée, congruente à ABCD), S'CGH=tétraèdre (4 sommets non coplanaires).
+Q2(2pts): Perspective cavalière du pavé ABCDEFG à l'échelle 1/10 avec a=45°, K=1/2. Les arêtes de face gardent leur longueur réelle réduite à l'échelle; les arêtes fuyantes sont tracées à 45° avec longueur multipliée par K=1/2. Si une image (dessin ou photo) est fournie, évalue la construction: angle des fuyantes ~45°, respect approximatif du coefficient de réduction, cohérence du parallélépipède.
+Q3(3pts): a) (Δ) sécante à (S'CH): M∈[S'G], (Δ) parallèle à (GI') n'est pas incluse dans (S'CH) donc coupe ce plan en un point. b) (Δ) parallèle à (S'I'G) car parallèle à (GI')⊂(S'I'G). c) (Δ) incluse dans (S'I'G) car passe par M∈(S'I'G) et est parallèle à ce plan.
+Réponds en HTML simple (p,h4,ul,li,strong), pas de markdown. Structure: <h4>📊 Score estimé (critères minimaux)</h4>(sur 18pts, cette partie vaut ~6,5pts) <h4>Q1 Nature compartiments (1,5pt)</h4> <h4>Q2 Perspective cavalière (2pts)</h4> <h4>Q3 Positions relatives (3pts)</h4> <h4>✏️ Évaluation du dessin/photo</h4>(uniquement si une image est jointe) <h4>💡 Conseils</h4> Sois rigoureux sur les démonstrations de géométrie dans l'espace, niveau 2nde.`,
+p2:`Tu es un professeur de Mathématiques expert au niveau 2nde C/D au Bénin (géométrie dans l'espace). Tu corriges le Problème 2 (~8 pts sur 18) sur une pyramide SABCD et le plan (IJK).
+${BAREME_NOTE}
+Réponses attendues:
+Q4(2pts): I,J,K milieux de [SA],[SD],[SC], non alignés car S,A,D,C non coplanaires → déterminent un plan (IJK).
+Q5(2pts): (ABCD)∥(EFGH) (faces opposées parallélépipède) donc (AC)⊂(ABCD) est parallèle à (EFGH)=(EHG).
+Q6a(2pts): Théorème des milieux dans triangle SDC: (JK)∥(DC). Or (DC)∥(AB) dans parallélogramme ABCD. Donc (JK)∥(AB).
+Q6b(2pts): De même (IJ)∥(AD) (milieux triangle SAD). (IJ)∥(ADC) et (JK)∥(ADC) (car AB∥DC⊂ADC), deux sécantes du plan (IJK) parallèles à (ADC) → (IJK)∥(ADC).
+Q7(2pts): O intersection diagonales AC et BD. O et S communs aux 2 plans (SAC) et (SBD) → sécants selon (SO).
+Réponds en HTML simple. Structure: <h4>📊 Score estimé (critères minimaux)</h4>(sur 18pts, cette partie vaut ~8pts) <h4>Q4 Plan IJK (2pts)</h4> <h4>Q5 AC parallèle EHG (2pts)</h4> <h4>Q6a JK parallèle AB (2pts)</h4> <h4>Q6b Plans IJK et ADC parallèles (2pts)</h4> <h4>Q7 Plans SAC SBD sécants (2pts)</h4> <h4>💡 Conseils</h4> Sois rigoureux niveau 2nde.`,
+p3:`Tu es un professeur de Mathématiques expert au niveau 2nde C/D au Bénin (géométrie dans l'espace). Tu corriges le Problème 3 (~10,5 pts sur 18) sur un pavé droit 6×4×3cm.
+${BAREME_NOTE}
+Réponses attendues:
+Q8a(2pts): Perspective cavalière pavé droit avec a=45°, K=1/2. Si image jointe, évalue la construction.
+Q8b(2pts): (ABCD)∥(EFGH) car (AB)∥(EF) et (AD)∥(EH), faces opposées du pavé, strictement parallèles.
+Q9(2,5pts): (FGC) sécant à (ABC) selon (BC), sécant à (EFG) selon (FG). Théorème du toit: (ABC)∥(EFG) coupés par (FGC) → (BC)∥(FG).
+Q10a(2pts): Théorème des milieux triangle BCD: T milieu[BD], N milieu[DC] → (NT)∥(BC). Or (BC)∥(FG) donc (NT)∥(FG).
+Q10b(2pts): Pavé 6×4×3. BD diagonale d'une face rectangle (ex 6×4): BD²=6²+4²=52, BD=√52=2√13≈7,21cm. NT=BC/2 (dépend dimension utilisée, ex 4/2=2cm). Accepte toute valeur cohérente avec la configuration choisie par l'élève tant que le raisonnement (Pythagore + théorème des milieux) est correct.
+Réponds en HTML simple. Structure: <h4>📊 Score estimé (critères minimaux)</h4>(sur 18pts, cette partie vaut ~10,5pts) <h4>Q8a Perspective cavalière (2pts)</h4> <h4>Q8b Plans parallèles (2pts)</h4> <h4>Q9 Théorème du toit (2,5pts)</h4> <h4>Q10a Parallélisme NT FG (2pts)</h4> <h4>Q10b Calcul BD et NT (2pts)</h4> <h4>✏️ Évaluation du dessin/photo</h4>(uniquement si une image est jointe) <h4>💡 Conseils</h4> Vérifie soigneusement les calculs numériques et accepte les variantes cohérentes de placement des sommets.`
+};
+
+async function submitProb(prob){
+  document.getElementById('btn-'+prob).disabled=true;
+  const fb=document.getElementById('fb-'+prob);fb.classList.add('visible');
+  const body=document.getElementById('fb-'+prob+'-body');
+  let msg='';
+  let images=[];
+  if(prob==='p1'){
+    msg=`Q1:\n${document.getElementById('q1').value||'(vide)'}\n\nQ3:\n${document.getElementById('q3').value||'(vide)'}`;
+    const c2 = getDrawCanvasBase64('q2cv');
+    if(c2) images.push({base64:c2, mediaType:'image/png'});
+    const p2 = getPhotoBase64('q2');
+    if(p2) images.push(p2);
+  }else if(prob==='p2'){
+    msg=`Q4:\n${document.getElementById('q4').value||'(vide)'}\n\nQ5:\n${document.getElementById('q5').value||'(vide)'}\n\nQ6a:\n${document.getElementById('q6a').value||'(vide)'}\n\nQ6b:\n${document.getElementById('q6b').value||'(vide)'}\n\nQ7:\n${document.getElementById('q7').value||'(vide)'}`;
+  }else{
+    msg=`Q8b:\n${document.getElementById('q8b').value||'(vide)'}\n\nQ9:\n${document.getElementById('q9').value||'(vide)'}\n\nQ10:\n${document.getElementById('q10').value||'(vide)'}`;
+    const c8 = getDrawCanvasBase64('q8cv');
+    if(c8) images.push({base64:c8, mediaType:'image/png'});
+    const p8 = getPhotoBase64('q8');
+    if(p8) images.push(p8);
+  }
+  await callClaude(SYS[prob],msg,body,images);
+  unlockCorrige();
+}
+</script>
+</body>
+</html>
