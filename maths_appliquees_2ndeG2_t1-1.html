@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maths Appliquées 2nde G2 — Composition 1er Trimestre 2023-2024</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Serif+4:wght@300;400;600&family=Space+Grotesk:wght@400;500;600&display=swap');
+  :root{
+    --ink:#1a1a2e;--bg:#f3f2f8;--warm:#fefcff;
+    --p1:#1a4a8a;--p1l:#4a7ac4;--p1s:#e8f0fb;
+    --p2:#6a3a1a;--p2l:#c4824a;--p2s:#fbf0e8;
+    --gold:#7a6000;--gold-light:#fdf6e0;
+    --border:#c8c0d8;--muted:#606070;--shadow:rgba(26,26,46,0.07);
+    --green:#1a6b3a;--red:#8b1a1a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Source Serif 4',Georgia,serif;background:var(--bg);color:var(--ink);font-size:16px;line-height:1.78;}
+  header{background:linear-gradient(135deg,#0a1a4a 0%,#1a4a8a 50%,#5a2a08 100%);color:#fff;padding:2rem 2rem 1.6rem;text-align:center;}
+  .eyebrow{font-family:'Space Grotesk',sans-serif;font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:#b0c8f0;margin-bottom:.4rem;}
+  header h1{font-family:'Playfair Display',serif;font-size:clamp(1.3rem,4vw,1.9rem);color:#fff;}
+  .hsub{font-family:'Space Grotesk',sans-serif;font-size:.8rem;color:#b0c0e0;margin-top:.25rem;}
+  .hmeta{display:flex;justify-content:center;flex-wrap:wrap;gap:1.3rem;margin-top:.9rem;font-family:'Space Grotesk',sans-serif;font-size:.74rem;color:#a0b8e0;letter-spacing:.05em;}
+  .tab-bar{display:flex;background:var(--warm);border-bottom:2px solid var(--border);overflow-x:auto;position:sticky;top:0;z-index:50;scrollbar-width:none;}
+  .tab-bar::-webkit-scrollbar{display:none;}
+  .tab-btn{font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:.78rem 1rem;border:none;background:transparent;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap;transition:all .2s;}
+  .tab-btn:hover:not(.active){color:var(--ink);background:#edeafb;}
+  .tab-btn.p1.active{color:var(--p1);border-bottom-color:var(--p1);}
+  .tab-btn.p2.active{color:var(--p2);border-bottom-color:var(--p2);}
+  .tab-btn.cr.active{color:#333;border-bottom-color:#333;}
+  main{max-width:900px;margin:0 auto;padding:2rem 1.5rem 5rem;}
+  .tab-panel{display:none;}.tab-panel.active{display:block;}
+  .card{background:var(--warm);border:1px solid var(--border);border-radius:4px;padding:1.7rem 1.9rem;margin-bottom:1.5rem;box-shadow:0 2px 8px var(--shadow);}
+  .card h2{font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--ink);border-bottom:1px solid var(--border);padding-bottom:.55rem;margin-bottom:.9rem;}
+  .banner{color:#fff;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:.6rem 1.1rem;border-radius:4px;margin-bottom:1rem;display:flex;justify-content:space-between;align-items:center;}
+  .banner.p1{background:var(--p1);}.banner.p2{background:var(--p2);}
+  .bpts{background:rgba(255,255,255,0.22);padding:.12rem .55rem;border-radius:10px;font-size:.73rem;}
+  .ctx-box{border-radius:0 4px 4px 0;padding:.9rem 1.15rem;font-size:.91rem;line-height:1.8;margin-bottom:.9rem;}
+  .ctx-box.p1{background:var(--p1s);border-left:4px solid var(--p1);}
+  .ctx-box.p2{background:var(--p2s);border-left:4px solid var(--p2);}
+  .info-box{background:#fff;border:1px solid var(--border);border-radius:4px;padding:.85rem 1.05rem;margin-bottom:.85rem;font-size:.88rem;line-height:1.75;}
+  .info-box .ititle{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.35rem;}
+  .info-box.p1 .ititle{color:var(--p1);}.info-box.p2 .ititle{color:var(--p2);}
+  .info-box ul{padding-left:1.2rem;}.info-box li{margin-bottom:.22rem;}
+  /* TABLEAU PARTAGE */
+  .part-table{width:100%;border-collapse:collapse;font-size:.85rem;margin:.6rem 0;}
+  .part-table th{background:var(--p1);color:#fff;font-family:'Space Grotesk',sans-serif;font-size:.72rem;padding:.45rem .5rem;text-align:center;border:1px solid var(--p1);}
+  .part-table td{border:1.5px solid var(--border);padding:.4rem .5rem;text-align:center;}
+  .part-table td.rowlabel{font-family:'Space Grotesk',sans-serif;font-size:.76rem;font-weight:600;text-align:left;background:var(--p1s);}
+  /* QUESTIONS */
+  .q-block{background:var(--warm);border:1px solid var(--border);border-radius:4px;padding:1.05rem 1.3rem;margin-bottom:.85rem;}
+  .q-head{display:flex;align-items:flex-start;gap:.7rem;margin-bottom:.55rem;}
+  .qn{color:#fff;font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;min-width:1.9rem;height:1.7rem;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:.1rem;padding:0 .3rem;}
+  .qn.p1{background:var(--p1);}.qn.p2{background:var(--p2);}
+  .q-txt{flex:1;font-size:.92rem;line-height:1.6;}
+  .pts{font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:600;color:var(--gold);background:var(--gold-light);border:1px solid #dfc96a;padding:.08rem .45rem;border-radius:10px;white-space:nowrap;flex-shrink:0;}
+  .sub-q{font-size:.9rem;margin:.38rem 0 .38rem 1rem;line-height:1.6;}
+  textarea.rep{width:100%;border:1.5px solid var(--border);border-radius:4px;padding:.65rem .82rem;font-family:'Source Serif 4',serif;font-size:.92rem;line-height:1.7;background:#fdfbf8;color:var(--ink);resize:vertical;transition:border-color .2s;}
+  textarea.rep:focus{outline:none;background:#fff;}
+  textarea.rep.p1:focus{border-color:var(--p1l);}
+  textarea.rep.p2:focus{border-color:var(--p2l);}
+  .wc{font-family:'Space Grotesk',sans-serif;font-size:.68rem;color:var(--muted);text-align:right;margin-top:.22rem;}
+  .hint{background:#fff;border:1px solid var(--border);border-radius:4px;padding:.6rem .85rem;margin-bottom:.52rem;font-size:.81rem;font-family:'Space Grotesk',sans-serif;color:var(--muted);}
+  .math-box{background:#f8f8ff;border:1px solid #d0c8f0;border-radius:4px;padding:.7rem 1rem;font-family:'Times New Roman',serif;font-size:1.02rem;margin:.5rem 0;line-height:1.9;}
+  .nota-box{background:#fff3e0;border:1px solid #e0b070;border-radius:4px;padding:.8rem 1.1rem;font-size:.85rem;font-family:'Space Grotesk',sans-serif;color:#8a5a00;margin-bottom:1rem;}
+  /* BOUTONS */
+  .btn{display:block;width:100%;padding:.85rem;color:#fff;font-family:'Space Grotesk',sans-serif;font-size:.83rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;border:none;border-radius:4px;cursor:pointer;transition:background .2s;margin-top:1.1rem;}
+  .btn.p1{background:var(--p1);}.btn.p1:hover{background:#0a1a5a;}
+  .btn.p2{background:var(--p2);}.btn.p2:hover{background:#4a2808;}
+  .btn:disabled{opacity:.55;cursor:not-allowed;}
+  /* FEEDBACK */
+  .fb-box{display:none;margin-top:1rem;border-radius:4px;overflow:hidden;}
+  .fb-box.visible{display:block;}
+  .fb-head{background:var(--ink);color:#fff;padding:.62rem 1.05rem;font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;}
+  .fb-body{background:var(--warm);border:1px solid var(--border);border-top:none;padding:1.05rem 1.3rem;font-size:.9rem;line-height:1.74;}
+  .fb-body.loading{display:flex;align-items:center;gap:.6rem;color:var(--muted);font-style:italic;font-size:.82rem;}
+  .spinner{width:.9rem;height:.9rem;border:2px solid var(--border);border-top-color:var(--p1);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .fb-body h4{font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:1rem 0 .3rem;padding-bottom:.2rem;border-bottom:1px solid var(--border);}
+  .fb-body h4:first-child{margin-top:0;}
+  .fb-body p{margin-bottom:.5rem;}.fb-body ul{padding-left:1.1rem;}.fb-body li{margin-bottom:.25rem;}
+  .fb-body strong{color:var(--p1);}
+  .fb-body.p2 strong{color:var(--p2);}
+  /* CORRIGÉ */
+  .cor{border-radius:4px;padding:1.05rem 1.3rem;margin-bottom:.9rem;font-size:.9rem;line-height:1.78;}
+  .cor.p1{background:var(--p1s);border:1px solid #b8c8e8;border-left:4px solid var(--p1);}
+  .cor.p2{background:var(--p2s);border:1px solid #e8c8a8;border-left:4px solid var(--p2);}
+  .cor h3{font-family:'Playfair Display',serif;font-size:.97rem;margin-bottom:.5rem;}
+  .cor.p1 h3{color:var(--p1);}.cor.p2 h3{color:var(--p2);}
+  .cor p{margin-bottom:.4rem;}.cor ul{padding-left:1.1rem;margin-bottom:.38rem;}.cor li{margin-bottom:.28rem;}
+  .math{font-family:'Times New Roman',serif;font-size:.97rem;background:#fff;border:1px solid var(--border);border-radius:3px;padding:.2rem .52rem;display:inline-block;margin:.16rem 0;}
+  table.cor-table{width:100%;border-collapse:collapse;font-size:.82rem;margin:.55rem 0;}
+  table.cor-table th{color:#fff;font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:600;padding:.4rem .5rem;text-align:center;border:1px solid var(--border);}
+  table.cor-table th.p1{background:var(--p1);}table.cor-table th.p2{background:var(--p2);}
+  table.cor-table td{border:1.5px solid var(--border);padding:.38rem .5rem;text-align:center;}
+  .locked{background:var(--warm);border:2px dashed var(--border);border-radius:4px;padding:2.5rem;text-align:center;color:var(--muted);font-family:'Space Grotesk',sans-serif;font-size:.85rem;}
+  .locked .icon{font-size:2rem;margin-bottom:.5rem;}
+  /* ═══ WIDGET DESSIN + PHOTO (réutilisable) ═══ */
+  .draw-widget{background:#fff;border:1.5px solid var(--border);border-radius:6px;padding:.8rem;margin:.7rem 0;}
+  .dw-tabbar{display:flex;gap:.3rem;margin-bottom:.7rem;border-bottom:1.5px solid var(--border);}
+  .dw-tab{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:600;padding:.45rem .8rem;border:none;background:transparent;color:var(--muted);cursor:pointer;border-bottom:2.5px solid transparent;margin-bottom:-1.5px;transition:all .15s;}
+  .dw-tab:hover{color:var(--ink);}
+  .dw-tab.active{color:var(--p1);border-bottom-color:var(--p1);}
+  .dw-panel{display:none;}
+  .dw-panel.active{display:block;}
+  .draw-widget-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem;flex-wrap:wrap;gap:.4rem;}
+  .draw-title{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--p1);}
+  .draw-tools{display:flex;gap:.35rem;flex-wrap:wrap;}
+  .draw-btn{font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:600;padding:.32rem .6rem;border-radius:4px;border:1.5px solid var(--border);background:#fff;color:var(--muted);cursor:pointer;transition:all .15s;}
+  .draw-btn:hover{background:#f0f0f5;}
+  .draw-btn.active{background:var(--p1);color:#fff;border-color:var(--p1);}
+  .draw-btn.danger{color:var(--red);border-color:#e0b0b0;}
+  .draw-btn.danger:hover{background:#fdf0f0;}
+  .draw-color-row{display:flex;gap:.3rem;align-items:center;}
+  .draw-color{width:22px;height:22px;border-radius:50%;border:2px solid #fff;outline:1.5px solid var(--border);cursor:pointer;flex-shrink:0;}
+  .draw-color.selected{outline:2px solid var(--ink);outline-offset:1px;}
+  .draw-canvas-wrap{position:relative;border:1.5px dashed var(--border);border-radius:4px;overflow:hidden;background:#fdfdfd;touch-action:none;line-height:0;}
+  .draw-canvas-wrap canvas{display:block;width:100%;height:auto;touch-action:none;cursor:crosshair;}
+  .draw-canvas-wrap canvas[id$="-overlay"]{position:absolute;top:0;left:0;pointer-events:none;}
+  .draw-hint-text{font-family:'Space Grotesk',sans-serif;font-size:.72rem;color:var(--muted);margin-top:.4rem;text-align:center;}
+  .draw-status{font-family:'Space Grotesk',sans-serif;font-size:.68rem;color:var(--green);margin-top:.3rem;display:none;text-align:center;}
+  .draw-status.show{display:block;}
+  .photo-capture-btn{display:block;width:100%;padding:.9rem;background:var(--p1s);border:2px dashed var(--p1);border-radius:6px;color:var(--p1);font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;cursor:pointer;transition:all .15s;text-align:center;}
+  .photo-capture-btn:hover{background:#dde8fb;}
+  .photo-preview-wrap{margin-top:.7rem;text-align:center;}
+  .photo-preview-wrap img{max-width:100%;max-height:320px;border-radius:6px;border:1.5px solid var(--border);}
+  .local-warning{background:#fff3e0;border:1px solid #e0b070;border-radius:4px;padding:.6rem .8rem;font-family:'Space Grotesk',sans-serif;font-size:.74rem;color:#8a5a00;margin-bottom:.6rem;display:none;}
+  .local-warning.show{display:block;}
+  @media(max-width:580px){main{padding:1.1rem .85rem 4rem;}.card{padding:1.1rem .95rem;}.q-block{padding:.95rem .85rem;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">Composition du Premier Trimestre · Année scolaire 2023-2024 · CPU "Les Palmiers"</div>
+  <h1>Épreuve de Mathématiques Appliquées</h1>
+  <div class="hsub">Contexte : Entité commerciale FINAFA — Partages proportionnels</div>
+  <div class="hmeta">
+    <span>📐 Classe : 2nde G2</span>
+    <span>⏱ Durée : 1h30</span>
+    <span>⚖️ Coefficient : 2</span>
+  </div>
+</header>
+
+<div class="tab-bar">
+  <button class="tab-btn p1 active" onclick="switchTab('p1',event)">💰 Partages proportionnels</button>
+  <button class="tab-btn p2" onclick="switchTab('p2',event)">📐 Équations & Proportions</button>
+  <button class="tab-btn cr" onclick="switchTab('corrige',event)">✅ Corrigé type</button>
+</div>
+
+<main>
+
+<div class="local-warning" id="local-warning">⚠️ Ce fichier semble être ouvert en local (hors ligne). L'accès à l'appareil photo peut ne pas fonctionner dans ce mode — ouvre le lien en ligne (https://...) pour utiliser cette fonctionnalité.</div>
+
+<!-- ══════ CONTEXTE GÉNÉRAL ══════ -->
+<div class="tab-panel active" id="panel-p1">
+  <div class="card">
+    <div class="ctx-box p1">
+      <strong>Contexte :</strong> L'entité FINAFA est une grande structure commerciale installée dans la zone de OUEGA TOGBA. Elle commercialise des produits congelés en gros. Face aux difficultés de gestion de ses ressources humaines, financières et de ses stocks des produits, le directeur général de l'entité décide de recruter un employé ayant la compétence dans le traitement des dossiers financiers et dans les calculs dans IR. Vous êtes alors sollicités pour occuper ce poste et à votre prise de service le directeur général vous confie certains dossiers à traiter.
+    </div>
+
+    <div class="info-box p1">
+      <div class="ititle">Objectifs à évaluer</div>
+      <ul>
+        <li>Déterminer les parts à partir d'un partage composé</li>
+        <li>Résoudre des équations du second degré dans IR</li>
+      </ul>
+    </div>
+
+    <div class="banner p1">Partage 1 — Gratification de Jean, Pierre et Paul <span class="bpts">Partage composé</span></div>
+
+    <div class="info-box p1">
+      <div class="ititle">Support</div>
+      <p>Le directeur général décide de gratifier avec une somme de <strong>570 000 F</strong>, trois de ses employés <strong>Jean, Pierre et Paul</strong>, compte tenu de leur dévouement au travail.</p>
+      <p>Le partage sera fait de façon :</p>
+      <ul>
+        <li><strong>Directement proportionnelle</strong> à leurs anciennetés, respectivement <strong>10 ans, 14 ans, 20 ans</strong></li>
+        <li><strong>Inversement proportionnelle</strong> à leurs nombres d'absence au poste de travail, respectivement <strong>6, 8 et 15</strong></li>
+      </ul>
+    </div>
+
+    <div class="q-block">
+      <div class="q-head"><div class="qn p1">1</div>
+        <div class="q-txt"><strong>Calculez la part reçue par Jean, Pierre et Paul</strong> dans ce partage.</div>
+        <div class="pts">~4 pts</div>
+      </div>
+      <div class="hint">💡 Partage composé (directement ∝ ancienneté ET inversement ∝ absences) : les coefficients de proportionnalité sont kᵢ = ancienneté / absence pour chaque employé. Part de chacun = (kᵢ / Σk) × 570 000.</div>
+      <textarea class="rep p1" id="q1" rows="12" placeholder="Coefficients de partage composé (ancienneté/absence) :&#10;Jean : 10/6 = 5/3&#10;Pierre : 14/8 = 7/4&#10;Paul : 20/15 = 4/3&#10;&#10;Mise au même dénominateur (12) :&#10;Jean : 5/3 = 20/12&#10;Pierre : 7/4 = 21/12&#10;Paul : 4/3 = 16/12&#10;&#10;Somme des coefficients (numérateurs) = 20+21+16 = 57&#10;&#10;Part de Jean = (20/57) × 570 000 = ...&#10;Part de Pierre = (21/57) × 570 000 = ...&#10;Part de Paul = (16/57) × 570 000 = ...&#10;&#10;Vérification : somme des 3 parts = 570 000"></textarea>
+      <div class="wc" id="wc-q1">0 mot</div>
+    </div>
+
+    <div class="banner p1" style="margin-top:1rem">Partage 2 — Récompense des 3 meilleurs clients <span class="bpts">Partage avec relation</span></div>
+
+    <div class="info-box p1">
+      <div class="ititle">Support</div>
+      <p>Le directeur général souhaite récompenser ses trois (03) meilleurs clients de l'année 2020. Il a mis à la disposition de la commission chargée de faire le partage une somme <strong>S</strong>.</p>
+      <p>Les parts désignées respectives par <strong>x, y et z</strong> seront directement proportionnelles aux montants des achats réalisés par ces clients, qui sont respectivement <strong>5 000 000 F, 6 000 000 F et 8 000 000 F</strong>, et respectant la relation :</p>
+      <div class="math-box">3x − 2y + z = 780 000</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-head"><div class="qn p1">2a</div>
+        <div class="q-txt"><strong>Calculez le montant x, y et z</strong> revenant à chaque client.</div>
+        <div class="pts">~3 pts</div>
+      </div>
+      <div class="hint">💡 x/5 000 000 = y/6 000 000 = z/8 000 000 = k. Exprime x, y, z en fonction de k, puis substitue dans 3x−2y+z=780 000 pour trouver k.</div>
+      <textarea class="rep p1" id="q2a" rows="9" placeholder="x/5 000 000 = y/6 000 000 = z/8 000 000 = k&#10;→ x = 5 000 000k, y = 6 000 000k, z = 8 000 000k&#10;&#10;3x - 2y + z = 780 000&#10;3(5 000 000k) - 2(6 000 000k) + 8 000 000k = 780 000&#10;15 000 000k - 12 000 000k + 8 000 000k = 780 000&#10;11 000 000k = 780 000&#10;k = ...&#10;&#10;x = 5 000 000 × k = ...&#10;y = 6 000 000 × k = ...&#10;z = 8 000 000 × k = ..."></textarea>
+      <div class="wc" id="wc-q2a">0 mot</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-head"><div class="qn p1">2b</div>
+        <div class="q-txt"><strong>Calculez le montant de la somme S.</strong></div>
+        <div class="pts">~1 pt</div>
+      </div>
+      <textarea class="rep p1" id="q2b" rows="4" placeholder="S = x + y + z = ..."></textarea>
+      <div class="wc" id="wc-q2b">0 mot</div>
+    </div>
+
+    <button class="btn p1" id="btn-p1" onclick="submitProb('p1')">✦ Soumettre cette partie — Correction IA</button>
+    <div class="fb-box" id="fb-p1"><div class="fb-head">✦ Correction IA · Partages proportionnels</div><div class="fb-body" id="fb-p1-body"></div></div>
+  </div>
+</div>
+
+<!-- ══════ PARTIE 2 ══════ -->
+<div class="tab-panel" id="panel-p2">
+  <div class="card">
+    <div class="banner p2">Équations du second degré et proportions <span class="bpts">~7 pts</span></div>
+
+    <div class="ctx-box p2">
+      Avant la réception de ce qui revient à <strong>Jean, Pierre et Paul</strong>, ils sont invités à résoudre respectivement les équations du second degré suivantes dans IR.
+    </div>
+
+    <div class="info-box p2">
+      <div class="ititle">Équations à résoudre</div>
+      <div class="math-box">
+        a) $x^2 - 5x + 4 = 0$<br>
+        b) $x^2 - 3x - 4 = 0$<br>
+        c) $4x^2 - 4\sqrt{3}x + 3 = 0$
+      </div>
+      <p style="font-size:.8rem;color:var(--muted);margin-top:.4rem">Source : Inédit</p>
+    </div>
+
+    <div class="q-block">
+      <div class="q-head"><div class="qn p2">5</div>
+        <div class="q-txt"><strong>Résolvez dans IR les équations du second degré</strong> a), b) et c) ci-dessus.</div>
+        <div class="pts">~3 pts</div>
+      </div>
+      <div class="hint">💡 Δ = b²−4ac. Si Δ>0 : 2 solutions distinctes. Si Δ=0 : 1 solution double. Si Δ<0 : pas de solution réelle.</div>
+      <textarea class="rep p2" id="q5" rows="14" placeholder="a) x² - 5x + 4 = 0&#10;Δ = 25 - 16 = 9 > 0&#10;x = (5±3)/2 → x=4 ou x=1&#10;&#10;b) x² - 3x - 4 = 0&#10;Δ = 9 + 16 = 25 > 0&#10;x = (3±5)/2 → x=4 ou x=-1&#10;&#10;c) 4x² - 4√3x + 3 = 0&#10;Δ = 48 - 48 = 0 → une solution double&#10;x = 4√3/(2×4) = √3/2"></textarea>
+      <div class="wc" id="wc-q5">0 mot</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-head"><div class="qn p2">3</div>
+        <div class="q-txt"><strong>Calculez la moyenne proportionnelle des termes extrêmes 81 et 625.</strong></div>
+        <div class="pts">~2 pts</div>
+      </div>
+      <div class="hint">💡 Moyenne proportionnelle m de a et b vérifie : a/m = m/b, donc m² = a×b, m = √(a×b).</div>
+      <textarea class="rep p2" id="q3" rows="5" placeholder="m² = 81 × 625&#10;m² = 50 625&#10;m = √50 625 = ..."></textarea>
+      <div class="wc" id="wc-q3">0 mot</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-head"><div class="qn p2">4</div>
+        <div class="q-txt"><strong>Calculez la quatrième proportionnelle des nombres 8, 9 et 12.</strong></div>
+        <div class="pts">~2 pts</div>
+      </div>
+      <div class="hint">💡 La quatrième proportionnelle x de a, b, c vérifie : a/b = c/x, donc x = (b×c)/a.</div>
+      <textarea class="rep p2" id="q4" rows="4" placeholder="8/9 = 12/x&#10;x = (9×12)/8 = 108/8 = ..."></textarea>
+      <div class="wc" id="wc-q4">0 mot</div>
+    </div>
+
+    <div class="nota-box">
+      <strong>Nota bene :</strong> Le candidat sera jugé sur la base des traces écrites sur sa copie. Il sera tenu grand compte de la clarté, de la précision et de la cohérence dans le raisonnement.
+    </div>
+
+    <!-- WIDGET DESSIN + PHOTO POUR TOUTE LA COPIE OU FIGURES -->
+    <div class="draw-widget">
+      <div class="dw-tabbar">
+        <button type="button" class="dw-tab active" id="dwtab-draw-full" onclick="switchDrawMode('full','draw')">✏️ Dessiner à l'écran</button>
+        <button type="button" class="dw-tab" id="dwtab-photo-full" onclick="switchDrawMode('full','photo')">📷 Photo de ma copie</button>
+      </div>
+      <div class="dw-panel active" id="dwpanel-draw-full">
+        <div class="draw-widget-head">
+          <span class="draw-title">Brouillon / Étapes de calcul</span>
+          <div class="draw-tools">
+            <button type="button" class="draw-btn active" id="dtool-pen-fullcv" onclick="setDrawTool('fullcv','pen')">✏️ Main levée</button>
+            <button type="button" class="draw-btn" id="dtool-line-fullcv" onclick="setDrawTool('fullcv','line')">📏 Ligne</button>
+            <button type="button" class="draw-btn" id="dtool-erase-fullcv" onclick="setDrawTool('fullcv','erase')">🧽 Gomme</button>
+            <button type="button" class="draw-btn" id="dtool-undo-fullcv" onclick="undoDrawCanvas('fullcv')">↩️ Annuler</button>
+            <button type="button" class="draw-btn danger" onclick="clearDrawCanvas('fullcv')">🗑️ Effacer tout</button>
+          </div>
+        </div>
+        <div class="draw-color-row" id="fullcv-colors" style="margin-bottom:.5rem"></div>
+        <div class="draw-canvas-wrap">
+          <canvas id="fullcv" width="600" height="380"></canvas>
+          <canvas id="fullcv-overlay" width="600" height="380"></canvas>
+        </div>
+        <div class="draw-hint-text">Utilise cet espace pour tes calculs détaillés si besoin.</div>
+        <div class="draw-status" id="fullcv-status">✓ Dessin enregistré</div>
+      </div>
+      <div class="dw-panel" id="dwpanel-photo-full">
+        <p class="draw-hint-text" style="margin-bottom:.6rem">Tu peux traiter cette partie entièrement sur ta copie papier, puis prendre une photo nette pour qu'elle soit corrigée.</p>
+        <input type="file" accept="image/*" capture="environment" id="full-photo-input" style="display:none" onchange="handlePhotoCapture('full', this)">
+        <button type="button" class="photo-capture-btn" onclick="document.getElementById('full-photo-input').click()">📷 Prendre une photo / Choisir une image</button>
+        <div class="photo-preview-wrap" id="full-photo-preview-wrap" style="display:none">
+          <img id="full-photo-preview" alt="Aperçu de la photo">
+          <button type="button" class="draw-btn danger" style="margin-top:.5rem" onclick="clearPhotoCapture('full')">🗑️ Retirer la photo</button>
+        </div>
+        <div class="draw-status" id="full-photo-status">✓ Photo prête à être envoyée</div>
+      </div>
+    </div>
+
+    <button class="btn p2" id="btn-p2" onclick="submitProb('p2')">✦ Soumettre cette partie — Correction IA</button>
+    <div class="fb-box" id="fb-p2"><div class="fb-head">✦ Correction IA · Équations et proportions</div><div class="fb-body p2" id="fb-p2-body"></div></div>
+  </div>
+</div>
+
+<!-- ══════ CORRIGÉ ══════ -->
+<div class="tab-panel" id="panel-corrige">
+  <div id="corrige-locked" class="locked">
+    <div class="icon">🔒</div>
+    <p><strong>Le corrigé se déverrouille après soumission d'au moins une partie.</strong></p>
+    <p style="margin-top:.4rem">Traite les exercices d'abord !</p>
+  </div>
+  <div id="corrige-content" style="display:none">
+
+    <div class="card">
+      <h2>Partages proportionnels</h2>
+
+      <div class="cor p1">
+        <h3>Q1 — Partage composé Jean, Pierre, Paul (570 000 F)</h3>
+        <p>Coefficients (ancienneté/absence) :</p>
+        <ul>
+          <li>Jean : 10/6 = 5/3</li>
+          <li>Pierre : 14/8 = 7/4</li>
+          <li>Paul : 20/15 = 4/3</li>
+        </ul>
+        <p>Mise au même dénominateur (12) : Jean=20/12, Pierre=21/12, Paul=16/12</p>
+        <p>Somme des coefficients (numérateurs) = 20+21+16 = <span class="math">57</span></p>
+        <table class="cor-table">
+          <tr><th class="p1">Employé</th><th class="p1">Coefficient</th><th class="p1">Part reçue</th></tr>
+          <tr><td>Jean</td><td>20/57</td><td class="math">(20/57)×570 000 = <strong>200 000 F</strong></td></tr>
+          <tr><td>Pierre</td><td>21/57</td><td class="math">(21/57)×570 000 = <strong>210 000 F</strong></td></tr>
+          <tr><td>Paul</td><td>16/57</td><td class="math">(16/57)×570 000 = <strong>160 000 F</strong></td></tr>
+        </table>
+        <p>Vérification : 200 000 + 210 000 + 160 000 = 570 000 ✓</p>
+      </div>
+
+      <div class="cor p1">
+        <h3>Q2a — Montants x, y, z (3 meilleurs clients)</h3>
+        <p>x/5 000 000 = y/6 000 000 = z/8 000 000 = k</p>
+        <p>3x−2y+z = 780 000 → 3(5M·k) − 2(6M·k) + 8M·k = 780 000</p>
+        <p class="math">15M·k − 12M·k + 8M·k = 780 000 → 11 000 000k = 780 000</p>
+        <p class="math">k = 780 000 / 11 000 000 = 0,0709...</p>
+        <p style="font-size:.85rem;color:var(--muted)">Pour obtenir des valeurs entières, on peut simplifier : k = 78/1100 = 39/550.</p>
+        <p class="math">x = 5 000 000 × k ≈ <strong>354 545 F</strong></p>
+        <p class="math">y = 6 000 000 × k ≈ <strong>425 455 F</strong></p>
+        <p class="math">z = 8 000 000 × k ≈ <strong>567 273 F</strong></p>
+        <p style="font-size:.85rem;color:var(--muted)">Vérification : 3(354545) − 2(425455) + 567273 = 1 063 635 − 850 910 + 567 273 ≈ 780 000 ✓ (aux arrondis près)</p>
+      </div>
+
+      <div class="cor p1">
+        <h3>Q2b — Montant total S</h3>
+        <p class="math">S = x + y + z ≈ 354 545 + 425 455 + 567 273 = <strong>1 347 273 F</strong></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Équations du second degré et proportions</h2>
+
+      <div class="cor p2">
+        <h3>Q5 — Résolution des trois équations</h3>
+        <p><strong>a) x² − 5x + 4 = 0</strong></p>
+        <p class="math">Δ = 25 − 16 = 9 &gt; 0 → x = (5±3)/2 → <strong>x = 4 ou x = 1</strong></p>
+
+        <p><strong>b) x² − 3x − 4 = 0</strong></p>
+        <p class="math">Δ = 9 + 16 = 25 &gt; 0 → x = (3±5)/2 → <strong>x = 4 ou x = -1</strong></p>
+
+        <p><strong>c) 4x² − 4√3x + 3 = 0</strong></p>
+        <p class="math">Δ = (4√3)² − 4×4×3 = 48 − 48 = 0 → solution double</p>
+        <p class="math">x = 4√3/(2×4) = √3/2 → <strong>x = √3/2</strong> (solution double)</p>
+      </div>
+
+      <div class="cor p2">
+        <h3>Q3 — Moyenne proportionnelle de 81 et 625</h3>
+        <p class="math">m² = 81 × 625 = 50 625</p>
+        <p class="math">m = √50 625 = <strong>225</strong></p>
+      </div>
+
+      <div class="cor p2">
+        <h3>Q4 — Quatrième proportionnelle de 8, 9, 12</h3>
+        <p>8/9 = 12/x</p>
+        <p class="math">x = (9×12)/8 = 108/8 = <strong>13,5</strong></p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</main>
+
+<script>
+/* ═══════════════════════════════════════════════
+   WIDGET DE DESSIN RÉUTILISABLE (canvas tactile)
+   Outils : main levée, ligne, gomme, annuler
+   + Mode photo (capture caméra / galerie)
+   ═══════════════════════════════════════════════ */
+const DRAW_COLORS = ['#1a1a2e','#1a3a8a','#8b1a1a','#1a5a2a','#7a5000'];
+const drawState = {};
+const photoState = {};
+const MAX_UNDO = 15;
+
+function initDrawCanvas(canvasId){
+  const canvas = document.getElementById(canvasId);
+  const overlay = document.getElementById(canvasId+'-overlay');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const octx = overlay ? overlay.getContext('2d') : null;
+  ctx.fillStyle = '#fdfdfd';
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+
+  drawState[canvasId] = {
+    tool:'pen', color: DRAW_COLORS[0], drawing:false,
+    startX:0, startY:0, lastX:0, lastY:0,
+    ctx, octx, overlay, hasContent:false,
+    history: []
+  };
+
+  pushHistory(canvasId);
+
+  const colorRow = document.getElementById(canvasId+'-colors');
+  if(colorRow){
+    colorRow.innerHTML='';
+    DRAW_COLORS.forEach((c,i)=>{
+      const dot=document.createElement('div');
+      dot.className='draw-color'+(i===0?' selected':'');
+      dot.style.background=c;
+      dot.onclick=()=>{
+        drawState[canvasId].color=c;
+        colorRow.querySelectorAll('.draw-color').forEach(d=>d.classList.remove('selected'));
+        dot.classList.add('selected');
+      };
+      colorRow.appendChild(dot);
+    });
+  }
+
+  function getPos(e){
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    const cx = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+    const cy = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
+    return { x: cx*scaleX, y: cy*scaleY };
+  }
+
+  function markUsed(){
+    drawState[canvasId].hasContent = true;
+    document.getElementById(canvasId+'-status')?.classList.add('show');
+  }
+
+  function clearOverlay(){
+    if(octx) octx.clearRect(0,0,overlay.width,overlay.height);
+  }
+
+  function start(e){
+    e.preventDefault();
+    const s = drawState[canvasId];
+    const pos = getPos(e);
+    s.startX = pos.x; s.startY = pos.y;
+    s.lastX = pos.x; s.lastY = pos.y;
+    s.drawing = true;
+  }
+
+  function move(e){
+    const s = drawState[canvasId];
+    if(!s.drawing) return;
+    e.preventDefault();
+    const pos = getPos(e);
+    if(s.tool === 'pen' || s.tool === 'erase'){
+      s.ctx.strokeStyle = s.tool==='erase' ? '#fdfdfd' : s.color;
+      s.ctx.lineWidth = s.tool==='erase' ? 22 : 2.5;
+      s.ctx.beginPath();
+      s.ctx.moveTo(s.lastX, s.lastY);
+      s.ctx.lineTo(pos.x, pos.y);
+      s.ctx.stroke();
+      s.lastX = pos.x; s.lastY = pos.y;
+      markUsed();
+    }
+    else if(s.tool === 'line'){
+      clearOverlay();
+      if(s.octx){
+        s.octx.strokeStyle = s.color;
+        s.octx.lineWidth = 2.5;
+        s.octx.setLineDash([5,4]);
+        s.octx.beginPath();
+        s.octx.moveTo(s.startX, s.startY);
+        s.octx.lineTo(pos.x, pos.y);
+        s.octx.stroke();
+        s.octx.setLineDash([]);
+      }
+      s.lastX = pos.x; s.lastY = pos.y;
+    }
+  }
+
+  function end(){
+    const s = drawState[canvasId];
+    if(!s.drawing) return;
+    s.drawing = false;
+    let acted = false;
+    if(s.tool === 'line'){
+      s.ctx.strokeStyle = s.color;
+      s.ctx.lineWidth = 2.5;
+      s.ctx.beginPath();
+      s.ctx.moveTo(s.startX, s.startY);
+      s.ctx.lineTo(s.lastX, s.lastY);
+      s.ctx.stroke();
+      clearOverlay();
+      markUsed();
+      acted = true;
+    }
+    else if(s.tool === 'pen' || s.tool === 'erase'){
+      acted = true;
+    }
+    if(acted) pushHistory(canvasId);
+  }
+
+  canvas.addEventListener('mousedown', start);
+  canvas.addEventListener('mousemove', move);
+  window.addEventListener('mouseup', end);
+  canvas.addEventListener('touchstart', start, {passive:false});
+  canvas.addEventListener('touchmove', move, {passive:false});
+  canvas.addEventListener('touchend', end);
+}
+
+function pushHistory(canvasId){
+  const s = drawState[canvasId];
+  if(!s) return;
+  const snap = s.ctx.getImageData(0,0,s.ctx.canvas.width,s.ctx.canvas.height);
+  s.history.push(snap);
+  if(s.history.length > MAX_UNDO) s.history.shift();
+}
+
+function undoDrawCanvas(canvasId){
+  const s = drawState[canvasId];
+  if(!s || s.history.length <= 1) return;
+  s.history.pop();
+  const prev = s.history[s.history.length-1];
+  s.ctx.putImageData(prev, 0, 0);
+  s.hasContent = s.history.length > 1;
+  if(!s.hasContent) document.getElementById(canvasId+'-status')?.classList.remove('show');
+}
+
+function setDrawTool(canvasId, tool){
+  if(!drawState[canvasId]) return;
+  drawState[canvasId].tool = tool;
+  ['pen','line','erase'].forEach(t=>{
+    document.getElementById('dtool-'+t+'-'+canvasId)?.classList.toggle('active', t===tool);
+  });
+}
+
+function clearDrawCanvas(canvasId){
+  const canvas = document.getElementById(canvasId);
+  const overlay = document.getElementById(canvasId+'-overlay');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = '#fdfdfd';
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  if(overlay) overlay.getContext('2d').clearRect(0,0,overlay.width,overlay.height);
+  drawState[canvasId].hasContent = false;
+  drawState[canvasId].history = [];
+  pushHistory(canvasId);
+  document.getElementById(canvasId+'-status')?.classList.remove('show');
+}
+
+function getDrawCanvasBase64(canvasId){
+  const canvas = document.getElementById(canvasId);
+  if(!canvas || !drawState[canvasId] || !drawState[canvasId].hasContent) return null;
+  return canvas.toDataURL('image/png').split(',')[1];
+}
+
+function switchDrawMode(baseId, mode){
+  document.getElementById('dwtab-draw-'+baseId)?.classList.toggle('active', mode==='draw');
+  document.getElementById('dwtab-photo-'+baseId)?.classList.toggle('active', mode==='photo');
+  document.getElementById('dwpanel-draw-'+baseId)?.classList.toggle('active', mode==='draw');
+  document.getElementById('dwpanel-photo-'+baseId)?.classList.toggle('active', mode==='photo');
+}
+
+function handlePhotoCapture(baseId, inputEl){
+  const file = inputEl.files && inputEl.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = (e)=>{
+    photoState[baseId] = { dataUrl: e.target.result, mediaType: file.type || 'image/jpeg' };
+    const img = document.getElementById(baseId+'-photo-preview');
+    const wrap = document.getElementById(baseId+'-photo-preview-wrap');
+    if(img) img.src = e.target.result;
+    if(wrap) wrap.style.display = 'block';
+    document.getElementById(baseId+'-photo-status')?.classList.add('show');
+  };
+  reader.readAsDataURL(file);
+}
+
+function clearPhotoCapture(baseId){
+  delete photoState[baseId];
+  const wrap = document.getElementById(baseId+'-photo-preview-wrap');
+  if(wrap) wrap.style.display = 'none';
+  document.getElementById(baseId+'-photo-status')?.classList.remove('show');
+  const input = document.getElementById(baseId+'-photo-input');
+  if(input) input.value = '';
+}
+
+function getPhotoBase64(baseId){
+  const p = photoState[baseId];
+  if(!p) return null;
+  return { base64: p.dataUrl.split(',')[1], mediaType: p.mediaType };
+}
+
+document.addEventListener('DOMContentLoaded', ()=>{
+  document.querySelectorAll('.draw-canvas-wrap canvas:not([id$="-overlay"])').forEach(c=>initDrawCanvas(c.id));
+  if(location.protocol === 'file:'){
+    document.getElementById('local-warning')?.classList.add('show');
+  }
+});
+</script>
+<script>
+function switchTab(name,e){
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('panel-'+name).classList.add('active');
+  e.currentTarget.classList.add('active');
+}
+function cw(s){return s.trim().split(/\s+/).filter(w=>w.length>0).length;}
+document.querySelectorAll('textarea.rep').forEach(ta=>{
+  const wc=document.getElementById('wc-'+ta.id);
+  if(!wc)return;
+  ta.addEventListener('input',()=>{const n=cw(ta.value);wc.textContent=n+(n>1?' mots':' mot');});
+});
+let unlocked=false;
+function unlockCorrige(){
+  if(unlocked)return;unlocked=true;
+  document.getElementById('corrige-locked').style.display='none';
+  document.getElementById('corrige-content').style.display='block';
+}
+async function callClaude(sys,msg,el,images){
+  const hasImg = images && images.length>0;
+  el.innerHTML='<div class="spinner"></div> L\'IA corrige ta réponse'+(hasImg?' (texte + image'+(images.length>1?'s':'')+')':'')+'…';
+  el.classList.add('loading');
+  try{
+    let content = msg;
+    if(hasImg){
+      content = [{type:'text', text: msg + '\n\n(Un ou plusieurs dessins/photos ont été joints — analyse-les aussi dans ta correction.)'}];
+      images.forEach(img=>{
+        content.push({type:'image', source:{type:'base64', media_type: img.mediaType || 'image/png', data: img.base64}});
+      });
+    }
+    const r=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1500,system:sys,messages:[{role:'user',content:content}]})
+    });
+    const d=await r.json();
+    el.classList.remove('loading');
+    el.innerHTML=d.content.map(i=>i.text||'').join('\n');
+  }catch{
+    el.classList.remove('loading');
+    el.innerHTML='<p style="color:#8b1a1a">Erreur. Réessaie.</p>';
+  }
+}
+
+const SYS={
+p1:`Tu es un professeur de Mathématiques Appliquées expert au niveau 2nde G2 au Bénin. Tu corriges la partie sur les partages proportionnels.
+Réponses attendues:
+Q1(4pts): Partage composé 570 000F selon ancienneté(10,14,20 ans) directement ET absences(6,8,15) inversement. Coefficients=ancienneté/absence: Jean=10/6=5/3, Pierre=14/8=7/4, Paul=20/15=4/3. Au dénominateur commun 12: 20/12,21/12,16/12. Somme=57. Part Jean=(20/57)×570000=200000F. Part Pierre=(21/57)×570000=210000F. Part Paul=(16/57)×570000=160000F. Vérif: somme=570000.
+Q2a(3pts): x/5M=y/6M=z/8M=k avec 3x-2y+z=780000. Substitution: 11000000k=780000, k=780000/11000000=39/550≈0,0709. x≈354545F, y≈425455F, z≈567273F.
+Q2b(1pt): S=x+y+z≈1347273F.
+Réponds en HTML simple (p,h4,ul,li,strong). Structure: <h4>📊 Score estimé</h4> <h4>Q1 Partage composé Jean/Pierre/Paul (4pts)</h4> <h4>Q2a Montants x,y,z (3pts)</h4> <h4>Q2b Somme S (1pt)</h4> <h4>✏️ Évaluation de la photo/dessin</h4>(uniquement si image jointe) <h4>💡 Conseils</h4> Sois rigoureux sur les calculs de proportionnalité composée. Accepte les variations d'arrondi raisonnables.`,
+p2:`Tu es un professeur de Mathématiques Appliquées expert au niveau 2nde G2 au Bénin. Tu corriges la partie sur les équations du second degré et les proportions.
+Réponses attendues:
+Q5(3pts): a) x²-5x+4=0: Δ=9, x=4 ou x=1. b) x²-3x-4=0: Δ=25, x=4 ou x=-1. c) 4x²-4√3x+3=0: Δ=48-48=0, solution double x=√3/2.
+Q3(2pts): Moyenne proportionnelle de 81 et 625: m²=81×625=50625, m=√50625=225.
+Q4(2pts): Quatrième proportionnelle de 8,9,12: 8/9=12/x, x=(9×12)/8=108/8=13,5.
+Si une image (dessin ou photo de copie) est jointe, évalue aussi la qualité de rédaction et la cohérence des calculs manuscrits.
+Réponds en HTML simple. Structure: <h4>📊 Score estimé</h4> <h4>Q5 Équations second degré (3pts)</h4> <h4>Q3 Moyenne proportionnelle (2pts)</h4> <h4>Q4 Quatrième proportionnelle (2pts)</h4> <h4>✏️ Évaluation de la photo/dessin</h4>(uniquement si image jointe) <h4>💡 Conseils</h4> Vérifie les discriminants et les calculs de racines soigneusement.`
+};
+
+async function submitProb(prob){
+  document.getElementById('btn-'+prob).disabled=true;
+  const fb=document.getElementById('fb-'+prob);fb.classList.add('visible');
+  const body=document.getElementById('fb-'+prob+'-body');
+  let msg='';
+  let images=[];
+  if(prob==='p1'){
+    msg=`Q1:\n${document.getElementById('q1').value||'(vide)'}\n\nQ2a:\n${document.getElementById('q2a').value||'(vide)'}\n\nQ2b:\n${document.getElementById('q2b').value||'(vide)'}`;
+  }else{
+    msg=`Q5:\n${document.getElementById('q5').value||'(vide)'}\n\nQ3:\n${document.getElementById('q3').value||'(vide)'}\n\nQ4:\n${document.getElementById('q4').value||'(vide)'}`;
+    const cfull = getDrawCanvasBase64('fullcv');
+    if(cfull) images.push({base64:cfull, mediaType:'image/png'});
+    const pfull = getPhotoBase64('full');
+    if(pfull) images.push(pfull);
+  }
+  await callClaude(SYS[prob],msg,body,images);
+  unlockCorrige();
+}
+</script>
+</body>
+</html>
