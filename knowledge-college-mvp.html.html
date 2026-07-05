@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KNOWLEDGE COLLÈGE — Le catalogue d'épreuves du monde francophone</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy-deep:#0a1930;
+    --navy-mid:#132a4c;
+    --navy-soft:#1c3a63;
+    --gold:#d4af37;
+    --gold-light:#f0d584;
+    --cream:#f5f1e6;
+    --green:#3e9066;
+    --coral:#c1443c;
+    --line:rgba(212,175,55,0.25);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--navy-deep);
+    color:var(--cream);
+    font-family:'Nunito',sans-serif;
+    line-height:1.5;
+  }
+  h1,h2,h3,.serif{font-family:'Playfair Display',serif;}
+  a{color:inherit;text-decoration:none;}
+
+  /* header */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(10,25,48,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+    padding:14px 18px;
+    display:flex;align-items:center;justify-content:space-between;
+    gap:10px;
+  }
+  .brand{display:flex;align-items:center;gap:10px;}
+  .seal{
+    width:36px;height:36px;border-radius:50%;
+    background:conic-gradient(from 210deg, var(--gold), var(--gold-light), var(--gold));
+    display:flex;align-items:center;justify-content:center;
+    font-weight:800;color:var(--navy-deep);font-family:'Playfair Display',serif;font-size:15px;
+    flex:none;
+  }
+  .brand-name{font-size:15px;font-weight:800;letter-spacing:0.4px;}
+  .brand-sub{font-size:10px;color:var(--gold-light);letter-spacing:1.5px;text-transform:uppercase;}
+  nav{display:flex;gap:6px;overflow-x:auto;}
+  nav a, nav button{
+    font-size:12.5px;font-weight:700;color:var(--cream);
+    background:transparent;border:1px solid var(--line);
+    padding:8px 12px;border-radius:20px;white-space:nowrap;cursor:pointer;
+    font-family:'Nunito',sans-serif;
+  }
+  nav a:hover, nav button:hover{border-color:var(--gold);color:var(--gold-light);}
+
+  /* hero */
+  .hero{padding:34px 20px 20px;text-align:left;max-width:720px;margin:0 auto;}
+  .eyebrow{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:800;}
+  .hero h1{font-size:26px;margin:8px 0 10px;line-height:1.25;}
+  .hero p{font-size:14.5px;color:#cdd6e4;margin:0 0 18px;}
+  .hero-stats{display:flex;gap:18px;flex-wrap:wrap;margin-top:6px;}
+  .stat b{display:block;font-family:'Playfair Display',serif;font-size:22px;color:var(--gold-light);}
+  .stat span{font-size:11px;color:#9fb0c8;}
+
+  /* freemium banner */
+  .quota{
+    max-width:720px;margin:0 auto 6px;padding:0 20px;
+  }
+  .quota-bar{
+    background:var(--navy-mid);border:1px solid var(--line);border-radius:14px;
+    padding:12px 16px;font-size:12.5px;display:flex;justify-content:space-between;align-items:center;gap:10px;
+  }
+  .quota-track{width:70px;height:6px;background:#2a4468;border-radius:6px;overflow:hidden;flex:none;}
+  .quota-fill{height:100%;background:var(--gold);}
+
+  /* level selector */
+  .section{max-width:720px;margin:0 auto;padding:22px 20px 6px;}
+  .section h2{font-size:17px;margin:0 0 4px;}
+  .section .hint{font-size:12.5px;color:#9fb0c8;margin:0 0 14px;}
+  .levels{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+  .level-chip{
+    background:var(--navy-mid);border:1px solid var(--line);border-radius:10px;
+    text-align:center;padding:10px 4px;font-size:12px;font-weight:700;cursor:pointer;
+  }
+  .level-chip.active{border-color:var(--gold);background:var(--navy-soft);color:var(--gold-light);}
+
+  /* catalogue */
+  .filters{display:flex;gap:8px;overflow-x:auto;margin:14px 0 4px;}
+  .filters button{
+    flex:none;font-size:12px;font-weight:700;padding:7px 12px;border-radius:20px;
+    background:transparent;border:1px solid var(--line);color:#cdd6e4;cursor:pointer;
+  }
+  .filters button.active{background:var(--gold);color:var(--navy-deep);border-color:var(--gold);}
+
+  .grid{display:grid;grid-template-columns:1fr;gap:12px;margin-top:14px;}
+  .card{
+    background:linear-gradient(160deg,var(--navy-mid),var(--navy-soft));
+    border:1px solid var(--line);border-radius:16px;padding:16px;position:relative;overflow:hidden;
+  }
+  .badge{
+    position:absolute;top:12px;right:12px;font-size:10px;font-weight:800;
+    padding:4px 9px;border-radius:20px;letter-spacing:0.4px;
+  }
+  .badge.free{background:var(--green);color:#fff;}
+  .badge.premium{background:var(--gold);color:var(--navy-deep);}
+  .card h3{font-size:15.5px;margin:0 24px 6px 0;}
+  .card p{font-size:12.5px;color:#b9c6dc;margin:0 0 12px;}
+  .card-meta{font-size:11px;color:#8ea1bd;margin-bottom:10px;}
+  .btn{
+    display:inline-block;font-size:12.5px;font-weight:800;padding:9px 14px;border-radius:10px;cursor:pointer;
+    border:none;
+  }
+  .btn-free{background:var(--green);color:#fff;}
+  .btn-locked{background:transparent;border:1px solid var(--gold);color:var(--gold-light);}
+
+  /* upsell + affiliate + login modal */
+  .modal-bg{
+    display:none;position:fixed;inset:0;background:rgba(6,13,26,0.75);z-index:100;
+    align-items:flex-end;justify-content:center;
+  }
+  .modal-bg.show{display:flex;}
+  .modal{
+    background:var(--navy-mid);border-top:1px solid var(--line);border-radius:20px 20px 0 0;
+    padding:22px 20px 26px;max-width:480px;width:100%;
+  }
+  .modal h3{margin:0 0 6px;font-size:17px;}
+  .modal p{font-size:13px;color:#cdd6e4;margin:0 0 14px;}
+  .pack{
+    border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:10px;
+    display:flex;justify-content:space-between;align-items:center;gap:10px;
+  }
+  .pack b{font-size:13.5px;display:block;}
+  .pack span{font-size:11px;color:#9fb0c8;}
+  .pack strong{color:var(--gold-light);font-size:14px;}
+  .close{background:transparent;border:1px solid var(--line);color:var(--cream);border-radius:10px;padding:9px 14px;font-size:12.5px;font-weight:700;width:100%;margin-top:6px;cursor:pointer;}
+
+  /* hub links */
+  .hub{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px;}
+  .hub a{
+    background:var(--navy-mid);border:1px solid var(--line);border-radius:14px;padding:14px;font-size:12.5px;font-weight:700;
+    display:flex;flex-direction:column;gap:6px;
+  }
+  .hub a span.ico{font-size:20px;}
+  .hub a small{font-weight:400;color:#9fb0c8;font-size:11px;}
+
+  /* affiliate */
+  .affiliate-box{
+    background:var(--navy-mid);border:1px solid var(--line);border-radius:16px;padding:16px;margin-top:10px;
+  }
+  .aff-code{
+    background:var(--navy-deep);border:1px dashed var(--gold);border-radius:10px;padding:10px 12px;
+    font-family:monospace;font-size:14px;color:var(--gold-light);display:flex;justify-content:space-between;align-items:center;margin:10px 0;
+  }
+  .aff-stats{display:flex;gap:16px;margin-top:10px;}
+  .aff-stats .stat b{font-size:18px;}
+
+  footer{max-width:720px;margin:30px auto 0;padding:20px;border-top:1px solid var(--line);font-size:11.5px;color:#8ea1bd;}
+  footer .roadmap{margin-top:10px;}
+  footer .roadmap li{margin-bottom:4px;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="seal">K</div>
+    <div>
+      <div class="brand-name">KNOWLEDGE COLLÈGE</div>
+      <div class="brand-sub">Épreuves · Bénin & Afrique francophone</div>
+    </div>
+  </div>
+  <nav>
+    <button onclick="openLogin()">Se connecter</button>
+    <a href="planner_eleve.html">Planner</a>
+    <a href="EduTrackPro.html">Suivi</a>
+  </nav>
+</header>
+
+<div class="hero">
+  <div class="eyebrow">6ème → Terminale A·B·C·D·G</div>
+  <h1>Des milliers d'épreuves corrigées, à portée de main, à toute heure.</h1>
+  <p>Teste-toi sur ton programme officiel, obtiens ta correction instantanément, et suis tes progrès — même avec une connexion faible.</p>
+  <div class="hero-stats">
+    <div class="stat"><b id="statCount">2 400+</b><span>épreuves & tests</span></div>
+    <div class="stat"><b>7</b><span>niveaux couverts</span></div>
+    <div class="stat"><b>3</b><span>langues (FR / EN / Fon)</span></div>
+  </div>
+</div>
+
+<div class="quota">
+  <div class="quota-bar">
+    <div>
+      <b id="quotaLabel">3 épreuves gratuites restantes ce mois-ci</b>
+    </div>
+    <div class="quota-track"><div class="quota-fill" id="quotaFill" style="width:100%"></div></div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>Choisis ton niveau</h2>
+  <p class="hint">La bibliothèque se filtre automatiquement selon ton programme.</p>
+  <div class="levels" id="levels"></div>
+</div>
+
+<div class="section">
+  <h2>Catalogue — Collège & Lycée</h2>
+  <p class="hint">🟢 Gratuit = accessible tout de suite · 🟡 Premium = déverrouillé avec un pack</p>
+  <div class="filters" id="filters"></div>
+  <div class="grid" id="grid"></div>
+</div>
+
+<div class="section">
+  <h2>Ton espace complet</h2>
+  <p class="hint">Ce catalogue se connecte à tes autres outils KNOWLEDGE.</p>
+  <div class="hub">
+    <a href="planner_eleve.html"><span class="ico">📅</span>Mon Planner<small>Tâches + alarmes de révision</small></a>
+    <a href="EduTrackPro.html"><span class="ico">📊</span>Suivi Parent / Prof<small>Notes et devoirs traités</small></a>
+    <a href="dashboard.html"><span class="ico">🎓</span>Mon Espace / Achats<small>Packs premium par niveau</small></a>
+    <a onclick="openAffiliate()"><span class="ico">🔗</span>Programme d'affiliation<small>Gagne une commission</small></a>
+  </div>
+</div>
+
+<div class="section" style="padding-bottom:36px;">
+  <h2>🛡️ Sécurité des comptes</h2>
+  <p class="hint">Connexion par code élève + PIN, chiffrement des échanges (HTTPS), et accès parents/profs en lecture seule limité au strict suivi pédagogique — jamais aux paiements ou données bancaires.</p>
+</div>
+
+<footer>
+  <b>MVP de démonstration</b> — ce prototype montre le parcours élève (catalogue, freemium, planner, suivi, affiliation). Les éléments suivants sont simulés côté navigateur et devront être branchés à un vrai serveur avant lancement public :
+  <ul class="roadmap">
+    <li>Paiement réel Kkiapay/Fedapay + activation automatique des packs</li>
+    <li>Compte utilisateur persistant (base de données) au lieu du quota en mémoire</li>
+    <li>Suivi parents/profs en temps réel (notifications push/WhatsApp)</li>
+    <li>Calcul et versement automatique des commissions d'affiliation</li>
+    <li>Audit de sécurité complet (authentification renforcée, anti-fraude, sauvegardes)</li>
+  </ul>
+</footer>
+
+<!-- Upsell modal -->
+<div class="modal-bg" id="upsellModal">
+  <div class="modal">
+    <h3>🔒 Épreuve premium</h3>
+    <p>Débloque cette épreuve — et beaucoup d'autres — avec un pack.</p>
+    <div class="pack">
+      <div><b>Pack niveau complet</b><span>Toutes les matières, 90 jours</span></div>
+      <strong id="packPrice">2 000 FCFA</strong>
+    </div>
+    <div class="pack">
+      <div><b>Épreuve à l'unité</b><span>Cette matière uniquement</span></div>
+      <strong>500 FCFA</strong>
+    </div>
+    <button class="close" onclick="window.location.href='dashboard.html'">Voir les offres complètes</button>
+    <button class="close" onclick="closeModal('upsellModal')">Fermer</button>
+  </div>
+</div>
+
+<!-- Login modal -->
+<div class="modal-bg" id="loginModal">
+  <div class="modal">
+    <h3>Se connecter</h3>
+    <p>Utilise ton code élève et ton PIN (créés depuis EduTrack Pro).</p>
+    <button class="close" onclick="window.location.href='EduTrackPro.html'">Aller à la connexion EduTrack Pro</button>
+    <button class="close" onclick="closeModal('loginModal')">Annuler</button>
+  </div>
+</div>
+
+<!-- Affiliate modal -->
+<div class="modal-bg" id="affiliateModal">
+  <div class="modal">
+    <h3>🔗 Programme d'affiliation</h3>
+    <p>Partage ton lien. Quand quelqu'un achète un pack via ton lien, une commission t'est automatiquement attribuée.</p>
+    <div class="affiliate-box">
+      <div class="aff-code">
+        <span id="affCode">knowledge.co/?ref=HONORINE10</span>
+        <span style="cursor:pointer;color:var(--gold);font-weight:800;" onclick="copyAff()">Copier</span>
+      </div>
+      <div class="aff-stats">
+        <div class="stat"><b id="affClicks">18</b><span>clics</span></div>
+        <div class="stat"><b id="affSales">3</b><span>ventes</span></div>
+        <div class="stat"><b id="affComm">1 500 FCFA</b><span>commission (démo)</span></div>
+      </div>
+    </div>
+    <button class="close" onclick="closeModal('affiliateModal')">Fermer</button>
+  </div>
+</div>
+
+<script>
+const NIVEAUX = ["Terminale A·B·C·D·G","1ère","2nde","3ème","4ème","5ème","6ème"];
+const MATIERES = ["Toutes","Maths","PCT","SVT","Français","Anglais","Philo","Histoire-Géo"];
+let activeNiveau = 0;
+let activeMatiere = "Toutes";
+let freeQuota = 3;
+const FREE_QUOTA_MAX = 3;
+
+// sample catalogue data — mix of free (linking to the real demo épreuve) and locked premium
+function buildCatalogue(){
+  const items = [];
+  const sampleUrl = "https://egbetissi-cmd.github.io/knowledge-College-/epreuve_pct_4eme_eval1_t2_CANVAS-2.html";
+  NIVEAUX.forEach((niv, ni)=>{
+    MATIERES.slice(1).forEach((mat, mi)=>{
+      const free = (ni===activeNiveauSeedFree(ni) && mi===0); // placeholder, replaced below
+      items.push({
+        niveau: ni, matiere: mat,
+        title: `${mat} — ${niv} · Évaluation ${((mi%3)+1)}`,
+        desc: `Épreuve interactive avec corrigé-type automatique, ${niv.toLowerCase()}.`,
+        free: (ni + mi) % 6 === 0,
+        url: sampleUrl
+      });
+    });
+  });
+  return items;
+}
+function activeNiveauSeedFree(){return 0;}
+
+const CATALOGUE = buildCatalogue();
+
+function renderLevels(){
+  const el = document.getElementById('levels');
+  el.innerHTML = NIVEAUX.map((n,i)=>
+    `<div class="level-chip ${i===activeNiveau?'active':''}" onclick="setNiveau(${i})">${n}</div>`
+  ).join('');
+}
+function setNiveau(i){ activeNiveau = i; renderLevels(); renderGrid(); }
+
+function renderFilters(){
+  const el = document.getElementById('filters');
+  el.innerHTML = MATIERES.map(m=>
+    `<button class="${m===activeMatiere?'active':''}" onclick="setMatiere('${m}')">${m}</button>`
+  ).join('');
+}
+function setMatiere(m){ activeMatiere = m; renderFilters(); renderGrid(); }
+
+function renderGrid(){
+  const el = document.getElementById('grid');
+  let list = CATALOGUE.filter(it => it.niveau === NIVEAUX[activeNiveau]);
+  if(activeMatiere !== "Toutes") list = list.filter(it => it.matiere === activeMatiere);
+  list = list.slice(0,8);
+  if(list.length === 0){
+    el.innerHTML = `<div class="card"><h3>Rien ici pour le moment</h3><p>Choisis une autre matière ou reviens bientôt — le catalogue s'enrichit chaque semaine.</p></div>`;
+    return;
+  }
+  el.innerHTML = list.map(it => `
+    <div class="card">
+      <span class="badge ${it.free?'free':'premium'}">${it.free?'🟢 Gratuit':'🟡 Premium'}</span>
+      <h3>${it.title}</h3>
+      <p>${it.desc}</p>
+      <div class="card-meta">Corrigé-type automatique · Mode papier disponible</div>
+      ${it.free
+        ? `<button class="btn btn-free" onclick="openFree('${it.url}')">Traiter maintenant</button>`
+        : `<button class="btn btn-locked" onclick="openUpsell()">Débloquer</button>`}
+    </div>
+  `).join('');
+}
+
+function openFree(url){
+  if(freeQuota <= 0){ openUpsell(); return; }
+  freeQuota -= 1;
+  updateQuota();
+  window.open(url, '_blank');
+}
+function updateQuota(){
+  document.getElementById('quotaLabel').textContent =
+    freeQuota > 0 ? `${freeQuota} épreuve${freeQuota>1?'s':''} gratuite${freeQuota>1?'s':''} restante${freeQuota>1?'s':''} ce mois-ci` : "Quota gratuit atteint — débloque un pack pour continuer";
+  document.getElementById('quotaFill').style.width = `${(freeQuota/FREE_QUOTA_MAX)*100}%`;
+}
+
+function openUpsell(){ document.getElementById('upsellModal').classList.add('show'); }
+function openLogin(){ document.getElementById('loginModal').classList.add('show'); }
+function openAffiliate(){ document.getElementById('affiliateModal').classList.add('show'); }
+function closeModal(id){ document.getElementById(id).classList.remove('show'); }
+function copyAff(){
+  const t = document.getElementById('affCode').textContent;
+  navigator.clipboard && navigator.clipboard.writeText(t);
+  const el = document.getElementById('affCode').lastElementChild;
+  const old = el.textContent; el.textContent = "Copié !";
+  setTimeout(()=>el.textContent = old, 1200);
+}
+
+renderLevels();
+renderFilters();
+renderGrid();
+updateQuota();
+</script>
+</body>
+</html>

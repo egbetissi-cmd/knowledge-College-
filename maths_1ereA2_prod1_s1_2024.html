@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maths 1ère A2 — 1ère Production Scolaire 1er Semestre 2024-2025</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Serif+4:wght@300;400;600&family=Space+Grotesk:wght@400;500;600&display=swap');
+  :root{
+    --ink:#1a1a2e;--bg:#f3f2f8;--warm:#fefcff;
+    --p1:#1a4a8a;--p1l:#4a7ac4;--p1s:#e8f0fb;
+    --p2:#6a1a3a;--p2l:#c44a7a;--p2s:#fbe8f0;
+    --gold:#7a6000;--gold-light:#fdf6e0;
+    --border:#c8c0d8;--muted:#606070;--shadow:rgba(26,26,46,0.07);
+    --green:#1a6b3a;--red:#8b1a1a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Source Serif 4',Georgia,serif;background:var(--bg);color:var(--ink);font-size:16px;line-height:1.78;}
+  header{background:linear-gradient(135deg,#0a1a4a 0%,#1a4a8a 45%,#4a0a2a 100%);color:#fff;padding:2rem 2rem 1.6rem;text-align:center;}
+  .eyebrow{font-family:'Space Grotesk',sans-serif;font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:#b0c8f0;margin-bottom:.4rem;}
+  header h1{font-family:'Playfair Display',serif;font-size:clamp(1.3rem,4vw,1.9rem);color:#fff;}
+  .hsub{font-family:'Space Grotesk',sans-serif;font-size:.8rem;color:#b0c0e0;margin-top:.25rem;}
+  .hmeta{display:flex;justify-content:center;flex-wrap:wrap;gap:1.3rem;margin-top:.9rem;font-family:'Space Grotesk',sans-serif;font-size:.74rem;color:#a0b8e0;letter-spacing:.05em;}
+  .tab-bar{display:flex;background:var(--warm);border-bottom:2px solid var(--border);overflow-x:auto;position:sticky;top:0;z-index:50;scrollbar-width:none;}
+  .tab-bar::-webkit-scrollbar{display:none;}
+  .tab-btn{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:.78rem 1rem;border:none;background:transparent;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap;transition:all .2s;}
+  .tab-btn:hover:not(.active){color:var(--ink);background:#edeafb;}
+  .tab-btn.p1.active{color:var(--p1);border-bottom-color:var(--p1);}
+  .tab-btn.p2.active{color:var(--p2);border-bottom-color:var(--p2);}
+  .tab-btn.cr.active{color:#333;border-bottom-color:#333;}
+  main{max-width:900px;margin:0 auto;padding:2rem 1.5rem 5rem;}
+  .tab-panel{display:none;}.tab-panel.active{display:block;}
+  .card{background:var(--warm);border:1px solid var(--border);border-radius:4px;padding:1.7rem 1.9rem;margin-bottom:1.5rem;box-shadow:0 2px 8px var(--shadow);}
+  .card h2{font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--ink);border-bottom:1px solid var(--border);padding-bottom:.55rem;margin-bottom:.9rem;}
+  .banner{color:#fff;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:.6rem 1.1rem;border-radius:4px;margin-bottom:1rem;display:flex;justify-content:space-between;align-items:center;}
+  .banner.p1{background:var(--p1);}.banner.p2{background:var(--p2);}
+  .bpts{background:rgba(255,255,255,0.22);padding:.12rem .55rem;border-radius:10px;font-size:.73rem;}
+  .ctx-box{border-radius:0 4px 4px 0;padding:.9rem 1.15rem;font-size:.91rem;line-height:1.8;margin-bottom:.9rem;}
+  .ctx-box.p1{background:var(--p1s);border-left:4px solid var(--p1);}
+  .ctx-box.p2{background:var(--p2s);border-left:4px solid var(--p2);}
+  .info-box{background:#fff;border:1px solid var(--border);border-radius:4px;padding:.85rem 1.05rem;margin-bottom:.85rem;font-size:.88rem;line-height:1.75;}
+  .info-box .ititle{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.35rem;}
+  .info-box.p1 .ititle{color:var(--p1);}.info-box.p2 .ititle{color:var(--p2);}
+  .info-box ul{padding-left:1.2rem;}.info-box li{margin-bottom:.22rem;}
+  .q-block{background:var(--warm);border:1px solid var(--border);border-radius:4px;padding:1.05rem 1.3rem;margin-bottom:.85rem;}
+  .q-head{display:flex;align-items:flex-start;gap:.7rem;margin-bottom:.55rem;}
+  .qn{color:#fff;font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;min-width:1.9rem;height:1.7rem;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:.1rem;padding:0 .3rem;}
+  .qn.p1{background:var(--p1);}.qn.p2{background:var(--p2);}
+  .q-txt{flex:1;font-size:.92rem;line-height:1.6;}
+  .pts{font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:600;color:var(--gold);background:var(--gold-light);border:1px solid #dfc96a;padding:.08rem .45rem;border-radius:10px;white-space:nowrap;flex-shrink:0;}
+  .sub-q{font-size:.9rem;margin:.38rem 0 .38rem 1rem;line-height:1.6;}
+  textarea.rep{width:100%;border:1.5px solid var(--border);border-radius:4px;padding:.65rem .82rem;font-family:'Source Serif 4',serif;font-size:.92rem;line-height:1.7;background:#fdfbf8;color:var(--ink);resize:vertical;transition:border-color .2s;}
+  textarea.rep:focus{outline:none;background:#fff;}
+  textarea.rep.p1:focus{border-color:var(--p1l);}
+  textarea.rep.p2:focus{border-color:var(--p2l);}
+  .wc{font-family:'Space Grotesk',sans-serif;font-size:.68rem;color:var(--muted);text-align:right;margin-top:.22rem;}
+  .hint{background:#fff;border:1px solid var(--border);border-radius:4px;padding:.6rem .85rem;margin-bottom:.52rem;font-size:.81rem;font-family:'Space Grotesk',sans-serif;color:var(--muted);}
+  .math-box{background:#f8f8ff;border:1px solid #d0c8f0;border-radius:4px;padding:.7rem 1rem;font-family:'Times New Roman',serif;font-size:1.02rem;margin:.5rem 0;line-height:1.9;}
+  /* BOUTONS */
+  .btn{display:block;width:100%;padding:.85rem;color:#fff;font-family:'Space Grotesk',sans-serif;font-size:.83rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;border:none;border-radius:4px;cursor:pointer;transition:background .2s;margin-top:1.1rem;}
+  .btn.p1{background:var(--p1);}.btn.p1:hover{background:#0a1a5a;}
+  .btn.p2{background:var(--p2);}.btn.p2:hover{background:#3a0a20;}
+  .btn:disabled{opacity:.55;cursor:not-allowed;}
+  /* FEEDBACK */
+  .fb-box{display:none;margin-top:1rem;border-radius:4px;overflow:hidden;}
+  .fb-box.visible{display:block;}
+  .fb-head{background:var(--ink);color:#fff;padding:.62rem 1.05rem;font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;}
+  .fb-body{background:var(--warm);border:1px solid var(--border);border-top:none;padding:1.05rem 1.3rem;font-size:.9rem;line-height:1.74;}
+  .fb-body.loading{display:flex;align-items:center;gap:.6rem;color:var(--muted);font-style:italic;font-size:.82rem;}
+  .spinner{width:.9rem;height:.9rem;border:2px solid var(--border);border-top-color:var(--p1);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .fb-body h4{font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:1rem 0 .3rem;padding-bottom:.2rem;border-bottom:1px solid var(--border);}
+  .fb-body h4:first-child{margin-top:0;}
+  .fb-body p{margin-bottom:.5rem;}.fb-body ul{padding-left:1.1rem;}.fb-body li{margin-bottom:.25rem;}
+  .fb-body strong{color:var(--p1);}
+  .fb-body.p2 strong{color:var(--p2);}
+  /* CORRIGÉ */
+  .cor{border-radius:4px;padding:1.05rem 1.3rem;margin-bottom:.9rem;font-size:.9rem;line-height:1.78;}
+  .cor.p1{background:var(--p1s);border:1px solid #b8c8e8;border-left:4px solid var(--p1);}
+  .cor.p2{background:var(--p2s);border:1px solid #e8b8c8;border-left:4px solid var(--p2);}
+  .cor h3{font-family:'Playfair Display',serif;font-size:.97rem;margin-bottom:.5rem;}
+  .cor.p1 h3{color:var(--p1);}.cor.p2 h3{color:var(--p2);}
+  .cor p{margin-bottom:.4rem;}.cor ul{padding-left:1.1rem;margin-bottom:.38rem;}.cor li{margin-bottom:.28rem;}
+  .math{font-family:'Times New Roman',serif;font-size:.97rem;background:#fff;border:1px solid var(--border);border-radius:3px;padding:.2rem .52rem;display:inline-block;margin:.16rem 0;}
+  .locked{background:var(--warm);border:2px dashed var(--border);border-radius:4px;padding:2.5rem;text-align:center;color:var(--muted);font-family:'Space Grotesk',sans-serif;font-size:.85rem;}
+  .locked .icon{font-size:2rem;margin-bottom:.5rem;}
+  .cor-graph{background:#fff;border:1px solid var(--border);border-radius:4px;padding:1rem;margin:.6rem 0;text-align:center;}
+  /* ═══ WIDGET DESSIN + PHOTO ═══ */
+  .draw-widget{background:#fff;border:1.5px solid var(--border);border-radius:6px;padding:.8rem;margin:.7rem 0;}
+  .dw-tabbar{display:flex;gap:.3rem;margin-bottom:.7rem;border-bottom:1.5px solid var(--border);}
+  .dw-tab{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:600;padding:.45rem .8rem;border:none;background:transparent;color:var(--muted);cursor:pointer;border-bottom:2.5px solid transparent;margin-bottom:-1.5px;transition:all .15s;}
+  .dw-tab:hover{color:var(--ink);}
+  .dw-tab.active{color:var(--p2);border-bottom-color:var(--p2);}
+  .dw-panel{display:none;}
+  .dw-panel.active{display:block;}
+  .draw-widget-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem;flex-wrap:wrap;gap:.4rem;}
+  .draw-title{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--p2);}
+  .draw-tools{display:flex;gap:.35rem;flex-wrap:wrap;}
+  .draw-btn{font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:600;padding:.32rem .6rem;border-radius:4px;border:1.5px solid var(--border);background:#fff;color:var(--muted);cursor:pointer;transition:all .15s;}
+  .draw-btn:hover{background:#f0f0f5;}
+  .draw-btn.active{background:var(--p2);color:#fff;border-color:var(--p2);}
+  .draw-btn.danger{color:var(--red);border-color:#e0b0b0;}
+  .draw-btn.danger:hover{background:#fdf0f0;}
+  .draw-color-row{display:flex;gap:.3rem;align-items:center;}
+  .draw-color{width:22px;height:22px;border-radius:50%;border:2px solid #fff;outline:1.5px solid var(--border);cursor:pointer;flex-shrink:0;}
+  .draw-color.selected{outline:2px solid var(--ink);outline-offset:1px;}
+  .draw-canvas-wrap{position:relative;border:1.5px dashed var(--border);border-radius:4px;overflow:hidden;background:#fdfdfd;touch-action:none;line-height:0;}
+  .draw-canvas-wrap canvas{display:block;width:100%;height:auto;touch-action:none;cursor:crosshair;}
+  .draw-canvas-wrap canvas[id$="-overlay"]{position:absolute;top:0;left:0;pointer-events:none;}
+  .draw-hint-text{font-family:'Space Grotesk',sans-serif;font-size:.72rem;color:var(--muted);margin-top:.4rem;text-align:center;}
+  .draw-status{font-family:'Space Grotesk',sans-serif;font-size:.68rem;color:var(--green);margin-top:.3rem;display:none;text-align:center;}
+  .draw-status.show{display:block;}
+  .photo-capture-btn{display:block;width:100%;padding:.9rem;background:var(--p2s);border:2px dashed var(--p2);border-radius:6px;color:var(--p2);font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;cursor:pointer;transition:all .15s;text-align:center;}
+  .photo-capture-btn:hover{background:#f8dce8;}
+  .photo-preview-wrap{margin-top:.7rem;text-align:center;}
+  .photo-preview-wrap img{max-width:100%;max-height:320px;border-radius:6px;border:1.5px solid var(--border);}
+  .local-warning{background:#fff3e0;border:1px solid #e0b070;border-radius:4px;padding:.6rem .8rem;font-family:'Space Grotesk',sans-serif;font-size:.74rem;color:#8a5a00;margin-bottom:.6rem;display:none;}
+  .local-warning.show{display:block;}
+  @media(max-width:580px){main{padding:1.1rem .85rem 4rem;}.card{padding:1.1rem .95rem;}.q-block{padding:.95rem .85rem;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">Première Production Scolaire du 1er Semestre · Année scolaire 2024-2025 · CEG Adja-Ouèrè</div>
+  <h1>Épreuve de Mathématiques — 1ère A2</h1>
+  <div class="hsub">Contexte : Une curieuse commerçante — NOUKONME et le prêt bancaire</div>
+  <div class="hmeta">
+    <span>📐 Classe : 1ère A2</span>
+    <span>⏱ Durée : 1h30</span>
+    <span>⚖️ Coefficient : 2</span>
+  </div>
+</header>
+
+<div class="tab-bar">
+  <button class="tab-btn p1 active" onclick="switchTab('p1',event)">🔢 Problème 1</button>
+  <button class="tab-btn p2" onclick="switchTab('p2',event)">📐 Problème 2</button>
+  <button class="tab-btn cr" onclick="switchTab('corrige',event)">✅ Corrigé type</button>
+</div>
+
+<main>
+
+<div class="local-warning" id="local-warning">⚠️ Ce fichier semble être ouvert en local (hors ligne). L'accès à l'appareil photo peut ne pas fonctionner dans ce mode — ouvre le lien en ligne (https://...) pour utiliser cette fonctionnalité.</div>
+
+<!-- ══════ CONTEXTE GÉNÉRAL ══════ -->
+<div class="tab-panel active" id="panel-p1">
+  <div class="card">
+    <div class="ctx-box p1">
+      <strong>Contexte : Une curieuse commerçante</strong><br><br>
+      Dans le souci de mettre en valeur sa parcelle rectangulaire, NOUKONME décide de contracter un prêt à un taux d'intérêt de x% près d'une des banques de la place. La résolution de l'équation <span class="math">x² − 3x − 10 = 0</span> permet de déterminer le taux pratiqué (x&gt;0). Awa, élève en classe de 1ère littéraire est curieuse de connaître la valeur du taux d'intérêt x et les dimensions de la parcelle.
+    </div>
+
+    <div class="banner p1">Problème 1 — Équations et inéquation du second degré</div>
+
+    <div class="q-block">
+      <div class="q-head"><div class="qn p1">1</div>
+        <div class="q-txt"><strong>Écris la forme canonique du polynôme</strong> <span class="math">x² − 3x − 10</span>.</div>
+        <div class="pts">~2 pts</div>
+      </div>
+      <div class="hint">💡 Forme canonique : a(x−α)² + β, avec α = −b/2a et β = f(α).</div>
+      <textarea class="rep p1" id="q1" rows="7" placeholder="x² - 3x - 10 = (x - 3/2)² - (3/2)² - 10&#10;= (x - 3/2)² - 9/4 - 40/4&#10;= (x - 3/2)² - 49/4"></textarea>
+      <div class="wc" id="wc-q1">0 mot</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-head"><div class="qn p1">2a</div>
+        <div class="q-txt"><strong>Résous dans IR l'équation</strong> <span class="math">x² − 3x − 10 = 0</span>.</div>
+        <div class="pts">~2 pts</div>
+      </div>
+      <div class="hint">💡 Δ = b²−4ac avec a=1, b=−3, c=−10. Ou utilise la forme canonique de la Q1.</div>
+      <textarea class="rep p1" id="q2a" rows="6" placeholder="Δ = (-3)² - 4×1×(-10) = 9+40 = 49&#10;√Δ = 7&#10;x = (3±7)/2&#10;x₁ = 10/2 = 5&#10;x₂ = -4/2 = -2"></textarea>
+      <div class="wc" id="wc-q2a">0 mot</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-head"><div class="qn p1">2b</div>
+        <div class="q-txt"><strong>Déduis alors le taux d'intérêt x</strong> pratiqué à NOUKONME.</div>
+        <div class="pts">~1 pt</div>
+      </div>
+      <div class="hint">💡 Contrainte : x>0.</div>
+      <textarea class="rep p1" id="q2b" rows="4" placeholder="Or x > 0, donc on rejette x=-2.&#10;Le taux d'intérêt pratiqué est x = 5%"></textarea>
+      <div class="wc" id="wc-q2b">0 mot</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-head"><div class="qn p1">3a</div>
+        <div class="q-txt"><strong>Résous dans IR l'inéquation</strong> (I) : <span class="math">x² − 3x − 10 ≤ 0</span>.</div>
+        <div class="pts">~2 pts</div>
+      </div>
+      <div class="hint">💡 Utilise les racines trouvées en Q2a (x=5 et x=-2). Le trinôme (a=1>0) est négatif ou nul entre les racines.</div>
+      <textarea class="rep p1" id="q3a" rows="6" placeholder="Racines : x=-2 et x=5 (trouvées en Q2a)&#10;Le trinôme (a=1>0) est négatif (ou nul) entre les racines :&#10;x² - 3x - 10 ≤ 0 ⟺ -2 ≤ x ≤ 5&#10;S(I) = [-2 ; 5]"></textarea>
+      <div class="wc" id="wc-q3a">0 mot</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-head"><div class="qn p1">3b</div>
+        <div class="q-txt"><strong>Sans résoudre l'équation (E)</strong> : <span class="math">−x² + 7x − 12 = 0</span>, calcule la somme S et le produit P des solutions de cette équation.</div>
+        <div class="pts">~2 pts</div>
+      </div>
+      <div class="hint">💡 Relations de Viète : pour ax²+bx+c=0, S = -b/a et P = c/a. Ici a=-1, b=7, c=-12.</div>
+      <textarea class="rep p1" id="q3b" rows="6" placeholder="-x²+7x-12=0, donc a=-1, b=7, c=-12&#10;&#10;S = -b/a = -7/(-1) = 7&#10;P = c/a = -12/(-1) = 12"></textarea>
+      <div class="wc" id="wc-q3b">0 mot</div>
+    </div>
+
+    <button class="btn p1" id="btn-p1" onclick="submitProb('p1')">✦ Soumettre Problème 1 — Correction IA</button>
+    <div class="fb-box" id="fb-p1"><div class="fb-head">✦ Correction IA · Problème 1</div><div class="fb-body" id="fb-p1-body"></div></div>
+  </div>
+</div>
+
+<!-- ══════ PROBLÈME 2 ══════ -->
+<div class="tab-panel" id="panel-p2">
+  <div class="card">
+    <div class="banner p2">Problème 2 — Système et résolution graphique <span class="bpts">~9 pts</span></div>
+
+    <div class="ctx-box p2">
+      La parcelle rectangulaire a une superficie de <strong>425 m²</strong> et un périmètre de <strong>84 m</strong>.<br><br>
+      La longueur L et la largeur l de la parcelle vérifient le système :
+      <div class="math-box">
+        $\begin{cases} L + l = 84 \\ L \times l = 425 \end{cases}$
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-head"><div class="qn p2">4a</div>
+        <div class="q-txt"><strong>Écris l'équation traduisant ce système.</strong></div>
+        <div class="pts">~2 pts</div>
+      </div>
+      <div class="hint">💡 L et l sont solutions de l'équation X² − (L+l)X + L×l = 0.</div>
+      <textarea class="rep p2" id="q4a" rows="5" placeholder="L et l sont solutions de :&#10;X² - (L+l)X + L×l = 0&#10;X² - 84X + 425 = 0"></textarea>
+      <div class="wc" id="wc-q4a">0 mot</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-head"><div class="qn p2">4b</div>
+        <div class="q-txt"><strong>Résous l'équation et déduis les valeurs de L et l.</strong></div>
+        <div class="pts">~3 pts</div>
+      </div>
+      <div class="hint">💡 Δ = 84² − 4×425. Comme L > l, choisis la plus grande racine pour L.</div>
+      <textarea class="rep p2" id="q4b" rows="9" placeholder="X² - 84X + 425 = 0&#10;Δ = 84² - 4×425 = 7056 - 1700 = 5356&#10;√Δ = √5356 ≈ 73,18&#10;X = (84±73,18)/2&#10;X₁ ≈ 78,59 ou X₂ ≈ 5,41&#10;&#10;Comme L > l :&#10;L ≈ 78,59 m et l ≈ 5,41 m&#10;&#10;(Vérification : L+l≈84 ✓ ; L×l≈425 ✓)"></textarea>
+      <div class="wc" id="wc-q4b">0 mot</div>
+    </div>
+
+    <div class="info-box p2">
+      <div class="ititle">Système (S) à résoudre</div>
+      <div class="math-box">
+        $(S)\begin{cases} 2x + 3y = -6 \\ x - 2y = 4 \end{cases}$
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-head"><div class="qn p2">5a</div>
+        <div class="q-txt"><strong>Résous (S) par la méthode de combinaison.</strong></div>
+        <div class="pts">~2 pts</div>
+      </div>
+      <div class="hint">💡 Élimine une variable en multipliant les équations par des coefficients appropriés puis en les combinant (addition/soustraction).</div>
+      <textarea class="rep p2" id="q5a" rows="10" placeholder="2x+3y=-6  (L1)&#10;x-2y=4    (L2)&#10;&#10;Multiplions L2 par 2 : 2x-4y=8  (L2')&#10;&#10;L1 - L2' : (2x+3y)-(2x-4y) = -6-8&#10;7y = -14&#10;y = -2&#10;&#10;Dans L2 : x-2(-2)=4 → x+4=4 → x=0&#10;&#10;Solution : (x;y) = (0 ; -2)"></textarea>
+      <div class="wc" id="wc-q5a">0 mot</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-head"><div class="qn p2">5b</div>
+        <div class="q-txt"><strong>Détermine graphiquement le couple solution</strong> de ce système.</div>
+        <div class="pts">~2 pts</div>
+      </div>
+      <div class="hint">💡 Trace les deux droites (2x+3y=-6) et (x-2y=4) dans un repère. Leur point d'intersection donne le couple solution — qui doit correspondre à (0;-2) trouvé par combinaison.</div>
+
+      <!-- WIDGET DESSIN + PHOTO POUR LE GRAPHIQUE -->
+      <div class="draw-widget">
+        <div class="dw-tabbar">
+          <button type="button" class="dw-tab active" id="dwtab-draw-graph" onclick="switchDrawMode('graph','draw')">✏️ Dessiner à l'écran</button>
+          <button type="button" class="dw-tab" id="dwtab-photo-graph" onclick="switchDrawMode('graph','photo')">📷 Photo de ma feuille</button>
+        </div>
+        <div class="dw-panel active" id="dwpanel-draw-graph">
+          <div class="draw-widget-head">
+            <span class="draw-title">Repère graphique — Résolution de (S)</span>
+            <div class="draw-tools">
+              <button type="button" class="draw-btn active" id="dtool-pen-graphcv" onclick="setDrawTool('graphcv','pen')">✏️ Main levée</button>
+              <button type="button" class="draw-btn" id="dtool-line-graphcv" onclick="setDrawTool('graphcv','line')">📏 Ligne</button>
+              <button type="button" class="draw-btn" id="dtool-erase-graphcv" onclick="setDrawTool('graphcv','erase')">🧽 Gomme</button>
+              <button type="button" class="draw-btn" id="dtool-undo-graphcv" onclick="undoDrawCanvas('graphcv')">↩️ Annuler</button>
+              <button type="button" class="draw-btn danger" onclick="clearDrawCanvas('graphcv')">🗑️ Effacer tout</button>
+            </div>
+          </div>
+          <div class="draw-color-row" id="graphcv-colors" style="margin-bottom:.5rem"></div>
+          <div class="draw-canvas-wrap">
+            <canvas id="graphcv" width="600" height="400"></canvas>
+            <canvas id="graphcv-overlay" width="600" height="400"></canvas>
+          </div>
+          <div class="draw-hint-text">Trace un repère (axes x,y), puis les deux droites du système. Marque leur point d'intersection.</div>
+          <div class="draw-status" id="graphcv-status">✓ Dessin enregistré</div>
+        </div>
+        <div class="dw-panel" id="dwpanel-photo-graph">
+          <p class="draw-hint-text" style="margin-bottom:.6rem">Tu peux tracer le graphique sur papier millimétré puis prendre une photo nette.</p>
+          <input type="file" accept="image/*" capture="environment" id="graph-photo-input" style="display:none" onchange="handlePhotoCapture('graph', this)">
+          <button type="button" class="photo-capture-btn" onclick="document.getElementById('graph-photo-input').click()">📷 Prendre une photo / Choisir une image</button>
+          <div class="photo-preview-wrap" id="graph-photo-preview-wrap" style="display:none">
+            <img id="graph-photo-preview" alt="Aperçu de la photo">
+            <button type="button" class="draw-btn danger" style="margin-top:.5rem" onclick="clearPhotoCapture('graph')">🗑️ Retirer la photo</button>
+          </div>
+          <div class="draw-status" id="graph-photo-status">✓ Photo prête à être envoyée</div>
+        </div>
+      </div>
+
+      <textarea class="rep p2" id="q5btext" rows="4" placeholder="Description de ma construction graphique :&#10;J'ai tracé la droite (2x+3y=-6) passant par les points... et la droite (x-2y=4) passant par les points...&#10;Leur point d'intersection est le couple solution : (0 ; -2)"></textarea>
+      <div class="wc" id="wc-q5btext">0 mot</div>
+    </div>
+
+    <button class="btn p2" id="btn-p2" onclick="submitProb('p2')">✦ Soumettre Problème 2 — Correction IA</button>
+    <div class="fb-box" id="fb-p2"><div class="fb-head">✦ Correction IA · Problème 2</div><div class="fb-body p2" id="fb-p2-body"></div></div>
+  </div>
+</div>
+
+<!-- ══════ CORRIGÉ ══════ -->
+<div class="tab-panel" id="panel-corrige">
+  <div id="corrige-locked" class="locked">
+    <div class="icon">🔒</div>
+    <p><strong>Le corrigé se déverrouille après soumission d'au moins un problème.</strong></p>
+    <p style="margin-top:.4rem">Traite les problèmes d'abord !</p>
+  </div>
+  <div id="corrige-content" style="display:none">
+
+    <div class="card">
+      <h2>Problème 1 — Équations et inéquation du second degré</h2>
+
+      <div class="cor p1">
+        <h3>Q1 — Forme canonique</h3>
+        <p class="math">x² − 3x − 10 = (x − 3/2)² − 9/4 − 40/4 = (x − 3/2)² − 49/4</p>
+      </div>
+
+      <div class="cor p1">
+        <h3>Q2a — Résolution de x²−3x−10=0</h3>
+        <p class="math">Δ = 9 + 40 = 49 = 7²</p>
+        <p class="math">x = (3±7)/2 → x₁ = 5 ou x₂ = −2</p>
+      </div>
+
+      <div class="cor p1">
+        <h3>Q2b — Taux d'intérêt</h3>
+        <p>Comme x&gt;0, on rejette x=−2.</p>
+        <p>Le taux d'intérêt pratiqué à NOUKONME est <strong>x = 5%</strong>.</p>
+      </div>
+
+      <div class="cor p1">
+        <h3>Q3a — Résolution de (I) : x²−3x−10≤0</h3>
+        <p>Racines : x=−2 et x=5. Le trinôme (a=1&gt;0) est négatif entre les racines :</p>
+        <p class="math">x² − 3x − 10 ≤ 0 ⟺ x ∈ [−2 ; 5]</p>
+      </div>
+
+      <div class="cor p1">
+        <h3>Q3b — Somme S et produit P (équation E)</h3>
+        <p>−x²+7x−12=0, donc a=−1, b=7, c=−12.</p>
+        <p class="math">S = −b/a = −7/(−1) = <strong>7</strong></p>
+        <p class="math">P = c/a = −12/(−1) = <strong>12</strong></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Problème 2 — Système et résolution graphique</h2>
+
+      <div class="cor p2">
+        <h3>Q4a — Équation traduisant le système</h3>
+        <p>L et l sont solutions de :</p>
+        <p class="math">X² − (L+l)X + L×l = 0 → X² − 84X + 425 = 0</p>
+      </div>
+
+      <div class="cor p2">
+        <h3>Q4b — Résolution et valeurs de L et l</h3>
+        <p class="math">Δ = 84² − 4×425 = 7056 − 1700 = 5356</p>
+        <p class="math">√Δ = √5356 ≈ 73,18</p>
+        <p class="math">X = (84±73,18)/2 → X₁ ≈ 78,59 ou X₂ ≈ 5,41</p>
+        <p>Comme L &gt; l : <strong>L ≈ 78,59 m et l ≈ 5,41 m</strong></p>
+        <p style="font-size:.85rem;color:var(--muted)">Vérification : L+l ≈ 84 ✓ et L×l ≈ 425 ✓ (aux arrondis près).</p>
+      </div>
+
+      <div class="cor p2">
+        <h3>Q5a — Résolution de (S) par combinaison</h3>
+        <p class="math">(S) : 2x+3y=−6 (L1) et x−2y=4 (L2)</p>
+        <p>Multiplions L2 par 2 : <span class="math">2x−4y=8 (L2')</span></p>
+        <p>L1 − L2' : <span class="math">(2x+3y)−(2x−4y) = −6−8 → 7y = −14 → y=−2</span></p>
+        <p>Dans L2 : <span class="math">x−2(−2)=4 → x+4=4 → x=0</span></p>
+        <p><strong>Solution : (x;y) = (0 ; −2)</strong></p>
+      </div>
+
+      <div class="cor p2">
+        <h3>Q5b — Résolution graphique</h3>
+        <p>Pour tracer les deux droites, on peut utiliser deux points caractéristiques de chacune :</p>
+        <ul>
+          <li><strong>Droite (2x+3y=−6)</strong> : si x=0, y=−2 (point (0;−2)) ; si y=0, x=−3 (point (−3;0))</li>
+          <li><strong>Droite (x−2y=4)</strong> : si x=0, y=−2 (point (0;−2)) ; si y=0, x=4 (point (4;0))</li>
+        </ul>
+        <p>Les deux droites se coupent au point <strong>(0 ; −2)</strong>, ce qui confirme le résultat trouvé par combinaison à la question 5a.</p>
+        <div class="cor-graph">
+          <svg width="280" height="240" viewBox="0 0 280 240" xmlns="http://www.w3.org/2000/svg">
+            <!-- Axes -->
+            <line x1="20" y1="120" x2="260" y2="120" stroke="#888" stroke-width="1.2"/>
+            <line x1="140" y1="10" x2="140" y2="230" stroke="#888" stroke-width="1.2"/>
+            <text x="255" y="115" font-size="10" fill="#888">x</text>
+            <text x="145" y="18" font-size="10" fill="#888">y</text>
+            <!-- graduation -->
+            <text x="180" y="132" font-size="9" fill="#888">4</text>
+            <text x="80" y="132" font-size="9" fill="#888">-3</text>
+            <text x="150" y="90" font-size="9" fill="#888">2</text>
+            <!-- Droite 2x+3y=-6 passant par (0,-2) et (-3,0) -->
+            <line x1="80" y1="90" x2="200" y2="150" stroke="#1a4a8a" stroke-width="1.8"/>
+            <text x="205" y="150" font-size="9" fill="#1a4a8a">2x+3y=-6</text>
+            <!-- Droite x-2y=4 passant par (0,-2) et (4,0) -->
+            <line x1="140" y1="150" x2="220" y2="70" stroke="#6a1a3a" stroke-width="1.8"/>
+            <text x="222" y="68" font-size="9" fill="#6a1a3a">x-2y=4</text>
+            <!-- point intersection -->
+            <circle cx="140" cy="150" r="4" fill="#8b1a1a"/>
+            <text x="145" y="163" font-size="10" font-family="serif" fill="#8b1a1a" font-weight="700">(0;-2)</text>
+          </svg>
+          <p style="font-size:.8rem;color:var(--muted);margin-top:.3rem">Schéma illustratif — intersection au point (0;−2)</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</main>
+
+<script>
+/* ═══════════════════════════════════════════════
+   WIDGET DE DESSIN RÉUTILISABLE (canvas tactile)
+   Outils : main levée, ligne, gomme, annuler
+   + Mode photo (capture caméra / galerie)
+   ═══════════════════════════════════════════════ */
+const DRAW_COLORS = ['#1a1a2e','#1a3a8a','#8b1a1a','#1a5a2a','#7a5000'];
+const drawState = {};
+const photoState = {};
+const MAX_UNDO = 15;
+
+function initDrawCanvas(canvasId){
+  const canvas = document.getElementById(canvasId);
+  const overlay = document.getElementById(canvasId+'-overlay');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const octx = overlay ? overlay.getContext('2d') : null;
+  ctx.fillStyle = '#fdfdfd';
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+
+  drawState[canvasId] = {
+    tool:'pen', color: DRAW_COLORS[0], drawing:false,
+    startX:0, startY:0, lastX:0, lastY:0,
+    ctx, octx, overlay, hasContent:false,
+    history: []
+  };
+
+  pushHistory(canvasId);
+
+  const colorRow = document.getElementById(canvasId+'-colors');
+  if(colorRow){
+    colorRow.innerHTML='';
+    DRAW_COLORS.forEach((c,i)=>{
+      const dot=document.createElement('div');
+      dot.className='draw-color'+(i===0?' selected':'');
+      dot.style.background=c;
+      dot.onclick=()=>{
+        drawState[canvasId].color=c;
+        colorRow.querySelectorAll('.draw-color').forEach(d=>d.classList.remove('selected'));
+        dot.classList.add('selected');
+      };
+      colorRow.appendChild(dot);
+    });
+  }
+
+  function getPos(e){
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    const cx = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+    const cy = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
+    return { x: cx*scaleX, y: cy*scaleY };
+  }
+
+  function markUsed(){
+    drawState[canvasId].hasContent = true;
+    document.getElementById(canvasId+'-status')?.classList.add('show');
+  }
+
+  function clearOverlay(){
+    if(octx) octx.clearRect(0,0,overlay.width,overlay.height);
+  }
+
+  function start(e){
+    e.preventDefault();
+    const s = drawState[canvasId];
+    const pos = getPos(e);
+    s.startX = pos.x; s.startY = pos.y;
+    s.lastX = pos.x; s.lastY = pos.y;
+    s.drawing = true;
+  }
+
+  function move(e){
+    const s = drawState[canvasId];
+    if(!s.drawing) return;
+    e.preventDefault();
+    const pos = getPos(e);
+    if(s.tool === 'pen' || s.tool === 'erase'){
+      s.ctx.strokeStyle = s.tool==='erase' ? '#fdfdfd' : s.color;
+      s.ctx.lineWidth = s.tool==='erase' ? 22 : 2.5;
+      s.ctx.beginPath();
+      s.ctx.moveTo(s.lastX, s.lastY);
+      s.ctx.lineTo(pos.x, pos.y);
+      s.ctx.stroke();
+      s.lastX = pos.x; s.lastY = pos.y;
+      markUsed();
+    }
+    else if(s.tool === 'line'){
+      clearOverlay();
+      if(s.octx){
+        s.octx.strokeStyle = s.color;
+        s.octx.lineWidth = 2.5;
+        s.octx.setLineDash([5,4]);
+        s.octx.beginPath();
+        s.octx.moveTo(s.startX, s.startY);
+        s.octx.lineTo(pos.x, pos.y);
+        s.octx.stroke();
+        s.octx.setLineDash([]);
+      }
+      s.lastX = pos.x; s.lastY = pos.y;
+    }
+  }
+
+  function end(){
+    const s = drawState[canvasId];
+    if(!s.drawing) return;
+    s.drawing = false;
+    let acted = false;
+    if(s.tool === 'line'){
+      s.ctx.strokeStyle = s.color;
+      s.ctx.lineWidth = 2.5;
+      s.ctx.beginPath();
+      s.ctx.moveTo(s.startX, s.startY);
+      s.ctx.lineTo(s.lastX, s.lastY);
+      s.ctx.stroke();
+      clearOverlay();
+      markUsed();
+      acted = true;
+    }
+    else if(s.tool === 'pen' || s.tool === 'erase'){
+      acted = true;
+    }
+    if(acted) pushHistory(canvasId);
+  }
+
+  canvas.addEventListener('mousedown', start);
+  canvas.addEventListener('mousemove', move);
+  window.addEventListener('mouseup', end);
+  canvas.addEventListener('touchstart', start, {passive:false});
+  canvas.addEventListener('touchmove', move, {passive:false});
+  canvas.addEventListener('touchend', end);
+}
+
+function pushHistory(canvasId){
+  const s = drawState[canvasId];
+  if(!s) return;
+  const snap = s.ctx.getImageData(0,0,s.ctx.canvas.width,s.ctx.canvas.height);
+  s.history.push(snap);
+  if(s.history.length > MAX_UNDO) s.history.shift();
+}
+
+function undoDrawCanvas(canvasId){
+  const s = drawState[canvasId];
+  if(!s || s.history.length <= 1) return;
+  s.history.pop();
+  const prev = s.history[s.history.length-1];
+  s.ctx.putImageData(prev, 0, 0);
+  s.hasContent = s.history.length > 1;
+  if(!s.hasContent) document.getElementById(canvasId+'-status')?.classList.remove('show');
+}
+
+function setDrawTool(canvasId, tool){
+  if(!drawState[canvasId]) return;
+  drawState[canvasId].tool = tool;
+  ['pen','line','erase'].forEach(t=>{
+    document.getElementById('dtool-'+t+'-'+canvasId)?.classList.toggle('active', t===tool);
+  });
+}
+
+function clearDrawCanvas(canvasId){
+  const canvas = document.getElementById(canvasId);
+  const overlay = document.getElementById(canvasId+'-overlay');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = '#fdfdfd';
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  if(overlay) overlay.getContext('2d').clearRect(0,0,overlay.width,overlay.height);
+  drawState[canvasId].hasContent = false;
+  drawState[canvasId].history = [];
+  pushHistory(canvasId);
+  document.getElementById(canvasId+'-status')?.classList.remove('show');
+}
+
+function getDrawCanvasBase64(canvasId){
+  const canvas = document.getElementById(canvasId);
+  if(!canvas || !drawState[canvasId] || !drawState[canvasId].hasContent) return null;
+  return canvas.toDataURL('image/png').split(',')[1];
+}
+
+function switchDrawMode(baseId, mode){
+  document.getElementById('dwtab-draw-'+baseId)?.classList.toggle('active', mode==='draw');
+  document.getElementById('dwtab-photo-'+baseId)?.classList.toggle('active', mode==='photo');
+  document.getElementById('dwpanel-draw-'+baseId)?.classList.toggle('active', mode==='draw');
+  document.getElementById('dwpanel-photo-'+baseId)?.classList.toggle('active', mode==='photo');
+}
+
+function handlePhotoCapture(baseId, inputEl){
+  const file = inputEl.files && inputEl.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = (e)=>{
+    photoState[baseId] = { dataUrl: e.target.result, mediaType: file.type || 'image/jpeg' };
+    const img = document.getElementById(baseId+'-photo-preview');
+    const wrap = document.getElementById(baseId+'-photo-preview-wrap');
+    if(img) img.src = e.target.result;
+    if(wrap) wrap.style.display = 'block';
+    document.getElementById(baseId+'-photo-status')?.classList.add('show');
+  };
+  reader.readAsDataURL(file);
+}
+
+function clearPhotoCapture(baseId){
+  delete photoState[baseId];
+  const wrap = document.getElementById(baseId+'-photo-preview-wrap');
+  if(wrap) wrap.style.display = 'none';
+  document.getElementById(baseId+'-photo-status')?.classList.remove('show');
+  const input = document.getElementById(baseId+'-photo-input');
+  if(input) input.value = '';
+}
+
+function getPhotoBase64(baseId){
+  const p = photoState[baseId];
+  if(!p) return null;
+  return { base64: p.dataUrl.split(',')[1], mediaType: p.mediaType };
+}
+
+document.addEventListener('DOMContentLoaded', ()=>{
+  document.querySelectorAll('.draw-canvas-wrap canvas:not([id$="-overlay"])').forEach(c=>initDrawCanvas(c.id));
+  if(location.protocol === 'file:'){
+    document.getElementById('local-warning')?.classList.add('show');
+  }
+});
+</script>
+<script>
+function switchTab(name,e){
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('panel-'+name).classList.add('active');
+  e.currentTarget.classList.add('active');
+}
+function cw(s){return s.trim().split(/\s+/).filter(w=>w.length>0).length;}
+document.querySelectorAll('textarea.rep').forEach(ta=>{
+  const wc=document.getElementById('wc-'+ta.id);
+  if(!wc)return;
+  ta.addEventListener('input',()=>{const n=cw(ta.value);wc.textContent=n+(n>1?' mots':' mot');});
+});
+let unlocked=false;
+function unlockCorrige(){
+  if(unlocked)return;unlocked=true;
+  document.getElementById('corrige-locked').style.display='none';
+  document.getElementById('corrige-content').style.display='block';
+}
+async function callClaude(sys,msg,el,images){
+  const hasImg = images && images.length>0;
+  el.innerHTML='<div class="spinner"></div> L\'IA corrige ta réponse'+(hasImg?' (texte + image'+(images.length>1?'s':'')+')':'')+'…';
+  el.classList.add('loading');
+  try{
+    let content = msg;
+    if(hasImg){
+      content = [{type:'text', text: msg + '\n\n(Un ou plusieurs dessins/photos ont été joints — analyse-les aussi dans ta correction, notamment la construction graphique.)'}];
+      images.forEach(img=>{
+        content.push({type:'image', source:{type:'base64', media_type: img.mediaType || 'image/png', data: img.base64}});
+      });
+    }
+    const r=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1500,system:sys,messages:[{role:'user',content:content}]})
+    });
+    const d=await r.json();
+    el.classList.remove('loading');
+    el.innerHTML=d.content.map(i=>i.text||'').join('\n');
+  }catch{
+    el.classList.remove('loading');
+    el.innerHTML='<p style="color:#8b1a1a">Erreur. Réessaie.</p>';
+  }
+}
+
+const SYS={
+p1:`Tu es un professeur de Mathématiques expert au niveau 1ère A2 au Bénin. Tu corriges le Problème 1 (~7 pts) sur une équation du second degré (taux d'intérêt de NOUKONME).
+Réponses attendues:
+Q1(2pts): Forme canonique x²-3x-10 = (x-3/2)²-49/4.
+Q2a(2pts): Δ=9+40=49. x=(3±7)/2 → x=5 ou x=-2.
+Q2b(1pt): x>0 donc rejeter -2. Taux=5%.
+Q3a(2pts): Racines -2 et 5. Trinôme négatif entre les racines: x²-3x-10≤0 ⟺ x∈[-2;5].
+Q3b(2pts): Pour -x²+7x-12=0: a=-1,b=7,c=-12. S=-b/a=7. P=c/a=12.
+Réponds en HTML simple (p,h4,ul,li,strong), pas de markdown. Structure: <h4>📊 Score estimé</h4> <h4>Q1 Forme canonique (2pts)</h4> <h4>Q2a-b Résolution et taux (3pts)</h4> <h4>Q3a Inéquation (2pts)</h4> <h4>Q3b Somme et produit (2pts)</h4> <h4>💡 Conseils</h4> Sois rigoureux sur les calculs et les relations de Viète.`,
+p2:`Tu es un professeur de Mathématiques expert au niveau 1ère A2 au Bénin. Tu corriges le Problème 2 (~9 pts) sur un système d'équations (dimensions parcelle) et un système linéaire résolu par combinaison + graphiquement.
+Réponses attendues:
+Q4a(2pts): L et l solutions de X²-84X+425=0 (car L+l=84, L×l=425).
+Q4b(3pts): Δ=84²-4×425=5356. √Δ≈73,18. X=(84±73,18)/2 → L≈78,59m, l≈5,41m (L>l).
+Q5a(2pts): Système 2x+3y=-6 et x-2y=4. Par combinaison (multiplier L2 par 2, soustraire): y=-2, puis x=0. Solution: (x;y)=(0;-2).
+Q5b(2pts): Résolution graphique: tracer les 2 droites (2x+3y=-6 passe par (0;-2) et (-3;0) ; x-2y=4 passe par (0;-2) et (4;0)), leur intersection est (0;-2), cohérent avec 5a.
+Si une image (dessin ou photo) est jointe, évalue la construction graphique: droites bien tracées, passage par les bons points, intersection correcte.
+Réponds en HTML simple. Structure: <h4>📊 Score estimé</h4> <h4>Q4a Équation du système (2pts)</h4> <h4>Q4b Résolution L et l (3pts)</h4> <h4>Q5a Combinaison (2pts)</h4> <h4>Q5b Résolution graphique (2pts)</h4> <h4>✏️ Évaluation du graphique/photo</h4>(uniquement si image jointe) <h4>💡 Conseils</h4> Vérifie la cohérence entre la solution algébrique et graphique.`
+};
+
+async function submitProb(prob){
+  document.getElementById('btn-'+prob).disabled=true;
+  const fb=document.getElementById('fb-'+prob);fb.classList.add('visible');
+  const body=document.getElementById('fb-'+prob+'-body');
+  let msg='';
+  let images=[];
+  if(prob==='p1'){
+    msg=`Q1:\n${document.getElementById('q1').value||'(vide)'}\n\nQ2a:\n${document.getElementById('q2a').value||'(vide)'}\n\nQ2b:\n${document.getElementById('q2b').value||'(vide)'}\n\nQ3a:\n${document.getElementById('q3a').value||'(vide)'}\n\nQ3b:\n${document.getElementById('q3b').value||'(vide)'}`;
+  }else{
+    msg=`Q4a:\n${document.getElementById('q4a').value||'(vide)'}\n\nQ4b:\n${document.getElementById('q4b').value||'(vide)'}\n\nQ5a:\n${document.getElementById('q5a').value||'(vide)'}\n\nQ5b description:\n${document.getElementById('q5btext').value||'(vide)'}`;
+    const cgraph = getDrawCanvasBase64('graphcv');
+    if(cgraph) images.push({base64:cgraph, mediaType:'image/png'});
+    const pgraph = getPhotoBase64('graph');
+    if(pgraph) images.push(pgraph);
+  }
+  await callClaude(SYS[prob],msg,body,images);
+  unlockCorrige();
+}
+</script>
+</body>
+</html>

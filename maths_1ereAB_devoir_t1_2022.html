@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maths 1ère AB — Devoir 1er Trimestre 2022-2023</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Serif+4:wght@300;400;600&family=Space+Grotesk:wght@400;500;600&display=swap');
+  :root{
+    --ink:#1a1a2e;--bg:#f3f2f8;--warm:#fefcff;
+    --p1:#1a4a8a;--p1l:#4a7ac4;--p1s:#e8f0fb;
+    --p2:#6a1a3a;--p2l:#c44a7a;--p2s:#fbe8f0;
+    --gold:#7a6000;--gold-light:#fdf6e0;
+    --border:#c8c0d8;--muted:#606070;--shadow:rgba(26,26,46,0.07);
+    --green:#1a6b3a;--red:#8b1a1a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Source Serif 4',Georgia,serif;background:var(--bg);color:var(--ink);font-size:16px;line-height:1.78;}
+  header{background:linear-gradient(135deg,#0a1a4a 0%,#1a4a8a 45%,#4a0a2a 100%);color:#fff;padding:2rem 2rem 1.6rem;text-align:center;}
+  .eyebrow{font-family:'Space Grotesk',sans-serif;font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:#b0c8f0;margin-bottom:.4rem;}
+  header h1{font-family:'Playfair Display',serif;font-size:clamp(1.3rem,4vw,1.9rem);color:#fff;}
+  .hsub{font-family:'Space Grotesk',sans-serif;font-size:.8rem;color:#b0c0e0;margin-top:.25rem;}
+  .hmeta{display:flex;justify-content:center;flex-wrap:wrap;gap:1.3rem;margin-top:.9rem;font-family:'Space Grotesk',sans-serif;font-size:.74rem;color:#a0b8e0;letter-spacing:.05em;}
+  .tab-bar{display:flex;background:var(--warm);border-bottom:2px solid var(--border);overflow-x:auto;position:sticky;top:0;z-index:50;scrollbar-width:none;}
+  .tab-bar::-webkit-scrollbar{display:none;}
+  .tab-btn{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:.78rem 1rem;border:none;background:transparent;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap;transition:all .2s;}
+  .tab-btn:hover:not(.active){color:var(--ink);background:#edeafb;}
+  .tab-btn.p1.active{color:var(--p1);border-bottom-color:var(--p1);}
+  .tab-btn.p2.active{color:var(--p2);border-bottom-color:var(--p2);}
+  .tab-btn.cr.active{color:#333;border-bottom-color:#333;}
+  main{max-width:900px;margin:0 auto;padding:2rem 1.5rem 5rem;}
+  .tab-panel{display:none;}.tab-panel.active{display:block;}
+  .card{background:var(--warm);border:1px solid var(--border);border-radius:4px;padding:1.7rem 1.9rem;margin-bottom:1.5rem;box-shadow:0 2px 8px var(--shadow);}
+  .card h2{font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--ink);border-bottom:1px solid var(--border);padding-bottom:.55rem;margin-bottom:.9rem;}
+  .banner{color:#fff;font-family:'Space Grotesk',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:.6rem 1.1rem;border-radius:4px;margin-bottom:1rem;display:flex;justify-content:space-between;align-items:center;}
+  .banner.p1{background:var(--p1);}.banner.p2{background:var(--p2);}
+  .bpts{background:rgba(255,255,255,0.22);padding:.12rem .55rem;border-radius:10px;font-size:.73rem;}
+  .ctx-box{border-radius:0 4px 4px 0;padding:.9rem 1.15rem;font-size:.91rem;line-height:1.8;margin-bottom:.9rem;}
+  .ctx-box.p1{background:var(--p1s);border-left:4px solid var(--p1);}
+  .ctx-box.p2{background:var(--p2s);border-left:4px solid var(--p2);}
+  .fig-box{background:#fff;border:1px solid var(--border);border-radius:4px;padding:1rem;margin-bottom:.9rem;text-align:center;}
+  .fig-box svg{max-width:100%;}
+  .fig-label{font-family:'Space Grotesk',sans-serif;font-size:.74rem;font-weight:700;color:var(--p2);margin-top:.4rem;}
+  .info-box{background:#fff;border:1px solid var(--border);border-radius:4px;padding:.85rem 1.05rem;margin-bottom:.85rem;font-size:.88rem;line-height:1.75;}
+  .info-box .ititle{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.35rem;}
+  .info-box.p1 .ititle{color:var(--p1);}.info-box.p2 .ititle{color:var(--p2);}
+  .info-box ul{padding-left:1.2rem;}.info-box li{margin-bottom:.22rem;}
+  .q-block{background:var(--warm);border:1px solid var(--border);border-radius:4px;padding:1.05rem 1.3rem;margin-bottom:.85rem;}
+  .q-head{display:flex;align-items:flex-start;gap:.7rem;margin-bottom:.55rem;}
+  .qn{color:#fff;font-family:'Space Grotesk',sans-serif;font-size:.7rem;font-weight:700;min-width:1.9rem;height:1.7rem;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:.1rem;padding:0 .3rem;}
+  .qn.p1{background:var(--p1);}.qn.p2{background:var(--p2);}
+  .q-txt{flex:1;font-size:.92rem;line-height:1.6;}
+  .pts{font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:600;color:var(--gold);background:var(--gold-light);border:1px solid #dfc96a;padding:.08rem .45rem;border-radius:10px;white-space:nowrap;flex-shrink:0;}
+  .sub-q{font-size:.9rem;margin:.38rem 0 .38rem 1rem;line-height:1.6;}
+  textarea.rep{width:100%;border:1.5px solid var(--border);border-radius:4px;padding:.65rem .82rem;font-family:'Source Serif 4',serif;font-size:.92rem;line-height:1.7;background:#fdfbf8;color:var(--ink);resize:vertical;transition:border-color .2s;}
+  textarea.rep:focus{outline:none;background:#fff;}
+  textarea.rep.p1:focus{border-color:var(--p1l);}
+  textarea.rep.p2:focus{border-color:var(--p2l);}
+  .wc{font-family:'Space Grotesk',sans-serif;font-size:.68rem;color:var(--muted);text-align:right;margin-top:.22rem;}
+  .hint{background:#fff;border:1px solid var(--border);border-radius:4px;padding:.6rem .85rem;margin-bottom:.52rem;font-size:.81rem;font-family:'Space Grotesk',sans-serif;color:var(--muted);}
+  .math-box{background:#f8f8ff;border:1px solid #d0c8f0;border-radius:4px;padding:.7rem 1rem;font-family:'Times New Roman',serif;font-size:1.02rem;margin:.5rem 0;line-height:1.9;}
+  /* BOUTONS */
+  .btn{display:block;width:100%;padding:.85rem;color:#fff;font-family:'Space Grotesk',sans-serif;font-size:.83rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;border:none;border-radius:4px;cursor:pointer;transition:background .2s;margin-top:1.1rem;}
+  .btn.p1{background:var(--p1);}.btn.p1:hover{background:#0a1a5a;}
+  .btn.p2{background:var(--p2);}.btn.p2:hover{background:#3a0a20;}
+  .btn:disabled{opacity:.55;cursor:not-allowed;}
+  /* FEEDBACK */
+  .fb-box{display:none;margin-top:1rem;border-radius:4px;overflow:hidden;}
+  .fb-box.visible{display:block;}
+  .fb-head{background:var(--ink);color:#fff;padding:.62rem 1.05rem;font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;}
+  .fb-body{background:var(--warm);border:1px solid var(--border);border-top:none;padding:1.05rem 1.3rem;font-size:.9rem;line-height:1.74;}
+  .fb-body.loading{display:flex;align-items:center;gap:.6rem;color:var(--muted);font-style:italic;font-size:.82rem;}
+  .spinner{width:.9rem;height:.9rem;border:2px solid var(--border);border-top-color:var(--p1);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .fb-body h4{font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:1rem 0 .3rem;padding-bottom:.2rem;border-bottom:1px solid var(--border);}
+  .fb-body h4:first-child{margin-top:0;}
+  .fb-body p{margin-bottom:.5rem;}.fb-body ul{padding-left:1.1rem;}.fb-body li{margin-bottom:.25rem;}
+  .fb-body strong{color:var(--p1);}
+  .fb-body.p2 strong{color:var(--p2);}
+  /* CORRIGÉ */
+  .cor{border-radius:4px;padding:1.05rem 1.3rem;margin-bottom:.9rem;font-size:.9rem;line-height:1.78;}
+  .cor.p1{background:var(--p1s);border:1px solid #b8c8e8;border-left:4px solid var(--p1);}
+  .cor.p2{background:var(--p2s);border:1px solid #e8b8c8;border-left:4px solid var(--p2);}
+  .cor h3{font-family:'Playfair Display',serif;font-size:.97rem;margin-bottom:.5rem;}
+  .cor.p1 h3{color:var(--p1);}.cor.p2 h3{color:var(--p2);}
+  .cor p{margin-bottom:.4rem;}.cor ul{padding-left:1.1rem;margin-bottom:.38rem;}.cor li{margin-bottom:.28rem;}
+  .math{font-family:'Times New Roman',serif;font-size:.97rem;background:#fff;border:1px solid var(--border);border-radius:3px;padding:.2rem .52rem;display:inline-block;margin:.16rem 0;}
+  .locked{background:var(--warm);border:2px dashed var(--border);border-radius:4px;padding:2.5rem;text-align:center;color:var(--muted);font-family:'Space Grotesk',sans-serif;font-size:.85rem;}
+  .locked .icon{font-size:2rem;margin-bottom:.5rem;}
+  /* ═══ WIDGET DESSIN + PHOTO ═══ */
+  .draw-widget{background:#fff;border:1.5px solid var(--border);border-radius:6px;padding:.8rem;margin:.7rem 0;}
+  .dw-tabbar{display:flex;gap:.3rem;margin-bottom:.7rem;border-bottom:1.5px solid var(--border);}
+  .dw-tab{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:600;padding:.45rem .8rem;border:none;background:transparent;color:var(--muted);cursor:pointer;border-bottom:2.5px solid transparent;margin-bottom:-1.5px;transition:all .15s;}
+  .dw-tab:hover{color:var(--ink);}
+  .dw-tab.active{color:var(--p2);border-bottom-color:var(--p2);}
+  .dw-panel{display:none;}
+  .dw-panel.active{display:block;}
+  .draw-widget-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem;flex-wrap:wrap;gap:.4rem;}
+  .draw-title{font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--p2);}
+  .draw-tools{display:flex;gap:.35rem;flex-wrap:wrap;}
+  .draw-btn{font-family:'Space Grotesk',sans-serif;font-size:.68rem;font-weight:600;padding:.32rem .6rem;border-radius:4px;border:1.5px solid var(--border);background:#fff;color:var(--muted);cursor:pointer;transition:all .15s;}
+  .draw-btn:hover{background:#f0f0f5;}
+  .draw-btn.active{background:var(--p2);color:#fff;border-color:var(--p2);}
+  .draw-btn.danger{color:var(--red);border-color:#e0b0b0;}
+  .draw-btn.danger:hover{background:#fdf0f0;}
+  .draw-color-row{display:flex;gap:.3rem;align-items:center;}
+  .draw-color{width:22px;height:22px;border-radius:50%;border:2px solid #fff;outline:1.5px solid var(--border);cursor:pointer;flex-shrink:0;}
+  .draw-color.selected{outline:2px solid var(--ink);outline-offset:1px;}
+  .draw-canvas-wrap{position:relative;border:1.5px dashed var(--border);border-radius:4px;overflow:hidden;background:#fdfdfd;touch-action:none;line-height:0;}
+  .draw-canvas-wrap canvas{display:block;width:100%;height:auto;touch-action:none;cursor:crosshair;}
+  .draw-canvas-wrap canvas[id$="-overlay"]{position:absolute;top:0;left:0;pointer-events:none;}
+  .draw-hint-text{font-family:'Space Grotesk',sans-serif;font-size:.72rem;color:var(--muted);margin-top:.4rem;text-align:center;}
+  .draw-status{font-family:'Space Grotesk',sans-serif;font-size:.68rem;color:var(--green);margin-top:.3rem;display:none;text-align:center;}
+  .draw-status.show{display:block;}
+  .photo-capture-btn{display:block;width:100%;padding:.9rem;background:var(--p2s);border:2px dashed var(--p2);border-radius:6px;color:var(--p2);font-family:'Space Grotesk',sans-serif;font-size:.85rem;font-weight:700;cursor:pointer;transition:all .15s;text-align:center;}
+  .photo-capture-btn:hover{background:#f8dce8;}
+  .photo-preview-wrap{margin-top:.7rem;text-align:center;}
+  .photo-preview-wrap img{max-width:100%;max-height:320px;border-radius:6px;border:1.5px solid var(--border);}
+  .local-warning{background:#fff3e0;border:1px solid #e0b070;border-radius:4px;padding:.6rem .8rem;font-family:'Space Grotesk',sans-serif;font-size:.74rem;color:#8a5a00;margin-bottom:.6rem;display:none;}
+  .local-warning.show{display:block;}
+  @media(max-width:580px){main{padding:1.1rem .85rem 4rem;}.card{padding:1.1rem .95rem;}.q-block{padding:.95rem .85rem;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">Devoir du Premier Trimestre · Année scolaire 2022-2023 · Collège Catholique Notre-Dame de Lourdes</div>
+  <h1>Épreuve de Mathématiques — 1ère AB</h1>
+  <div class="hsub">Contexte : Placements bancaires et achat de parcelle de Monsieur TAGNON</div>
+  <div class="hmeta">
+    <span>📐 Classe : 1ère AB</span>
+    <span>⏱ Durée : 1h30</span>
+  </div>
+</header>
+
+<div class="tab-bar">
+  <button class="tab-btn p1 active" onclick="switchTab('p1',event)">💰 Problème 1</button>
+  <button class="tab-btn p2" onclick="switchTab('p2',event)">📐 Problème 2</button>
+  <button class="tab-btn cr" onclick="switchTab('corrige',event)">✅ Corrigé type</button>
+</div>
+
+<main>
+
+<div class="local-warning" id="local-warning">⚠️ Ce fichier semble être ouvert en local (hors ligne). L'accès à l'appareil photo peut ne pas fonctionner dans ce mode — ouvre le lien en ligne (https://...) pour utiliser cette fonctionnalité.</div>
+
+<!-- ══════ CONTEXTE GÉNÉRAL ══════ -->
+<div class="tab-panel active" id="panel-p1">
+  <div class="card">
+    <div class="ctx-box p1">
+      <strong>Contexte :</strong> Dans le but d'acquérir une parcelle rectangulaire pour la construction d'une petite boutique, Monsieur TAGNON décide de placer une somme de <strong>45 000 F CFA</strong> à un taux mensuel de <strong>t%</strong>. À la fin du premier mois, monsieur TAGNON retire son capital et son intérêt qu'il place ensuite dans une autre banque de la place à un taux mensuel de <strong>(t+2)%</strong>. À la fin du mois, ce placement génère un intérêt de <strong>4 860 F CFA</strong>. Monsieur TAGNON veut savoir pour quelles valeurs de t, les intérêts à la fin du 2ème placement seront supérieurs à zéro et le pourtour de la parcelle.
+    </div>
+
+    <div class="banner p1">Problème 1 — Placements bancaires et taux d'intérêt</div>
+
+    <div class="q-block">
+      <div class="q-head"><div class="qn p1">1</div>
+        <div class="q-txt"><strong>Détermine en fonction de t l'intérêt après le premier placement</strong> et celui du deuxième placement.</div>
+        <div class="pts">~3 pts</div>
+      </div>
+      <div class="hint">💡 Intérêt = Capital × taux/100. 1er placement : capital=45 000, taux=t%. 2ème placement : capital = 45 000 + intérêt du 1er placement, taux=(t+2)%.</div>
+      <textarea class="rep p1" id="q1" rows="10" placeholder="Intérêt du 1er placement :&#10;I₁ = 45 000 × t/100 = 450t&#10;&#10;Capital réinvesti = capital initial + intérêt du 1er placement&#10;C₂ = 45 000 + 450t&#10;&#10;Intérêt du 2ème placement :&#10;I₂ = C₂ × (t+2)/100 = (45 000 + 450t)(t+2)/100&#10;= 450(100+t)(t+2)/100&#10;= 4,5(100+t)(t+2)"></textarea>
+      <div class="wc" id="wc-q1">0 mot</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-head"><div class="qn p1">2</div>
+        <div class="q-txt"><strong>Déduis que le taux d'intérêt t vérifie l'équation</strong> <span class="math">t² + 102t − 880 = 0</span>.</div>
+        <div class="pts">~2,5 pts</div>
+      </div>
+      <div class="hint">💡 On sait que I₂ = 4 860. Remplace dans l'expression trouvée en Q1 et développe pour obtenir l'équation demandée.</div>
+      <textarea class="rep p1" id="q2" rows="8" placeholder="I₂ = 4 860&#10;4,5(100+t)(t+2) = 4 860&#10;(100+t)(t+2) = 4 860/4,5 = 1080&#10;100t + 200 + t² + 2t = 1080&#10;t² + 102t + 200 = 1080&#10;t² + 102t + 200 - 1080 = 0&#10;t² + 102t - 880 = 0 ✓"></textarea>
+      <div class="wc" id="wc-q2">0 mot</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-head"><div class="qn p1">3</div>
+        <div class="q-txt"><strong>Détermine les valeurs de t</strong> pour que <span class="math">t² + 102t − 880 &gt; 0</span>.</div>
+        <div class="pts">~2,5 pts</div>
+      </div>
+      <div class="hint">💡 Résous d'abord t²+102t−880=0 (Δ = 102²+4×880), puis étudie le signe du trinôme (a=1>0, donc positif à l'extérieur des racines).</div>
+      <textarea class="rep p1" id="q3" rows="10" placeholder="Résolution de t²+102t-880=0 :&#10;Δ = 102² + 4×880 = 10404+3520 = 13924&#10;√Δ = 118&#10;t = (-102±118)/2&#10;t₁ = 16/2 = 8&#10;t₂ = -220/2 = -110&#10;&#10;Étude du signe (a=1>0) : le trinôme est positif à l'extérieur des racines&#10;t²+102t-880 > 0 ⟺ t < -110 ou t > 8&#10;&#10;Comme t est un taux d'intérêt, t doit être positif, donc on retient : t > 8"></textarea>
+      <div class="wc" id="wc-q3">0 mot</div>
+    </div>
+
+    <button class="btn p1" id="btn-p1" onclick="submitProb('p1')">✦ Soumettre Problème 1 — Correction IA</button>
+    <div class="fb-box" id="fb-p1"><div class="fb-head">✦ Correction IA · Problème 1</div><div class="fb-body" id="fb-p1-body"></div></div>
+  </div>
+</div>
+
+<!-- ══════ PROBLÈME 2 ══════ -->
+<div class="tab-panel" id="panel-p2">
+  <div class="card">
+    <div class="banner p2">Problème 2 — La parcelle rectangulaire <span class="bpts">~9,5 pts</span></div>
+
+    <div class="ctx-box p2">
+      La parcelle à acheter se présente comme suit :
+    </div>
+
+    <!-- FIGURE FIDÈLE -->
+    <div class="fig-box">
+      <svg width="320" height="200" viewBox="0 0 320 200" xmlns="http://www.w3.org/2000/svg">
+        <!-- Rectangle -->
+        <rect x="80" y="30" width="200" height="110" fill="#fbe8f0" stroke="#6a1a3a" stroke-width="2"/>
+        <!-- Angle droit en haut à gauche -->
+        <rect x="80" y="30" width="12" height="12" fill="none" stroke="#6a1a3a" stroke-width="1.3"/>
+        <!-- Label largeur (x+1) dam à gauche -->
+        <text x="20" y="90" text-anchor="middle" font-size="13" font-family="serif" fill="#333">(x+1) dam</text>
+        <!-- Label longueur (x+11) dam en bas -->
+        <text x="180" y="165" text-anchor="middle" font-size="13" font-family="serif" fill="#333">(x+11) dam</text>
+      </svg>
+      <div class="fig-label">La parcelle rectangulaire — Longueur L=(x+11) dam, Largeur l=(x+1) dam</div>
+    </div>
+
+    <div class="info-box p2">
+      <div class="ititle">Données</div>
+      <ul>
+        <li>x est un nombre réel strictement positif</li>
+        <li>Longueur : L = (x+11) dam</li>
+        <li>Largeur : l = (x+1) dam</li>
+        <li>S(x) désigne l'aire de la surface du domaine</li>
+      </ul>
+    </div>
+
+    <div class="q-block">
+      <div class="q-head"><div class="qn p2">4a</div>
+        <div class="q-txt"><strong>Justifie que</strong> <span class="math">S(x) = x² + 12x + 11</span>.</div>
+        <div class="pts">~2 pts</div>
+      </div>
+      <div class="hint">💡 S(x) = L × l = (x+11)(x+1). Développe le produit.</div>
+      <textarea class="rep p2" id="q4a" rows="6" placeholder="S(x) = L × l = (x+11)(x+1)&#10;= x² + x + 11x + 11&#10;= x² + 12x + 11 ✓"></textarea>
+      <div class="wc" id="wc-q4a">0 mot</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-head"><div class="qn p2">4b</div>
+        <div class="q-txt"><strong>Résous dans ℝ l'inéquation</strong> <span class="math">S(x) &lt; 0</span>.</div>
+        <div class="pts">~2,5 pts</div>
+      </div>
+      <div class="hint">💡 Résous d'abord x²+12x+11=0, puis étudie le signe du trinôme.</div>
+      <textarea class="rep p2" id="q4b" rows="9" placeholder="x²+12x+11=0&#10;Δ = 144-44 = 100&#10;√Δ=10&#10;x=(-12±10)/2 → x=-1 ou x=-11&#10;&#10;Signe du trinôme (a=1>0) : positif à l'extérieur des racines, négatif entre les racines&#10;S(x)<0 ⟺ -11 < x < -1&#10;&#10;(Cet ensemble ne concerne pas le contexte car x doit être strictement positif ; il s'agit d'une résolution mathématique pure de l'inéquation)"></textarea>
+      <div class="wc" id="wc-q4b">0 mot</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-head"><div class="qn p2">5a</div>
+        <div class="q-txt">Sachant que <span class="math">L + l = 90</span> et <span class="math">L × l = 2000</span>, <strong>détermine L et l</strong>.</div>
+        <div class="pts">~3 pts</div>
+      </div>
+      <div class="hint">💡 L et l sont les solutions de l'équation X² − (L+l)X + L×l = 0, soit X² − 90X + 2000 = 0.</div>
+      <textarea class="rep p2" id="q5a" rows="9" placeholder="L et l sont solutions de X² - (L+l)X + L×l = 0&#10;X² - 90X + 2000 = 0&#10;&#10;Δ = 8100 - 8000 = 100&#10;√Δ = 10&#10;X = (90±10)/2 → X=50 ou X=40&#10;&#10;Puisque L > l (longueur > largeur) :&#10;L = 50 dam et l = 40 dam"></textarea>
+      <div class="wc" id="wc-q5a">0 mot</div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-head"><div class="qn p2">5b</div>
+        <div class="q-txt"><strong>Déduis la valeur de x</strong> puis le <strong>pourtour (périmètre) de la parcelle</strong>.</div>
+        <div class="pts">~2 pts</div>
+      </div>
+      <div class="hint">💡 L=x+11=50 → x=... Vérifie avec l=x+1=40. Périmètre = 2×(L+l).</div>
+      <textarea class="rep p2" id="q5b" rows="6" placeholder="L = x+11 = 50 → x = 50-11 = 39&#10;Vérification : l = x+1 = 39+1 = 40 ✓ (cohérent avec l=40)&#10;&#10;Donc x = 39&#10;&#10;Périmètre = 2(L+l) = 2×90 = 180 dam"></textarea>
+      <div class="wc" id="wc-q5b">0 mot</div>
+    </div>
+
+    <!-- WIDGET DESSIN + PHOTO -->
+    <div class="draw-widget">
+      <div class="dw-tabbar">
+        <button type="button" class="dw-tab active" id="dwtab-draw-parc" onclick="switchDrawMode('parc','draw')">✏️ Dessiner à l'écran</button>
+        <button type="button" class="dw-tab" id="dwtab-photo-parc" onclick="switchDrawMode('parc','photo')">📷 Photo de ma feuille</button>
+      </div>
+      <div class="dw-panel active" id="dwpanel-draw-parc">
+        <div class="draw-widget-head">
+          <span class="draw-title">Brouillon / Figure annotée</span>
+          <div class="draw-tools">
+            <button type="button" class="draw-btn active" id="dtool-pen-parccv" onclick="setDrawTool('parccv','pen')">✏️ Main levée</button>
+            <button type="button" class="draw-btn" id="dtool-line-parccv" onclick="setDrawTool('parccv','line')">📏 Ligne</button>
+            <button type="button" class="draw-btn" id="dtool-erase-parccv" onclick="setDrawTool('parccv','erase')">🧽 Gomme</button>
+            <button type="button" class="draw-btn" id="dtool-undo-parccv" onclick="undoDrawCanvas('parccv')">↩️ Annuler</button>
+            <button type="button" class="draw-btn danger" onclick="clearDrawCanvas('parccv')">🗑️ Effacer tout</button>
+          </div>
+        </div>
+        <div class="draw-color-row" id="parccv-colors" style="margin-bottom:.5rem"></div>
+        <div class="draw-canvas-wrap">
+          <canvas id="parccv" width="600" height="360"></canvas>
+          <canvas id="parccv-overlay" width="600" height="360"></canvas>
+        </div>
+        <div class="draw-hint-text">Utilise cet espace pour tes calculs détaillés ou annotations de la figure.</div>
+        <div class="draw-status" id="parccv-status">✓ Dessin enregistré</div>
+      </div>
+      <div class="dw-panel" id="dwpanel-photo-parc">
+        <p class="draw-hint-text" style="margin-bottom:.6rem">Tu peux traiter le Problème 2 entièrement sur ta copie, puis prendre une photo nette pour qu'elle soit corrigée.</p>
+        <input type="file" accept="image/*" capture="environment" id="parc-photo-input" style="display:none" onchange="handlePhotoCapture('parc', this)">
+        <button type="button" class="photo-capture-btn" onclick="document.getElementById('parc-photo-input').click()">📷 Prendre une photo / Choisir une image</button>
+        <div class="photo-preview-wrap" id="parc-photo-preview-wrap" style="display:none">
+          <img id="parc-photo-preview" alt="Aperçu de la photo">
+          <button type="button" class="draw-btn danger" style="margin-top:.5rem" onclick="clearPhotoCapture('parc')">🗑️ Retirer la photo</button>
+        </div>
+        <div class="draw-status" id="parc-photo-status">✓ Photo prête à être envoyée</div>
+      </div>
+    </div>
+
+    <button class="btn p2" id="btn-p2" onclick="submitProb('p2')">✦ Soumettre Problème 2 — Correction IA</button>
+    <div class="fb-box" id="fb-p2"><div class="fb-head">✦ Correction IA · Problème 2</div><div class="fb-body p2" id="fb-p2-body"></div></div>
+  </div>
+</div>
+
+<!-- ══════ CORRIGÉ ══════ -->
+<div class="tab-panel" id="panel-corrige">
+  <div id="corrige-locked" class="locked">
+    <div class="icon">🔒</div>
+    <p><strong>Le corrigé se déverrouille après soumission d'au moins un problème.</strong></p>
+    <p style="margin-top:.4rem">Traite les problèmes d'abord !</p>
+  </div>
+  <div id="corrige-content" style="display:none">
+
+    <div class="card">
+      <h2>Problème 1 — Placements bancaires</h2>
+
+      <div class="cor p1">
+        <h3>Q1 — Intérêts des deux placements</h3>
+        <p><strong>Intérêt du 1er placement :</strong></p>
+        <p class="math">I₁ = 45 000 × t/100 = 450t</p>
+        <p><strong>Capital réinvesti (capital + intérêt du 1er placement) :</strong></p>
+        <p class="math">C₂ = 45 000 + 450t</p>
+        <p><strong>Intérêt du 2ème placement</strong> (taux (t+2)%) :</p>
+        <p class="math">I₂ = C₂ × (t+2)/100 = (45 000+450t)(t+2)/100 = 4,5(100+t)(t+2)</p>
+      </div>
+
+      <div class="cor p1">
+        <h3>Q2 — Équation t²+102t−880=0</h3>
+        <p>On sait que I₂ = 4 860 :</p>
+        <p class="math">4,5(100+t)(t+2) = 4 860</p>
+        <p class="math">(100+t)(t+2) = 1080</p>
+        <p class="math">100t + 200 + t² + 2t = 1080</p>
+        <p class="math">t² + 102t + 200 − 1080 = 0</p>
+        <p>Soit <strong>t² + 102t − 880 = 0</strong> ✓</p>
+      </div>
+
+      <div class="cor p1">
+        <h3>Q3 — Résolution de t²+102t−880 &gt; 0</h3>
+        <p>Résolution de l'équation associée : <span class="math">Δ = 102² + 4×880 = 10404+3520 = 13924 = 118²</span></p>
+        <p class="math">t = (−102±118)/2 → t₁ = 8 ou t₂ = −110</p>
+        <p>Le coefficient a=1&gt;0, donc le trinôme est positif à l'extérieur des racines :</p>
+        <p class="math">t² + 102t − 880 &gt; 0 ⟺ t &lt; −110 ou t &gt; 8</p>
+        <p>Comme t représente un taux d'intérêt, <strong>t &gt; 8</strong> est la solution retenue dans le contexte.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Problème 2 — La parcelle rectangulaire</h2>
+
+      <div class="cor p2">
+        <h3>Q4a — Justification S(x)=x²+12x+11</h3>
+        <p class="math">S(x) = L × l = (x+11)(x+1) = x² + x + 11x + 11 = <strong>x² + 12x + 11</strong> ✓</p>
+      </div>
+
+      <div class="cor p2">
+        <h3>Q4b — Résolution de S(x)&lt;0</h3>
+        <p>x²+12x+11=0 : <span class="math">Δ = 144−44 = 100 = 10²</span></p>
+        <p class="math">x = (−12±10)/2 → x=−1 ou x=−11</p>
+        <p>Le trinôme (a=1&gt;0) est négatif entre les racines :</p>
+        <p class="math">S(x) &lt; 0 ⟺ −11 &lt; x &lt; −1</p>
+        <p style="font-size:.85rem;color:var(--muted)">Cet intervalle ne concerne pas le contexte physique (x doit être strictement positif), il s'agit ici d'une résolution mathématique pure de l'inéquation posée.</p>
+      </div>
+
+      <div class="cor p2">
+        <h3>Q5a — Détermination de L et l</h3>
+        <p>L et l sont solutions de l'équation : <span class="math">X² − (L+l)X + L×l = 0</span></p>
+        <p class="math">X² − 90X + 2000 = 0</p>
+        <p class="math">Δ = 8100 − 8000 = 100 = 10²</p>
+        <p class="math">X = (90±10)/2 → X=50 ou X=40</p>
+        <p>Comme L &gt; l (longueur supérieure à largeur) : <strong>L = 50 dam et l = 40 dam</strong></p>
+      </div>
+
+      <div class="cor p2">
+        <h3>Q5b — Valeur de x et périmètre</h3>
+        <p>L = x+11 = 50 → <span class="math">x = 39</span></p>
+        <p>Vérification : l = x+1 = 39+1 = 40 ✓ (cohérent)</p>
+        <p><strong>Pourtour (périmètre) de la parcelle :</strong></p>
+        <p class="math">P = 2(L+l) = 2×90 = <strong>180 dam</strong></p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</main>
+
+<script>
+/* ═══════════════════════════════════════════════
+   WIDGET DE DESSIN RÉUTILISABLE (canvas tactile)
+   Outils : main levée, ligne, gomme, annuler
+   + Mode photo (capture caméra / galerie)
+   ═══════════════════════════════════════════════ */
+const DRAW_COLORS = ['#1a1a2e','#1a3a8a','#8b1a1a','#1a5a2a','#7a5000'];
+const drawState = {};
+const photoState = {};
+const MAX_UNDO = 15;
+
+function initDrawCanvas(canvasId){
+  const canvas = document.getElementById(canvasId);
+  const overlay = document.getElementById(canvasId+'-overlay');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const octx = overlay ? overlay.getContext('2d') : null;
+  ctx.fillStyle = '#fdfdfd';
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+
+  drawState[canvasId] = {
+    tool:'pen', color: DRAW_COLORS[0], drawing:false,
+    startX:0, startY:0, lastX:0, lastY:0,
+    ctx, octx, overlay, hasContent:false,
+    history: []
+  };
+
+  pushHistory(canvasId);
+
+  const colorRow = document.getElementById(canvasId+'-colors');
+  if(colorRow){
+    colorRow.innerHTML='';
+    DRAW_COLORS.forEach((c,i)=>{
+      const dot=document.createElement('div');
+      dot.className='draw-color'+(i===0?' selected':'');
+      dot.style.background=c;
+      dot.onclick=()=>{
+        drawState[canvasId].color=c;
+        colorRow.querySelectorAll('.draw-color').forEach(d=>d.classList.remove('selected'));
+        dot.classList.add('selected');
+      };
+      colorRow.appendChild(dot);
+    });
+  }
+
+  function getPos(e){
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    const cx = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
+    const cy = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
+    return { x: cx*scaleX, y: cy*scaleY };
+  }
+
+  function markUsed(){
+    drawState[canvasId].hasContent = true;
+    document.getElementById(canvasId+'-status')?.classList.add('show');
+  }
+
+  function clearOverlay(){
+    if(octx) octx.clearRect(0,0,overlay.width,overlay.height);
+  }
+
+  function start(e){
+    e.preventDefault();
+    const s = drawState[canvasId];
+    const pos = getPos(e);
+    s.startX = pos.x; s.startY = pos.y;
+    s.lastX = pos.x; s.lastY = pos.y;
+    s.drawing = true;
+  }
+
+  function move(e){
+    const s = drawState[canvasId];
+    if(!s.drawing) return;
+    e.preventDefault();
+    const pos = getPos(e);
+    if(s.tool === 'pen' || s.tool === 'erase'){
+      s.ctx.strokeStyle = s.tool==='erase' ? '#fdfdfd' : s.color;
+      s.ctx.lineWidth = s.tool==='erase' ? 22 : 2.5;
+      s.ctx.beginPath();
+      s.ctx.moveTo(s.lastX, s.lastY);
+      s.ctx.lineTo(pos.x, pos.y);
+      s.ctx.stroke();
+      s.lastX = pos.x; s.lastY = pos.y;
+      markUsed();
+    }
+    else if(s.tool === 'line'){
+      clearOverlay();
+      if(s.octx){
+        s.octx.strokeStyle = s.color;
+        s.octx.lineWidth = 2.5;
+        s.octx.setLineDash([5,4]);
+        s.octx.beginPath();
+        s.octx.moveTo(s.startX, s.startY);
+        s.octx.lineTo(pos.x, pos.y);
+        s.octx.stroke();
+        s.octx.setLineDash([]);
+      }
+      s.lastX = pos.x; s.lastY = pos.y;
+    }
+  }
+
+  function end(){
+    const s = drawState[canvasId];
+    if(!s.drawing) return;
+    s.drawing = false;
+    let acted = false;
+    if(s.tool === 'line'){
+      s.ctx.strokeStyle = s.color;
+      s.ctx.lineWidth = 2.5;
+      s.ctx.beginPath();
+      s.ctx.moveTo(s.startX, s.startY);
+      s.ctx.lineTo(s.lastX, s.lastY);
+      s.ctx.stroke();
+      clearOverlay();
+      markUsed();
+      acted = true;
+    }
+    else if(s.tool === 'pen' || s.tool === 'erase'){
+      acted = true;
+    }
+    if(acted) pushHistory(canvasId);
+  }
+
+  canvas.addEventListener('mousedown', start);
+  canvas.addEventListener('mousemove', move);
+  window.addEventListener('mouseup', end);
+  canvas.addEventListener('touchstart', start, {passive:false});
+  canvas.addEventListener('touchmove', move, {passive:false});
+  canvas.addEventListener('touchend', end);
+}
+
+function pushHistory(canvasId){
+  const s = drawState[canvasId];
+  if(!s) return;
+  const snap = s.ctx.getImageData(0,0,s.ctx.canvas.width,s.ctx.canvas.height);
+  s.history.push(snap);
+  if(s.history.length > MAX_UNDO) s.history.shift();
+}
+
+function undoDrawCanvas(canvasId){
+  const s = drawState[canvasId];
+  if(!s || s.history.length <= 1) return;
+  s.history.pop();
+  const prev = s.history[s.history.length-1];
+  s.ctx.putImageData(prev, 0, 0);
+  s.hasContent = s.history.length > 1;
+  if(!s.hasContent) document.getElementById(canvasId+'-status')?.classList.remove('show');
+}
+
+function setDrawTool(canvasId, tool){
+  if(!drawState[canvasId]) return;
+  drawState[canvasId].tool = tool;
+  ['pen','line','erase'].forEach(t=>{
+    document.getElementById('dtool-'+t+'-'+canvasId)?.classList.toggle('active', t===tool);
+  });
+}
+
+function clearDrawCanvas(canvasId){
+  const canvas = document.getElementById(canvasId);
+  const overlay = document.getElementById(canvasId+'-overlay');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = '#fdfdfd';
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  if(overlay) overlay.getContext('2d').clearRect(0,0,overlay.width,overlay.height);
+  drawState[canvasId].hasContent = false;
+  drawState[canvasId].history = [];
+  pushHistory(canvasId);
+  document.getElementById(canvasId+'-status')?.classList.remove('show');
+}
+
+function getDrawCanvasBase64(canvasId){
+  const canvas = document.getElementById(canvasId);
+  if(!canvas || !drawState[canvasId] || !drawState[canvasId].hasContent) return null;
+  return canvas.toDataURL('image/png').split(',')[1];
+}
+
+function switchDrawMode(baseId, mode){
+  document.getElementById('dwtab-draw-'+baseId)?.classList.toggle('active', mode==='draw');
+  document.getElementById('dwtab-photo-'+baseId)?.classList.toggle('active', mode==='photo');
+  document.getElementById('dwpanel-draw-'+baseId)?.classList.toggle('active', mode==='draw');
+  document.getElementById('dwpanel-photo-'+baseId)?.classList.toggle('active', mode==='photo');
+}
+
+function handlePhotoCapture(baseId, inputEl){
+  const file = inputEl.files && inputEl.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = (e)=>{
+    photoState[baseId] = { dataUrl: e.target.result, mediaType: file.type || 'image/jpeg' };
+    const img = document.getElementById(baseId+'-photo-preview');
+    const wrap = document.getElementById(baseId+'-photo-preview-wrap');
+    if(img) img.src = e.target.result;
+    if(wrap) wrap.style.display = 'block';
+    document.getElementById(baseId+'-photo-status')?.classList.add('show');
+  };
+  reader.readAsDataURL(file);
+}
+
+function clearPhotoCapture(baseId){
+  delete photoState[baseId];
+  const wrap = document.getElementById(baseId+'-photo-preview-wrap');
+  if(wrap) wrap.style.display = 'none';
+  document.getElementById(baseId+'-photo-status')?.classList.remove('show');
+  const input = document.getElementById(baseId+'-photo-input');
+  if(input) input.value = '';
+}
+
+function getPhotoBase64(baseId){
+  const p = photoState[baseId];
+  if(!p) return null;
+  return { base64: p.dataUrl.split(',')[1], mediaType: p.mediaType };
+}
+
+document.addEventListener('DOMContentLoaded', ()=>{
+  document.querySelectorAll('.draw-canvas-wrap canvas:not([id$="-overlay"])').forEach(c=>initDrawCanvas(c.id));
+  if(location.protocol === 'file:'){
+    document.getElementById('local-warning')?.classList.add('show');
+  }
+});
+</script>
+<script>
+function switchTab(name,e){
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('panel-'+name).classList.add('active');
+  e.currentTarget.classList.add('active');
+}
+function cw(s){return s.trim().split(/\s+/).filter(w=>w.length>0).length;}
+document.querySelectorAll('textarea.rep').forEach(ta=>{
+  const wc=document.getElementById('wc-'+ta.id);
+  if(!wc)return;
+  ta.addEventListener('input',()=>{const n=cw(ta.value);wc.textContent=n+(n>1?' mots':' mot');});
+});
+let unlocked=false;
+function unlockCorrige(){
+  if(unlocked)return;unlocked=true;
+  document.getElementById('corrige-locked').style.display='none';
+  document.getElementById('corrige-content').style.display='block';
+}
+async function callClaude(sys,msg,el,images){
+  const hasImg = images && images.length>0;
+  el.innerHTML='<div class="spinner"></div> L\'IA corrige ta réponse'+(hasImg?' (texte + image'+(images.length>1?'s':'')+')':'')+'…';
+  el.classList.add('loading');
+  try{
+    let content = msg;
+    if(hasImg){
+      content = [{type:'text', text: msg + '\n\n(Un ou plusieurs dessins/photos ont été joints — analyse-les aussi dans ta correction.)'}];
+      images.forEach(img=>{
+        content.push({type:'image', source:{type:'base64', media_type: img.mediaType || 'image/png', data: img.base64}});
+      });
+    }
+    const r=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1500,system:sys,messages:[{role:'user',content:content}]})
+    });
+    const d=await r.json();
+    el.classList.remove('loading');
+    el.innerHTML=d.content.map(i=>i.text||'').join('\n');
+  }catch{
+    el.classList.remove('loading');
+    el.innerHTML='<p style="color:#8b1a1a">Erreur. Réessaie.</p>';
+  }
+}
+
+const SYS={
+p1:`Tu es un professeur de Mathématiques expert au niveau 1ère AB au Bénin. Tu corriges le Problème 1 (~8 pts) sur les placements bancaires (taux d'intérêt).
+Réponses attendues:
+Q1(3pts): I1=45000×t/100=450t. Capital réinvesti C2=45000+450t. I2=C2×(t+2)/100=4,5(100+t)(t+2).
+Q2(2,5pts): I2=4860 → 4,5(100+t)(t+2)=4860 → (100+t)(t+2)=1080 → développement → t²+102t-880=0.
+Q3(2,5pts): Δ=102²+4×880=13924=118². t=(-102±118)/2 → t=8 ou t=-110. Signe positif à l'extérieur des racines: t<-110 ou t>8. Comme t est un taux (positif), retenir t>8.
+Réponds en HTML simple (p,h4,ul,li,strong), pas de markdown. Structure: <h4>📊 Score estimé</h4> <h4>Q1 Intérêts des 2 placements (3pts)</h4> <h4>Q2 Équation t²+102t-880=0 (2,5pts)</h4> <h4>Q3 Inéquation (2,5pts)</h4> <h4>💡 Conseils</h4> Sois rigoureux sur les calculs de pourcentages et le développement algébrique.`,
+p2:`Tu es un professeur de Mathématiques expert au niveau 1ère AB au Bénin. Tu corriges le Problème 2 (~9,5 pts) sur une parcelle rectangulaire (L=(x+11)dam, l=(x+1)dam).
+Réponses attendues:
+Q4a(2pts): S(x)=L×l=(x+11)(x+1)=x²+12x+11.
+Q4b(2,5pts): x²+12x+11=0, Δ=100, x=-1 ou x=-11. Signe négatif entre les racines: S(x)<0 ⟺ -11<x<-1.
+Q5a(3pts): L et l solutions de X²-90X+2000=0. Δ=100. X=50 ou X=40. Comme L>l: L=50dam, l=40dam.
+Q5b(2pts): L=x+11=50 → x=39. Vérification l=x+1=40 ✓. Périmètre=2(L+l)=2×90=180dam.
+Si une image (dessin ou photo) est jointe, évalue aussi la reproduction/annotation de la figure et la clarté des calculs manuscrits.
+Réponds en HTML simple. Structure: <h4>📊 Score estimé</h4> <h4>Q4a Justification S(x) (2pts)</h4> <h4>Q4b Inéquation S(x)<0 (2,5pts)</h4> <h4>Q5a Détermination L et l (3pts)</h4> <h4>Q5b Valeur x et périmètre (2pts)</h4> <h4>✏️ Évaluation du dessin/photo</h4>(uniquement si image jointe) <h4>💡 Conseils</h4> Vérifie la cohérence entre les valeurs de L, l et x trouvées.`
+};
+
+async function submitProb(prob){
+  document.getElementById('btn-'+prob).disabled=true;
+  const fb=document.getElementById('fb-'+prob);fb.classList.add('visible');
+  const body=document.getElementById('fb-'+prob+'-body');
+  let msg='';
+  let images=[];
+  if(prob==='p1'){
+    msg=`Q1:\n${document.getElementById('q1').value||'(vide)'}\n\nQ2:\n${document.getElementById('q2').value||'(vide)'}\n\nQ3:\n${document.getElementById('q3').value||'(vide)'}`;
+  }else{
+    msg=`Q4a:\n${document.getElementById('q4a').value||'(vide)'}\n\nQ4b:\n${document.getElementById('q4b').value||'(vide)'}\n\nQ5a:\n${document.getElementById('q5a').value||'(vide)'}\n\nQ5b:\n${document.getElementById('q5b').value||'(vide)'}`;
+    const cparc = getDrawCanvasBase64('parccv');
+    if(cparc) images.push({base64:cparc, mediaType:'image/png'});
+    const pparc = getPhotoBase64('parc');
+    if(pparc) images.push(pparc);
+  }
+  await callClaude(SYS[prob],msg,body,images);
+  unlockCorrige();
+}
+</script>
+</body>
+</html>
