@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Dis-moi Prof</title>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<style>
+@font-face{font-family:'Fredoka';src:local('Fredoka One');}
+:root{
+  --violet:#3d2b6b; --violet-dark:#241a45; --yellow:#ffd93d; --yellow-soft:#fff3c4;
+  --sky:#4fc3f7; --navy:#1b2a4a; --mint:#4ade80; --forest:#166534;
+  --pink:#f9a8d4; --raspberry:#be185d;
+  --bg:#f7f5ff; --card:#ffffff; --text:#241a45; --muted:#6b6280;
+  --radius:18px;
+}
+*{box-sizing:border-box;}
+body{margin:0;font-family:'Nunito',-apple-system,sans-serif;background:var(--bg);color:var(--text);}
+h1,h2,h3,.brand{font-family:'Baloo 2','Fredoka',sans-serif;}
+button{font-family:inherit;cursor:pointer;}
+.app{max-width:480px;margin:0 auto;min-height:100vh;background:var(--bg);position:relative;padding-bottom:74px;}
+
+/* HEADER */
+header.top{
+  background:linear-gradient(135deg,var(--violet),var(--violet-dark));
+  color:#fff;padding:10px 12px;position:sticky;top:0;z-index:50;
+  box-shadow:0 2px 10px rgba(0,0,0,.15);
+}
+.top-row{display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.brand{font-size:1.15rem;font-weight:800;display:flex;align-items:center;gap:6px;white-space:nowrap;}
+.brand span.emoji{font-size:1.3rem;}
+.top-actions{display:flex;align-items:center;gap:6px;}
+.icon-btn{
+  background:rgba(255,255,255,.15);border:none;color:#fff;border-radius:12px;
+  width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;
+}
+.lang-select{
+  background:rgba(255,255,255,.15);color:#fff;border:none;border-radius:12px;
+  padding:6px 4px;font-size:.75rem;font-weight:700;
+}
+.lang-select option{color:#241a45;}
+.hamburger{display:flex;}
+nav.mobile-menu{
+  display:none;flex-direction:column;gap:4px;margin-top:10px;
+  background:rgba(255,255,255,.08);border-radius:14px;padding:8px;
+}
+nav.mobile-menu.open{display:flex;}
+nav.mobile-menu button{
+  background:transparent;border:none;color:#fff;text-align:left;padding:10px 12px;
+  border-radius:10px;font-weight:700;font-size:.92rem;display:flex;align-items:center;gap:8px;
+}
+nav.mobile-menu button.active{background:rgba(255,217,61,.25);color:var(--yellow);}
+
+/* SECTIONS */
+main{padding:14px 12px 8px;}
+.section{display:none;animation:fade .25s ease;}
+.section.active{display:block;}
+@keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+.hero{
+  background:linear-gradient(135deg,var(--sky),#0288d1);
+  border-radius:var(--radius);padding:18px;color:#fff;margin-bottom:14px;
+  box-shadow:0 6px 16px rgba(2,136,209,.25);
+}
+.hero h2{margin:0 0 6px;font-size:1.3rem;}
+.hero p{margin:0;font-size:.88rem;opacity:.95;}
+.stat-row{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;}
+.stat-chip{background:rgba(255,255,255,.2);border-radius:12px;padding:6px 10px;font-size:.75rem;font-weight:700;}
+
+.card{
+  background:var(--card);border-radius:var(--radius);padding:14px;margin-bottom:12px;
+  box-shadow:0 2px 10px rgba(36,26,69,.06);border:1px solid #ece8fb;
+}
+.card h3{margin:0 0 8px;font-size:1rem;display:flex;align-items:center;gap:6px;}
+.muted{color:var(--muted);font-size:.82rem;}
+
+.pill-row{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;margin-bottom:10px;-webkit-overflow-scrolling:touch;}
+.pill{
+  flex-shrink:0;background:var(--yellow-soft);color:var(--violet-dark);border:none;
+  padding:8px 14px;border-radius:20px;font-weight:800;font-size:.8rem;white-space:nowrap;
+}
+.pill.active{background:var(--violet);color:#fff;}
+
+.subject-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px;}
+.subject-tile{
+  background:#fff;border:2px solid #ece8fb;border-radius:14px;padding:10px;text-align:center;font-size:.78rem;font-weight:800;color:var(--violet-dark);
+}
+.subject-tile.sel{border-color:var(--sky);background:#e6f7ff;}
+
+.exam-item{
+  display:flex;justify-content:space-between;align-items:center;gap:8px;
+  background:#fbfaff;border-radius:14px;padding:10px 12px;margin-bottom:8px;border:1px solid #ece8fb;
+}
+.exam-info b{display:block;font-size:.88rem;}
+.exam-info span{font-size:.72rem;color:var(--muted);}
+.badge{font-size:.65rem;font-weight:800;padding:3px 8px;border-radius:10px;white-space:nowrap;}
+.badge.free{background:#dcfce7;color:var(--forest);}
+.badge.premium{background:#fde7f3;color:var(--raspberry);}
+.btn{border:none;border-radius:12px;padding:8px 14px;font-weight:800;font-size:.78rem;color:#fff;background:var(--violet);}
+.btn.locked{background:#d1c9f0;color:var(--violet-dark);}
+.btn.small{padding:6px 10px;font-size:.72rem;}
+.btn.full{width:100%;padding:12px;font-size:.92rem;border-radius:14px;}
+.btn.green{background:var(--mint);color:#053b1e;}
+.btn.pink{background:var(--pink);color:var(--raspberry);}
+
+/* PLANNER */
+.task-item{display:flex;align-items:center;gap:10px;background:#fbfaff;border-radius:14px;padding:10px;margin-bottom:8px;border:1px solid #ece8fb;}
+.task-time{background:var(--violet);color:#fff;border-radius:10px;padding:6px 8px;font-weight:800;font-size:.78rem;text-align:center;min-width:52px;}
+.task-info{flex:1;}
+.task-info b{font-size:.85rem;}
+.task-info span{font-size:.72rem;color:var(--muted);display:block;}
+.alarm-badge{font-size:.85rem;}
+.add-task-form{display:flex;flex-direction:column;gap:8px;}
+.add-task-form input,.add-task-form select{
+  padding:10px;border-radius:12px;border:1.5px solid #ece8fb;font-size:.85rem;font-family:inherit;
+}
+
+/* PRICING */
+.price-card{border-radius:16px;padding:14px;margin-bottom:10px;position:relative;overflow:hidden;}
+.price-card.best{background:linear-gradient(135deg,#fff7e0,#ffe9a8);border:2px solid var(--yellow);}
+.price-card.plain{background:#fff;border:1.5px solid #ece8fb;}
+.price-tag{font-size:.7rem;font-weight:900;background:var(--yellow);color:var(--violet-dark);padding:3px 10px;border-radius:20px;position:absolute;top:10px;right:10px;}
+.price-amount{font-size:1.4rem;font-weight:900;color:var(--violet-dark);margin:4px 0;}
+
+/* SUIVI */
+.child-card{display:flex;align-items:center;gap:10px;background:#fbfaff;border-radius:14px;padding:10px;margin-bottom:8px;border:1px solid #ece8fb;}
+.avatar{width:42px;height:42px;border-radius:50%;background:var(--sky);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;flex-shrink:0;}
+.progress-bar{background:#ece8fb;border-radius:8px;height:8px;overflow:hidden;margin-top:4px;}
+.progress-fill{height:100%;background:var(--mint);}
+.notif-item{display:flex;gap:8px;padding:8px 0;border-bottom:1px solid #f0edfb;font-size:.8rem;}
+.notif-item:last-child{border-bottom:none;}
+
+/* AFFILIATION */
+.aff-link-box{background:#f0edfb;border-radius:12px;padding:10px;font-size:.78rem;word-break:break-all;font-family:monospace;color:var(--violet-dark);margin-bottom:8px;}
+
+/* BOTTOM NAV */
+.bottom-nav{
+  position:fixed;bottom:0;left:0;right:0;max-width:480px;margin:0 auto;
+  background:#fff;border-top:1px solid #ece8fb;display:flex;justify-content:space-around;
+  padding:8px 4px;box-shadow:0 -2px 10px rgba(0,0,0,.06);z-index:40;
+}
+.nav-btn{background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--muted);font-size:.62rem;font-weight:700;padding:4px 6px;}
+.nav-btn .ic{font-size:1.2rem;}
+.nav-btn.active{color:var(--violet);}
+
+/* MODAL */
+.overlay{position:fixed;inset:0;background:rgba(36,26,69,.55);display:none;align-items:center;justify-content:center;z-index:100;padding:20px;}
+.overlay.open{display:flex;}
+.modal{background:#fff;border-radius:20px;padding:20px;max-width:380px;width:100%;max-height:85vh;overflow-y:auto;}
+.modal h3{margin-top:0;}
+.modal-close{float:right;background:#f0edfb;border:none;width:30px;height:30px;border-radius:50%;font-weight:900;color:var(--violet-dark);}
+.mm-option{display:flex;align-items:center;gap:10px;background:#fbfaff;border:1.5px solid #ece8fb;border-radius:14px;padding:10px;margin-bottom:8px;font-weight:800;font-size:.85rem;}
+.mm-option input{margin-right:6px;}
+.toast{
+  position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:var(--violet-dark);color:#fff;
+  padding:10px 18px;border-radius:20px;font-size:.82rem;font-weight:700;z-index:200;opacity:0;transition:opacity .3s;pointer-events:none;
+}
+.toast.show{opacity:1;}
+.locked-note{font-size:.72rem;color:var(--raspberry);font-weight:700;margin-top:4px;}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+
+  <header class="top">
+    <div class="top-row">
+      <div class="brand"><span class="emoji">🎓</span><span id="brandName">Dis-moi Prof</span></div>
+      <div class="top-actions">
+        <select class="lang-select" id="langSelect" onchange="setLang(this.value)">
+          <option value="fr">🇫🇷 FR</option>
+          <option value="en">🇬🇧 EN</option>
+          <option value="es">🇪🇸 ES</option>
+          <option value="de">🇩🇪 DE</option>
+        </select>
+        <button class="icon-btn" onclick="toggleMenu()">☰</button>
+      </div>
+    </div>
+    <nav class="mobile-menu" id="mobileMenu">
+      <button onclick="showSection('home')" data-nav="home">🏠 <span data-t="nav.home">Accueil</span></button>
+      <button onclick="showSection('exams')" data-nav="exams">📝 <span data-t="nav.exams">Épreuves & Tests</span></button>
+      <button onclick="showSection('planner')" data-nav="planner">⏰ <span data-t="nav.planner">Planificateur</span></button>
+      <button onclick="showSection('tracking')" data-nav="tracking">👨‍👩‍👧 <span data-t="nav.tracking">Suivi Parent/Prof</span></button>
+      <button onclick="showSection('pricing')" data-nav="pricing">💳 <span data-t="nav.pricing">Tarifs Premium</span></button>
+      <button onclick="showSection('affiliate')" data-nav="affiliate">🔗 <span data-t="nav.affiliate">Affiliation</span></button>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- HOME -->
+    <section class="section active" id="sec-home">
+      <div class="hero">
+        <h2 data-t="home.title">Bienvenue sur Dis-moi Prof 👋</h2>
+        <p data-t="home.subtitle">Des milliers d'épreuves interactives et de tests de révision, de la 6ème à la Terminale, disponibles à tout moment.</p>
+        <div class="stat-row">
+          <div class="stat-chip">📚 <span data-t="home.stat1">3200+ épreuves</span></div>
+          <div class="stat-chip">🌍 <span data-t="home.stat2">4 langues</span></div>
+          <div class="stat-chip">🔒 <span data-t="home.stat3">100% sécurisé</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🆓 <span data-t="home.freeTitle">Version Gratuite</span></h3>
+        <p class="muted" data-t="home.freeDesc">Accède à un échantillon limité (2 épreuves par matière) pour découvrir la plateforme.</p>
+        <button class="btn full" onclick="showSection('exams')" data-t="home.freeBtn">Découvrir les épreuves gratuites</button>
+      </div>
+
+      <div class="card">
+        <h3>⭐ <span data-t="home.premiumTitle">Passer en Premium</span></h3>
+        <p class="muted" data-t="home.premiumDesc">Accès illimité à toutes les matières, tous les niveaux, corrigés-types inclus.</p>
+        <button class="btn full green" onclick="showSection('pricing')" data-t="home.premiumBtn">Voir les tarifs</button>
+      </div>
+
+      <div class="card">
+        <h3>🧠 <span data-t="home.otherTitle">Autres ressources</span></h3>
+        <p class="muted" data-t="home.otherDesc">Manuels scolaires, workbooks, tests cognitifs et tests de personnalité.</p>
+        <div class="pill-row" style="margin-top:6px;">
+          <button class="pill active" data-t="home.res1">Workbooks</button>
+          <button class="pill" data-t="home.res2">Tests cognitifs</button>
+          <button class="pill" data-t="home.res3">BAC Guide</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXAMS -->
+    <section class="section" id="sec-exams">
+      <div class="card">
+        <h3>🎓 <span data-t="exams.levelTitle">Choisir un niveau</span></h3>
+        <div class="pill-row" id="levelRow"></div>
+        <h3 style="margin-top:10px;">📘 <span data-t="exams.subjectTitle">Matières</span></h3>
+        <div class="subject-grid" id="subjectGrid"></div>
+      </div>
+      <div class="card">
+        <h3>📄 <span data-t="exams.listTitle">Épreuves disponibles</span></h3>
+        <div id="examList"></div>
+      </div>
+    </section>
+
+    <!-- PLANNER -->
+    <section class="section" id="sec-planner">
+      <div class="hero" style="background:linear-gradient(135deg,var(--pink),var(--raspberry));">
+        <h2>⏰ <span data-t="planner.title">Mon Planificateur</span></h2>
+        <p data-t="planner.subtitle">Organise tes révisions et reçois des alarmes de rappel.</p>
+      </div>
+      <div class="card">
+        <h3>➕ <span data-t="planner.addTitle">Ajouter une tâche</span></h3>
+        <div class="add-task-form">
+          <input type="text" id="taskName" data-t-ph="planner.taskNamePh" placeholder="Nom de la tâche (ex: Réviser Maths)">
+          <input type="time" id="taskTime">
+          <select id="taskSubject"></select>
+          <button class="btn full" onclick="addTask()" data-t="planner.addBtn">Ajouter avec alarme</button>
+        </div>
+      </div>
+      <div class="card">
+        <h3>📋 <span data-t="planner.todayTitle">Programme du jour</span></h3>
+        <div id="taskList"></div>
+      </div>
+    </section>
+
+    <!-- TRACKING -->
+    <section class="section" id="sec-tracking">
+      <div class="hero" style="background:linear-gradient(135deg,var(--mint),var(--forest));">
+        <h2>👨‍👩‍👧 <span data-t="tracking.title">Suivi Parent / Professeur</span></h2>
+        <p data-t="tracking.subtitle">Reçois des notifications dès qu'un élève traite une épreuve, avec la note obtenue.</p>
+      </div>
+      <div class="card">
+        <h3>👦 <span data-t="tracking.childrenTitle">Élèves suivis</span></h3>
+        <div id="childList"></div>
+      </div>
+      <div class="card">
+        <h3>🔔 <span data-t="tracking.notifTitle">Notifications récentes</span></h3>
+        <div id="notifList"></div>
+      </div>
+    </section>
+
+    <!-- PRICING -->
+    <section class="section" id="sec-pricing">
+      <div class="hero" style="background:linear-gradient(135deg,var(--yellow),#f59e0b);color:var(--violet-dark);">
+        <h2 style="color:var(--violet-dark);">💳 <span data-t="pricing.title">Tarifs Premium</span></h2>
+        <p style="color:var(--violet-dark);" data-t="pricing.subtitle">Paiement sécurisé par Mobile Money.</p>
+      </div>
+      <div id="pricingList"></div>
+      <div class="card">
+        <h3>📱 <span data-t="pricing.mmTitle">Moyens de paiement acceptés</span></h3>
+        <div class="pill-row">
+          <button class="pill active">MTN MoMo</button>
+          <button class="pill active">Orange Money</button>
+          <button class="pill active">Moov Money</button>
+          <button class="pill active">Celtiis Cash</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- AFFILIATE -->
+    <section class="section" id="sec-affiliate">
+      <div class="hero" style="background:linear-gradient(135deg,#a78bfa,var(--violet));">
+        <h2>🔗 <span data-t="affiliate.title">Programme d'Affiliation</span></h2>
+        <p data-t="affiliate.subtitle">Génère ton lien unique et gagne une commission automatique sur chaque vente.</p>
+      </div>
+      <div class="card">
+        <h3>💰 <span data-t="affiliate.rateTitle">Taux de commission</span></h3>
+        <p class="muted" data-t="affiliate.rateDesc">15% sur chaque pack vendu via ton lien, versé automatiquement chaque mois par Mobile Money.</p>
+        <div class="stat-row">
+          <div class="stat-chip" style="background:#f0edfb;color:var(--violet-dark);" id="affEarnings">Gains: 0 FCFA</div>
+          <div class="stat-chip" style="background:#f0edfb;color:var(--violet-dark);" id="affClicks">Clics: 0</div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>🔗 <span data-t="affiliate.linkTitle">Ton lien d'affiliation</span></h3>
+        <div class="aff-link-box" id="affLink">https://dismoiprof.app/?ref=ERIC2026</div>
+        <button class="btn full" onclick="simulateAffClick()" data-t="affiliate.simBtn">Simuler un clic + vente</button>
+      </div>
+    </section>
+
+  </main>
+
+  <div class="bottom-nav">
+    <button class="nav-btn active" data-nav="home" onclick="showSection('home')"><span class="ic">🏠</span><span data-t="nav.home">Accueil</span></button>
+    <button class="nav-btn" data-nav="exams" onclick="showSection('exams')"><span class="ic">📝</span><span data-t="nav.examsShort">Épreuves</span></button>
+    <button class="nav-btn" data-nav="planner" onclick="showSection('planner')"><span class="ic">⏰</span><span data-t="nav.planner">Planning</span></button>
+    <button class="nav-btn" data-nav="tracking" onclick="showSection('tracking')"><span class="ic">👨‍👩‍👧</span><span data-t="nav.trackingShort">Suivi</span></button>
+    <button class="nav-btn" data-nav="pricing" onclick="showSection('pricing')"><span class="ic">💳</span><span data-t="nav.pricingShort">Premium</span></button>
+  </div>
+</div>
+
+<div class="overlay" id="paymentOverlay">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('paymentOverlay')">✕</button>
+    <h3 id="modalPackTitle">Pack Premium</h3>
+    <p class="muted" id="modalPackDesc"></p>
+    <div class="price-amount" id="modalPackPrice"></div>
+    <h3 style="font-size:.9rem;">📱 <span data-t="modal.chooseMM">Choisir un opérateur Mobile Money</span></h3>
+    <label class="mm-option"><input type="radio" name="mmop" checked> MTN Mobile Money</label>
+    <label class="mm-option"><input type="radio" name="mmop"> Orange Money</label>
+    <label class="mm-option"><input type="radio" name="mmop"> Moov Money</label>
+    <label class="mm-option"><input type="radio" name="mmop"> Celtiis Cash</label>
+    <input type="text" placeholder="Numéro de téléphone (ex: 90 00 00 00)" style="width:100%;padding:12px;border-radius:12px;border:1.5px solid #ece8fb;margin:10px 0;font-size:.9rem;">
+    <button class="btn full green" onclick="confirmPayment()" data-t="modal.payBtn">Confirmer le paiement</button>
+    <p class="muted" style="text-align:center;margin-top:8px;font-size:.7rem;" data-t="modal.secureNote">🔒 Transaction chiffrée et sécurisée</p>
+  </div>
+</div>
+
+<div class="overlay" id="lockedOverlay">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('lockedOverlay')">✕</button>
+    <h3>🔒 <span data-t="modal.lockedTitle">Contenu Premium</span></h3>
+    <p class="muted" data-t="modal.lockedDesc">Cette épreuve fait partie de l'offre Premium. Débloque tout le programme avec un pack adapté à ton niveau.</p>
+    <button class="btn full green" onclick="closeModal('lockedOverlay');showSection('pricing')" data-t="modal.lockedBtn">Voir les packs Premium</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ---------------- I18N ---------------- */
+const translations = {
+  fr: {
+    "nav.home":"Accueil","nav.exams":"Épreuves & Tests","nav.examsShort":"Épreuves","nav.planner":"Planning","nav.tracking":"Suivi Parent/Prof","nav.trackingShort":"Suivi","nav.pricing":"Tarifs Premium","nav.pricingShort":"Premium","nav.affiliate":"Affiliation",
+    "home.title":"Bienvenue sur Dis-moi Prof 👋","home.subtitle":"Des milliers d'épreuves interactives et de tests de révision, de la 6ème à la Terminale, disponibles à tout moment.",
+    "home.stat1":"3200+ épreuves","home.stat2":"4 langues","home.stat3":"100% sécurisé",
+    "home.freeTitle":"Version Gratuite","home.freeDesc":"Accède à un échantillon limité (2 épreuves par matière) pour découvrir la plateforme.","home.freeBtn":"Découvrir les épreuves gratuites",
+    "home.premiumTitle":"Passer en Premium","home.premiumDesc":"Accès illimité à toutes les matières, tous les niveaux, corrigés-types inclus.","home.premiumBtn":"Voir les tarifs",
+    "home.otherTitle":"Autres ressources","home.otherDesc":"Manuels scolaires, workbooks, tests cognitifs et tests de personnalité.",
+    "home.res1":"Workbooks","home.res2":"Tests cognitifs","home.res3":"BAC Guide",
+    "exams.levelTitle":"Choisir un niveau","exams.subjectTitle":"Matières","exams.listTitle":"Épreuves disponibles",
+    "planner.title":"Mon Planificateur","planner.subtitle":"Organise tes révisions et reçois des alarmes de rappel.",
+    "planner.addTitle":"Ajouter une tâche","planner.taskNamePh":"Nom de la tâche (ex: Réviser Maths)","planner.addBtn":"Ajouter avec alarme","planner.todayTitle":"Programme du jour",
+    "tracking.title":"Suivi Parent / Professeur","tracking.subtitle":"Reçois des notifications dès qu'un élève traite une épreuve, avec la note obtenue.",
+    "tracking.childrenTitle":"Élèves suivis","tracking.notifTitle":"Notifications récentes",
+    "pricing.title":"Tarifs Premium","pricing.subtitle":"Paiement sécurisé par Mobile Money.","pricing.mmTitle":"Moyens de paiement acceptés",
+    "affiliate.title":"Programme d'Affiliation","affiliate.subtitle":"Génère ton lien unique et gagne une commission automatique sur chaque vente.",
+    "affiliate.rateTitle":"Taux de commission","affiliate.rateDesc":"15% sur chaque pack vendu via ton lien, versé automatiquement chaque mois par Mobile Money.",
+    "affiliate.linkTitle":"Ton lien d'affiliation","affiliate.simBtn":"Simuler un clic + vente",
+    "modal.chooseMM":"Choisir un opérateur Mobile Money","modal.payBtn":"Confirmer le paiement","modal.secureNote":"🔒 Transaction chiffrée et sécurisée",
+    "modal.lockedTitle":"Contenu Premium","modal.lockedDesc":"Cette épreuve fait partie de l'offre Premium. Débloque tout le programme avec un pack adapté à ton niveau.","modal.lockedBtn":"Voir les packs Premium",
+    "toast.taskAdded":"Tâche ajoutée avec alarme ⏰","toast.paymentOk":"Paiement confirmé ! Accès débloqué 🎉","toast.affSim":"Nouvelle vente enregistrée via ton lien !",
+    "start":"Commencer","free":"Gratuit","premium":"Premium","buy":"Acheter","bestOffer":"⭐ MEILLEURE OFFRE","validDays":"Valable 90 jours"
+  },
+  en: {
+    "nav.home":"Home","nav.exams":"Exams & Tests","nav.examsShort":"Exams","nav.planner":"Planner","nav.tracking":"Parent/Teacher","nav.trackingShort":"Tracking","nav.pricing":"Premium Plans","nav.pricingShort":"Premium","nav.affiliate":"Affiliate",
+    "home.title":"Welcome to Dis-moi Prof 👋","home.subtitle":"Thousands of interactive exams and revision tests, from grade 6 to final year, available anytime.",
+    "home.stat1":"3200+ exams","home.stat2":"4 languages","home.stat3":"100% secure",
+    "home.freeTitle":"Free Version","home.freeDesc":"Access a limited sample (2 exams per subject) to discover the platform.","home.freeBtn":"Discover free exams",
+    "home.premiumTitle":"Go Premium","home.premiumDesc":"Unlimited access to all subjects, all levels, with model answers included.","home.premiumBtn":"View plans",
+    "home.otherTitle":"Other resources","home.otherDesc":"Textbooks, workbooks, cognitive tests and personality tests.",
+    "home.res1":"Workbooks","home.res2":"Cognitive tests","home.res3":"Exam guide",
+    "exams.levelTitle":"Choose a level","exams.subjectTitle":"Subjects","exams.listTitle":"Available exams",
+    "planner.title":"My Planner","planner.subtitle":"Organize your revision and get reminder alarms.",
+    "planner.addTitle":"Add a task","planner.taskNamePh":"Task name (e.g. Review Math)","planner.addBtn":"Add with alarm","planner.todayTitle":"Today's schedule",
+    "tracking.title":"Parent / Teacher Tracking","tracking.subtitle":"Get notified as soon as a student completes an exam, with their score.",
+    "tracking.childrenTitle":"Tracked students","tracking.notifTitle":"Recent notifications",
+    "pricing.title":"Premium Plans","pricing.subtitle":"Secure payment via Mobile Money.","pricing.mmTitle":"Accepted payment methods",
+    "affiliate.title":"Affiliate Program","affiliate.subtitle":"Generate your unique link and earn automatic commission on every sale.",
+    "affiliate.rateTitle":"Commission rate","affiliate.rateDesc":"15% on every pack sold via your link, paid automatically each month via Mobile Money.",
+    "affiliate.linkTitle":"Your affiliate link","affiliate.simBtn":"Simulate a click + sale",
+    "modal.chooseMM":"Choose a Mobile Money operator","modal.payBtn":"Confirm payment","modal.secureNote":"🔒 Encrypted, secure transaction",
+    "modal.lockedTitle":"Premium content","modal.lockedDesc":"This exam is part of the Premium offer. Unlock the full program with a plan for your level.","modal.lockedBtn":"View Premium plans",
+    "toast.taskAdded":"Task added with alarm ⏰","toast.paymentOk":"Payment confirmed! Access unlocked 🎉","toast.affSim":"New sale recorded via your link!",
+    "start":"Start","free":"Free","premium":"Premium","buy":"Buy","bestOffer":"⭐ BEST OFFER","validDays":"Valid 90 days"
+  },
+  es: {
+    "nav.home":"Inicio","nav.exams":"Exámenes y Tests","nav.examsShort":"Exámenes","nav.planner":"Planificador","nav.tracking":"Padres/Profesor","nav.trackingShort":"Seguimiento","nav.pricing":"Planes Premium","nav.pricingShort":"Premium","nav.affiliate":"Afiliación",
+    "home.title":"Bienvenido a Dis-moi Prof 👋","home.subtitle":"Miles de exámenes interactivos y tests de repaso, desde 1º de ESO hasta el bachillerato, disponibles en todo momento.",
+    "home.stat1":"3200+ exámenes","home.stat2":"4 idiomas","home.stat3":"100% seguro",
+    "home.freeTitle":"Versión Gratuita","home.freeDesc":"Accede a una muestra limitada (2 exámenes por materia) para descubrir la plataforma.","home.freeBtn":"Descubrir exámenes gratis",
+    "home.premiumTitle":"Pasar a Premium","home.premiumDesc":"Acceso ilimitado a todas las materias y niveles, con soluciones modelo incluidas.","home.premiumBtn":"Ver tarifas",
+    "home.otherTitle":"Otros recursos","home.otherDesc":"Libros de texto, cuadernos de trabajo, tests cognitivos y de personalidad.",
+    "home.res1":"Cuadernos","home.res2":"Tests cognitivos","home.res3":"Guía de examen",
+    "exams.levelTitle":"Elegir un nivel","exams.subjectTitle":"Materias","exams.listTitle":"Exámenes disponibles",
+    "planner.title":"Mi Planificador","planner.subtitle":"Organiza tus repasos y recibe alarmas de recordatorio.",
+    "planner.addTitle":"Añadir una tarea","planner.taskNamePh":"Nombre de la tarea (ej: Repasar Matemáticas)","planner.addBtn":"Añadir con alarma","planner.todayTitle":"Programa de hoy",
+    "tracking.title":"Seguimiento Padres / Profesor","tracking.subtitle":"Recibe notificaciones cuando un alumno complete un examen, con la nota obtenida.",
+    "tracking.childrenTitle":"Alumnos seguidos","tracking.notifTitle":"Notificaciones recientes",
+    "pricing.title":"Planes Premium","pricing.subtitle":"Pago seguro por Mobile Money.","pricing.mmTitle":"Métodos de pago aceptados",
+    "affiliate.title":"Programa de Afiliación","affiliate.subtitle":"Genera tu enlace único y gana una comisión automática por cada venta.",
+    "affiliate.rateTitle":"Tasa de comisión","affiliate.rateDesc":"15% en cada paquete vendido a través de tu enlace, pagado automáticamente cada mes por Mobile Money.",
+    "affiliate.linkTitle":"Tu enlace de afiliado","affiliate.simBtn":"Simular un clic + venta",
+    "modal.chooseMM":"Elegir un operador de Mobile Money","modal.payBtn":"Confirmar el pago","modal.secureNote":"🔒 Transacción cifrada y segura",
+    "modal.lockedTitle":"Contenido Premium","modal.lockedDesc":"Este examen forma parte de la oferta Premium. Desbloquea todo el programa con un paquete para tu nivel.","modal.lockedBtn":"Ver paquetes Premium",
+    "toast.taskAdded":"Tarea añadida con alarma ⏰","toast.paymentOk":"¡Pago confirmado! Acceso desbloqueado 🎉","toast.affSim":"¡Nueva venta registrada a través de tu enlace!",
+    "start":"Empezar","free":"Gratis","premium":"Premium","buy":"Comprar","bestOffer":"⭐ MEJOR OFERTA","validDays":"Válido 90 días"
+  },
+  de: {
+    "nav.home":"Start","nav.exams":"Prüfungen & Tests","nav.examsShort":"Prüfungen","nav.planner":"Planer","nav.tracking":"Eltern/Lehrer","nav.trackingShort":"Verfolgung","nav.pricing":"Premium-Tarife","nav.pricingShort":"Premium","nav.affiliate":"Partnerprogramm",
+    "home.title":"Willkommen bei Dis-moi Prof 👋","home.subtitle":"Tausende interaktive Prüfungen und Übungstests, von der 6. Klasse bis zum Abitur, jederzeit verfügbar.",
+    "home.stat1":"3200+ Prüfungen","home.stat2":"4 Sprachen","home.stat3":"100% sicher",
+    "home.freeTitle":"Kostenlose Version","home.freeDesc":"Zugriff auf eine begrenzte Auswahl (2 Prüfungen pro Fach), um die Plattform zu entdecken.","home.freeBtn":"Kostenlose Prüfungen entdecken",
+    "home.premiumTitle":"Zu Premium wechseln","home.premiumDesc":"Unbegrenzter Zugriff auf alle Fächer und Klassenstufen, inklusive Musterlösungen.","home.premiumBtn":"Tarife ansehen",
+    "home.otherTitle":"Weitere Ressourcen","home.otherDesc":"Schulbücher, Arbeitshefte, kognitive Tests und Persönlichkeitstests.",
+    "home.res1":"Arbeitshefte","home.res2":"Kognitive Tests","home.res3":"Abitur-Leitfaden",
+    "exams.levelTitle":"Klassenstufe wählen","exams.subjectTitle":"Fächer","exams.listTitle":"Verfügbare Prüfungen",
+    "planner.title":"Mein Planer","planner.subtitle":"Organisiere deine Wiederholungen und erhalte Erinnerungsalarme.",
+    "planner.addTitle":"Aufgabe hinzufügen","planner.taskNamePh":"Aufgabenname (z.B. Mathe wiederholen)","planner.addBtn":"Mit Alarm hinzufügen","planner.todayTitle":"Heutiger Plan",
+    "tracking.title":"Eltern-/Lehrer-Verfolgung","tracking.subtitle":"Erhalte Benachrichtigungen, sobald ein Schüler eine Prüfung abschließt, inklusive Note.",
+    "tracking.childrenTitle":"Verfolgte Schüler","tracking.notifTitle":"Neueste Benachrichtigungen",
+    "pricing.title":"Premium-Tarife","pricing.subtitle":"Sichere Zahlung per Mobile Money.","pricing.mmTitle":"Akzeptierte Zahlungsmethoden",
+    "affiliate.title":"Partnerprogramm","affiliate.subtitle":"Erstelle deinen einzigartigen Link und verdiene automatisch Provision bei jedem Verkauf.",
+    "affiliate.rateTitle":"Provisionssatz","affiliate.rateDesc":"15% auf jedes über deinen Link verkaufte Paket, monatlich automatisch per Mobile Money ausgezahlt.",
+    "affiliate.linkTitle":"Dein Partnerlink","affiliate.simBtn":"Klick + Verkauf simulieren",
+    "modal.chooseMM":"Mobile-Money-Anbieter wählen","modal.payBtn":"Zahlung bestätigen","modal.secureNote":"🔒 Verschlüsselte, sichere Transaktion",
+    "modal.lockedTitle":"Premium-Inhalt","modal.lockedDesc":"Diese Prüfung gehört zum Premium-Angebot. Schalte das volle Programm mit einem passenden Paket frei.","modal.lockedBtn":"Premium-Pakete ansehen",
+    "toast.taskAdded":"Aufgabe mit Alarm hinzugefügt ⏰","toast.paymentOk":"Zahlung bestätigt! Zugang freigeschaltet 🎉","toast.affSim":"Neuer Verkauf über deinen Link registriert!",
+    "start":"Starten","free":"Kostenlos","premium":"Premium","buy":"Kaufen","bestOffer":"⭐ BESTES ANGEBOT","validDays":"90 Tage gültig"
+  }
+};
+let currentLang = 'fr';
+
+function t(key){ return (translations[currentLang] && translations[currentLang][key]) || (translations.fr[key]) || key; }
+
+function applyTranslations(){
+  document.querySelectorAll('[data-t]').forEach(el=>{ el.textContent = t(el.getAttribute('data-t')); });
+  document.querySelectorAll('[data-t-ph]').forEach(el=>{ el.placeholder = t(el.getAttribute('data-t-ph')); });
+  renderLevels(); renderSubjects(); renderExams(); renderPricing(); renderTasks(); renderTaskSubjectOptions();
+}
+function setLang(l){ currentLang = l; applyTranslations(); }
+
+/* ---------------- DATA ---------------- */
+const levels = ["6ème","5ème","4ème","3ème","2nde","1ère","Terminale"];
+const subjects = ["Maths","PCT","SVT","Français","Anglais","Histoire-Géo","Philosophie","Espagnol","Allemand","Comptabilité","Économie"];
+let selectedLevel = "Terminale";
+let selectedSubject = "Maths";
+
+// deterministic mock exam generator
+function seededExams(level, subject){
+  const count = 6;
+  const exams = [];
+  for(let i=1;i<=count;i++){
+    exams.push({
+      id: level+"-"+subject+"-"+i,
+      title: `${subject} ${level} — Évaluation ${i}`,
+      free: i<=1, // only first exam free per subject/level
+      corrected: true
+    });
+  }
+  return exams;
+}
+
+const sampleTemplateUrl = "https://egbetissi-cmd.github.io/knowledge-College-/epreuve_pct_4eme_eval1_t2_CANVAS-2.html";
+
+const pricingPlans = [
+  {id:'terminale', icon:'🎓', nameKey:'Pack Terminale Complet', price:3000, best:true, descKey:"Toutes les matières de la Terminale : Maths, SVT, PCT, Français, Anglais, Philo, Espagnol, Allemand, Comptabilité, Économie."},
+  {id:'premiere', icon:'🎓', nameKey:'Pack 1ère Complet', price:2500, best:false, descKey:"Toutes les matières de la 1ère, tous les corrigés inclus."},
+  {id:'college', icon:'🎓', nameKey:'Pack Collège Complet', price:2000, best:false, descKey:"Tous les niveaux du collège (6ème à 3ème)."},
+  {id:'maths', icon:'📐', nameKey:'Mathématiques — 1 niveau', price:1000, best:false, descKey:"Tests complets de Maths pour le niveau choisi, avec corrections."},
+  {id:'subject', icon:'📘', nameKey:'Une matière au choix', price:1000, best:false, descKey:"Accès complet à une matière pour ton niveau, corrigés inclus."}
+];
+
+let affEarnings = 0, affClicks = 0;
+
+/* children mock */
+const children = [
+  {name:"Josué A.", level:"1ère D", initials:"JA", progress:78, lastScore:"16/20"},
+  {name:"Miriam K.", level:"Terminale D", initials:"MK", progress:54, lastScore:"12/20"}
+];
+let notifications = [
+  {text:"Josué A. a terminé Maths Terminale — Éval. 3 : note 16/20", time:"il y a 12 min"},
+  {text:"Miriam K. a terminé PCT 4ème — Éval. 1 : note 12/20", time:"il y a 2h"}
+];
+
+/* tasks */
+let tasks = [
+  {time:"18:00", name:"Réviser Maths - Fonctions", subject:"Maths", alarm:true},
+  {time:"19:30", name:"Faire l'épreuve PCT", subject:"PCT", alarm:true}
+];
+
+/* ---------------- RENDER ---------------- */
+function renderLevels(){
+  const row = document.getElementById('levelRow');
+  row.innerHTML = '';
+  levels.forEach(l=>{
+    const b = document.createElement('button');
+    b.className = 'pill' + (l===selectedLevel?' active':'');
+    b.textContent = l;
+    b.onclick = ()=>{ selectedLevel = l; renderLevels(); renderExams(); };
+    row.appendChild(b);
+  });
+}
+function renderSubjects(){
+  const grid = document.getElementById('subjectGrid');
+  grid.innerHTML = '';
+  subjects.forEach(s=>{
+    const d = document.createElement('div');
+    d.className = 'subject-tile' + (s===selectedSubject?' sel':'');
+    d.textContent = s;
+    d.onclick = ()=>{ selectedSubject = s; renderSubjects(); renderExams(); };
+    grid.appendChild(d);
+  });
+}
+function renderExams(){
+  const list = document.getElementById('examList');
+  list.innerHTML = '';
+  const exams = seededExams(selectedLevel, selectedSubject);
+  exams.forEach(ex=>{
+    const row = document.createElement('div');
+    row.className = 'exam-item';
+    row.innerHTML = `
+      <div class="exam-info">
+        <b>${ex.title}</b>
+        <span>${ex.corrected ? '✅ Corrigé-type inclus' : ''}</span>
+      </div>
+      <div style="text-align:right;">
+        <div class="badge ${ex.free?'free':'premium'}">${ex.free? t('free') : t('premium')}</div><br>
+        <button class="btn small ${ex.free?'':'locked'}" style="margin-top:6px;" onclick="${ex.free ? `openExam('${ex.id}')` : `openLocked()`}">${ex.free ? t('start') : '🔒'}</button>
+      </div>
+    `;
+    list.appendChild(row);
+  });
+}
+function renderPricing(){
+  const wrap = document.getElementById('pricingList');
+  wrap.innerHTML = '';
+  pricingPlans.forEach(p=>{
+    const div = document.createElement('div');
+    div.className = 'card price-card ' + (p.best?'best':'plain');
+    div.innerHTML = `
+      ${p.best?`<div class="price-tag">${t('bestOffer')}</div>`:''}
+      <h3>${p.icon} ${p.nameKey}</h3>
+      <div class="price-amount">${p.price.toLocaleString()} FCFA</div>
+      <p class="muted">${p.descKey}</p>
+      <p class="muted" style="font-size:.72rem;">${t('validDays')}</p>
+      <button class="btn full" onclick="openPayment('${p.id}')">${t('buy')} — ${p.price.toLocaleString()} FCFA</button>
+    `;
+    wrap.appendChild(div);
+  });
+}
+function renderTaskSubjectOptions(){
+  const sel = document.getElementById('taskSubject');
+  sel.innerHTML = '';
+  subjects.forEach(s=>{
+    const o = document.createElement('option');
+    o.value = s; o.textContent = s;
+    sel.appendChild(o);
+  });
+}
+function renderTasks(){
+  const list = document.getElementById('taskList');
+  list.innerHTML = '';
+  if(tasks.length===0){
+    list.innerHTML = '<p class="muted">Aucune tâche pour le moment.</p>';
+    return;
+  }
+  tasks.sort((a,b)=> a.time.localeCompare(b.time));
+  tasks.forEach((task,idx)=>{
+    const row = document.createElement('div');
+    row.className = 'task-item';
+    row.innerHTML = `
+      <div class="task-time">${task.time}</div>
+      <div class="task-info"><b>${task.name}</b><span>${task.subject}</span></div>
+      <div class="alarm-badge">${task.alarm?'⏰':''}</div>
+      <button class="btn small locked" onclick="removeTask(${idx})">✕</button>
+    `;
+    list.appendChild(row);
+  });
+}
+
+/* ---------------- ACTIONS ---------------- */
+function showSection(name){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById('sec-'+name).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active', b.dataset.nav===name));
+  document.querySelectorAll('.mobile-menu button').forEach(b=>b.classList.toggle('active', b.dataset.nav===name));
+  document.getElementById('mobileMenu').classList.remove('open');
+}
+function toggleMenu(){ document.getElementById('mobileMenu').classList.toggle('open'); }
+
+function openExam(id){
+  window.open(sampleTemplateUrl, '_blank');
+}
+function openLocked(){ document.getElementById('lockedOverlay').classList.add('open'); }
+function closeModal(id){ document.getElementById(id).classList.remove('open'); }
+
+let currentPlan = null;
+function openPayment(planId){
+  currentPlan = pricingPlans.find(p=>p.id===planId);
+  document.getElementById('modalPackTitle').textContent = currentPlan.icon+' '+currentPlan.nameKey;
+  document.getElementById('modalPackDesc').textContent = currentPlan.descKey;
+  document.getElementById('modalPackPrice').textContent = currentPlan.price.toLocaleString()+' FCFA';
+  document.getElementById('paymentOverlay').classList.add('open');
+}
+function confirmPayment(){
+  closeModal('paymentOverlay');
+  showToast(t('toast.paymentOk'));
+}
+
+function addTask(){
+  const name = document.getElementById('taskName').value.trim();
+  const time = document.getElementById('taskTime').value;
+  const subject = document.getElementById('taskSubject').value;
+  if(!name || !time){ showToast('⚠️ Renseigne le nom et l\\'heure'); return; }
+  tasks.push({time, name, subject, alarm:true});
+  document.getElementById('taskName').value='';
+  document.getElementById('taskTime').value='';
+  renderTasks();
+  showToast(t('toast.taskAdded'));
+  scheduleAlarm(time, name);
+}
+function removeTask(idx){ tasks.splice(idx,1); renderTasks(); }
+
+function scheduleAlarm(timeStr, label){
+  // Simulate an in-app alarm: compute ms until that time today
+  const [h,m] = timeStr.split(':').map(Number);
+  const now = new Date();
+  const target = new Date();
+  target.setHours(h,m,0,0);
+  let diff = target - now;
+  if(diff < 0) diff += 24*3600*1000; // next day
+  if(diff < 24*3600*1000){
+    setTimeout(()=>{
+      showToast('⏰ '+label+' — c\\'est l\\'heure !');
+      try{ new Audio('data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=').play(); }catch(e){}
+    }, Math.min(diff, 2147483000));
+  }
+}
+
+function simulateAffClick(){
+  affClicks++;
+  const sale = Math.random() > 0.5;
+  if(sale){
+    const commission = 300 + Math.floor(Math.random()*150);
+    affEarnings += commission;
+    notifications.unshift({text:`Nouvelle vente via lien affilié : +${commission} FCFA`, time:"à l'instant"});
+    renderNotifs();
+    showToast(t('toast.affSim'));
+  } else {
+    showToast('👀 Clic enregistré (pas encore de vente)');
+  }
+  document.getElementById('affEarnings').textContent = 'Gains: '+affEarnings.toLocaleString()+' FCFA';
+  document.getElementById('affClicks').textContent = 'Clics: '+affClicks;
+}
+
+function renderChildren(){
+  const wrap = document.getElementById('childList');
+  wrap.innerHTML = '';
+  children.forEach(c=>{
+    const div = document.createElement('div');
+    div.className = 'child-card';
+    div.innerHTML = `
+      <div class="avatar">${c.initials}</div>
+      <div style="flex:1;">
+        <b style="font-size:.85rem;">${c.name}</b>
+        <div class="muted" style="font-size:.72rem;">${c.level} • Dernière note: ${c.lastScore}</div>
+        <div class="progress-bar"><div class="progress-fill" style="width:${c.progress}%;"></div></div>
+      </div>
+    `;
+    wrap.appendChild(div);
+  });
+}
+function renderNotifs(){
+  const wrap = document.getElementById('notifList');
+  wrap.innerHTML = '';
+  notifications.forEach(n=>{
+    const div = document.createElement('div');
+    div.className = 'notif-item';
+    div.innerHTML = `<span>🔔</span><div><b>${n.text}</b><br><span class="muted" style="font-size:.7rem;">${n.time}</span></div>`;
+    wrap.appendChild(div);
+  });
+}
+
+let toastTimer;
+function showToast(msg){
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=> el.classList.remove('show'), 2600);
+}
+
+/* ---------------- INIT ---------------- */
+function init(){
+  renderLevels();
+  renderSubjects();
+  renderExams();
+  renderPricing();
+  renderTaskSubjectOptions();
+  renderTasks();
+  renderChildren();
+  renderNotifs();
+  applyTranslations();
+}
+init();
+</script>
+</body>
+</html>
