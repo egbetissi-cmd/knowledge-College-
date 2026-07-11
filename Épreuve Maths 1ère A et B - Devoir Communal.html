@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Épreuve Maths - Devoir Communal - 1ère A et B</title>
+<style>
+:root{
+  --violet:#3d2b6b; --violet-dark:#241a45; --yellow:#ffd93d; --yellow-soft:#fff3c4;
+  --sky:#4fc3f7; --bg:#f7f5ff; --card:#ffffff; --text:#241a45; --muted:#6b6280;
+  --mint:#4ade80; --forest:#166534; --raspberry:#be185d; --radius:16px;
+}
+*{box-sizing:border-box;}
+body{margin:0;font-family:'Nunito',-apple-system,sans-serif;background:var(--bg);color:var(--text);}
+h1,h2,h3{font-family:'Baloo 2','Fredoka',sans-serif;}
+.app{max-width:520px;margin:0 auto;padding-bottom:30px;}
+header{background:linear-gradient(135deg,var(--violet),var(--violet-dark));color:#fff;padding:16px;text-align:center;}
+header h1{margin:0 0 4px;font-size:1.1rem;}
+header p{margin:2px 0;font-size:.78rem;opacity:.9;}
+.meta-box{background:rgba(255,255,255,.12);border-radius:12px;padding:8px;margin-top:10px;font-size:.72rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px;}
+
+main{padding:14px;}
+.card{background:var(--card);border-radius:var(--radius);padding:14px;margin-bottom:14px;box-shadow:0 2px 10px rgba(36,26,69,.06);border:1px solid #ece8fb;}
+.context h2{font-size:1rem;margin-top:0;}
+.context p{font-size:.85rem;line-height:1.5;}
+.formula-box{background:#f0edfb;border-radius:10px;padding:10px;font-size:.85rem;margin:8px 0;font-weight:700;color:var(--violet-dark);}
+.tache{background:var(--yellow-soft);border-radius:12px;padding:10px;font-size:.85rem;font-weight:700;color:var(--violet-dark);margin-top:10px;}
+
+.pb-title{background:var(--violet);color:#fff;padding:8px 12px;border-radius:12px;font-weight:800;font-size:.95rem;margin-bottom:10px;}
+.question{margin-bottom:18px;}
+.question .q-label{font-weight:800;font-size:.88rem;margin-bottom:6px;display:block;}
+.sub{margin-left:10px;font-size:.85rem;margin-bottom:8px;}
+
+.notebook{
+  width:100%;min-height:90px;border-radius:10px;border:1.5px solid #d8d2f5;padding:10px;
+  font-family:'Nunito',sans-serif;font-size:.88rem;color:var(--text);
+  background-image:repeating-linear-gradient(to bottom, transparent, transparent 27px, #e3ddfa 28px);
+  line-height:28px;resize:vertical;
+}
+.notebook:focus{outline:2px solid var(--sky);}
+
+.tools-row{display:flex;gap:8px;margin-top:6px;flex-wrap:wrap;}
+.tool-btn{
+  background:#f0edfb;border:1.5px solid #d8d2f5;border-radius:10px;padding:7px 12px;
+  font-size:.75rem;font-weight:800;color:var(--violet-dark);display:flex;align-items:center;gap:5px;
+}
+.photo-preview{margin-top:8px;max-width:100%;border-radius:10px;border:1.5px solid #d8d2f5;display:none;}
+input[type=file]{display:none;}
+
+.submit-bar{position:sticky;bottom:0;background:var(--bg);padding:10px 0;margin-top:10px;}
+.btn{border:none;border-radius:14px;padding:13px;font-weight:900;font-size:.9rem;color:#fff;background:var(--violet);width:100%;}
+.btn.green{background:var(--mint);color:#053b1e;}
+.btn.small{width:auto;padding:8px 14px;font-size:.78rem;border-radius:10px;}
+
+.paper-mode{
+  background:#fff7e0;border:1.5px solid var(--yellow);border-radius:12px;padding:10px;margin-bottom:14px;font-size:.8rem;
+}
+.paper-mode b{color:var(--violet-dark);}
+
+.corrige-lock{background:#f0edfb;border:2px dashed #c9bff5;border-radius:14px;padding:16px;text-align:center;}
+.corrige-lock p{font-size:.82rem;color:var(--muted);margin:6px 0 12px;}
+.corrige-content{display:none;}
+.corrige-content.open{display:block;}
+.corrige-item{background:#f7f5ff;border-radius:10px;padding:10px;margin-bottom:8px;font-size:.83rem;border-left:4px solid var(--mint);}
+.corrige-item b{color:var(--violet-dark);}
+
+.overlay{position:fixed;inset:0;background:rgba(36,26,69,.55);display:none;align-items:center;justify-content:center;z-index:100;padding:20px;}
+.overlay.open{display:flex;}
+.modal{background:#fff;border-radius:18px;padding:20px;max-width:340px;width:100%;text-align:center;}
+.modal input{width:100%;padding:11px;border-radius:10px;border:1.5px solid #d8d2f5;font-size:1rem;text-align:center;margin:10px 0;letter-spacing:2px;}
+.toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:var(--violet-dark);color:#fff;padding:10px 18px;border-radius:20px;font-size:.82rem;font-weight:700;z-index:200;opacity:0;transition:opacity .3s;}
+.toast.show{opacity:1;}
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <h1>📘 Épreuve Interactive de Mathématiques</h1>
+    <p>Devoir Communal — Situation d'évaluation</p>
+    <div class="meta-box">
+      <span>📅 Année : 2024-2025</span>
+      <span>🏫 Classe : 1ère A et B</span>
+      <span>⏱️ Durée : 1H30</span>
+    </div>
+  </header>
+
+  <main>
+    <div class="paper-mode">
+      📝 <b>Tu peux composer sur une feuille</b> si tu préfères. Pour chaque question, un bouton "📷 Envoyer ma copie" te permet de joindre une photo de ta réponse manuscrite — même sans figure à dessiner.
+    </div>
+
+    <div class="card context">
+      <h2>🎖️ Contexte : Lutte contre le terrorisme</h2>
+      <p>Suite à la recrudescence des actes de criminalité orchestrés par les terroristes dans la république de Tognon, le Ministre de la défense a décrété 100 jours pour traquer ces hors la loi dans certaines zones du pays.</p>
+      <p>Dans le but de bien mener cette opération, le Ministre a mis un important lot de matériels à la disposition de l'ensemble des militaires. Ces matériels sont entre autres des véhicules pick-up et drones à vision nocturne. Il a notifié à ces militaires que le nombre de terroristes à traquer au cours des 100 jours devrait suivre une progression donnée par la suite (Uₙ)ₙ∈ℕ telle que :</p>
+      <div class="formula-box">
+        U₁ = 5<br>
+        U_(n+1) = U_n + 2
+      </div>
+      <p>Le nombre total de terroristes à traquer est N = (1/10)T avec T = U₁ + U₂ + ... + U₁₀₀.</p>
+      <p>Tobi, un officier de la hiérarchie militaire, se préoccupe de connaître le nombre de terroristes à traquer au terme des 100 jours, le nombre de grandes zones concernées par l'opération et le nombre de pick-up et drones offert par le Ministre.</p>
+      <div class="tache">🎯 Tâche : Tu vas aider Tobi en résolvant les deux problèmes suivants.</div>
+    </div>
+
+    <!-- PROBLEME 1 -->
+    <div class="card">
+      <div class="pb-title">🧩 Problème n°1</div>
+
+      <div class="question">
+        <span class="q-label">1) Détermine le nombre de terroristes traqués le 3ème jour, le 11ème jour puis le 100ème jour de l'opération.</span>
+        <textarea class="notebook" placeholder="Ton calcul..." data-qid="p1q1"></textarea>
+        <div class="tools-row">
+          <label class="tool-btn" for="file-p1q1">📷 Envoyer ma copie</label>
+          <input type="file" id="file-p1q1" accept="image/*" onchange="handlePhoto(this,'prev-p1q1')">
+        </div>
+        <img class="photo-preview" id="prev-p1q1">
+      </div>
+
+      <div class="question">
+        <span class="q-label">2) Justifie que la suite (Uₙ) est une suite arithmétique de raison r = 2.</span>
+        <textarea class="notebook" placeholder="Ta justification..." data-qid="p1q2" style="min-height:60px;"></textarea>
+        <div class="tools-row">
+          <label class="tool-btn" for="file-p1q2">📷 Envoyer ma copie</label>
+          <input type="file" id="file-p1q2" accept="image/*" onchange="handlePhoto(this,'prev-p1q2')">
+        </div>
+        <img class="photo-preview" id="prev-p1q2">
+      </div>
+
+      <div class="question">
+        <span class="q-label">3) Détermine le nombre de terroristes traqués au terme de l'opération.</span>
+        <textarea class="notebook" placeholder="Ton calcul..." data-qid="p1q3"></textarea>
+        <div class="tools-row">
+          <label class="tool-btn" for="file-p1q3">📷 Envoyer ma copie</label>
+          <input type="file" id="file-p1q3" accept="image/*" onchange="handlePhoto(this,'prev-p1q3')">
+        </div>
+        <img class="photo-preview" id="prev-p1q3">
+      </div>
+    </div>
+
+    <!-- PROBLEME 2 -->
+    <div class="card">
+      <div class="pb-title">📐 Problème n°2</div>
+      <p style="font-size:.85rem;">Le nombre de zones concernées par l'opération est une solution de l'équation t² − 3t − 10 = 0. Aussi, le triple du nombre de pick-up augmenté du double du nombre de drones est égal à 6800, puis le nombre de pick-up augmenté du triple du nombre de drones est égal à 4600.</p>
+
+      <div class="question">
+        <span class="q-label">4-a) Résous dans N, l'équation t² − 3t − 10 = 0.</span>
+        <textarea class="notebook" placeholder="Ton calcul..." data-qid="p2q4a"></textarea>
+        <div class="tools-row">
+          <label class="tool-btn" for="file-p2q4a">📷 Envoyer ma copie</label>
+          <input type="file" id="file-p2q4a" accept="image/*" onchange="handlePhoto(this,'prev-p2q4a')">
+        </div>
+        <img class="photo-preview" id="prev-p2q4a">
+      </div>
+
+      <div class="question">
+        <span class="q-label">4-b) Déduis-en le nombre de zones du pays concernées par l'opération.</span>
+        <textarea class="notebook" placeholder="Ta réponse..." data-qid="p2q4b" style="min-height:50px;"></textarea>
+        <div class="tools-row">
+          <label class="tool-btn" for="file-p2q4b">📷 Envoyer ma copie</label>
+          <input type="file" id="file-p2q4b" accept="image/*" onchange="handlePhoto(this,'prev-p2q4b')">
+        </div>
+        <img class="photo-preview" id="prev-p2q4b">
+      </div>
+
+      <div class="question">
+        <span class="q-label">5) On désigne par a le nombre de pick-up et par b le nombre de drones. Donne le système d'équations que vérifient a et b.</span>
+        <textarea class="notebook" placeholder="Ton système..." data-qid="p2q5" style="min-height:60px;"></textarea>
+        <div class="tools-row">
+          <label class="tool-btn" for="file-p2q5">📷 Envoyer ma copie</label>
+          <input type="file" id="file-p2q5" accept="image/*" onchange="handlePhoto(this,'prev-p2q5')">
+        </div>
+        <img class="photo-preview" id="prev-p2q5">
+      </div>
+
+      <div class="question">
+        <span class="q-label">6-a) Résous dans R×R, le système suivant : (S) : { 3x + 2y = 6800 ; x + 3y = 4600 }</span>
+        <textarea class="notebook" placeholder="Ton calcul..." data-qid="p2q6a"></textarea>
+        <div class="tools-row">
+          <label class="tool-btn" for="file-p2q6a">📷 Envoyer ma copie</label>
+          <input type="file" id="file-p2q6a" accept="image/*" onchange="handlePhoto(this,'prev-p2q6a')">
+        </div>
+        <img class="photo-preview" id="prev-p2q6a">
+      </div>
+
+      <div class="question">
+        <span class="q-label">6-b) Détermine le nombre de pick-up et le nombre de drones offert par le Ministre.</span>
+        <textarea class="notebook" placeholder="Ta réponse..." data-qid="p2q6b" style="min-height:50px;"></textarea>
+        <div class="tools-row">
+          <label class="tool-btn" for="file-p2q6b">📷 Envoyer ma copie</label>
+          <input type="file" id="file-p2q6b" accept="image/*" onchange="handlePhoto(this,'prev-p2q6b')">
+        </div>
+        <img class="photo-preview" id="prev-p2q6b">
+      </div>
+    </div>
+
+    <div class="submit-bar">
+      <button class="btn" onclick="submitExam()">✅ Soumettre mes réponses</button>
+    </div>
+
+    <!-- CORRIGE TYPE -->
+    <div class="card">
+      <div class="pb-title" style="background:var(--raspberry);">🔒 Corrigé-type</div>
+      <div class="corrige-lock" id="corrigeLock">
+        <p>🔐 Le corrigé-type est verrouillé. Soumets d'abord tes réponses ou entre le code fourni par ton professeur pour le débloquer.</p>
+        <button class="btn small" onclick="askCode()">Débloquer le corrigé</button>
+      </div>
+      <div class="corrige-content" id="corrigeContent">
+        <div class="corrige-item"><b>1)</b> Uₙ = U₁ + (n−1)×2 = 2n + 3.<br>U₃ = 9 ; U₁₁ = 25 ; U₁₀₀ = 203.</div>
+        <div class="corrige-item"><b>2)</b> U_(n+1) − Uₙ = 2 (constante) pour tout n → la suite est bien arithmétique de raison r = 2, de premier terme U₁ = 5.</div>
+        <div class="corrige-item"><b>3)</b> T = Σ Uₙ (n=1 à 100) = 100/2 × (U₁+U₁₀₀) = 50 × (5+203) = 10 400.<br>N = T/10 = <b>1040 terroristes</b> traqués au terme de l'opération.</div>
+        <div class="corrige-item"><b>4-a)</b> Δ = 9+40 = 49, √Δ = 7 → t = (3+7)/2 = 5 ou t = (3−7)/2 = −2. Dans N, seule t = 5 est retenue.</div>
+        <div class="corrige-item"><b>4-b)</b> Le nombre de zones concernées est <b>5</b>.</div>
+        <div class="corrige-item"><b>5)</b> Système : { 3a + 2b = 6800 ; a + 3b = 4600 }</div>
+        <div class="corrige-item"><b>6-a)</b> De x+3y=4600 → x=4600−3y. En remplaçant : 3(4600−3y)+2y=6800 → 13800−7y=6800 → y=1000 → x=4600−3000=1600.<br>S = {(1600 ; 1000)}</div>
+        <div class="corrige-item"><b>6-b)</b> Nombre de pick-up = <b>1600</b> ; nombre de drones = <b>1000</b>.</div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div class="overlay" id="codeOverlay">
+  <div class="modal">
+    <h3>🔑 Code d'accès</h3>
+    <p style="font-size:.82rem;color:var(--muted);">Entre le code communiqué par ton professeur.</p>
+    <input type="text" id="codeInput" maxlength="10" placeholder="CODE">
+    <button class="btn" onclick="checkCode()">Valider</button>
+    <button class="btn small" style="background:#f0edfb;color:var(--violet-dark);margin-top:8px;" onclick="closeOverlay()">Annuler</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const ACCESS_CODE = "COMMUNAL25";
+
+function handlePhoto(input, previewId){
+  const file = input.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e=>{
+    const img = document.getElementById(previewId);
+    img.src = e.target.result;
+    img.style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+}
+
+function submitExam(){
+  const answers = document.querySelectorAll('.notebook');
+  const photos = document.querySelectorAll('.photo-preview');
+  let filled = 0, photoCount = 0;
+  answers.forEach(a=>{ if(a.value.trim().length>0) filled++; });
+  photos.forEach(p=>{ if(p.style.display==='block') photoCount++; });
+  showToast(`✅ Copie enregistrée (${filled}/${answers.length} champs texte, ${photoCount} photo(s) jointe(s)) !`);
+  document.getElementById('corrigeLock').style.display='none';
+  document.getElementById('corrigeContent').classList.add('open');
+}
+
+function askCode(){ document.getElementById('codeOverlay').classList.add('open'); }
+function closeOverlay(){ document.getElementById('codeOverlay').classList.remove('open'); }
+function checkCode(){
+  const val = document.getElementById('codeInput').value.trim().toUpperCase();
+  if(val === ACCESS_CODE){
+    document.getElementById('corrigeLock').style.display='none';
+    document.getElementById('corrigeContent').classList.add('open');
+    closeOverlay();
+    showToast('🔓 Corrigé débloqué !');
+  } else {
+    showToast('❌ Code incorrect');
+  }
+}
+
+let toastTimer;
+function showToast(msg){
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=> el.classList.remove('show'), 2800);
+}
+</script>
+</body>
+</html>

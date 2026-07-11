@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Épreuve Maths 1ère D - Composition du 3ème Trimestre</title>
+<style>
+:root{
+  --violet:#3d2b6b; --violet-dark:#241a45; --yellow:#ffd93d; --yellow-soft:#fff3c4;
+  --sky:#4fc3f7; --bg:#f7f5ff; --card:#ffffff; --text:#241a45; --muted:#6b6280;
+  --mint:#4ade80; --forest:#166534; --raspberry:#be185d; --radius:16px;
+}
+*{box-sizing:border-box;}
+body{margin:0;font-family:'Nunito',-apple-system,sans-serif;background:var(--bg);color:var(--text);}
+h1,h2,h3{font-family:'Baloo 2','Fredoka',sans-serif;}
+.app{max-width:520px;margin:0 auto;padding-bottom:30px;}
+header{background:linear-gradient(135deg,var(--violet),var(--violet-dark));color:#fff;padding:16px;text-align:center;}
+header h1{margin:0 0 4px;font-size:1rem;}
+.meta-box{background:rgba(255,255,255,.12);border-radius:12px;padding:8px;margin-top:10px;font-size:.7rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px;}
+.exam-title{background:#fff;color:var(--violet-dark);border:2px solid var(--violet-dark);border-radius:12px;padding:8px 10px;margin:12px 14px 0;text-align:center;font-weight:900;font-size:.85rem;text-transform:uppercase;}
+.exam-sub{text-align:center;font-weight:800;font-size:.85rem;margin:10px 0 0;text-decoration:underline;}
+
+main{padding:14px;}
+.card{background:var(--card);border-radius:var(--radius);padding:14px;margin-bottom:14px;box-shadow:0 2px 10px rgba(36,26,69,.06);border:1px solid #ece8fb;}
+.context .ctx-label{font-weight:800;text-decoration:underline;font-size:.9rem;}
+.context p{font-size:.85rem;line-height:1.5;}
+.formula-box{background:#f0edfb;border-radius:10px;padding:10px;font-size:.83rem;margin:8px 0;font-weight:700;color:var(--violet-dark);line-height:1.6;}
+.tache{background:var(--yellow-soft);border-radius:12px;padding:10px;font-size:.85rem;font-weight:700;color:var(--violet-dark);margin-top:10px;}
+.tache u{text-decoration:underline;}
+
+.pb-title{background:var(--violet);color:#fff;padding:8px 12px;border-radius:12px;font-weight:800;font-size:.95rem;margin-bottom:10px;text-decoration:underline;}
+.intro-txt{font-size:.85rem;margin-bottom:10px;line-height:1.5;}
+.question{margin-bottom:16px;}
+.question .q-label{font-weight:800;font-size:.86rem;margin-bottom:6px;display:block;}
+.pts{font-size:.65rem;font-weight:800;color:var(--raspberry);background:#fde7f3;padding:2px 7px;border-radius:8px;margin-left:4px;white-space:nowrap;}
+.sub{margin-left:8px;font-size:.83rem;margin-bottom:8px;}
+
+.notebook{
+  width:100%;min-height:70px;border-radius:10px;border:1.5px solid #d8d2f5;padding:10px;
+  font-family:'Nunito',sans-serif;font-size:.87rem;color:var(--text);
+  background-image:repeating-linear-gradient(to bottom, transparent, transparent 27px, #e3ddfa 28px);
+  line-height:28px;resize:vertical;
+}
+.notebook:focus{outline:2px solid var(--sky);}
+
+.paper-mode{background:#fff7e0;border:1.5px solid var(--yellow);border-radius:12px;padding:10px;margin-bottom:14px;font-size:.8rem;}
+.paper-mode b{color:var(--violet-dark);}
+.bareme-note{background:#f0edfb;border-radius:12px;padding:10px;font-size:.78rem;margin-bottom:14px;color:var(--violet-dark);}
+
+.photo-card{background:var(--card);border-radius:var(--radius);padding:14px;margin-bottom:14px;border:2px dashed #c9bff5;text-align:center;}
+.photo-card h3{margin-top:0;font-size:1rem;}
+.photo-card p{font-size:.8rem;color:var(--muted);margin-bottom:10px;}
+.tool-btn{background:#f0edfb;border:1.5px solid #d8d2f5;border-radius:12px;padding:11px 16px;font-size:.85rem;font-weight:800;color:var(--violet-dark);display:inline-flex;align-items:center;gap:6px;}
+.photo-preview{margin-top:10px;max-width:100%;border-radius:10px;border:1.5px solid #d8d2f5;display:none;}
+input[type=file]{display:none;}
+
+.submit-bar{margin-top:4px;}
+.btn{border:none;border-radius:14px;padding:13px;font-weight:900;font-size:.9rem;color:#fff;background:var(--violet);width:100%;}
+.btn:disabled{opacity:.6;}
+
+.corrige-lock{background:#f0edfb;border:2px dashed #c9bff5;border-radius:14px;padding:16px;text-align:center;}
+.corrige-lock p{font-size:.82rem;color:var(--muted);margin:6px 0 12px;}
+.corrige-content{display:none;}
+.corrige-content.open{display:block;}
+.corrige-item{background:#f7f5ff;border-radius:10px;padding:10px;margin-bottom:8px;font-size:.8rem;border-left:4px solid var(--mint);line-height:1.5;}
+.corrige-item b{color:var(--violet-dark);}
+
+.result-card{display:none;}
+.result-card.open{display:block;}
+.note-hero{background:linear-gradient(135deg,var(--mint),var(--forest));color:#fff;border-radius:18px;padding:20px;text-align:center;margin-bottom:14px;}
+.note-hero .note-val{font-size:2.4rem;font-weight:900;line-height:1;}
+.note-hero .note-sur{font-size:1rem;opacity:.9;}
+.note-hero .appreciation{margin-top:8px;font-size:.88rem;font-weight:700;}
+.detail-item{background:#fbfaff;border-radius:12px;padding:10px;margin-bottom:8px;border:1px solid #ece8fb;font-size:.82rem;}
+.detail-item .dh{display:flex;justify-content:space-between;align-items:center;font-weight:800;margin-bottom:4px;gap:6px;}
+.detail-item .dnote{background:var(--yellow-soft);color:var(--violet-dark);padding:2px 9px;border-radius:8px;font-size:.72rem;white-space:nowrap;}
+.remediation-box{background:#fff7e0;border:1.5px solid var(--yellow);border-radius:12px;padding:12px;margin-top:10px;}
+.remediation-box h4{margin:0 0 6px;font-size:.9rem;color:var(--violet-dark);}
+.remediation-box ul{margin:0;padding-left:18px;font-size:.82rem;}
+.remediation-box li{margin-bottom:4px;}
+.loading-box{text-align:center;padding:24px 10px;}
+.spinner{width:34px;height:34px;border:4px solid #ece8fb;border-top-color:var(--violet);border-radius:50%;margin:0 auto 12px;animation:spin 0.8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+.toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:var(--violet-dark);color:#fff;padding:10px 18px;border-radius:20px;font-size:.82rem;font-weight:700;z-index:200;opacity:0;transition:opacity .3s;}
+.toast.show{opacity:1;}
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <h1>📘 Épreuve Interactive de Mathématiques</h1>
+    <div class="meta-box">
+      <span>📅 Année : 2024-2025</span>
+      <span>🏫 Classe : 1ère D</span>
+      <span>⏱️ Durée : 3H</span>
+    </div>
+  </header>
+
+  <div class="exam-title">Composition du Troisième Trimestre</div>
+  <div class="exam-sub">Épreuve : Mathématiques</div>
+
+  <main>
+    <div class="paper-mode">
+      📝 <b>Tu peux composer sur une feuille</b> si tu préfères. Une seule photo de ta copie complète suffit — tu la joindras à la toute fin, juste avant de soumettre.
+    </div>
+    <div class="bareme-note">
+      📊 <b>Barème :</b> ta copie sera notée sur <b>20 points</b> — 18 points répartis sur les questions ci-dessous, et <b>2 points de perfectionnement</b> (clarté, rigueur, présentation, démarche).
+    </div>
+
+    <div class="card context">
+      <div class="ctx-label">Contexte</div>
+      <p>En 2006, Jean un cadre du ministère de l'agriculture qui ne supportait plus l'écart entre la pression qu'il subit au boulot de la part de ses chefs et son maigre salaire a décidé de se lancer à son propre compte. Pour se faire, il travaille en ses temps libres sur un projet de création d'une usine de fabrication de l'huile de palme et un domaine pour la construction de cette usine, Jean considère plusieurs fonctions entre lesquelles il veut choisir une qui serait appropriée. L'usine a démarré ses activités en 2008.</p>
+      <p>Son chiffre d'affaire en l'an 2008 + n où n est un entier naturel est donné en millions de francs CFA par |S<sub>n</sub>| avec S<sub>n</sub> = U<sub>0</sub> + U<sub>1</sub> + U<sub>2</sub> + … + U<sub>n</sub> où (U<sub>n</sub>)<sub>n∈N</sub> est la suite numérique définie par :</p>
+      <div class="formula-box">
+        U₀ = 5/4<br>
+        U<sub>n+1</sub> = (1/3)U<sub>n</sub> − n − 4/3, ∀n ∈ N
+      </div>
+      <p>On pose v<sub>n</sub> = U<sub>n</sub> + (3/2)n − 1/4 et t<sub>n</sub> = −(3/2)n + 1/4.</p>
+      <p>M. Jean aimerait avoir une idée sur le chiffre d'affaire ainsi que la production minimale de son usine l'année en cours et le lieu où il doit ériger cette usine pour un approvisionnement rapide en matières premières.</p>
+      <div class="tache"><u>Tâche</u> : Tu vas aider M. Jean dans la résolution des trois problèmes suivants.</div>
+    </div>
+
+    <!-- PROBLEME 1 -->
+    <div class="card">
+      <div class="pb-title">Problème 1</div>
+
+      <div class="question">
+        <span class="q-label">1) Calcule v₀ ; v₁ et v₂. <span class="pts">1 pt</span></span>
+        <textarea class="notebook" data-qid="p1_1" placeholder="Ton calcul..."></textarea>
+      </div>
+
+      <div class="question">
+        <span class="q-label">2)</span>
+        <div class="sub">a- Montre que (v<sub>n</sub>) est une suite géométrique de premier terme 1 et de raison 1/3. <span class="pts">1 pt</span></div>
+        <textarea class="notebook" data-qid="p1_2a" placeholder="Ta démonstration..."></textarea>
+        <div class="sub" style="margin-top:8px;">b- Calcule en fonction de n la somme V<sub>n</sub> = v₀ + v₁ + v₂ + ….. v<sub>n</sub>. <span class="pts">1 pt</span></div>
+        <textarea class="notebook" data-qid="p1_2b" placeholder="Ton calcul..." style="min-height:50px;"></textarea>
+      </div>
+
+      <div class="question">
+        <span class="q-label">3)</span>
+        <div class="sub">a- Montre que la suite (t<sub>n</sub>) est une suite arithmétique dont tu préciseras la raison et le premier terme. <span class="pts">1 pt</span></div>
+        <textarea class="notebook" data-qid="p1_3a" placeholder="Ta démonstration..." style="min-height:50px;"></textarea>
+        <div class="sub" style="margin-top:8px;">b- Calcule en fonction de n la somme T<sub>n</sub> = t₀ + t₁ + t₂ + …. + t<sub>n</sub>. <span class="pts">1 pt</span></div>
+        <textarea class="notebook" data-qid="p1_3b" placeholder="Ton calcul..." style="min-height:50px;"></textarea>
+      </div>
+
+      <div class="question">
+        <span class="q-label">4)</span>
+        <div class="sub">a- Montre que pour tout entier naturel n, U<sub>n</sub> = v<sub>n</sub> + t<sub>n</sub>. <span class="pts">0,5 pt</span></div>
+        <textarea class="notebook" data-qid="p1_4a" placeholder="Ta démonstration..." style="min-height:50px;"></textarea>
+        <div class="sub" style="margin-top:8px;">b- Déduis-en que pour tout entier naturel n, S<sub>n</sub> = V<sub>n</sub> + T<sub>n</sub>. <span class="pts">0,5 pt</span></div>
+        <textarea class="notebook" data-qid="p1_4b" placeholder="Ta déduction..." style="min-height:50px;"></textarea>
+        <div class="sub" style="margin-top:8px;">c- Déduis-en l'expression de S<sub>n</sub> en fonction de n. <span class="pts">1 pt</span></div>
+        <textarea class="notebook" data-qid="p1_4c" placeholder="Ton calcul..."></textarea>
+      </div>
+
+      <div class="question">
+        <span class="q-label">5) Détermine le chiffre d'affaires de cette usine en cette année. <span class="pts">1 pt</span></span>
+        <textarea class="notebook" data-qid="p1_5" placeholder="Ta réponse..." style="min-height:50px;"></textarea>
+      </div>
+    </div>
+
+    <!-- PROBLEME 2 -->
+    <div class="card">
+      <div class="pb-title">Problème 2</div>
+      <p class="intro-txt">La production minimale de l'huile de palme en milliers de tonnes dans cette usine cette année-là est le minimum relatif à l'intervalle [2 ; +∞[ de la fonction définie par :</p>
+      <div class="formula-box">
+        f(x) = (x² + 3x + 6) / (2x − 4)
+      </div>
+      <p class="intro-txt">et (𝒞<sub>f</sub>) la courbe représentative de f dans le plan rapporté à un repère orthonormé (O ; I ; J).</p>
+
+      <div class="question">
+        <span class="q-label">6) Détermine a, b et c tels que f(x) = ax + b + c/(2x−4). <span class="pts">1 pt</span></span>
+        <textarea class="notebook" data-qid="p2_6" placeholder="Ton calcul..."></textarea>
+      </div>
+
+      <p class="intro-txt">Dans toute la suite tu prendras a = 1/2 ; b = 5/2 et c = 16.</p>
+
+      <div class="question">
+        <span class="q-label">7)</span>
+        <div class="sub">a- Justifie que la droite (Δ) d'équation y = (1/2)x + 5/2 est asymptote oblique à la courbe (𝒞<sub>f</sub>) au voisinage de +∞ et −∞. <span class="pts">1 pt</span></div>
+        <textarea class="notebook" data-qid="p2_7a" placeholder="Ta justification..."></textarea>
+        <div class="sub" style="margin-top:8px;">b- Démontre que l'équation de l'autre asymptote à (𝒞<sub>f</sub>) est x = 2. <span class="pts">1 pt</span></div>
+        <textarea class="notebook" data-qid="p2_7b" placeholder="Ta démonstration..." style="min-height:50px;"></textarea>
+        <div class="sub" style="margin-top:8px;">c- Détermine le point d'intersection de (𝒞<sub>f</sub>) avec l'axe des ordonnées. <span class="pts">0,5 pt</span></div>
+        <textarea class="notebook" data-qid="p2_7c" placeholder="Ton calcul..." style="min-height:50px;"></textarea>
+      </div>
+
+      <div class="question">
+        <span class="q-label">8) Détermine la position relative de l'asymptote oblique (Δ) par rapport à (𝒞<sub>f</sub>). <span class="pts">1 pt</span></span>
+        <textarea class="notebook" data-qid="p2_8" placeholder="Ta réponse..."></textarea>
+      </div>
+
+      <div class="question">
+        <span class="q-label">9) Étudie les variations de f. <span class="pts">1,5 pt</span></span>
+        <textarea class="notebook" data-qid="p2_9" placeholder="Ton étude..." style="min-height:110px;"></textarea>
+      </div>
+    </div>
+
+    <!-- PROBLEME 3 -->
+    <div class="card">
+      <div class="pb-title">Problème 3</div>
+      <p class="intro-txt">Le plan est muni du repère orthonormé (O ; i⃗ ; j⃗) et l'unité de longueur est le centimètre. Les derniers choix de M. Jean sont portés sur les fonctions p, g et h ci-après :</p>
+      <div class="formula-box">
+        p(x) = (x+1)/(2x+3) si x ≤ 0 ; &nbsp; p(x) = x² + x + α si x &gt; 0<br><br>
+        g(x) = 3 − 2x si x &lt; 0 ; &nbsp; g(x) = 2x + 3 + √x si x ≥ 0<br><br>
+        h est la primitive de g qui prend la valeur 2 en 4 et la valeur −2 en −4.
+      </div>
+
+      <div class="question">
+        <span class="q-label">10)</span>
+        <div class="sub">a- Détermine le domaine de définition de p. <span class="pts">0,5 pt</span></div>
+        <textarea class="notebook" data-qid="p3_10a" placeholder="Ta réponse..." style="min-height:50px;"></textarea>
+        <div class="sub" style="margin-top:8px;">b- Détermine la valeur du nombre réel α pour que la fonction p soit continue en 0. <span class="pts">0,5 pt</span></div>
+        <textarea class="notebook" data-qid="p3_10b" placeholder="Ton calcul..." style="min-height:50px;"></textarea>
+      </div>
+
+      <div class="question">
+        <span class="q-label">11)</span>
+        <div class="sub">a- Détermine l'ensemble de définition de g. <span class="pts">0,5 pt</span></div>
+        <textarea class="notebook" data-qid="p3_11a" placeholder="Ta réponse..." style="min-height:50px;"></textarea>
+        <div class="sub" style="margin-top:8px;">b- Étudie la dérivabilité de g en 0. <span class="pts">1 pt</span></div>
+        <textarea class="notebook" data-qid="p3_11b" placeholder="Ton étude..."></textarea>
+        <div class="sub" style="margin-top:8px;">c- Interprète géométriquement le résultat obtenu. <span class="pts">0,5 pt</span></div>
+        <textarea class="notebook" data-qid="p3_11c" placeholder="Ton interprétation..." style="min-height:50px;"></textarea>
+      </div>
+
+      <div class="question">
+        <span class="q-label">12) Détermine h. <span class="pts">1 pt</span></span>
+        <textarea class="notebook" data-qid="p3_12" placeholder="Ton calcul..."></textarea>
+      </div>
+
+      <p style="text-align:center;font-weight:800;margin-top:6px;">Bonne Composition !</p>
+    </div>
+
+    <!-- PHOTO DE LA COPIE (unique, à la fin) -->
+    <div class="photo-card">
+      <h3>📷 Ma copie manuscrite</h3>
+      <p>Si tu as composé sur une feuille (recommandé pour les calculs longs), prends une photo de ta copie complète et joins-la ici avant de soumettre.</p>
+      <label class="tool-btn" for="file-copie">📷 Prendre une photo de ma copie</label>
+      <input type="file" id="file-copie" accept="image/*" capture="environment" onchange="handlePhoto(this,'prev-copie')">
+      <img class="photo-preview" id="prev-copie">
+    </div>
+
+    <div class="submit-bar">
+      <button class="btn" id="submitBtn" onclick="submitExam()">✅ Soumettre mes réponses</button>
+    </div>
+
+    <!-- RESULTATS DE CORRECTION -->
+    <div class="card result-card" id="resultCard">
+      <div class="pb-title" style="background:var(--forest);">🧑‍🏫 Correction de ta copie</div>
+      <div id="resultBody"></div>
+    </div>
+
+    <!-- CORRIGE TYPE -->
+    <div class="card">
+      <div class="pb-title" style="background:var(--raspberry);">🔒 Corrigé-type</div>
+      <div class="corrige-lock" id="corrigeLock">
+        <p>🔐 Le corrigé-type est verrouillé. Il se débloquera automatiquement dès que tu auras soumis ta copie.</p>
+      </div>
+      <div class="corrige-content" id="corrigeContent">
+        <div class="corrige-item"><b>1)</b> U₀=5/4. U₁=(1/3)(5/4)-0-4/3=-11/12. U₂=(1/3)(-11/12)-1-4/3=-95/36. D'où <b>v₀=1</b>, <b>v₁=1/3</b>, <b>v₂=1/9</b>.</div>
+        <div class="corrige-item"><b>2-a)</b> v<sub>n+1</sub>=U<sub>n+1</sub>+(3/2)(n+1)-1/4 = (1/3)U<sub>n</sub>+(1/2)n-1/12 = (1/3)[U<sub>n</sub>+(3/2)n-1/4] = (1/3)v<sub>n</sub>. Avec v₀=1 : <b>(v<sub>n</sub>) est géométrique de raison 1/3 et premier terme 1</b>, donc v<sub>n</sub>=(1/3)ⁿ.</div>
+        <div class="corrige-item"><b>2-b)</b> V<sub>n</sub> = (1-(1/3)^(n+1))/(1-1/3) = <b>(3/2)[1-(1/3)^(n+1)]</b>.</div>
+        <div class="corrige-item"><b>3-a)</b> t<sub>n+1</sub>-t<sub>n</sub> = -(3/2)(n+1)+1/4-[-(3/2)n+1/4] = <b>-3/2</b> (constante) → (t<sub>n</sub>) arithmétique de raison -3/2, premier terme <b>t₀=1/4</b>.</div>
+        <div class="corrige-item"><b>3-b)</b> T<sub>n</sub> = (n+1)(t₀+t<sub>n</sub>)/2 = (n+1)[1/4+(-(3/2)n+1/4)]/2 = <b>(n+1)(1-3n)/4</b>.</div>
+        <div class="corrige-item"><b>4-a)</b> v<sub>n</sub>+t<sub>n</sub> = [U<sub>n</sub>+(3/2)n-1/4] + [-(3/2)n+1/4] = <b>U<sub>n</sub></b> (par définition de v<sub>n</sub> et t<sub>n</sub>).</div>
+        <div class="corrige-item"><b>4-b)</b> S<sub>n</sub> = ΣU<sub>k</sub> = Σ(v<sub>k</sub>+t<sub>k</sub>) = Σv<sub>k</sub> + Σt<sub>k</sub> = <b>V<sub>n</sub> + T<sub>n</sub></b>.</div>
+        <div class="corrige-item"><b>4-c)</b> S<sub>n</sub> = (3/2)[1-(1/3)^(n+1)] + (n+1)(1-3n)/4 = <b>S<sub>n</sub> = -(1/2)(1/3)ⁿ + (-3n²-2n+7)/4</b> (vérifié : S₀=5/4=U₀ ✔, S₁=1/3=U₀+U₁ ✔).</div>
+        <div class="corrige-item"><b>5)</b> L'usine a démarré en 2008, donc "cette année" correspond à n=0. Chiffre d'affaires = |S₀| = |5/4| = <b>5/4 million de FCFA, soit 1 250 000 FCFA</b>.</div>
+        <div class="corrige-item"><b>6)</b> (ax+b)(2x-4)+c = 2ax²+(2b-4a)x+(c-4b) = x²+3x+6. Par identification : 2a=1→<b>a=1/2</b> ; 2b-4a=3→<b>b=5/2</b> ; c-4b=6→<b>c=16</b>.</div>
+        <div class="corrige-item"><b>7-a)</b> f(x)-[(1/2)x+5/2] = 16/(2x-4) → 0 quand x→±∞. Donc <b>(Δ) est asymptote oblique à (𝒞<sub>f</sub>) en +∞ et -∞</b>.</div>
+        <div class="corrige-item"><b>7-b)</b> Le numérateur x²+3x+6 ne s'annule pas en x=2 (4+6+6=16≠0) alors que 2x-4→0 quand x→2. Donc lim f(x)=±∞ quand x→2 : <b>x=2 est asymptote verticale</b>.</div>
+        <div class="corrige-item"><b>7-c)</b> f(0) = (0+0+6)/(0-4) = -3/2. Point d'intersection avec l'axe des ordonnées : <b>(0 ; -3/2)</b>.</div>
+        <div class="corrige-item"><b>8)</b> f(x)-y<sub>Δ</sub> = 16/(2x-4), signe de 2x-4 : positif si x&gt;2, négatif si x&lt;2. Donc <b>(𝒞<sub>f</sub>) est au-dessus de (Δ) pour x&gt;2 et en-dessous pour x&lt;2</b> (jamais d'intersection).</div>
+        <div class="corrige-item"><b>9)</b> f'(x) = 1/2 - 32/(2x-4)² = [(x-2)²-16]/[2(x-2)²] = (x-6)(x+2)/[2(x-2)²]. Signe : positif si x&lt;-2 ou x&gt;6, négatif si -2&lt;x&lt;6 (x≠2). f(-2)=-1/2 (maximum local), f(6)=15/2 (minimum local). <b>f croissante sur ]-∞;-2], décroissante sur [-2;2[ et ]2;6], croissante sur [6;+∞[</b>. Sur [2;+∞[, le minimum vaut donc <b>f(6)=15/2 milliers de tonnes</b>, atteint pour x=6.</div>
+        <div class="corrige-item"><b>10-a)</b> Pour x≤0 : (x+1)/(2x+3) définie sauf en x=-3/2. Pour x&gt;0 : polynôme, toujours définie. <b>D<sub>p</sub> = R \ {-3/2}</b>.</div>
+        <div class="corrige-item"><b>10-b)</b> p(0)=(0+1)/(0+3)=1/3 (branche x≤0). lim<sub>x→0+</sub> p(x) = α. Continuité en 0 : <b>α = 1/3</b>.</div>
+        <div class="corrige-item"><b>11-a)</b> Pour x&lt;0 : 3-2x définie sur R. Pour x≥0 : 2x+3+√x définie sur [0;+∞[. <b>D<sub>g</sub> = R</b>.</div>
+        <div class="corrige-item"><b>11-b)</b> g(0)=3. Taux d'accroissement à gauche : [(3-2x)-3]/x = -2 → limite -2. À droite : [(2x+3+√x)-3]/x = 2+1/√x → +∞ quand x→0⁺. Les deux limites diffèrent (l'une est infinie) : <b>g n'est pas dérivable en 0</b>.</div>
+        <div class="corrige-item"><b>11-c)</b> La courbe de g admet une demi-tangente de pente -2 à gauche de 0, et une <b>demi-tangente verticale à droite</b> de 0 : le point d'abscisse 0 est un <b>point anguleux</b> de la courbe.</div>
+        <div class="corrige-item"><b>12)</b> Pour x&lt;0 : primitive de 3-2x est 3x-x²+C₁. Pour x≥0 : primitive de 2x+3+√x est x²+3x+(2/3)x^(3/2)+C₂. En x=-4 : -12-16+C₁=-2 → C₁=26. En x=4 : 16+12+16/3+C₂=2 → C₂=-94/3. D'où <b>h(x) = -x²+3x+26 si x&lt;0 ; h(x) = x²+3x+(2/3)x^(3/2)-94/3 si x≥0</b>.</div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const bareme = {
+  p1_1:{label:"1) Calcul de v0, v1, v2",pts:1},
+  p1_2a:{label:"2-a) (vn) géométrique de raison 1/3",pts:1},
+  p1_2b:{label:"2-b) Calcul de Vn",pts:1},
+  p1_3a:{label:"3-a) (tn) arithmétique",pts:1},
+  p1_3b:{label:"3-b) Calcul de Tn",pts:1},
+  p1_4a:{label:"4-a) Un=vn+tn",pts:0.5},
+  p1_4b:{label:"4-b) Sn=Vn+Tn",pts:0.5},
+  p1_4c:{label:"4-c) Expression de Sn",pts:1},
+  p1_5:{label:"5) Chiffre d'affaires",pts:1},
+  p2_6:{label:"6) Détermination de a,b,c",pts:1},
+  p2_7a:{label:"7-a) Asymptote oblique (Δ)",pts:1},
+  p2_7b:{label:"7-b) Asymptote x=2",pts:1},
+  p2_7c:{label:"7-c) Intersection avec axe des ordonnées",pts:0.5},
+  p2_8:{label:"8) Position relative de (Δ)",pts:1},
+  p2_9:{label:"9) Variations de f",pts:1.5},
+  p3_10a:{label:"10-a) Domaine de p",pts:0.5},
+  p3_10b:{label:"10-b) Valeur de α",pts:0.5},
+  p3_11a:{label:"11-a) Domaine de g",pts:0.5},
+  p3_11b:{label:"11-b) Dérivabilité de g en 0",pts:1},
+  p3_11c:{label:"11-c) Interprétation géométrique",pts:0.5},
+  p3_12:{label:"12) Détermination de h",pts:1}
+};
+
+const corrigeText = `
+1) v0=1, v1=1/3, v2=1/9.
+2-a) v(n+1)=(1/3)vn → géométrique raison 1/3, premier terme 1, vn=(1/3)^n.
+2-b) Vn = (3/2)[1-(1/3)^(n+1)].
+3-a) (tn) arithmétique raison -3/2, premier terme t0=1/4.
+3-b) Tn = (n+1)(1-3n)/4.
+4-a) vn+tn = Un (par définition).
+4-b) Sn = Vn+Tn.
+4-c) Sn = -(1/2)(1/3)^n + (-3n²-2n+7)/4.
+5) Chiffre d'affaires (n=0) = |S0| = 5/4 million FCFA = 1 250 000 FCFA.
+6) a=1/2, b=5/2, c=16.
+7-a) f(x)-(asymptote) = 16/(2x-4) → 0 en ±∞ → (Δ) asymptote oblique.
+7-b) numérateur ≠0 en x=2, dénominateur →0 → x=2 asymptote verticale.
+7-c) f(0)=-3/2, point (0;-3/2).
+8) Cf au-dessus de Δ si x>2, en-dessous si x<2.
+9) f'(x)=(x-6)(x+2)/[2(x-2)²]. Croissante sur ]-∞;-2], décroissante sur [-2;2[∪]2;6], croissante sur [6;+∞[. Minimum sur [2;+∞[ : f(6)=15/2.
+10-a) Dp = R\\{-3/2}.
+10-b) α=1/3.
+11-a) Dg = R.
+11-b) dérivée à gauche -2, dérivée à droite +∞ → g non dérivable en 0.
+11-c) demi-tangente verticale à droite → point anguleux.
+12) h(x)=-x²+3x+26 si x<0 ; h(x)=x²+3x+(2/3)x^(3/2)-94/3 si x≥0.
+`;
+
+function handlePhoto(input, previewId){
+  const file = input.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e=>{
+    const img = document.getElementById(previewId);
+    img.src = e.target.result;
+    img.style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+}
+
+function fileToBase64(file){
+  return new Promise((resolve,reject)=>{
+    const reader = new FileReader();
+    reader.onload = ()=> resolve(reader.result.split(',')[1]);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+async function submitExam(){
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳ Correction en cours...';
+
+  const resultCard = document.getElementById('resultCard');
+  const resultBody = document.getElementById('resultBody');
+  resultCard.classList.add('open');
+  resultBody.innerHTML = `<div class="loading-box"><div class="spinner"></div><p style="font-size:.85rem;color:var(--muted);">Ton professeur virtuel corrige ta copie...</p></div>`;
+  resultCard.scrollIntoView({behavior:'smooth', block:'start'});
+
+  let answersText = '';
+  document.querySelectorAll('.notebook').forEach(a=>{
+    const qid = a.dataset.qid;
+    const label = bareme[qid] ? bareme[qid].label : qid;
+    answersText += `\n[${qid} - ${label} - barème ${bareme[qid]?bareme[qid].pts:'?'} pt]\nRéponse de l'élève : ${a.value.trim() || '(vide)'}\n`;
+  });
+
+  const fileInput = document.getElementById('file-copie');
+  let imageContent = null;
+  if(fileInput.files[0]){
+    try{
+      const base64 = await fileToBase64(fileInput.files[0]);
+      const mime = fileInput.files[0].type || 'image/jpeg';
+      imageContent = { type:"image", source:{ type:"base64", media_type: mime, data: base64 } };
+    }catch(e){ console.error(e); }
+  }
+
+  const bloc = Object.entries(bareme).map(([qid,b])=>`${qid} (${b.label}) : ${b.pts} pt`).join('\n');
+
+  const systemPrompt = `Tu es un professeur de mathématiques béninois, rigoureux, exigeant mais bienveillant, qui corrige la copie d'un élève de 1ère D (suites géométriques et arithmétiques, sommes, étude de fonctions rationnelles, asymptotes, continuité et dérivabilité, primitives).
+Corrige STRICTEMENT selon le corrigé-type fourni, en acceptant toute méthode correcte menant au bon résultat. Barème total sur 20 points : 18 points répartis selon le barème détaillé ci-dessous, et 2 points de "perfectionnement" évaluant la clarté de la rédaction, la rigueur de la démarche, la présentation et la logique du raisonnement global.
+
+Barème détaillé (18 points) :
+${bloc}
+
+Corrigé-type de référence :
+${corrigeText}
+
+Réponds UNIQUEMENT avec un objet JSON valide (sans texte avant/après, sans balises markdown), au format exact suivant :
+{
+ "details":[
+   {"qid":"p1_1","note":X,"bareme":1,"commentaire":"commentaire court et précis"},
+   ... (un objet pour chaque qid du barème, dans le même ordre)
+ ],
+ "perfectionnement":{"note":X,"bareme":2,"commentaire":"commentaire sur la présentation et la rigueur"},
+ "total":X,
+ "appreciation":"une phrase d'appréciation générale, style bulletin scolaire",
+ "remediation":["conseil concret 1","conseil concret 2","conseil concret 3"]
+}
+Les notes doivent être cohérentes avec le barème (jamais négatives, jamais supérieures au barème de la question). Le total doit être la somme exacte des notes de détails + la note de perfectionnement, sur 20.`;
+
+  const userContent = [];
+  userContent.push({type:"text", text: `Voici les réponses tapées par l'élève :\n${answersText}\n\n${imageContent ? "L'élève a aussi joint une photo de sa copie manuscrite (voir image ci-jointe) : tiens-en compte pour compléter/vérifier ses réponses, notamment si les champs texte sont vides." : "Aucune photo de copie manuscrite n'a été jointe."}`});
+  if(imageContent) userContent.push(imageContent);
+
+  try{
+    const response = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-6",
+        max_tokens: 2500,
+        system: systemPrompt,
+        messages: [{ role:"user", content: userContent }]
+      })
+    });
+    const data = await response.json();
+    const rawText = (data.content || []).map(c=>c.text||'').join('\n');
+    const clean = rawText.replace(/```json|```/g,'').trim();
+    const result = JSON.parse(clean);
+    renderResult(result);
+  }catch(err){
+    console.error("Erreur de correction :", err);
+    resultBody.innerHTML = `<p style="font-size:.85rem;color:var(--raspberry);">⚠️ La correction automatique n'a pas pu être effectuée pour le moment. Réessaie dans un instant, ou consulte le corrigé-type ci-dessous pour t'auto-évaluer.</p>`;
+  }
+
+  btn.disabled = false;
+  btn.textContent = '✅ Soumettre mes réponses';
+  document.getElementById('corrigeLock').style.display='none';
+  document.getElementById('corrigeContent').classList.add('open');
+}
+
+function renderResult(result){
+  const resultBody = document.getElementById('resultBody');
+  let html = `
+    <div class="note-hero">
+      <div class="note-val">${result.total}<span class="note-sur">/20</span></div>
+      <div class="appreciation">${result.appreciation || ''}</div>
+    </div>
+  `;
+  (result.details || []).forEach(d=>{
+    const label = bareme[d.qid] ? bareme[d.qid].label : d.qid;
+    html += `
+      <div class="detail-item">
+        <div class="dh"><span>${label}</span><span class="dnote">${d.note}/${d.bareme}</span></div>
+        <div style="color:var(--muted);">${d.commentaire || ''}</div>
+      </div>`;
+  });
+  if(result.perfectionnement){
+    html += `
+      <div class="detail-item" style="border-left:4px solid var(--yellow);">
+        <div class="dh"><span>✨ Perfectionnement</span><span class="dnote">${result.perfectionnement.note}/${result.perfectionnement.bareme}</span></div>
+        <div style="color:var(--muted);">${result.perfectionnement.commentaire || ''}</div>
+      </div>`;
+  }
+  if(result.remediation && result.remediation.length){
+    html += `
+      <div class="remediation-box">
+        <h4>🛠️ Pistes de remédiation</h4>
+        <ul>${result.remediation.map(r=>`<li>${r}</li>`).join('')}</ul>
+      </div>`;
+  }
+  resultBody.innerHTML = html;
+  showToast('✅ Copie corrigée !');
+}
+
+let toastTimer;
+function showToast(msg){
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=> el.classList.remove('show'), 2800);
+}
+</script>
+</body>
+</html>

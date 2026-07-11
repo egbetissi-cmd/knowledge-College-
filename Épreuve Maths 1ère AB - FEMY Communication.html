@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Épreuve Maths 1ère AB - Première Évaluation Sommative</title>
+<style>
+:root{
+  --violet:#3d2b6b; --violet-dark:#241a45; --yellow:#ffd93d; --yellow-soft:#fff3c4;
+  --sky:#4fc3f7; --bg:#f7f5ff; --card:#ffffff; --text:#241a45; --muted:#6b6280;
+  --mint:#4ade80; --forest:#166534; --raspberry:#be185d; --radius:16px;
+}
+*{box-sizing:border-box;}
+body{margin:0;font-family:'Nunito',-apple-system,sans-serif;background:var(--bg);color:var(--text);}
+h1,h2,h3{font-family:'Baloo 2','Fredoka',sans-serif;}
+.app{max-width:520px;margin:0 auto;padding-bottom:30px;}
+header{background:linear-gradient(135deg,var(--violet),var(--violet-dark));color:#fff;padding:16px;text-align:center;}
+header h1{margin:0 0 4px;font-size:1rem;}
+.meta-box{background:rgba(255,255,255,.12);border-radius:12px;padding:8px;margin-top:10px;font-size:.7rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px;}
+.exam-title{background:#fff;color:var(--violet-dark);border:2px solid var(--violet-dark);border-radius:12px;padding:8px 10px;margin:12px 14px 0;text-align:center;font-weight:900;font-size:.85rem;text-transform:uppercase;}
+.exam-sub{text-align:center;font-weight:800;font-size:.85rem;margin:10px 0 0;text-decoration:underline;}
+
+main{padding:14px;}
+.card{background:var(--card);border-radius:var(--radius);padding:14px;margin-bottom:14px;box-shadow:0 2px 10px rgba(36,26,69,.06);border:1px solid #ece8fb;}
+.context .ctx-label{font-weight:800;text-decoration:underline;font-size:.9rem;}
+.context p{font-size:.85rem;line-height:1.5;}
+.formula-box{background:#f0edfb;border-radius:10px;padding:10px;font-size:.85rem;margin:8px 0;font-weight:700;color:var(--violet-dark);}
+.tache{background:var(--yellow-soft);border-radius:12px;padding:10px;font-size:.85rem;font-weight:700;color:var(--violet-dark);margin-top:10px;}
+.tache u{text-decoration:underline;}
+
+.pb-title{background:var(--violet);color:#fff;padding:8px 12px;border-radius:12px;font-weight:800;font-size:.95rem;margin-bottom:10px;text-decoration:underline;}
+.intro-txt{font-size:.85rem;margin-bottom:10px;line-height:1.5;}
+.question{margin-bottom:16px;}
+.question .q-label{font-weight:800;font-size:.86rem;margin-bottom:6px;display:block;}
+.pts{font-size:.65rem;font-weight:800;color:var(--raspberry);background:#fde7f3;padding:2px 7px;border-radius:8px;margin-left:4px;white-space:nowrap;}
+.sub{margin-left:8px;font-size:.83rem;margin-bottom:8px;}
+
+.notebook{
+  width:100%;min-height:70px;border-radius:10px;border:1.5px solid #d8d2f5;padding:10px;
+  font-family:'Nunito',sans-serif;font-size:.87rem;color:var(--text);
+  background-image:repeating-linear-gradient(to bottom, transparent, transparent 27px, #e3ddfa 28px);
+  line-height:28px;resize:vertical;
+}
+.notebook:focus{outline:2px solid var(--sky);}
+
+.paper-mode{background:#fff7e0;border:1.5px solid var(--yellow);border-radius:12px;padding:10px;margin-bottom:14px;font-size:.8rem;}
+.paper-mode b{color:var(--violet-dark);}
+.bareme-note{background:#f0edfb;border-radius:12px;padding:10px;font-size:.78rem;margin-bottom:14px;color:var(--violet-dark);}
+
+.photo-card{background:var(--card);border-radius:var(--radius);padding:14px;margin-bottom:14px;border:2px dashed #c9bff5;text-align:center;}
+.photo-card h3{margin-top:0;font-size:1rem;}
+.photo-card p{font-size:.8rem;color:var(--muted);margin-bottom:10px;}
+.tool-btn{background:#f0edfb;border:1.5px solid #d8d2f5;border-radius:12px;padding:11px 16px;font-size:.85rem;font-weight:800;color:var(--violet-dark);display:inline-flex;align-items:center;gap:6px;}
+.photo-preview{margin-top:10px;max-width:100%;border-radius:10px;border:1.5px solid #d8d2f5;display:none;}
+input[type=file]{display:none;}
+
+.submit-bar{margin-top:4px;}
+.btn{border:none;border-radius:14px;padding:13px;font-weight:900;font-size:.9rem;color:#fff;background:var(--violet);width:100%;}
+.btn:disabled{opacity:.6;}
+
+.corrige-lock{background:#f0edfb;border:2px dashed #c9bff5;border-radius:14px;padding:16px;text-align:center;}
+.corrige-lock p{font-size:.82rem;color:var(--muted);margin:6px 0 12px;}
+.corrige-content{display:none;}
+.corrige-content.open{display:block;}
+.corrige-item{background:#f7f5ff;border-radius:10px;padding:10px;margin-bottom:8px;font-size:.82rem;border-left:4px solid var(--mint);}
+.corrige-item b{color:var(--violet-dark);}
+
+.result-card{display:none;}
+.result-card.open{display:block;}
+.note-hero{background:linear-gradient(135deg,var(--mint),var(--forest));color:#fff;border-radius:18px;padding:20px;text-align:center;margin-bottom:14px;}
+.note-hero .note-val{font-size:2.4rem;font-weight:900;line-height:1;}
+.note-hero .note-sur{font-size:1rem;opacity:.9;}
+.note-hero .appreciation{margin-top:8px;font-size:.88rem;font-weight:700;}
+.detail-item{background:#fbfaff;border-radius:12px;padding:10px;margin-bottom:8px;border:1px solid #ece8fb;font-size:.82rem;}
+.detail-item .dh{display:flex;justify-content:space-between;align-items:center;font-weight:800;margin-bottom:4px;gap:6px;}
+.detail-item .dnote{background:var(--yellow-soft);color:var(--violet-dark);padding:2px 9px;border-radius:8px;font-size:.72rem;white-space:nowrap;}
+.remediation-box{background:#fff7e0;border:1.5px solid var(--yellow);border-radius:12px;padding:12px;margin-top:10px;}
+.remediation-box h4{margin:0 0 6px;font-size:.9rem;color:var(--violet-dark);}
+.remediation-box ul{margin:0;padding-left:18px;font-size:.82rem;}
+.remediation-box li{margin-bottom:4px;}
+.loading-box{text-align:center;padding:24px 10px;}
+.spinner{width:34px;height:34px;border:4px solid #ece8fb;border-top-color:var(--violet);border-radius:50%;margin:0 auto 12px;animation:spin 0.8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+.toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:var(--violet-dark);color:#fff;padding:10px 18px;border-radius:20px;font-size:.82rem;font-weight:700;z-index:200;opacity:0;transition:opacity .3s;}
+.toast.show{opacity:1;}
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <h1>📘 Épreuve Interactive de Mathématiques</h1>
+    <div class="meta-box">
+      <span>📅 Année : 2024-2025</span>
+      <span>🏫 Classe : 1ère AB</span>
+      <span>⏱️ Durée : 1H30</span>
+    </div>
+  </header>
+
+  <div class="exam-title">Première Évaluation Sommative du Premier Trimestre</div>
+  <div class="exam-sub">Épreuve : Mathématiques</div>
+
+  <main>
+    <div class="paper-mode">
+      📝 <b>Tu peux composer sur une feuille</b> si tu préfères. Une seule photo de ta copie complète suffit — tu la joindras à la toute fin, juste avant de soumettre.
+    </div>
+    <div class="bareme-note">
+      📊 <b>Barème :</b> ta copie sera notée sur <b>20 points</b> — 18 points répartis sur les questions ci-dessous, et <b>2 points de perfectionnement</b> (clarté, rigueur, présentation, démarche).
+    </div>
+
+    <div class="card context">
+      <div class="ctx-label">Contexte</div>
+      <p>FEMY Communication est une société spécialisée dans la commercialisation de matériels de communication. Pour l'implantation d'une de ses filiales dans la commune de So-Ava, le promoteur MIKPAYI procède à une étude approfondie du marché qui lui a permis de déterminer (en centaines de milliers de francs) pour une quantité x de matériels, le coût d'achat C(x) ; la recette R(x) et le bénéfice B(x) donnés par les expressions suivantes :</p>
+      <div class="formula-box">
+        C(x) = 4x² − 360x − 6300<br>
+        R(x) = 12x² − 600x + 7500<br>
+        B(x) = R(x) − C(x)
+      </div>
+      <p>MIKPAYI désire avoir une estimation sur les quantités probables de vente pour juger de la faisabilité de son projet. Son fils DESIRE, élève en classe de première littéraire, reconnait ces expressions et décide d'aider son père à trouver des réponses à ses questionnements en se basant sur ses connaissances mathématiques.</p>
+      <div class="tache"><u>Tâche</u> : Joins-toi à DESIRE en utilisant tes connaissances pour résoudre les problèmes suivants.</div>
+    </div>
+
+    <!-- PROBLEME 1 -->
+    <div class="card">
+      <div class="pb-title">Problème 1</div>
+
+      <div class="question">
+        <span class="q-label">1- a- Ecris sous forme canonique l'expression littérale C(x) <span class="pts">2 pts</span></span>
+        <textarea class="notebook" data-qid="p1_1a" placeholder="Ton calcul..."></textarea>
+        <div class="sub" style="margin-top:8px;">b- Déduis si possible la factorisation de C(x) <span class="pts">2 pts</span></div>
+        <textarea class="notebook" data-qid="p1_1b" placeholder="Ta réponse..."></textarea>
+      </div>
+
+      <div class="question">
+        <span class="q-label">2- Résous dans IR les équations C(x) = 0 et R(x) = 0 <span class="pts">2 pts</span></span>
+        <textarea class="notebook" data-qid="p1_2" placeholder="Ton calcul..." style="min-height:90px;"></textarea>
+      </div>
+
+      <div class="question">
+        <span class="q-label">3- a- Justifie que B(x) = 8x² − 240x + 13800 <span class="pts">2 pts</span></span>
+        <textarea class="notebook" data-qid="p1_3a" placeholder="Ton calcul..."></textarea>
+        <div class="sub" style="margin-top:8px;">b- Le projet de MIKPAYI est-il rentable ? Justifie ta réponse. <span class="pts">2 pts</span></div>
+        <textarea class="notebook" data-qid="p1_3b" placeholder="Ta réponse..."></textarea>
+      </div>
+    </div>
+
+    <!-- PROBLEME 2 -->
+    <div class="card">
+      <div class="pb-title">Problème 2</div>
+      <p class="intro-txt">M. MIKPAYI convaincu de la rentabilité de son projet, contracte un prêt auprès d'une banque de la place à un taux d'intérêt i% vérifiant la relation</p>
+      <div class="formula-box">P(i) = i³ − 4i² + 5i − 2</div>
+      <p class="intro-txt">Il loue ensuite un magasin de la forme d'un pavé droit dont la base fait 140m de pourtour et 1200 m² de surface.</p>
+
+      <div class="question">
+        <span class="q-label">4- a- Montre que 2 est une racine évidente de P ; <span class="pts">1,5 pt</span></span>
+        <textarea class="notebook" data-qid="p2_4a" placeholder="Ton calcul..." style="min-height:50px;"></textarea>
+        <div class="sub" style="margin-top:8px;">b- Détermine s'il existe un polynôme Q du second degré tel que : P(i) = (i−2)Q(i). <span class="pts">2 pts</span></div>
+        <textarea class="notebook" data-qid="p2_4b" placeholder="Ton calcul..."></textarea>
+        <div class="sub" style="margin-top:8px;">c- Résous dans IR l'équation P(i) = 0. <span class="pts">2 pts</span></div>
+        <textarea class="notebook" data-qid="p2_4c" placeholder="Ta résolution..." style="min-height:50px;"></textarea>
+      </div>
+
+      <div class="question">
+        <span class="q-label">5- On note L la longueur du magasin et l sa largeur.</span>
+        <div class="sub" style="margin-top:6px;">a- Justifie que L et l sont les solutions de l'équation : x² − 70x + 1200 = 0. <span class="pts">1,5 pt</span></div>
+        <textarea class="notebook" data-qid="p2_5a" placeholder="Ta justification..." style="min-height:50px;"></textarea>
+        <div class="sub" style="margin-top:8px;">b- Calcule L et l. <span class="pts">1 pt</span></div>
+        <textarea class="notebook" data-qid="p2_5b" placeholder="Ton calcul..." style="min-height:50px;"></textarea>
+      </div>
+
+      <p style="text-align:center;font-weight:800;margin-top:6px;">Bonne réflexion !</p>
+    </div>
+
+    <!-- PHOTO DE LA COPIE (unique, à la fin) -->
+    <div class="photo-card">
+      <h3>📷 Ma copie manuscrite</h3>
+      <p>Si tu as composé sur une feuille, prends une photo de ta copie complète et joins-la ici avant de soumettre.</p>
+      <label class="tool-btn" for="file-copie">📷 Prendre une photo de ma copie</label>
+      <input type="file" id="file-copie" accept="image/*" capture="environment" onchange="handlePhoto(this,'prev-copie')">
+      <img class="photo-preview" id="prev-copie">
+    </div>
+
+    <div class="submit-bar">
+      <button class="btn" id="submitBtn" onclick="submitExam()">✅ Soumettre mes réponses</button>
+    </div>
+
+    <!-- RESULTATS DE CORRECTION -->
+    <div class="card result-card" id="resultCard">
+      <div class="pb-title" style="background:var(--forest);">🧑‍🏫 Correction de ta copie</div>
+      <div id="resultBody"></div>
+    </div>
+
+    <!-- CORRIGE TYPE -->
+    <div class="card">
+      <div class="pb-title" style="background:var(--raspberry);">🔒 Corrigé-type</div>
+      <div class="corrige-lock" id="corrigeLock">
+        <p>🔐 Le corrigé-type est verrouillé. Il se débloquera automatiquement dès que tu auras soumis ta copie.</p>
+      </div>
+      <div class="corrige-content" id="corrigeContent">
+        <div class="corrige-item"><b>1-a)</b> C(x) = 4x²−360x−6300 = 4(x²−90x)−6300 = 4[(x−45)²−2025]−6300 = <b>4(x−45)² − 14400</b>.</div>
+        <div class="corrige-item"><b>1-b)</b> (x−45)²=3600 → x=45±60 → x=105 ou x=−15. Donc C(x) = <b>4(x−105)(x+15)</b>.</div>
+        <div class="corrige-item"><b>2)</b> C(x)=0 → x=105 ou x=−15. R(x)=0 : 12x²−600x+7500=0 → x²−50x+625=0 → (x−25)²=0 → <b>x=25</b> (racine double).</div>
+        <div class="corrige-item"><b>3-a)</b> B(x)=R(x)−C(x) = (12x²−600x+7500)−(4x²−360x−6300) = <b>8x² − 240x + 13800</b>. ✔️</div>
+        <div class="corrige-item"><b>3-b)</b> Δ = 240²−4×8×13800 = 57600−441600 = −384000 &lt; 0, et a=8&gt;0 → B(x) &gt; 0 pour tout x réel (minimum 12000 en x=15). Le projet est donc <b>toujours rentable</b>, quelle que soit la quantité vendue.</div>
+        <div class="corrige-item"><b>4-a)</b> P(2) = 2³−4×2²+5×2−2 = 8−16+10−2 = <b>0</b> → 2 est bien racine de P.</div>
+        <div class="corrige-item"><b>4-b)</b> Division de P(i) par (i−2) : Q(i) = <b>i² − 2i + 1</b> (= (i−1)²).</div>
+        <div class="corrige-item"><b>4-c)</b> P(i) = (i−2)(i−1)² = 0 → i=2 ou i=1 (racine double). S = <b>{1 ; 2}</b>.</div>
+        <div class="corrige-item"><b>5-a)</b> Périmètre : 2(L+l)=140 → L+l=70. Surface : L×l=1200. L et l sont donc les deux solutions de X²−(L+l)X+L×l=0, soit <b>x²−70x+1200=0</b>.</div>
+        <div class="corrige-item"><b>5-b)</b> Δ=4900−4800=100, √Δ=10 → x=(70±10)/2 → x=40 ou x=30. Donc <b>L=40m et l=30m</b>.</div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const bareme = {
+  p1_1a:{label:"1-a) Forme canonique de C(x)",pts:2}, p1_1b:{label:"1-b) Factorisation de C(x)",pts:2},
+  p1_2:{label:"2) Résolution C(x)=0 et R(x)=0",pts:2},
+  p1_3a:{label:"3-a) Justification B(x)",pts:2}, p1_3b:{label:"3-b) Rentabilité du projet",pts:2},
+  p2_4a:{label:"4-a) 2 racine évidente de P",pts:1.5}, p2_4b:{label:"4-b) Détermination de Q",pts:2}, p2_4c:{label:"4-c) Résolution P(i)=0",pts:2},
+  p2_5a:{label:"5-a) L,l solutions de x²-70x+1200=0",pts:1.5}, p2_5b:{label:"5-b) Calcul de L et l",pts:1}
+};
+
+const corrigeText = `
+1-a) C(x)=4(x-45)²-14400.
+1-b) C(x)=4(x-105)(x+15).
+2) C(x)=0 → x=105 ou x=-15. R(x)=0 → x=25 (racine double).
+3-a) B(x)=8x²-240x+13800.
+3-b) Δ<0 et a>0 → B(x)>0 pour tout x → projet toujours rentable.
+4-a) P(2)=0.
+4-b) Q(i)=i²-2i+1=(i-1)².
+4-c) P(i)=(i-2)(i-1)²=0 → S={1;2}.
+5-a) L+l=70, L×l=1200 → x²-70x+1200=0.
+5-b) L=40m, l=30m.
+`;
+
+function handlePhoto(input, previewId){
+  const file = input.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e=>{
+    const img = document.getElementById(previewId);
+    img.src = e.target.result;
+    img.style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+}
+
+function fileToBase64(file){
+  return new Promise((resolve,reject)=>{
+    const reader = new FileReader();
+    reader.onload = ()=> resolve(reader.result.split(',')[1]);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+async function submitExam(){
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳ Correction en cours...';
+
+  const resultCard = document.getElementById('resultCard');
+  const resultBody = document.getElementById('resultBody');
+  resultCard.classList.add('open');
+  resultBody.innerHTML = `<div class="loading-box"><div class="spinner"></div><p style="font-size:.85rem;color:var(--muted);">Ton professeur virtuel corrige ta copie...</p></div>`;
+  resultCard.scrollIntoView({behavior:'smooth', block:'start'});
+
+  let answersText = '';
+  document.querySelectorAll('.notebook').forEach(a=>{
+    const qid = a.dataset.qid;
+    const label = bareme[qid] ? bareme[qid].label : qid;
+    answersText += `\n[${qid} - ${label} - barème ${bareme[qid]?bareme[qid].pts:'?'} pt]\nRéponse de l'élève : ${a.value.trim() || '(vide)'}\n`;
+  });
+
+  const fileInput = document.getElementById('file-copie');
+  let imageContent = null;
+  if(fileInput.files[0]){
+    try{
+      const base64 = await fileToBase64(fileInput.files[0]);
+      const mime = fileInput.files[0].type || 'image/jpeg';
+      imageContent = { type:"image", source:{ type:"base64", media_type: mime, data: base64 } };
+    }catch(e){ console.error(e); }
+  }
+
+  const bloc = Object.entries(bareme).map(([qid,b])=>`${qid} (${b.label}) : ${b.pts} pt`).join('\n');
+
+  const systemPrompt = `Tu es un professeur de mathématiques béninois, rigoureux, exigeant mais bienveillant, qui corrige la copie d'un élève de 1ère AB (polynômes du second et troisième degré, factorisation, étude de signe, résolution d'équations, périmètre/surface).
+Corrige STRICTEMENT selon le corrigé-type fourni. Barème total sur 20 points : 18 points répartis selon le barème détaillé ci-dessous, et 2 points de "perfectionnement" évaluant la clarté de la rédaction, la rigueur de la démarche, la présentation et la logique du raisonnement global.
+
+Barème détaillé (18 points) :
+${bloc}
+
+Corrigé-type de référence :
+${corrigeText}
+
+Réponds UNIQUEMENT avec un objet JSON valide (sans texte avant/après, sans balises markdown), au format exact suivant :
+{
+ "details":[
+   {"qid":"p1_1a","note":X,"bareme":2,"commentaire":"commentaire court et précis"},
+   ... (un objet pour chaque qid du barème, dans le même ordre)
+ ],
+ "perfectionnement":{"note":X,"bareme":2,"commentaire":"commentaire sur la présentation et la rigueur"},
+ "total":X,
+ "appreciation":"une phrase d'appréciation générale, style bulletin scolaire",
+ "remediation":["conseil concret 1","conseil concret 2","conseil concret 3"]
+}
+Les notes doivent être cohérentes avec le barème (jamais négatives, jamais supérieures au barème de la question). Le total doit être la somme exacte des notes de détails + la note de perfectionnement, sur 20.`;
+
+  const userContent = [];
+  userContent.push({type:"text", text: `Voici les réponses tapées par l'élève :\n${answersText}\n\n${imageContent ? "L'élève a aussi joint une photo de sa copie manuscrite (voir image ci-jointe) : tiens-en compte pour compléter/vérifier ses réponses, notamment si les champs texte sont vides." : "Aucune photo de copie manuscrite n'a été jointe."}`});
+  if(imageContent) userContent.push(imageContent);
+
+  try{
+    const response = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-6",
+        max_tokens: 2200,
+        system: systemPrompt,
+        messages: [{ role:"user", content: userContent }]
+      })
+    });
+    const data = await response.json();
+    const rawText = (data.content || []).map(c=>c.text||'').join('\n');
+    const clean = rawText.replace(/```json|```/g,'').trim();
+    const result = JSON.parse(clean);
+    renderResult(result);
+  }catch(err){
+    console.error("Erreur de correction :", err);
+    resultBody.innerHTML = `<p style="font-size:.85rem;color:var(--raspberry);">⚠️ La correction automatique n'a pas pu être effectuée pour le moment. Réessaie dans un instant, ou consulte le corrigé-type ci-dessous pour t'auto-évaluer.</p>`;
+  }
+
+  btn.disabled = false;
+  btn.textContent = '✅ Soumettre mes réponses';
+  document.getElementById('corrigeLock').style.display='none';
+  document.getElementById('corrigeContent').classList.add('open');
+}
+
+function renderResult(result){
+  const resultBody = document.getElementById('resultBody');
+  let html = `
+    <div class="note-hero">
+      <div class="note-val">${result.total}<span class="note-sur">/20</span></div>
+      <div class="appreciation">${result.appreciation || ''}</div>
+    </div>
+  `;
+  (result.details || []).forEach(d=>{
+    const label = bareme[d.qid] ? bareme[d.qid].label : d.qid;
+    html += `
+      <div class="detail-item">
+        <div class="dh"><span>${label}</span><span class="dnote">${d.note}/${d.bareme}</span></div>
+        <div style="color:var(--muted);">${d.commentaire || ''}</div>
+      </div>`;
+  });
+  if(result.perfectionnement){
+    html += `
+      <div class="detail-item" style="border-left:4px solid var(--yellow);">
+        <div class="dh"><span>✨ Perfectionnement</span><span class="dnote">${result.perfectionnement.note}/${result.perfectionnement.bareme}</span></div>
+        <div style="color:var(--muted);">${result.perfectionnement.commentaire || ''}</div>
+      </div>`;
+  }
+  if(result.remediation && result.remediation.length){
+    html += `
+      <div class="remediation-box">
+        <h4>🛠️ Pistes de remédiation</h4>
+        <ul>${result.remediation.map(r=>`<li>${r}</li>`).join('')}</ul>
+      </div>`;
+  }
+  resultBody.innerHTML = html;
+  showToast('✅ Copie corrigée !');
+}
+
+let toastTimer;
+function showToast(msg){
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=> el.classList.remove('show'), 2800);
+}
+</script>
+</body>
+</html>

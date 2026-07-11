@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Épreuve Maths 1ère A-B - Première évaluation du 1er trimestre</title>
+<style>
+:root{
+  --violet:#3d2b6b; --violet-dark:#241a45; --yellow:#ffd93d; --yellow-soft:#fff3c4;
+  --sky:#4fc3f7; --bg:#f7f5ff; --card:#ffffff; --text:#241a45; --muted:#6b6280;
+  --mint:#4ade80; --forest:#166534; --raspberry:#be185d; --radius:16px;
+}
+*{box-sizing:border-box;}
+body{margin:0;font-family:'Nunito',-apple-system,sans-serif;background:var(--bg);color:var(--text);}
+h1,h2,h3{font-family:'Baloo 2','Fredoka',sans-serif;}
+.app{max-width:520px;margin:0 auto;padding-bottom:30px;}
+header{background:linear-gradient(135deg,var(--violet),var(--violet-dark));color:#fff;padding:16px;text-align:center;}
+header h1{margin:0 0 4px;font-size:1rem;}
+.meta-box{background:rgba(255,255,255,.12);border-radius:12px;padding:8px;margin-top:10px;font-size:.7rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px;}
+.exam-title{background:#fff;color:var(--violet-dark);border:2px solid var(--violet-dark);border-radius:12px;padding:8px 10px;margin:12px 14px 0;text-align:center;font-weight:900;font-size:.85rem;text-transform:uppercase;}
+.exam-sub{text-align:center;font-weight:800;font-size:.85rem;margin:10px 0 0;text-decoration:underline;}
+
+main{padding:14px;}
+.card{background:var(--card);border-radius:var(--radius);padding:14px;margin-bottom:14px;box-shadow:0 2px 10px rgba(36,26,69,.06);border:1px solid #ece8fb;}
+.context .ctx-label{font-weight:800;text-decoration:underline;font-size:.9rem;}
+.context .ctx-sub{font-weight:800;font-style:italic;font-size:.86rem;margin-top:2px;}
+.context p{font-size:.85rem;line-height:1.5;}
+.formula-box{background:#f0edfb;border-radius:10px;padding:10px;font-size:.83rem;margin:8px 0;font-weight:700;color:var(--violet-dark);line-height:1.6;}
+.tache{background:var(--yellow-soft);border-radius:12px;padding:10px;font-size:.85rem;font-weight:700;color:var(--violet-dark);margin-top:10px;}
+.tache u{text-decoration:underline;}
+
+.figure-box{text-align:center;margin:12px 0;}
+.figure-box svg{max-width:100%;height:auto;}
+
+.pb-title{background:var(--violet);color:#fff;padding:8px 12px;border-radius:12px;font-weight:800;font-size:.95rem;margin-bottom:10px;text-decoration:underline;}
+.intro-txt{font-size:.85rem;margin-bottom:10px;line-height:1.5;}
+.question{margin-bottom:16px;}
+.question .q-label{font-weight:800;font-size:.86rem;margin-bottom:6px;display:block;}
+.pts{font-size:.65rem;font-weight:800;color:var(--raspberry);background:#fde7f3;padding:2px 7px;border-radius:8px;margin-left:4px;white-space:nowrap;}
+.sub{margin-left:8px;font-size:.83rem;margin-bottom:8px;}
+
+.notebook{
+  width:100%;min-height:70px;border-radius:10px;border:1.5px solid #d8d2f5;padding:10px;
+  font-family:'Nunito',sans-serif;font-size:.87rem;color:var(--text);
+  background-image:repeating-linear-gradient(to bottom, transparent, transparent 27px, #e3ddfa 28px);
+  line-height:28px;resize:vertical;
+}
+.notebook:focus{outline:2px solid var(--sky);}
+
+.paper-mode{background:#fff7e0;border:1.5px solid var(--yellow);border-radius:12px;padding:10px;margin-bottom:14px;font-size:.8rem;}
+.paper-mode b{color:var(--violet-dark);}
+.bareme-note{background:#f0edfb;border-radius:12px;padding:10px;font-size:.78rem;margin-bottom:14px;color:var(--violet-dark);}
+
+.photo-card{background:var(--card);border-radius:var(--radius);padding:14px;margin-bottom:14px;border:2px dashed #c9bff5;text-align:center;}
+.photo-card h3{margin-top:0;font-size:1rem;}
+.photo-card p{font-size:.8rem;color:var(--muted);margin-bottom:10px;}
+.tool-btn{background:#f0edfb;border:1.5px solid #d8d2f5;border-radius:12px;padding:11px 16px;font-size:.85rem;font-weight:800;color:var(--violet-dark);display:inline-flex;align-items:center;gap:6px;}
+.photo-preview{margin-top:10px;max-width:100%;border-radius:10px;border:1.5px solid #d8d2f5;display:none;}
+input[type=file]{display:none;}
+
+.submit-bar{margin-top:4px;}
+.btn{border:none;border-radius:14px;padding:13px;font-weight:900;font-size:.9rem;color:#fff;background:var(--violet);width:100%;}
+.btn:disabled{opacity:.6;}
+
+.corrige-lock{background:#f0edfb;border:2px dashed #c9bff5;border-radius:14px;padding:16px;text-align:center;}
+.corrige-lock p{font-size:.82rem;color:var(--muted);margin:6px 0 12px;}
+.corrige-content{display:none;}
+.corrige-content.open{display:block;}
+.corrige-item{background:#f7f5ff;border-radius:10px;padding:10px;margin-bottom:8px;font-size:.8rem;border-left:4px solid var(--mint);line-height:1.5;}
+.corrige-item b{color:var(--violet-dark);}
+
+.result-card{display:none;}
+.result-card.open{display:block;}
+.note-hero{background:linear-gradient(135deg,var(--mint),var(--forest));color:#fff;border-radius:18px;padding:20px;text-align:center;margin-bottom:14px;}
+.note-hero .note-val{font-size:2.4rem;font-weight:900;line-height:1;}
+.note-hero .note-sur{font-size:1rem;opacity:.9;}
+.note-hero .appreciation{margin-top:8px;font-size:.88rem;font-weight:700;}
+.detail-item{background:#fbfaff;border-radius:12px;padding:10px;margin-bottom:8px;border:1px solid #ece8fb;font-size:.82rem;}
+.detail-item .dh{display:flex;justify-content:space-between;align-items:center;font-weight:800;margin-bottom:4px;gap:6px;}
+.detail-item .dnote{background:var(--yellow-soft);color:var(--violet-dark);padding:2px 9px;border-radius:8px;font-size:.72rem;white-space:nowrap;}
+.remediation-box{background:#fff7e0;border:1.5px solid var(--yellow);border-radius:12px;padding:12px;margin-top:10px;}
+.remediation-box h4{margin:0 0 6px;font-size:.9rem;color:var(--violet-dark);}
+.remediation-box ul{margin:0;padding-left:18px;font-size:.82rem;}
+.remediation-box li{margin-bottom:4px;}
+.loading-box{text-align:center;padding:24px 10px;}
+.spinner{width:34px;height:34px;border:4px solid #ece8fb;border-top-color:var(--violet);border-radius:50%;margin:0 auto 12px;animation:spin 0.8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+.toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:var(--violet-dark);color:#fff;padding:10px 18px;border-radius:20px;font-size:.82rem;font-weight:700;z-index:200;opacity:0;transition:opacity .3s;}
+.toast.show{opacity:1;}
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <h1>📘 Épreuve Interactive de Mathématiques</h1>
+    <div class="meta-box">
+      <span>📅 Année : 2024-2025</span>
+      <span>🏫 Séries : A-B</span>
+      <span>⏱️ Durée : 3H</span>
+    </div>
+  </header>
+
+  <div class="exam-title">Première Évaluation du Premier Trimestre</div>
+  <div class="exam-sub">Épreuve : Mathématiques</div>
+
+  <main>
+    <div class="paper-mode">
+      📝 <b>Tu peux composer sur une feuille</b> si tu préfères. Une seule photo de ta copie complète suffit — tu la joindras à la toute fin, juste avant de soumettre.
+    </div>
+    <div class="bareme-note">
+      📊 <b>Barème :</b> ta copie sera notée sur <b>20 points</b> — 18 points répartis sur les questions ci-dessous, et <b>2 points de perfectionnement</b> (clarté, rigueur, présentation, démarche).
+    </div>
+
+    <div class="card context">
+      <div class="ctx-label">Texte : La construction d'une tour administrative.</div>
+      <div class="ctx-sub">Contexte : Moubine le cultivateur</div>
+      <p>Moubine un cultivateur de mil dans la ville de Kandi, sollicite l'aide d'un géomètre pour connaitre la superficie de son domaine. Après les travaux, le géomètre lui présente le document suivant :</p>
+
+      <div class="figure-box">
+        <svg viewBox="0 0 300 260" xmlns="http://www.w3.org/2000/svg">
+          <!-- corner tick marks (survey plot style) -->
+          <g stroke="#241a45" stroke-width="2.5" fill="none">
+            <polyline points="60,40 75,40 75,55"/>
+            <polyline points="240,40 225,40 225,55"/>
+            <polyline points="60,220 75,220 75,205"/>
+            <polyline points="240,220 225,220 225,205"/>
+          </g>
+          <rect x="75" y="55" width="150" height="150" fill="none" stroke="#3d2b6b" stroke-width="2"/>
+          <text x="35" y="135" font-size="15" fill="#241a45" font-weight="700">L=x+2</text>
+          <text x="115" y="230" font-size="15" fill="#241a45" font-weight="700">l=x-8</text>
+        </svg>
+      </div>
+
+      <div class="formula-box">
+        Informations<br>
+        ➤ Le périmètre du domaine est 140 hm<br>
+        ➤ L'aire de la surface est 1200 hm²<br>
+        ➤ La présence de la variable x (x&gt;8) sur le document présenté lui pose des difficultés.
+      </div>
+
+      <p>Pour cela, il fait recours à sa fille Léa en classe de première littéraire.</p>
+      <div class="tache"><u>Tâche</u> : Tu vas faire comme Léa et résoudre les problèmes suivants.</div>
+    </div>
+
+    <!-- PROBLEME 1 -->
+    <div class="card">
+      <div class="pb-title">Problème 1</div>
+
+      <div class="question">
+        <span class="q-label">1) Démontre que l'aide du domaine est A(x) = x² − 6x − 16. <span class="pts">1 pt</span></span>
+        <textarea class="notebook" data-qid="p1_1" placeholder="Ta démonstration..." style="min-height:50px;"></textarea>
+      </div>
+
+      <div class="question">
+        <span class="q-label">2) Ecris A(x) sous forme canonique. <span class="pts">1 pt</span></span>
+        <textarea class="notebook" data-qid="p1_2" placeholder="Ton calcul..." style="min-height:50px;"></textarea>
+      </div>
+
+      <div class="question">
+        <span class="q-label">3) Déduis la factorisation de A(x). <span class="pts">1 pt</span></span>
+        <textarea class="notebook" data-qid="p1_3" placeholder="Ton calcul..." style="min-height:50px;"></textarea>
+      </div>
+
+      <div class="question">
+        <span class="q-label">4) Résous dans R chacune des équations A(x)=0 et A(x)=1200. <span class="pts">3 pts</span></span>
+        <textarea class="notebook" data-qid="p1_4" placeholder="Ton calcul..."></textarea>
+      </div>
+
+      <div class="question">
+        <span class="q-label">5) Etudie le signe du polynôme A(x) puis déduis l'ensemble solution de l'inéquation A(x) ≥ 0. <span class="pts">3 pts</span></span>
+        <textarea class="notebook" data-qid="p1_5" placeholder="Ton étude de signe..."></textarea>
+      </div>
+    </div>
+
+    <!-- PROBLEME 2 -->
+    <div class="card">
+      <div class="pb-title">Problème 2</div>
+      <p class="intro-txt">Le géomètre notifie que x est le plus grand des racines du polynôme</p>
+      <div class="formula-box">
+        P(x) = x³ − 120x² + 4700x − 60000 diminuée de 12
+      </div>
+
+      <div class="question">
+        <span class="q-label">6) Calcule P(30) ; P(−40) ; P(30) ; P(−30) et P(50). <span class="pts">2 pts</span></span>
+        <textarea class="notebook" data-qid="p2_6" placeholder="Ton calcul..."></textarea>
+      </div>
+
+      <div class="question">
+        <span class="q-label">7) Déduis-en les racines de P(x). <span class="pts">2 pts</span></span>
+        <textarea class="notebook" data-qid="p2_7" placeholder="Ta réponse..." style="min-height:50px;"></textarea>
+      </div>
+
+      <div class="question">
+        <span class="q-label">8) Justifie que L et l sont les solutions du système { L+l=70 ; L.l=1200 }. <span class="pts">2 pts</span></span>
+        <textarea class="notebook" data-qid="p2_8" placeholder="Ta justification..." style="min-height:60px;"></textarea>
+      </div>
+
+      <div class="question">
+        <span class="q-label">9) Déduis-en les dimensions du domaine de Moubine. <span class="pts">3 pts</span></span>
+        <textarea class="notebook" data-qid="p2_9" placeholder="Ton calcul..."></textarea>
+      </div>
+
+      <p style="text-align:center;font-weight:800;font-style:italic;margin-top:6px;color:var(--muted);">Fin</p>
+    </div>
+
+    <!-- PHOTO DE LA COPIE (unique, à la fin) -->
+    <div class="photo-card">
+      <h3>📷 Ma copie manuscrite</h3>
+      <p>Si tu as composé sur une feuille, prends une photo de ta copie complète et joins-la ici avant de soumettre.</p>
+      <label class="tool-btn" for="file-copie">📷 Prendre une photo de ma copie</label>
+      <input type="file" id="file-copie" accept="image/*" capture="environment" onchange="handlePhoto(this,'prev-copie')">
+      <img class="photo-preview" id="prev-copie">
+    </div>
+
+    <div class="submit-bar">
+      <button class="btn" id="submitBtn" onclick="submitExam()">✅ Soumettre mes réponses</button>
+    </div>
+
+    <!-- RESULTATS DE CORRECTION -->
+    <div class="card result-card" id="resultCard">
+      <div class="pb-title" style="background:var(--forest);">🧑‍🏫 Correction de ta copie</div>
+      <div id="resultBody"></div>
+    </div>
+
+    <!-- CORRIGE TYPE -->
+    <div class="card">
+      <div class="pb-title" style="background:var(--raspberry);">🔒 Corrigé-type</div>
+      <div class="corrige-lock" id="corrigeLock">
+        <p>🔐 Le corrigé-type est verrouillé. Il se débloquera automatiquement dès que tu auras soumis ta copie.</p>
+      </div>
+      <div class="corrige-content" id="corrigeContent">
+        <div class="corrige-item"><b>1)</b> A(x) = L×l = (x+2)(x-8) = x²-8x+2x-16 = <b>x²-6x-16</b>.</div>
+        <div class="corrige-item"><b>2)</b> A(x) = x²-6x-16 = (x-3)²-9-16 = <b>(x-3)²-25</b>.</div>
+        <div class="corrige-item"><b>3)</b> (x-3)²-25 = (x-3-5)(x-3+5) = <b>(x-8)(x+2)</b>.</div>
+        <div class="corrige-item"><b>4)</b> A(x)=0 : (x-8)(x+2)=0 → <b>S={-2 ; 8}</b>. A(x)=1200 : x²-6x-1216=0, Δ=36+4864=4900, √Δ=70, x=(6±70)/2 → <b>S={-32 ; 38}</b>.</div>
+        <div class="corrige-item"><b>5)</b> A(x)=(x-8)(x+2), racines -2 et 8, a=1&gt;0 → positif à l'extérieur des racines. <b>S = ]-∞;-2] ∪ [8;+∞[</b>.</div>
+        <div class="corrige-item"><b>6)</b> P(30) = 27000-108000+141000-60000 = <b>0</b>. P(-40) = -64000-192000-188000-60000 = <b>-504000</b>. P(-30) = -27000-108000-141000-60000 = <b>-336000</b>. P(50) = 125000-300000+235000-60000 = <b>0</b>.</div>
+        <div class="corrige-item"><b>7)</b> P(30)=0 et P(50)=0 : 30 et 50 sont racines. La somme des racines vaut 120 (coefficient de x²), donc la 3ᵉ racine vaut 120-30-50=40 (on vérifie P(40)=0). <b>Les racines de P sont 30, 40 et 50</b>. P(x)=(x-30)(x-40)(x-50).</div>
+        <div class="corrige-item"><b>Lien avec x :</b> x est le plus grand des racines (50) diminuée de 12, donc x = 50-12 = <b>38</b> (cohérent avec la solution x=38 trouvée à la question 4, x&gt;8 ✔).</div>
+        <div class="corrige-item"><b>8)</b> Le périmètre du domaine est 2(L+l)=140 hm, donc <b>L+l=70</b>. L'aire est L×l=1200 hm². Donc L et l vérifient bien le système {L+l=70 ; L.l=1200}.</div>
+        <div class="corrige-item"><b>9)</b> L et l sont solutions de T²-70T+1200=0. Δ=4900-4800=100, √Δ=10, T=(70±10)/2 → T=40 ou T=30. Comme L=x+2=40 et l=x-8=30 (avec x=38), et L&gt;l : <b>L=40 hm et l=30 hm</b>.</div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const bareme = {
+  p1_1:{label:"1) Démontre A(x)=x²-6x-16",pts:1},
+  p1_2:{label:"2) Forme canonique de A(x)",pts:1},
+  p1_3:{label:"3) Factorisation de A(x)",pts:1},
+  p1_4:{label:"4) Résolution de A(x)=0 et A(x)=1200",pts:3},
+  p1_5:{label:"5) Signe de A(x) et inéquation A(x)≥0",pts:3},
+  p2_6:{label:"6) Calcul de P(30),P(-40),P(-30),P(50)",pts:2},
+  p2_7:{label:"7) Racines de P(x)",pts:2},
+  p2_8:{label:"8) Justification du système L+l=70, L.l=1200",pts:2},
+  p2_9:{label:"9) Dimensions du domaine",pts:3}
+};
+
+const corrigeText = `
+1) A(x)=(x+2)(x-8)=x²-6x-16.
+2) A(x)=(x-3)²-25.
+3) A(x)=(x-8)(x+2).
+4) A(x)=0 : S={-2;8}. A(x)=1200 : S={-32;38}.
+5) A(x)≥0 : S=]-∞;-2]∪[8;+∞[.
+6) P(30)=0, P(-40)=-504000, P(-30)=-336000, P(50)=0.
+7) Racines de P : 30, 40, 50 (30 et 50 par calcul direct, 40 déduit par la somme des racines = 120). x = plus grande racine (50) diminuée de 12 = 38.
+8) Périmètre 140 → L+l=70. Aire 1200 → L.l=1200.
+9) L et l racines de T²-70T+1200=0 : L=40, l=30.
+`;
+
+function handlePhoto(input, previewId){
+  const file = input.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e=>{
+    const img = document.getElementById(previewId);
+    img.src = e.target.result;
+    img.style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+}
+
+function fileToBase64(file){
+  return new Promise((resolve,reject)=>{
+    const reader = new FileReader();
+    reader.onload = ()=> resolve(reader.result.split(',')[1]);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+async function submitExam(){
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳ Correction en cours...';
+
+  const resultCard = document.getElementById('resultCard');
+  const resultBody = document.getElementById('resultBody');
+  resultCard.classList.add('open');
+  resultBody.innerHTML = `<div class="loading-box"><div class="spinner"></div><p style="font-size:.85rem;color:var(--muted);">Ton professeur virtuel corrige ta copie...</p></div>`;
+  resultCard.scrollIntoView({behavior:'smooth', block:'start'});
+
+  let answersText = '';
+  document.querySelectorAll('.notebook').forEach(a=>{
+    const qid = a.dataset.qid;
+    const label = bareme[qid] ? bareme[qid].label : qid;
+    answersText += `\n[${qid} - ${label} - barème ${bareme[qid]?bareme[qid].pts:'?'} pt]\nRéponse de l'élève : ${a.value.trim() || '(vide)'}\n`;
+  });
+
+  const fileInput = document.getElementById('file-copie');
+  let imageContent = null;
+  if(fileInput.files[0]){
+    try{
+      const base64 = await fileToBase64(fileInput.files[0]);
+      const mime = fileInput.files[0].type || 'image/jpeg';
+      imageContent = { type:"image", source:{ type:"base64", media_type: mime, data: base64 } };
+    }catch(e){ console.error(e); }
+  }
+
+  const bloc = Object.entries(bareme).map(([qid,b])=>`${qid} (${b.label}) : ${b.pts} pt`).join('\n');
+
+  const systemPrompt = `Tu es un professeur de mathématiques béninois, rigoureux, exigeant mais bienveillant, qui corrige la copie d'un élève de 1ère A-B (forme canonique, factorisation, équations et inéquations du second degré, polynôme du troisième degré et racines, systèmes somme-produit).
+Corrige STRICTEMENT selon le corrigé-type fourni, en acceptant toute méthode correcte menant au bon résultat. Barème total sur 20 points : 18 points répartis selon le barème détaillé ci-dessous, et 2 points de "perfectionnement" évaluant la clarté de la rédaction, la rigueur de la démarche, la présentation et la logique du raisonnement global.
+
+Barème détaillé (18 points) :
+${bloc}
+
+Corrigé-type de référence :
+${corrigeText}
+
+Réponds UNIQUEMENT avec un objet JSON valide (sans texte avant/après, sans balises markdown), au format exact suivant :
+{
+ "details":[
+   {"qid":"p1_1","note":X,"bareme":1,"commentaire":"commentaire court et précis"},
+   ... (un objet pour chaque qid du barème, dans le même ordre)
+ ],
+ "perfectionnement":{"note":X,"bareme":2,"commentaire":"commentaire sur la présentation et la rigueur"},
+ "total":X,
+ "appreciation":"une phrase d'appréciation générale, style bulletin scolaire",
+ "remediation":["conseil concret 1","conseil concret 2","conseil concret 3"]
+}
+Les notes doivent être cohérentes avec le barème (jamais négatives, jamais supérieures au barème de la question). Le total doit être la somme exacte des notes de détails + la note de perfectionnement, sur 20.`;
+
+  const userContent = [];
+  userContent.push({type:"text", text: `Voici les réponses tapées par l'élève :\n${answersText}\n\n${imageContent ? "L'élève a aussi joint une photo de sa copie manuscrite (voir image ci-jointe) : tiens-en compte pour compléter/vérifier ses réponses, notamment si les champs texte sont vides." : "Aucune photo de copie manuscrite n'a été jointe."}`});
+  if(imageContent) userContent.push(imageContent);
+
+  try{
+    const response = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-6",
+        max_tokens: 2200,
+        system: systemPrompt,
+        messages: [{ role:"user", content: userContent }]
+      })
+    });
+    const data = await response.json();
+    const rawText = (data.content || []).map(c=>c.text||'').join('\n');
+    const clean = rawText.replace(/```json|```/g,'').trim();
+    const result = JSON.parse(clean);
+    renderResult(result);
+  }catch(err){
+    console.error("Erreur de correction :", err);
+    resultBody.innerHTML = `<p style="font-size:.85rem;color:var(--raspberry);">⚠️ La correction automatique n'a pas pu être effectuée pour le moment. Réessaie dans un instant, ou consulte le corrigé-type ci-dessous pour t'auto-évaluer.</p>`;
+  }
+
+  btn.disabled = false;
+  btn.textContent = '✅ Soumettre mes réponses';
+  document.getElementById('corrigeLock').style.display='none';
+  document.getElementById('corrigeContent').classList.add('open');
+}
+
+function renderResult(result){
+  const resultBody = document.getElementById('resultBody');
+  let html = `
+    <div class="note-hero">
+      <div class="note-val">${result.total}<span class="note-sur">/20</span></div>
+      <div class="appreciation">${result.appreciation || ''}</div>
+    </div>
+  `;
+  (result.details || []).forEach(d=>{
+    const label = bareme[d.qid] ? bareme[d.qid].label : d.qid;
+    html += `
+      <div class="detail-item">
+        <div class="dh"><span>${label}</span><span class="dnote">${d.note}/${d.bareme}</span></div>
+        <div style="color:var(--muted);">${d.commentaire || ''}</div>
+      </div>`;
+  });
+  if(result.perfectionnement){
+    html += `
+      <div class="detail-item" style="border-left:4px solid var(--yellow);">
+        <div class="dh"><span>✨ Perfectionnement</span><span class="dnote">${result.perfectionnement.note}/${result.perfectionnement.bareme}</span></div>
+        <div style="color:var(--muted);">${result.perfectionnement.commentaire || ''}</div>
+      </div>`;
+  }
+  if(result.remediation && result.remediation.length){
+    html += `
+      <div class="remediation-box">
+        <h4>🛠️ Pistes de remédiation</h4>
+        <ul>${result.remediation.map(r=>`<li>${r}</li>`).join('')}</ul>
+      </div>`;
+  }
+  resultBody.innerHTML = html;
+  showToast('✅ Copie corrigée !');
+}
+
+let toastTimer;
+function showToast(msg){
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=> el.classList.remove('show'), 2800);
+}
+</script>
+</body>
+</html>

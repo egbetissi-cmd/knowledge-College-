@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Épreuve Maths - Tori-Bossito - 1ère AB</title>
+<style>
+:root{
+  --violet:#3d2b6b; --violet-dark:#241a45; --yellow:#ffd93d; --yellow-soft:#fff3c4;
+  --sky:#4fc3f7; --bg:#f7f5ff; --card:#ffffff; --text:#241a45; --muted:#6b6280;
+  --mint:#4ade80; --forest:#166534; --raspberry:#be185d; --radius:16px;
+}
+*{box-sizing:border-box;}
+body{margin:0;font-family:'Nunito',-apple-system,sans-serif;background:var(--bg);color:var(--text);}
+h1,h2,h3{font-family:'Baloo 2','Fredoka',sans-serif;}
+.app{max-width:520px;margin:0 auto;padding-bottom:30px;}
+header{background:linear-gradient(135deg,var(--violet),var(--violet-dark));color:#fff;padding:16px;text-align:center;}
+header h1{margin:0 0 4px;font-size:1.05rem;}
+header p{margin:2px 0;font-size:.75rem;opacity:.9;}
+.meta-box{background:rgba(255,255,255,.12);border-radius:12px;padding:8px;margin-top:10px;font-size:.7rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px;}
+
+main{padding:14px;}
+.card{background:var(--card);border-radius:var(--radius);padding:14px;margin-bottom:14px;box-shadow:0 2px 10px rgba(36,26,69,.06);border:1px solid #ece8fb;}
+.context h2{font-size:1rem;margin-top:0;}
+.context p{font-size:.85rem;line-height:1.5;}
+.formula-box{background:#f0edfb;border-radius:10px;padding:10px;font-size:.85rem;margin:8px 0;font-weight:700;color:var(--violet-dark);}
+.tache{background:var(--yellow-soft);border-radius:12px;padding:10px;font-size:.85rem;font-weight:700;color:var(--violet-dark);margin-top:10px;}
+
+.pb-title{background:var(--violet);color:#fff;padding:8px 12px;border-radius:12px;font-weight:800;font-size:.95rem;margin-bottom:10px;}
+.question{margin-bottom:16px;}
+.question .q-label{font-weight:800;font-size:.88rem;margin-bottom:6px;display:block;}
+.sub{margin-left:10px;font-size:.85rem;margin-bottom:8px;}
+
+.notebook{
+  width:100%;min-height:80px;border-radius:10px;border:1.5px solid #d8d2f5;padding:10px;
+  font-family:'Nunito',sans-serif;font-size:.88rem;color:var(--text);
+  background-image:repeating-linear-gradient(to bottom, transparent, transparent 27px, #e3ddfa 28px);
+  line-height:28px;resize:vertical;
+}
+.notebook:focus{outline:2px solid var(--sky);}
+
+.paper-mode{
+  background:#fff7e0;border:1.5px solid var(--yellow);border-radius:12px;padding:10px;margin-bottom:14px;font-size:.8rem;
+}
+.paper-mode b{color:var(--violet-dark);}
+
+.photo-card{background:var(--card);border-radius:var(--radius);padding:14px;margin-bottom:14px;border:2px dashed #c9bff5;text-align:center;}
+.photo-card h3{margin-top:0;font-size:1rem;}
+.photo-card p{font-size:.8rem;color:var(--muted);margin-bottom:10px;}
+.tool-btn{
+  background:#f0edfb;border:1.5px solid #d8d2f5;border-radius:12px;padding:11px 16px;
+  font-size:.85rem;font-weight:800;color:var(--violet-dark);display:inline-flex;align-items:center;gap:6px;
+}
+.photo-preview{margin-top:10px;max-width:100%;border-radius:10px;border:1.5px solid #d8d2f5;display:none;}
+input[type=file]{display:none;}
+
+.submit-bar{margin-top:4px;}
+.btn{border:none;border-radius:14px;padding:13px;font-weight:900;font-size:.9rem;color:#fff;background:var(--violet);width:100%;}
+.btn.green{background:var(--mint);color:#053b1e;}
+.btn.small{width:auto;padding:8px 14px;font-size:.78rem;border-radius:10px;}
+
+.corrige-lock{background:#f0edfb;border:2px dashed #c9bff5;border-radius:14px;padding:16px;text-align:center;}
+.corrige-lock p{font-size:.82rem;color:var(--muted);margin:6px 0 12px;}
+.corrige-content{display:none;}
+.corrige-content.open{display:block;}
+.corrige-item{background:#f7f5ff;border-radius:10px;padding:10px;margin-bottom:8px;font-size:.83rem;border-left:4px solid var(--mint);}
+.corrige-item b{color:var(--violet-dark);}
+
+.overlay{position:fixed;inset:0;background:rgba(36,26,69,.55);display:none;align-items:center;justify-content:center;z-index:100;padding:20px;}
+.overlay.open{display:flex;}
+.modal{background:#fff;border-radius:18px;padding:20px;max-width:340px;width:100%;text-align:center;}
+.modal input{width:100%;padding:11px;border-radius:10px;border:1.5px solid #d8d2f5;font-size:1rem;text-align:center;margin:10px 0;letter-spacing:2px;}
+.toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:var(--violet-dark);color:#fff;padding:10px 18px;border-radius:20px;font-size:.82rem;font-weight:700;z-index:200;opacity:0;transition:opacity .3s;}
+.toast.show{opacity:1;}
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <h1>📘 Épreuve Interactive de Mathématiques</h1>
+    <p>Collectif des CEG Publics de la Commune de Tori-Bossito</p>
+    <div class="meta-box">
+      <span>📅 Année : 2024-2025</span>
+      <span>🏫 Classe : 1ère AB</span>
+      <span>⏱️ Durée : 1H30</span>
+    </div>
+  </header>
+
+  <main>
+    <div class="paper-mode">
+      📝 <b>Tu peux composer sur une feuille</b> si tu préfères. Une seule photo de ta copie complète suffit — tu la joindras à la toute fin, juste avant de soumettre.
+    </div>
+
+    <div class="card context">
+      <h2>🏭 Contexte : L'entreprise "La solution plus"</h2>
+      <p>"La solution plus" est une entreprise spécialisée dans la fabrication des objets. Le coût de fabrication de x objets, en milliers de francs CFA, est donné par la fonction f telle que :</p>
+      <div class="formula-box">f(x) = 0,02x² + 4x + 100</div>
+      <p>Le prix de vente en millions de francs CFA des 100 premiers objets est P = g'(100) où g est une fonction.</p>
+      <p>Gédéon, élève en classe de première littéraire, est sollicité par son père, directeur de l'entreprise, afin de l'aider à analyser les différents coûts.</p>
+      <div class="tache">🎯 Tâche : Tu es invité(e) à aider Gédéon en résolvant les problèmes suivants.</div>
+    </div>
+
+    <!-- PROBLEME 1 -->
+    <div class="card">
+      <div class="pb-title">🧩 Problème 1</div>
+
+      <div class="question">
+        <span class="q-label">1) Détermine le montant des charges fixes, c'est-à-dire des charges de l'entreprise même si elle ne fabrique aucun objet.</span>
+        <textarea class="notebook" placeholder="Ton calcul..." data-qid="p1q1"></textarea>
+      </div>
+
+      <div class="question">
+        <span class="q-label">2-a) Calcule le coût de fabrication de 100 objets puis de 101 objets.</span>
+        <textarea class="notebook" placeholder="Ton calcul..." data-qid="p1q2a"></textarea>
+        <div class="sub" style="margin-top:10px;">2-b) Déduis-en l'augmentation de coût liée à cet objet supplémentaire.</div>
+        <textarea class="notebook" placeholder="Ta réponse..." data-qid="p1q2b" style="min-height:50px;"></textarea>
+      </div>
+
+      <div class="question">
+        <span class="q-label">3-a) Détermine la dérivée f' de la fonction f.</span>
+        <textarea class="notebook" placeholder="Ton calcul..." data-qid="p1q3a" style="min-height:50px;"></textarea>
+        <div class="sub" style="margin-top:10px;">3-b) Calcule f'(100).</div>
+        <textarea class="notebook" placeholder="Ton calcul..." data-qid="p1q3b" style="min-height:50px;"></textarea>
+        <div class="sub" style="margin-top:10px;">3-c) Compare f'(100) au résultat trouvé à la question 2-b.</div>
+        <textarea class="notebook" placeholder="Ta comparaison..." data-qid="p1q3c" style="min-height:50px;"></textarea>
+      </div>
+    </div>
+
+    <!-- PROBLEME 2 -->
+    <div class="card">
+      <div class="pb-title">📐 Problème 2</div>
+      <p style="font-size:.85rem;">g est la fonction de R vers R définie par g(x) = (−2x² + 8) / (x − 1).</p>
+
+      <div class="question">
+        <span class="q-label">4-a) Justifie que l'ensemble de définition de g est R − {1}.</span>
+        <textarea class="notebook" placeholder="Ta justification..." data-qid="p2q4a" style="min-height:50px;"></textarea>
+        <div class="sub" style="margin-top:10px;">4-b) Calcule les limites de g aux bornes de son ensemble de définition.</div>
+        <textarea class="notebook" placeholder="Ton calcul..." data-qid="p2q4b"></textarea>
+      </div>
+
+      <div class="question">
+        <span class="q-label">5-a) Justifie que, pour tout réel x élément de R − {1}, g'(x) = (−2x² + 4x − 8) / (x − 1)².</span>
+        <textarea class="notebook" placeholder="Ton calcul..." data-qid="p2q5a"></textarea>
+        <div class="sub" style="margin-top:10px;">5-b) Calcule le prix de vente des 100 premiers objets fabriqués.</div>
+        <textarea class="notebook" placeholder="Ton calcul..." data-qid="p2q5b"></textarea>
+      </div>
+    </div>
+
+    <!-- PHOTO DE LA COPIE (unique, à la fin) -->
+    <div class="photo-card">
+      <h3>📷 Ma copie manuscrite</h3>
+      <p>Si tu as composé sur une feuille, prends une photo de ta copie complète et joins-la ici avant de soumettre.</p>
+      <label class="tool-btn" for="file-copie">📷 Prendre une photo de ma copie</label>
+      <input type="file" id="file-copie" accept="image/*" capture="environment" onchange="handlePhoto(this,'prev-copie')">
+      <img class="photo-preview" id="prev-copie">
+    </div>
+
+    <div class="submit-bar">
+      <button class="btn" onclick="submitExam()">✅ Soumettre mes réponses</button>
+    </div>
+
+    <!-- CORRIGE TYPE -->
+    <div class="card">
+      <div class="pb-title" style="background:var(--raspberry);">🔒 Corrigé-type</div>
+      <div class="corrige-lock" id="corrigeLock">
+        <p>🔐 Le corrigé-type est verrouillé. Soumets d'abord tes réponses ou entre le code fourni par ton professeur pour le débloquer.</p>
+        <button class="btn small" onclick="askCode()">Débloquer le corrigé</button>
+      </div>
+      <div class="corrige-content" id="corrigeContent">
+        <div class="corrige-item"><b>1)</b> Charges fixes = f(0) = 100 milliers de FCFA.</div>
+        <div class="corrige-item"><b>2-a)</b> f(100) = 0,02×10000+400+100 = 700.<br>f(101) = 0,02×10201+404+100 = 708,02 (milliers de FCFA).</div>
+        <div class="corrige-item"><b>2-b)</b> Augmentation = 708,02 − 700 = <b>8,02 milliers de FCFA</b>.</div>
+        <div class="corrige-item"><b>3-a)</b> f'(x) = 0,04x + 4.</div>
+        <div class="corrige-item"><b>3-b)</b> f'(100) = 0,04×100+4 = <b>8</b>.</div>
+        <div class="corrige-item"><b>3-c)</b> f'(100) = 8 est très proche de l'augmentation réelle trouvée en 2-b (8,02) : la dérivée donne une bonne approximation du coût marginal (coût d'un objet supplémentaire).</div>
+        <div class="corrige-item"><b>4-a)</b> g(x) est définie tant que x−1 ≠ 0, donc pour tout x ≠ 1 → Dg = R − {1}.</div>
+        <div class="corrige-item"><b>4-b)</b> Division : g(x) = −2x − 2 + 6/(x−1).<br>lim g(x) en −∞ = +∞ ; lim g(x) en +∞ = −∞.<br>lim g(x) en 1⁻ = −∞ ; lim g(x) en 1⁺ = +∞.</div>
+        <div class="corrige-item"><b>5-a)</b> Par la formule du quotient : g'(x) = [(−4x)(x−1) − (−2x²+8)(1)] / (x−1)² = (−2x²+4x−8)/(x−1)². ✔️</div>
+        <div class="corrige-item"><b>5-b)</b> g'(100) = (−2×10000+400−8)/99² = −19608/9801 ≈ <b>−2,0006 millions de FCFA</b> (le modèle donne ici un résultat négatif à interpréter avec Gédéon dans le contexte de l'entreprise).</div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div class="overlay" id="codeOverlay">
+  <div class="modal">
+    <h3>🔑 Code d'accès</h3>
+    <p style="font-size:.82rem;color:var(--muted);">Entre le code communiqué par ton professeur.</p>
+    <input type="text" id="codeInput" maxlength="10" placeholder="CODE">
+    <button class="btn" onclick="checkCode()">Valider</button>
+    <button class="btn small" style="background:#f0edfb;color:var(--violet-dark);margin-top:8px;" onclick="closeOverlay()">Annuler</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const ACCESS_CODE = "TORIBOSSITO25";
+
+function handlePhoto(input, previewId){
+  const file = input.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e=>{
+    const img = document.getElementById(previewId);
+    img.src = e.target.result;
+    img.style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+}
+
+function submitExam(){
+  const answers = document.querySelectorAll('.notebook');
+  let filled = 0;
+  answers.forEach(a=>{ if(a.value.trim().length>0) filled++; });
+  const photoJoined = document.getElementById('prev-copie').style.display === 'block';
+  showToast(`✅ Copie enregistrée (${filled}/${answers.length} champs texte${photoJoined ? ', photo jointe' : ''}) !`);
+  document.getElementById('corrigeLock').style.display='none';
+  document.getElementById('corrigeContent').classList.add('open');
+}
+
+function askCode(){ document.getElementById('codeOverlay').classList.add('open'); }
+function closeOverlay(){ document.getElementById('codeOverlay').classList.remove('open'); }
+function checkCode(){
+  const val = document.getElementById('codeInput').value.trim().toUpperCase();
+  if(val === ACCESS_CODE){
+    document.getElementById('corrigeLock').style.display='none';
+    document.getElementById('corrigeContent').classList.add('open');
+    closeOverlay();
+    showToast('🔓 Corrigé débloqué !');
+  } else {
+    showToast('❌ Code incorrect');
+  }
+}
+
+let toastTimer;
+function showToast(msg){
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=> el.classList.remove('show'), 2800);
+}
+</script>
+</body>
+</html>

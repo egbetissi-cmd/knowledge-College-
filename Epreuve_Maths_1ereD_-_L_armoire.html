@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Épreuve Maths 1ère D - Évaluation Cours de Renforcement</title>
+<style>
+:root{
+  --violet:#3d2b6b; --violet-dark:#241a45; --yellow:#ffd93d; --yellow-soft:#fff3c4;
+  --sky:#4fc3f7; --bg:#f7f5ff; --card:#ffffff; --text:#241a45; --muted:#6b6280;
+  --mint:#4ade80; --forest:#166534; --raspberry:#be185d; --radius:16px;
+}
+*{box-sizing:border-box;}
+body{margin:0;font-family:'Nunito',-apple-system,sans-serif;background:var(--bg);color:var(--text);}
+h1,h2,h3{font-family:'Baloo 2','Fredoka',sans-serif;}
+.app{max-width:520px;margin:0 auto;padding-bottom:30px;}
+header{background:linear-gradient(135deg,var(--violet),var(--violet-dark));color:#fff;padding:16px;text-align:center;}
+header h1{margin:0 0 4px;font-size:1rem;}
+.meta-box{background:rgba(255,255,255,.12);border-radius:12px;padding:8px;margin-top:10px;font-size:.7rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px;}
+.exam-title{background:#fff;color:var(--violet-dark);border:2px solid var(--violet-dark);border-radius:12px;padding:8px 10px;margin:12px 14px 0;text-align:center;font-weight:900;font-size:.85rem;text-transform:uppercase;}
+.exam-sub{text-align:center;font-weight:800;font-size:.85rem;margin:10px 0 0;text-decoration:underline;}
+
+main{padding:14px;}
+.card{background:var(--card);border-radius:var(--radius);padding:14px;margin-bottom:14px;box-shadow:0 2px 10px rgba(36,26,69,.06);border:1px solid #ece8fb;}
+.context .ctx-label{font-weight:800;text-decoration:underline;font-size:.9rem;}
+.context p{font-size:.85rem;line-height:1.5;}
+.formula-box{background:#f0edfb;border-radius:10px;padding:10px;font-size:.83rem;margin:8px 0;font-weight:700;color:var(--violet-dark);line-height:1.6;}
+.tache{background:var(--yellow-soft);border-radius:12px;padding:10px;font-size:.85rem;font-weight:700;color:var(--violet-dark);margin-top:10px;}
+.tache u{text-decoration:underline;}
+
+.figure-box{text-align:center;margin:10px 0;}
+.figure-box img{max-width:100%;border-radius:10px;border:1.5px solid #d8d2f5;}
+
+.pb-title{background:var(--violet);color:#fff;padding:8px 12px;border-radius:12px;font-weight:800;font-size:.95rem;margin-bottom:10px;text-decoration:underline;}
+.intro-txt{font-size:.85rem;margin-bottom:10px;line-height:1.5;}
+.question{margin-bottom:16px;}
+.question .q-label{font-weight:800;font-size:.86rem;margin-bottom:6px;display:block;}
+.pts{font-size:.65rem;font-weight:800;color:var(--raspberry);background:#fde7f3;padding:2px 7px;border-radius:8px;margin-left:4px;white-space:nowrap;}
+.sub{margin-left:8px;font-size:.83rem;margin-bottom:8px;}
+
+.notebook{
+  width:100%;min-height:70px;border-radius:10px;border:1.5px solid #d8d2f5;padding:10px;
+  font-family:'Nunito',sans-serif;font-size:.87rem;color:var(--text);
+  background-image:repeating-linear-gradient(to bottom, transparent, transparent 27px, #e3ddfa 28px);
+  line-height:28px;resize:vertical;
+}
+.notebook:focus{outline:2px solid var(--sky);}
+
+.paper-mode{background:#fff7e0;border:1.5px solid var(--yellow);border-radius:12px;padding:10px;margin-bottom:14px;font-size:.8rem;}
+.paper-mode b{color:var(--violet-dark);}
+.bareme-note{background:#f0edfb;border-radius:12px;padding:10px;font-size:.78rem;margin-bottom:14px;color:var(--violet-dark);}
+
+.photo-card{background:var(--card);border-radius:var(--radius);padding:14px;margin-bottom:14px;border:2px dashed #c9bff5;text-align:center;}
+.photo-card h3{margin-top:0;font-size:1rem;}
+.photo-card p{font-size:.8rem;color:var(--muted);margin-bottom:10px;}
+.tool-btn{background:#f0edfb;border:1.5px solid #d8d2f5;border-radius:12px;padding:11px 16px;font-size:.85rem;font-weight:800;color:var(--violet-dark);display:inline-flex;align-items:center;gap:6px;}
+.photo-preview{margin-top:10px;max-width:100%;border-radius:10px;border:1.5px solid #d8d2f5;display:none;}
+input[type=file]{display:none;}
+
+.submit-bar{margin-top:4px;}
+.btn{border:none;border-radius:14px;padding:13px;font-weight:900;font-size:.9rem;color:#fff;background:var(--violet);width:100%;}
+.btn:disabled{opacity:.6;}
+
+.corrige-lock{background:#f0edfb;border:2px dashed #c9bff5;border-radius:14px;padding:16px;text-align:center;}
+.corrige-lock p{font-size:.82rem;color:var(--muted);margin:6px 0 12px;}
+.corrige-content{display:none;}
+.corrige-content.open{display:block;}
+.corrige-item{background:#f7f5ff;border-radius:10px;padding:10px;margin-bottom:8px;font-size:.8rem;border-left:4px solid var(--mint);line-height:1.5;}
+.corrige-item b{color:var(--violet-dark);}
+
+.result-card{display:none;}
+.result-card.open{display:block;}
+.note-hero{background:linear-gradient(135deg,var(--mint),var(--forest));color:#fff;border-radius:18px;padding:20px;text-align:center;margin-bottom:14px;}
+.note-hero .note-val{font-size:2.4rem;font-weight:900;line-height:1;}
+.note-hero .note-sur{font-size:1rem;opacity:.9;}
+.note-hero .appreciation{margin-top:8px;font-size:.88rem;font-weight:700;}
+.detail-item{background:#fbfaff;border-radius:12px;padding:10px;margin-bottom:8px;border:1px solid #ece8fb;font-size:.82rem;}
+.detail-item .dh{display:flex;justify-content:space-between;align-items:center;font-weight:800;margin-bottom:4px;gap:6px;}
+.detail-item .dnote{background:var(--yellow-soft);color:var(--violet-dark);padding:2px 9px;border-radius:8px;font-size:.72rem;white-space:nowrap;}
+.remediation-box{background:#fff7e0;border:1.5px solid var(--yellow);border-radius:12px;padding:12px;margin-top:10px;}
+.remediation-box h4{margin:0 0 6px;font-size:.9rem;color:var(--violet-dark);}
+.remediation-box ul{margin:0;padding-left:18px;font-size:.82rem;}
+.remediation-box li{margin-bottom:4px;}
+.loading-box{text-align:center;padding:24px 10px;}
+.spinner{width:34px;height:34px;border:4px solid #ece8fb;border-top-color:var(--violet);border-radius:50%;margin:0 auto 12px;animation:spin 0.8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+.toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:var(--violet-dark);color:#fff;padding:10px 18px;border-radius:20px;font-size:.82rem;font-weight:700;z-index:200;opacity:0;transition:opacity .3s;}
+.toast.show{opacity:1;}
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <h1>📘 Épreuve Interactive de Mathématiques</h1>
+    <div class="meta-box">
+      <span>📅 Année : 2023-2024</span>
+      <span>🏫 Classe : 1ère D</span>
+      <span>⏱️ Durée : 4 H</span>
+    </div>
+  </header>
+
+  <div class="exam-title">Évaluation des Cours de Renforcement — Édition 2023</div>
+  <div class="exam-sub">Épreuve : Mathématiques</div>
+
+  <main>
+    <div class="paper-mode">
+      📝 <b>Tu peux composer sur une feuille</b> si tu préfères. Une seule photo de ta copie complète suffit — tu la joindras à la toute fin, juste avant de soumettre.
+    </div>
+    <div class="bareme-note">
+      📊 <b>Barème :</b> ta copie sera notée sur <b>20 points</b> — 18 points répartis sur les questions ci-dessous, et <b>2 points de perfectionnement</b> (clarté, rigueur, présentation, démarche).
+    </div>
+
+    <div class="card context">
+      <div class="ctx-label">Contexte</div>
+      <p><b>La fabrication d'une armoire.</b><br>
+      Coffi est un élève en classe de 1<sup>ère</sup> D. Son tuteur FAKO lui demande d'aller retirer auprès du menuisier, l'armoire qu'il a commandée pour y ranger ses habits. Il dessine le plan de l'armoire sur une feuille de papier qu'il remet à Coffi pour faciliter l'identification chez le menuisier.</p>
+      <p>Voici le plan de l'armoire :</p>
+      <div class="formula-box">
+        * ABCDEFGH est un pavé droit.<br>
+        * ABFEIJKL est un cube.<br>
+        * M, N, O, P sont les milieux respectifs des segments [LI], [JK], [GC], [HD].
+      </div>
+      <p>Arrivé chez le menuisier, Coffi identifie l'armoire mais émet du doute sur certains parallélismes et orthogonalités.</p>
+      <div class="tache"><u>Tâche</u> : Résous les problèmes suivants pour apaiser Coffi.</div>
+    </div>
+
+    <!-- PROBLEME 1 -->
+    <div class="card">
+      <div class="pb-title">Problème 1</div>
+
+      <div class="question">
+        <span class="q-label">1°) Démontre que : (AB) ⊥ (EH), (CJ) ⊥ (BAE). <span class="pts">1 pt</span></span>
+        <textarea class="notebook" data-qid="p1_1" placeholder="Ta démonstration..."></textarea>
+      </div>
+
+      <div class="question">
+        <span class="q-label">2°) Démontre que :</span>
+        <div class="sub">a°) les plans (GON) et (ABE) sont perpendiculaires. <span class="pts">1 pt</span></div>
+        <textarea class="notebook" data-qid="p1_2a" placeholder="Ta démonstration..."></textarea>
+        <div class="sub" style="margin-top:8px;">b°) les plans (BAL) et (JEF) sont perpendiculaires. <span class="pts">1 pt</span></div>
+        <textarea class="notebook" data-qid="p1_2b" placeholder="Ta démonstration..."></textarea>
+      </div>
+
+      <div class="question">
+        <span class="q-label">3°)</span>
+        <div class="sub">a°) Démontre que BELJ est un rectangle. <span class="pts">1 pt</span></div>
+        <textarea class="notebook" data-qid="p1_3a" placeholder="Ta démonstration..."></textarea>
+        <div class="sub" style="margin-top:8px;">b°) Déduis-en que : (FA) ⊥ (LJ). <span class="pts">1 pt</span></div>
+        <textarea class="notebook" data-qid="p1_3b" placeholder="Ta déduction..." style="min-height:50px;"></textarea>
+      </div>
+    </div>
+
+    <!-- PROBLEME 2 -->
+    <div class="card">
+      <div class="pb-title">Problème 2</div>
+      <p class="intro-txt">Pour vérifier la justesse du positionnement de certains points sur l'armoire, Coffi s'intéresse aux projections orthogonales sur la droite (BF) et sur le plan (EFA).</p>
+      <p class="intro-txt">Soit p la projection orthogonale sur la droite (BF).</p>
+
+      <div class="question">
+        <span class="q-label">4-a°) Détermine avec justification : p(K), p(B), p(J), p(C). <span class="pts">1,5 pt</span></span>
+        <textarea class="notebook" data-qid="p2_4a" placeholder="Ta détermination..."></textarea>
+        <div class="sub" style="margin-top:8px;">b°) T est le point de l'espace tel que T = p(N). Justifie que FT = TB. <span class="pts">1 pt</span></div>
+        <textarea class="notebook" data-qid="p2_4b" placeholder="Ta justification..." style="min-height:50px;"></textarea>
+      </div>
+
+      <div class="question">
+        <span class="q-label">5°) Le point F est le projeté orthogonal du point G sur le plan (EFA). Le point Q est le projeté orthogonal du point F sur la droite (BE). Démontre que : (GQ) ⊥ (BE). <span class="pts">1,5 pt</span></span>
+        <textarea class="notebook" data-qid="p2_5" placeholder="Ta démonstration..." style="min-height:90px;"></textarea>
+      </div>
+    </div>
+
+    <!-- PROBLEME 3 -->
+    <div class="card">
+      <div class="pb-title">Problème 3</div>
+      <p class="intro-txt">Le repérage de certains points de l'armoire a intéressé Coffi. Pour ce faire il choisit le quadruplet</p>
+      <div class="formula-box">
+        R = (E ; ¼ FB ; ⅓ LK ; ½ EL)
+      </div>
+
+      <div class="question">
+        <span class="q-label">6°) Justifie que R est un repère de l'espace. <span class="pts">1 pt</span></span>
+        <textarea class="notebook" data-qid="p3_6" placeholder="Ta justification..." style="min-height:50px;"></textarea>
+      </div>
+
+      <div class="question">
+        <span class="q-label">7°) Détermine dans R, les coordonnées des points B, J et M. <span class="pts">1 pt</span></span>
+        <textarea class="notebook" data-qid="p3_7" placeholder="Ton calcul..."></textarea>
+      </div>
+
+      <div class="question">
+        <span class="q-label">8°) Détermine dans la base β = (¼ FB ; ⅓ LK ; ½ EL) les coordonnées des vecteurs KB et NL. <span class="pts">1 pt</span></span>
+        <textarea class="notebook" data-qid="p3_8" placeholder="Ton calcul..."></textarea>
+      </div>
+
+      <div class="question">
+        <span class="q-label">9°) R, S et Z sont des points de l'espace tels que : JR(-2 ; 0 ; 1), JS(1 ; -1 ; 0), JZ(-1 ; -3 ; 2), AZ(½ ; 3/2 ; -1)</span>
+        <div class="sub">a°) Démontre que les points Z, J, R et S sont coplanaires. <span class="pts">1 pt</span></div>
+        <textarea class="notebook" data-qid="p3_9a" placeholder="Ta démonstration..." style="min-height:50px;"></textarea>
+        <div class="sub" style="margin-top:8px;">b°) Démontre que le point A appartient à la droite (JZ). <span class="pts">1 pt</span></div>
+        <textarea class="notebook" data-qid="p3_9b" placeholder="Ta démonstration..." style="min-height:50px;"></textarea>
+        <div class="sub" style="margin-top:8px;">c°) Démontre que les points J, R et Z déterminent un et un seul plan. <span class="pts">1 pt</span></div>
+        <textarea class="notebook" data-qid="p3_9c" placeholder="Ta démonstration..." style="min-height:50px;"></textarea>
+      </div>
+
+      <div class="question">
+        <span class="q-label">10°) W est le point de l'espace vérifiant la relation : WF + WK + WL + WE = 0</span>
+        <div class="sub">a°) Démontre que : FW = ½ FK + ½ FE <span class="pts">1 pt</span></div>
+        <textarea class="notebook" data-qid="p3_10a" placeholder="Ta démonstration..."></textarea>
+        <div class="sub" style="margin-top:8px;">b°) Précise la position exacte du point W sur le dessin de l'armoire. <span class="pts">1 pt</span></div>
+        <textarea class="notebook" data-qid="p3_10b" placeholder="Ta réponse..." style="min-height:50px;"></textarea>
+        <div class="sub" style="margin-top:8px;">c°) Détermine dans R les coordonnées du point W. <span class="pts">1 pt</span></div>
+        <textarea class="notebook" data-qid="p3_10c" placeholder="Ton calcul..." style="min-height:50px;"></textarea>
+      </div>
+    </div>
+
+    <!-- PHOTO DE LA COPIE (unique, à la fin) -->
+    <div class="photo-card">
+      <h3>📷 Ma copie manuscrite</h3>
+      <p>Si tu as composé sur une feuille (recommandé pour les figures), prends une photo de ta copie complète et joins-la ici avant de soumettre.</p>
+      <label class="tool-btn" for="file-copie">📷 Prendre une photo de ma copie</label>
+      <input type="file" id="file-copie" accept="image/*" capture="environment" onchange="handlePhoto(this,'prev-copie')">
+      <img class="photo-preview" id="prev-copie">
+    </div>
+
+    <div class="submit-bar">
+      <button class="btn" id="submitBtn" onclick="submitExam()">✅ Soumettre mes réponses</button>
+    </div>
+
+    <!-- RESULTATS DE CORRECTION -->
+    <div class="card result-card" id="resultCard">
+      <div class="pb-title" style="background:var(--forest);">🧑‍🏫 Correction de ta copie</div>
+      <div id="resultBody"></div>
+    </div>
+
+    <!-- CORRIGE TYPE -->
+    <div class="card">
+      <div class="pb-title" style="background:var(--raspberry);">🔒 Corrigé-type</div>
+      <div class="corrige-lock" id="corrigeLock">
+        <p>🔐 Le corrigé-type est verrouillé. Il se débloquera automatiquement dès que tu auras soumis ta copie.</p>
+      </div>
+      <div class="corrige-content" id="corrigeContent">
+        <div class="corrige-item"><b>Repère de travail :</b> le cube ABFEIJKL a pour arête a. En munissant l'espace du repère (A ; AB, AI, AE), on a A(0,0,0), B(a,0,0), F(a,0,a), E(0,0,a), I(0,a,0), J(a,a,0), K(a,a,a), L(0,a,a). Le pavé ABCDEFGH a pour profondeur d (direction -y) : C(a,-d,0), D(0,-d,0), G(a,-d,a), H(0,-d,a). On a alors M(0,a,a/2), N(a,a,a/2), O(a,-d,a/2), P(0,-d,a/2).</div>
+        <div class="corrige-item"><b>1°)</b> AB(a,0,0) et EH(0,-d,0) : AB·EH=0 → <b>(AB)⊥(EH)</b>. Le plan (BAE) est le plan {y=0} de normale (0,1,0) ; CJ=(0,a+d,0) est colinéaire à cette normale → <b>(CJ)⊥(BAE)</b>.</div>
+        <div class="corrige-item"><b>2-a°)</b> G,O,N ont tous pour abscisse x=a → le plan (GON) est le plan {x=a}, de normale (1,0,0). Le plan (ABE) est {y=0}, de normale (0,1,0). (1,0,0)·(0,1,0)=0 → les normales sont orthogonales, donc <b>(GON)⊥(ABE)</b>.</div>
+        <div class="corrige-item"><b>2-b°)</b> Une normale au plan (BAL) est AB∧AL = (0,-a²,a²), colinéaire à (0,-1,1). Une normale au plan (JEF) est EJ∧EF = (0,-a²,-a²), colinéaire à (0,-1,-1). (0,-1,1)·(0,-1,-1)=1-1=0 → <b>(BAL)⊥(JEF)</b>.</div>
+        <div class="corrige-item"><b>3-a°)</b> BE=(-a,0,a) et LJ=(a,0,-a)=-BE : côtés opposés égaux → BELJ est un parallélogramme. De plus BE·EL=(-a,0,a)·(0,a,0)=0 → un angle droit. Donc <b>BELJ est un rectangle</b>.</div>
+        <div class="corrige-item"><b>3-b°)</b> D'après 3-a°, LJ est parallèle à BE (côtés opposés du rectangle). Or AF et BE sont les diagonales du carré ABFE, donc <b>(AF)⊥(BE)</b>. Comme (LJ)∥(BE), on déduit <b>(FA)⊥(LJ)</b>.</div>
+        <div class="corrige-item"><b>4-a°)</b> La droite (BF) est la droite {x=a, y=0}. La projection orthogonale garde la cote z et ramène (x,y) à (a,0) : <b>p(K)=F</b> (K et F ont la même cote a), <b>p(B)=B</b> (B est déjà sur la droite), <b>p(J)=B</b> et <b>p(C)=B</b> (J et C ont pour cote 0, comme B).</div>
+        <div class="corrige-item"><b>4-b°)</b> N, milieu de [JK], a pour cote a/2 (moyenne de 0 et a) ; donc T=p(N) a pour coordonnées (a,0,a/2), qui est le milieu de [BF]. Comme T est le milieu de [BF], <b>FT=TB=a/2</b>.</div>
+        <div class="corrige-item"><b>5°)</b> Le plan (EFA) est le plan {y=0} ; le projeté de G(a,-d,a) sur ce plan est bien (a,0,a)=F, ce qui confirme la donnée. Le projeté orthogonal Q de F sur (BE) est le milieu de [BE] (le paramètre trouvé vaut 1/2), soit Q(a/2,0,a/2). On calcule GQ=(-a/2,d,-a/2) et BE=(-a,0,a) : GQ·BE = a²/2+0-a²/2 = 0. Donc <b>(GQ)⊥(BE)</b>.</div>
+        <div class="corrige-item"><b>6°)</b> Les vecteurs ¼FB=(0,0,-a/4), ⅓LK=(a/3,0,0), ½EL=(0,a/2,0) sont deux à deux non colinéaires (chacun porté par un axe différent) : ils forment une base de l'espace. Avec le point E comme origine, <b>R=(E ; ¼FB ; ⅓LK ; ½EL) est bien un repère de l'espace</b>.</div>
+        <div class="corrige-item"><b>7°)</b> En résolvant EB, EJ, EM dans la base (¼FB, ⅓LK, ½EL), on trouve : <b>B(4 ; 3 ; 0)</b>, <b>J(4 ; 3 ; 2)</b>, <b>M(2 ; 0 ; 2)</b>.</div>
+        <div class="corrige-item"><b>8°)</b> De même pour les vecteurs KB=(0,-a,-a) et NL=(-a,0,a/2) : <b>KB(4 ; 0 ; -2)</b> et <b>NL(-2 ; -3 ; 0)</b> dans la base β.</div>
+        <div class="corrige-item"><b>9-a°)</b> On cherche λ,μ tels que JZ=λJR+μJS : -1=-2λ+μ ; -3=-μ → μ=3 ; 2=λ → λ=2 ; on vérifie -2(2)+3=-1 ✔. Donc JZ=2JR+3JS : JZ est combinaison linéaire de JR et JS, donc <b>Z, J, R, S sont coplanaires</b>.</div>
+        <div class="corrige-item"><b>9-b°)</b> AZ=(½ ; 3/2 ; -1) et JZ=(-1 ; -3 ; 2). On remarque AZ = -½·JZ : les vecteurs AZ et JZ sont colinéaires et ont le point Z en commun, donc A, Z et J sont alignés : <b>A appartient à la droite (JZ)</b>.</div>
+        <div class="corrige-item"><b>9-c°)</b> JR=(-2;0;1) et JZ=(-1;-3;2) ne sont pas colinéaires (sinon on aurait -1=-2k et -3=0k pour un même k, ce qui est impossible). J, R et Z ne sont donc pas alignés : <b>ils déterminent un seul et unique plan</b>.</div>
+        <div class="corrige-item"><b>10-a°)</b> WF+WK+WL+WE=0. En écrivant WK=WF+FK, WL=WF+FL, WE=WF+FE, on obtient 4WF+FK+FL+FE=0. Or FKLE est un carré (parallélogramme) donc FL=FK+FE. D'où 4WF=-2(FK+FE), soit WF=-½(FK+FE), donc <b>FW = ½FK + ½FE</b>.</div>
+        <div class="corrige-item"><b>10-b°)</b> FW=½(FK+FE)=½FL : W est donc le <b>milieu de la diagonale [FL] du carré FKLE</b>, c'est-à-dire le centre de la face carrée supérieure de l'armoire (le "toit" du cube).</div>
+        <div class="corrige-item"><b>10-c°)</b> W=(a/2,a/2,a) dans le repère (A;AB,AI,AE). En résolvant EW=(a/2,a/2,0) dans la base (¼FB,⅓LK,½EL), on trouve <b>W(0 ; 3/2 ; 1)</b> dans le repère R.</div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const bareme = {
+  p1_1:{label:"1) (AB)⊥(EH) et (CJ)⊥(BAE)",pts:1},
+  p1_2a:{label:"2-a) plans (GON) et (ABE) perpendiculaires",pts:1},
+  p1_2b:{label:"2-b) plans (BAL) et (JEF) perpendiculaires",pts:1},
+  p1_3a:{label:"3-a) BELJ est un rectangle",pts:1},
+  p1_3b:{label:"3-b) (FA)⊥(LJ)",pts:1},
+  p2_4a:{label:"4-a) projections p(K),p(B),p(J),p(C)",pts:1.5},
+  p2_4b:{label:"4-b) FT=TB",pts:1},
+  p2_5:{label:"5) (GQ)⊥(BE)",pts:1.5},
+  p3_6:{label:"6) R est un repère de l'espace",pts:1},
+  p3_7:{label:"7) coordonnées de B, J, M dans R",pts:1},
+  p3_8:{label:"8) coordonnées de KB et NL dans β",pts:1},
+  p3_9a:{label:"9-a) Z,J,R,S coplanaires",pts:1},
+  p3_9b:{label:"9-b) A appartient à (JZ)",pts:1},
+  p3_9c:{label:"9-c) J,R,Z déterminent un seul plan",pts:1},
+  p3_10a:{label:"10-a) FW=1/2FK+1/2FE",pts:1},
+  p3_10b:{label:"10-b) position de W",pts:1},
+  p3_10c:{label:"10-c) coordonnées de W dans R",pts:1}
+};
+
+const corrigeText = `
+Repère : (A;AB,AI,AE) avec A(0,0,0),B(a,0,0),F(a,0,a),E(0,0,a),I(0,a,0),J(a,a,0),K(a,a,a),L(0,a,a), C(a,-d,0),D(0,-d,0),G(a,-d,a),H(0,-d,a), M(0,a,a/2),N(a,a,a/2),O(a,-d,a/2),P(0,-d,a/2).
+1) AB.EH=0 → (AB)⊥(EH). CJ colinéaire à la normale de (BAE) → (CJ)⊥(BAE).
+2-a) (GON)={x=a}, (ABE)={y=0} → normales orthogonales → plans perpendiculaires.
+2-b) normale (BAL)=(0,-1,1), normale (JEF)=(0,-1,-1), produit scalaire nul → perpendiculaires.
+3-a) BE=-LJ (parallélogramme) et BE.EL=0 → BELJ rectangle.
+3-b) LJ∥BE ; AF⊥BE (diagonales du carré ABFE) → FA⊥LJ.
+4-a) p(K)=F, p(B)=B, p(J)=B, p(C)=B.
+4-b) T=milieu de [BF] → FT=TB=a/2.
+5) Q=milieu de [BE] ; GQ.BE=0 → (GQ)⊥(BE).
+6) 3 vecteurs non colinéaires → R est un repère.
+7) B(4;3;0), J(4;3;2), M(2;0;2).
+8) KB(4;0;-2), NL(-2;-3;0).
+9-a) JZ=2JR+3JS → coplanaires.
+9-b) AZ=-1/2 JZ → A,Z,J alignés → A appartient à (JZ).
+9-c) JR et JZ non colinéaires → J,R,Z déterminent un seul plan.
+10-a) FKLE carré → FL=FK+FE → FW=1/2FK+1/2FE.
+10-b) W=milieu de [FL], centre de la face carrée supérieure FKLE.
+10-c) W(0;3/2;1) dans R.
+`;
+
+function handlePhoto(input, previewId){
+  const file = input.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e=>{
+    const img = document.getElementById(previewId);
+    img.src = e.target.result;
+    img.style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+}
+
+function fileToBase64(file){
+  return new Promise((resolve,reject)=>{
+    const reader = new FileReader();
+    reader.onload = ()=> resolve(reader.result.split(',')[1]);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+async function submitExam(){
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳ Correction en cours...';
+
+  const resultCard = document.getElementById('resultCard');
+  const resultBody = document.getElementById('resultBody');
+  resultCard.classList.add('open');
+  resultBody.innerHTML = `<div class="loading-box"><div class="spinner"></div><p style="font-size:.85rem;color:var(--muted);">Ton professeur virtuel corrige ta copie...</p></div>`;
+  resultCard.scrollIntoView({behavior:'smooth', block:'start'});
+
+  let answersText = '';
+  document.querySelectorAll('.notebook').forEach(a=>{
+    const qid = a.dataset.qid;
+    const label = bareme[qid] ? bareme[qid].label : qid;
+    answersText += `\n[${qid} - ${label} - barème ${bareme[qid]?bareme[qid].pts:'?'} pt]\nRéponse de l'élève : ${a.value.trim() || '(vide)'}\n`;
+  });
+
+  const fileInput = document.getElementById('file-copie');
+  let imageContent = null;
+  if(fileInput.files[0]){
+    try{
+      const base64 = await fileToBase64(fileInput.files[0]);
+      const mime = fileInput.files[0].type || 'image/jpeg';
+      imageContent = { type:"image", source:{ type:"base64", media_type: mime, data: base64 } };
+    }catch(e){ console.error(e); }
+  }
+
+  const bloc = Object.entries(bareme).map(([qid,b])=>`${qid} (${b.label}) : ${b.pts} pt`).join('\n');
+
+  const systemPrompt = `Tu es un professeur de mathématiques béninois, rigoureux, exigeant mais bienveillant, qui corrige la copie d'un élève de 1ère D sur la géométrie dans l'espace (orthogonalité de droites et de plans, projections orthogonales, repères et coordonnées dans l'espace, coplanarité, alignement).
+Corrige STRICTEMENT selon le corrigé-type fourni, en acceptant toute méthode correcte (synthétique ou vectorielle) menant au bon résultat. Barème total sur 20 points : 18 points répartis selon le barème détaillé ci-dessous, et 2 points de "perfectionnement" évaluant la clarté de la rédaction, la rigueur de la démarche, la présentation et la logique du raisonnement global.
+
+Barème détaillé (18 points) :
+${bloc}
+
+Corrigé-type de référence :
+${corrigeText}
+
+Réponds UNIQUEMENT avec un objet JSON valide (sans texte avant/après, sans balises markdown), au format exact suivant :
+{
+ "details":[
+   {"qid":"p1_1","note":X,"bareme":1,"commentaire":"commentaire court et précis"},
+   ... (un objet pour chaque qid du barème, dans le même ordre)
+ ],
+ "perfectionnement":{"note":X,"bareme":2,"commentaire":"commentaire sur la présentation et la rigueur"},
+ "total":X,
+ "appreciation":"une phrase d'appréciation générale, style bulletin scolaire",
+ "remediation":["conseil concret 1","conseil concret 2","conseil concret 3"]
+}
+Les notes doivent être cohérentes avec le barème (jamais négatives, jamais supérieures au barème de la question). Le total doit être la somme exacte des notes de détails + la note de perfectionnement, sur 20.`;
+
+  const userContent = [];
+  userContent.push({type:"text", text: `Voici les réponses tapées par l'élève :\n${answersText}\n\n${imageContent ? "L'élève a aussi joint une photo de sa copie manuscrite (voir image ci-jointe) : tiens-en compte pour compléter/vérifier ses réponses, notamment si les champs texte sont vides." : "Aucune photo de copie manuscrite n'a été jointe."}`});
+  if(imageContent) userContent.push(imageContent);
+
+  try{
+    const response = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-6",
+        max_tokens: 2500,
+        system: systemPrompt,
+        messages: [{ role:"user", content: userContent }]
+      })
+    });
+    const data = await response.json();
+    const rawText = (data.content || []).map(c=>c.text||'').join('\n');
+    const clean = rawText.replace(/```json|```/g,'').trim();
+    const result = JSON.parse(clean);
+    renderResult(result);
+  }catch(err){
+    console.error("Erreur de correction :", err);
+    resultBody.innerHTML = `<p style="font-size:.85rem;color:var(--raspberry);">⚠️ La correction automatique n'a pas pu être effectuée pour le moment. Réessaie dans un instant, ou consulte le corrigé-type ci-dessous pour t'auto-évaluer.</p>`;
+  }
+
+  btn.disabled = false;
+  btn.textContent = '✅ Soumettre mes réponses';
+  document.getElementById('corrigeLock').style.display='none';
+  document.getElementById('corrigeContent').classList.add('open');
+}
+
+function renderResult(result){
+  const resultBody = document.getElementById('resultBody');
+  let html = `
+    <div class="note-hero">
+      <div class="note-val">${result.total}<span class="note-sur">/20</span></div>
+      <div class="appreciation">${result.appreciation || ''}</div>
+    </div>
+  `;
+  (result.details || []).forEach(d=>{
+    const label = bareme[d.qid] ? bareme[d.qid].label : d.qid;
+    html += `
+      <div class="detail-item">
+        <div class="dh"><span>${label}</span><span class="dnote">${d.note}/${d.bareme}</span></div>
+        <div style="color:var(--muted);">${d.commentaire || ''}</div>
+      </div>`;
+  });
+  if(result.perfectionnement){
+    html += `
+      <div class="detail-item" style="border-left:4px solid var(--yellow);">
+        <div class="dh"><span>✨ Perfectionnement</span><span class="dnote">${result.perfectionnement.note}/${result.perfectionnement.bareme}</span></div>
+        <div style="color:var(--muted);">${result.perfectionnement.commentaire || ''}</div>
+      </div>`;
+  }
+  if(result.remediation && result.remediation.length){
+    html += `
+      <div class="remediation-box">
+        <h4>🛠️ Pistes de remédiation</h4>
+        <ul>${result.remediation.map(r=>`<li>${r}</li>`).join('')}</ul>
+      </div>`;
+  }
+  resultBody.innerHTML = html;
+  showToast('✅ Copie corrigée !');
+}
+
+let toastTimer;
+function showToast(msg){
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=> el.classList.remove('show'), 2800);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Épreuve Maths Série D - Première évaluation du 1er trimestre</title>
+<style>
+:root{
+  --violet:#3d2b6b; --violet-dark:#241a45; --yellow:#ffd93d; --yellow-soft:#fff3c4;
+  --sky:#4fc3f7; --bg:#f7f5ff; --card:#ffffff; --text:#241a45; --muted:#6b6280;
+  --mint:#4ade80; --forest:#166534; --raspberry:#be185d; --radius:16px;
+}
+*{box-sizing:border-box;}
+body{margin:0;font-family:'Nunito',-apple-system,sans-serif;background:var(--bg);color:var(--text);}
+h1,h2,h3{font-family:'Baloo 2','Fredoka',sans-serif;}
+.app{max-width:520px;margin:0 auto;padding-bottom:30px;}
+header{background:linear-gradient(135deg,var(--violet),var(--violet-dark));color:#fff;padding:16px;text-align:center;}
+header h1{margin:0 0 4px;font-size:1rem;}
+.meta-box{background:rgba(255,255,255,.12);border-radius:12px;padding:8px;margin-top:10px;font-size:.7rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px;}
+.exam-title{background:#fff;color:var(--violet-dark);border:2px solid var(--violet-dark);border-radius:12px;padding:8px 10px;margin:12px 14px 0;text-align:center;font-weight:900;font-size:.85rem;text-transform:uppercase;}
+.exam-sub{text-align:center;font-weight:800;font-size:.85rem;margin:10px 0 0;text-decoration:underline;}
+
+main{padding:14px;}
+.card{background:var(--card);border-radius:var(--radius);padding:14px;margin-bottom:14px;box-shadow:0 2px 10px rgba(36,26,69,.06);border:1px solid #ece8fb;}
+.context .ctx-label{font-weight:800;text-decoration:underline;font-size:.9rem;}
+.context p{font-size:.85rem;line-height:1.5;}
+.context p em{font-style:italic;}
+.formula-box{background:#f0edfb;border-radius:10px;padding:10px;font-size:.83rem;margin:8px 0;font-weight:700;color:var(--violet-dark);line-height:1.6;}
+.tache{background:var(--yellow-soft);border-radius:12px;padding:10px;font-size:.85rem;font-weight:700;color:var(--violet-dark);margin-top:10px;}
+.tache u{text-decoration:underline;}
+
+.pb-title{background:var(--violet);color:#fff;padding:8px 12px;border-radius:12px;font-weight:800;font-size:.95rem;margin-bottom:10px;text-decoration:underline;}
+.intro-txt{font-size:.85rem;margin-bottom:10px;line-height:1.5;}
+.question{margin-bottom:16px;}
+.question .q-label{font-weight:800;font-size:.86rem;margin-bottom:6px;display:block;}
+.pts{font-size:.65rem;font-weight:800;color:var(--raspberry);background:#fde7f3;padding:2px 7px;border-radius:8px;margin-left:4px;white-space:nowrap;}
+.sub{margin-left:8px;font-size:.83rem;margin-bottom:8px;}
+
+.vf-item{background:#fbfaff;border:1px solid #ece8fb;border-radius:10px;padding:8px 10px;margin-bottom:6px;font-size:.82rem;}
+.vf-item b{color:var(--violet-dark);}
+
+.notebook{
+  width:100%;min-height:70px;border-radius:10px;border:1.5px solid #d8d2f5;padding:10px;
+  font-family:'Nunito',sans-serif;font-size:.87rem;color:var(--text);
+  background-image:repeating-linear-gradient(to bottom, transparent, transparent 27px, #e3ddfa 28px);
+  line-height:28px;resize:vertical;
+}
+.notebook:focus{outline:2px solid var(--sky);}
+
+.paper-mode{background:#fff7e0;border:1.5px solid var(--yellow);border-radius:12px;padding:10px;margin-bottom:14px;font-size:.8rem;}
+.paper-mode b{color:var(--violet-dark);}
+.bareme-note{background:#f0edfb;border-radius:12px;padding:10px;font-size:.78rem;margin-bottom:14px;color:var(--violet-dark);}
+
+.photo-card{background:var(--card);border-radius:var(--radius);padding:14px;margin-bottom:14px;border:2px dashed #c9bff5;text-align:center;}
+.photo-card h3{margin-top:0;font-size:1rem;}
+.photo-card p{font-size:.8rem;color:var(--muted);margin-bottom:10px;}
+.tool-btn{background:#f0edfb;border:1.5px solid #d8d2f5;border-radius:12px;padding:11px 16px;font-size:.85rem;font-weight:800;color:var(--violet-dark);display:inline-flex;align-items:center;gap:6px;}
+.photo-preview{margin-top:10px;max-width:100%;border-radius:10px;border:1.5px solid #d8d2f5;display:none;}
+input[type=file]{display:none;}
+
+.submit-bar{margin-top:4px;}
+.btn{border:none;border-radius:14px;padding:13px;font-weight:900;font-size:.9rem;color:#fff;background:var(--violet);width:100%;}
+.btn:disabled{opacity:.6;}
+
+.corrige-lock{background:#f0edfb;border:2px dashed #c9bff5;border-radius:14px;padding:16px;text-align:center;}
+.corrige-lock p{font-size:.82rem;color:var(--muted);margin:6px 0 12px;}
+.corrige-content{display:none;}
+.corrige-content.open{display:block;}
+.corrige-item{background:#f7f5ff;border-radius:10px;padding:10px;margin-bottom:8px;font-size:.8rem;border-left:4px solid var(--mint);line-height:1.5;}
+.corrige-item b{color:var(--violet-dark);}
+
+.result-card{display:none;}
+.result-card.open{display:block;}
+.note-hero{background:linear-gradient(135deg,var(--mint),var(--forest));color:#fff;border-radius:18px;padding:20px;text-align:center;margin-bottom:14px;}
+.note-hero .note-val{font-size:2.4rem;font-weight:900;line-height:1;}
+.note-hero .note-sur{font-size:1rem;opacity:.9;}
+.note-hero .appreciation{margin-top:8px;font-size:.88rem;font-weight:700;}
+.detail-item{background:#fbfaff;border-radius:12px;padding:10px;margin-bottom:8px;border:1px solid #ece8fb;font-size:.82rem;}
+.detail-item .dh{display:flex;justify-content:space-between;align-items:center;font-weight:800;margin-bottom:4px;gap:6px;}
+.detail-item .dnote{background:var(--yellow-soft);color:var(--violet-dark);padding:2px 9px;border-radius:8px;font-size:.72rem;white-space:nowrap;}
+.remediation-box{background:#fff7e0;border:1.5px solid var(--yellow);border-radius:12px;padding:12px;margin-top:10px;}
+.remediation-box h4{margin:0 0 6px;font-size:.9rem;color:var(--violet-dark);}
+.remediation-box ul{margin:0;padding-left:18px;font-size:.82rem;}
+.remediation-box li{margin-bottom:4px;}
+.loading-box{text-align:center;padding:24px 10px;}
+.spinner{width:34px;height:34px;border:4px solid #ece8fb;border-top-color:var(--violet);border-radius:50%;margin:0 auto 12px;animation:spin 0.8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+.toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:var(--violet-dark);color:#fff;padding:10px 18px;border-radius:20px;font-size:.82rem;font-weight:700;z-index:200;opacity:0;transition:opacity .3s;}
+.toast.show{opacity:1;}
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <h1>📘 Épreuve Interactive de Mathématiques</h1>
+    <div class="meta-box">
+      <span>📅 Année : 2024-2025</span>
+      <span>🏫 Série : D</span>
+      <span>⏱️ Durée : 3H</span>
+    </div>
+  </header>
+
+  <div class="exam-title">Première Évaluation du Premier Trimestre</div>
+  <div class="exam-sub">Épreuve : Mathématiques</div>
+
+  <main>
+    <div class="paper-mode">
+      📝 <b>Tu peux composer sur une feuille</b> si tu préfères, notamment pour la figure en perspective cavalière. Une seule photo de ta copie complète suffit — tu la joindras à la toute fin, juste avant de soumettre.
+    </div>
+    <div class="bareme-note">
+      📊 <b>Barème :</b> ta copie sera notée sur <b>20 points</b> — 18 points répartis sur les questions ci-dessous, et <b>2 points de perfectionnement</b> (clarté, rigueur, présentation, démarche).
+    </div>
+
+    <div class="card context">
+      <div class="ctx-label">Texte : La construction d'une tour administrative.</div>
+      <p>Afin de doter nos ministères de leur propre site de travail, l'Etat béninois décide de faire construire une tour administrative. L'architecte Espéranzo est chargé de mener à bon port ce projet. Le plan choisi par Espéranzo est celui comportant le motif ci-dessous :</p>
+      <div class="formula-box">
+        Information<br>
+        ➤ ABCDEFGH est un cube d'arrête a avec a positif<br>
+        ➤ I milieu du segment [AB]<br>
+        ➤ J milieu du segment [BG]
+      </div>
+      <p>Gnénigbo, un élève de la classe de première D impressionné particulièrement par ce motif se propose de mettre en application quelques notions étudiées en classe.</p>
+      <div class="tache"><u>Tâche</u> : Tu vas aider cet élève à résoudre les trois problèmes suivants.</div>
+    </div>
+
+    <!-- PROBLEME 1 -->
+    <div class="card">
+      <div class="pb-title">Problème 1</div>
+
+      <div class="question">
+        <span class="q-label">1) Réponds par vrai ou faux aux assertions suivantes puis corrige celles qui sont fausses : <span class="pts">3 pts</span></span>
+        <div class="vf-item"><b>a.</b> Deux droites de l'espace sont orthogonales lorsque les parallèles à ces droites passant par un point donné sont orthogonales dans le plan qu'elles définissent.</div>
+        <div class="vf-item"><b>b.</b> Si deux droites de l'espace sont orthogonales alors toute droite orthogonale à l'une est parallèle à l'autre.</div>
+        <div class="vf-item"><b>c.</b> Si une droite est orthogonale à deux droites sécantes d'un plan, elle est orthogonale à ce plan.</div>
+        <div class="vf-item"><b>d.</b> Par un point A de l'espace, il passe une droite unique de l'espace perpendiculaire à un plan donné de l'espace.</div>
+        <div class="vf-item"><b>e.</b> Par un point de l'espace, il passe un plan unique orthogonal à une droite donnée de l'espace.</div>
+        <div class="vf-item"><b>f.</b> Si deux plans sont parallèles alors toute droite orthogonale à l'un est orthogonale à l'autre.</div>
+        <div class="vf-item"><b>g.</b> Si deux plans sont perpendiculaires à une même droite alors ils sont parallèles.</div>
+        <div class="vf-item"><b>h.</b> Si deux droites sont parallèles alors tout plan orthogonal à l'une est orthogonal à l'autre.</div>
+        <div class="vf-item"><b>i.</b> Si deux droites sont orthogonales à un même plan alors elles sont parallèles.</div>
+        <div class="vf-item"><b>j.</b> Deux plans sont perpendiculaires lorsque l'un contient une droite orthogonale à l'autre.</div>
+        <div class="vf-item"><b>k.</b> Deux vecteurs sont dits colinéaires lorsque l'un d'eux est le vecteur nul ou bien lorsque les deux ont la même norme.</div>
+        <div class="vf-item"><b>l.</b> Trois vecteurs u⃗, v⃗, w⃗ sont coplanaires si l'un au moins de ces vecteurs est une combinaison linéaire des deux autres.</div>
+        <textarea class="notebook" data-qid="p1_1" placeholder="Réponds vrai/faux pour chaque item (a à l) et corrige celles qui sont fausses..." style="min-height:160px;"></textarea>
+      </div>
+
+      <div class="question">
+        <span class="q-label">2)</span>
+        <div class="sub">a) Démontre que la droite (EF) est orthogonale au plan (FBC). <span class="pts">1 pt</span></div>
+        <textarea class="notebook" data-qid="p1_2a" placeholder="Ta démonstration..." style="min-height:50px;"></textarea>
+        <div class="sub" style="margin-top:8px;">b) Démontre que les droites (EF) et (BG) sont perpendiculaires. <span class="pts">1 pt</span></div>
+        <textarea class="notebook" data-qid="p1_2b" placeholder="Ta démonstration..." style="min-height:50px;"></textarea>
+        <div class="sub" style="margin-top:8px;">c) Démontre que la droite (BG) est orthogonale au plan (EFC). <span class="pts">1 pt</span></div>
+        <textarea class="notebook" data-qid="p1_2c" placeholder="Ta démonstration..." style="min-height:50px;"></textarea>
+      </div>
+    </div>
+
+    <!-- PROBLEME 2 -->
+    <div class="card">
+      <div class="pb-title">Problème 2</div>
+      <p class="intro-txt">Pour mieux utiliser les informations des motifs, Gnénigbo reproduit le motif en prenant a = 30° et c = 1/2, avec a l'inclinaison des fuyantes et c le coefficient de réduction.</p>
+
+      <div class="question">
+        <span class="q-label">3) Reproduis en perspective cavalière le cube ABCDEFGH avec a = 4cm. <span class="pts">1 pt</span></span>
+        <p style="font-size:.78rem;color:var(--muted);margin:0 0 6px;">📐 Réalise ce tracé sur ta feuille (au crayon/règle) — il apparaîtra sur la photo de ta copie que tu joindras à la fin.</p>
+        <textarea class="notebook" data-qid="p2_3" placeholder="(facultatif) Notes sur ta construction..." style="min-height:40px;"></textarea>
+      </div>
+
+      <div class="question">
+        <span class="q-label">4)</span>
+        <div class="sub">a) Démontre que les droites (AH) et (AB) sont perpendiculaires. <span class="pts">1 pt</span></div>
+        <textarea class="notebook" data-qid="p2_4a" placeholder="Ta démonstration..." style="min-height:50px;"></textarea>
+        <div class="sub" style="margin-top:8px;">b) Démontre que le quadrilatère ABGH est un rectangle. <span class="pts">1 pt</span></div>
+        <textarea class="notebook" data-qid="p2_4b" placeholder="Ta démonstration..." style="min-height:50px;"></textarea>
+        <div class="sub" style="margin-top:8px;">c) Détermine en fonction de a la longueur des segments [IJ], [IH] et [JH]. <span class="pts">1 pt</span></div>
+        <textarea class="notebook" data-qid="p2_4c" placeholder="Ton calcul..."></textarea>
+        <div class="sub" style="margin-top:8px;">d) Démontre que le triangle IJH est rectangle. <span class="pts">1 pt</span></div>
+        <textarea class="notebook" data-qid="p2_4d" placeholder="Ta démonstration..." style="min-height:50px;"></textarea>
+      </div>
+
+      <div class="question">
+        <span class="q-label">5)</span>
+        <div class="sub">a) Justifie que le triangle BGD est un triangle équilatéral. <span class="pts">1 pt</span></div>
+        <textarea class="notebook" data-qid="p2_5a" placeholder="Ta justification..." style="min-height:50px;"></textarea>
+        <div class="sub" style="margin-top:8px;">b) Démontre que les droites (DJ) et (BG) sont perpendiculaires. <span class="pts">1 pt</span></div>
+        <textarea class="notebook" data-qid="p2_5b" placeholder="Ta démonstration..." style="min-height:50px;"></textarea>
+      </div>
+    </div>
+
+    <!-- PROBLEME 3 -->
+    <div class="card">
+      <div class="pb-title">Problème 3</div>
+      <p class="intro-txt">ABCDEFGH un cube tel que AD = 4cm. Soient D', B' et E' respectivement les points des segments [AD] ; [AB] et [AE] tels que AD' = AB' = AE' = 2cm.</p>
+      <p class="intro-txt">On pose i⃗ = AD'⃗ ; j⃗ = AB'⃗ ; k⃗ = AE'⃗.</p>
+
+      <div class="question">
+        <span class="q-label">6)</span>
+        <div class="sub">a) Démontre que R = (A ; i⃗, j⃗, k⃗) est un repère de l'espace. <span class="pts">1 pt</span></div>
+        <textarea class="notebook" data-qid="p3_6a" placeholder="Ta démonstration..." style="min-height:50px;"></textarea>
+        <div class="sub" style="margin-top:8px;">b) Détermine dans le repère R = (A ; i⃗, j⃗, k⃗) les coordonnées des points E, F, G et A. <span class="pts">1 pt</span></div>
+        <textarea class="notebook" data-qid="p3_6b" placeholder="Ton calcul..."></textarea>
+      </div>
+
+      <p class="intro-txt">7) Soit P le milieu du segment [HE] et L celui de [CG]. On désigne par Q le projeté orthogonal de G sur la droite (PL).</p>
+
+      <div class="question">
+        <div class="sub">a) Détermine les coordonnées des points I et J dans le repère R. <span class="pts">1 pt</span></div>
+        <textarea class="notebook" data-qid="p3_7a" placeholder="Ton calcul..." style="min-height:50px;"></textarea>
+        <div class="sub" style="margin-top:8px;">b) Construis le point Q en justifiant ta réponse (sur la figure du problème 2, au stylo bleu). <span class="pts">1 pt</span></div>
+        <textarea class="notebook" data-qid="p3_7b" placeholder="Ta justification..." style="min-height:60px;"></textarea>
+      </div>
+
+      <div class="question">
+        <span class="q-label">8) Soient u⃗, v⃗, w⃗ trois vecteurs de w définis par :</span>
+        <div class="formula-box">
+          u⃗ = i⃗ + 2j⃗ − 2k⃗ &nbsp; ; &nbsp; v⃗ = −2i⃗ + 2j⃗ + k⃗ &nbsp; ; &nbsp; w⃗ = 2i⃗ + j⃗ + 2k⃗
+        </div>
+        <div class="sub">Démontre que les vecteurs u⃗, v⃗, w⃗ forment une base de l'espace. <span class="pts">1 pt</span></div>
+        <textarea class="notebook" data-qid="p3_8" placeholder="Ta démonstration..."></textarea>
+      </div>
+    </div>
+
+    <!-- PHOTO DE LA COPIE (unique, à la fin) -->
+    <div class="photo-card">
+      <h3>📷 Ma copie manuscrite</h3>
+      <p>Prends une photo de ta copie complète (calculs + figures : perspective cavalière du problème 2 et construction du point Q) et joins-la ici avant de soumettre.</p>
+      <label class="tool-btn" for="file-copie">📷 Prendre une photo de ma copie</label>
+      <input type="file" id="file-copie" accept="image/*" capture="environment" onchange="handlePhoto(this,'prev-copie')">
+      <img class="photo-preview" id="prev-copie">
+    </div>
+
+    <div class="submit-bar">
+      <button class="btn" id="submitBtn" onclick="submitExam()">✅ Soumettre mes réponses</button>
+    </div>
+
+    <!-- RESULTATS DE CORRECTION -->
+    <div class="card result-card" id="resultCard">
+      <div class="pb-title" style="background:var(--forest);">🧑‍🏫 Correction de ta copie</div>
+      <div id="resultBody"></div>
+    </div>
+
+    <!-- CORRIGE TYPE -->
+    <div class="card">
+      <div class="pb-title" style="background:var(--raspberry);">🔒 Corrigé-type</div>
+      <div class="corrige-lock" id="corrigeLock">
+        <p>🔐 Le corrigé-type est verrouillé. Il se débloquera automatiquement dès que tu auras soumis ta copie.</p>
+      </div>
+      <div class="corrige-content" id="corrigeContent">
+        <div class="corrige-item"><b>Repère de travail (arête a) :</b> A(0,0,0), B(a,0,0), C(a,a,0), D(0,a,0), E(0,0,a), F(a,0,a), G(a,a,a), H(0,a,a). I milieu [AB] = (a/2,0,0). J milieu [BG] = (a, a/2, a/2).</div>
+        <div class="corrige-item"><b>1)</b> <b>a. Vrai</b> (définition de l'orthogonalité de deux droites). <b>b. Faux</b> — correction : « Si deux droites sont orthogonales alors toute droite parallèle à l'une est orthogonale à l'autre ». <b>c. Vrai</b> (critère d'orthogonalité droite-plan). <b>d. Vrai</b>. <b>e. Vrai</b>. <b>f. Vrai</b>. <b>g. Vrai</b>. <b>h. Vrai</b>. <b>i. Vrai</b>. <b>j. Vrai</b> (définition des plans perpendiculaires). <b>k. Faux</b> — correction : « Deux vecteurs sont colinéaires lorsque l'un est le vecteur nul, ou bien lorsqu'il existe un réel k tel que l'un soit égal à k fois l'autre ». <b>l. Vrai</b> (définition de la coplanarité).</div>
+        <div class="corrige-item"><b>2-a)</b> EF⃗=(a,0,0). Le plan (FBC) contient F,B,C qui ont tous pour abscisse a : c'est le plan {x=a}, de normale (1,0,0), colinéaire à EF⃗. Donc <b>(EF)⊥(FBC)</b>.</div>
+        <div class="corrige-item"><b>2-b)</b> EF⃗=(a,0,0) et BG⃗=(0,a,a). EF⃗·BG⃗=0 → <b>(EF)⊥(BG)</b>.</div>
+        <div class="corrige-item"><b>2-c)</b> Une normale au plan (EFC) est EF⃗∧EC⃗=(a,0,0)∧(a,a,-a)=(0,a²,a²), colinéaire à (0,1,1). BG⃗=(0,a,a) est colinéaire à cette normale → <b>(BG)⊥(EFC)</b>.</div>
+        <div class="corrige-item"><b>4-a)</b> AH⃗=(0,a,a) et AB⃗=(a,0,0). AH⃗·AB⃗=0 → <b>(AH)⊥(AB)</b>.</div>
+        <div class="corrige-item"><b>4-b)</b> AB⃗=(a,0,0)=HG⃗ → ABGH est un parallélogramme. Avec l'angle droit en A (4-a), <b>ABGH est un rectangle</b>.</div>
+        <div class="corrige-item"><b>4-c)</b> IJ⃗=(a/2,a/2,a/2) → <b>IJ = a√3/2</b>. IH⃗=(-a/2,a,a) → <b>IH = 3a/2</b>. JH⃗=(-a,a/2,a/2) → <b>JH = a√6/2</b>.</div>
+        <div class="corrige-item"><b>4-d)</b> IJ²+JH² = 3a²/4 + 3a²/2 = 9a²/4 = IH². D'après la réciproque du théorème de Pythagore, <b>le triangle IJH est rectangle en J</b>.</div>
+        <div class="corrige-item"><b>5-a)</b> BG=BD=GD=a√2 (diagonales de faces du cube) → <b>BGD est équilatéral</b>.</div>
+        <div class="corrige-item"><b>5-b)</b> DJ⃗=(a,-a/2,a/2) et BG⃗=(0,a,a). DJ⃗·BG⃗ = 0 -a²/2+a²/2 = 0 → <b>(DJ)⊥(BG)</b>.</div>
+        <div class="corrige-item"><b>6-a)</b> i⃗=(0,2,0), j⃗=(2,0,0), k⃗=(0,0,2) (arête a=4) sont deux à deux orthogonaux et non nuls, donc non coplanaires : ils forment une base de l'espace. Avec l'origine A, <b>R=(A;i⃗,j⃗,k⃗) est un repère de l'espace</b>.</div>
+        <div class="corrige-item"><b>6-b)</b> En exprimant chaque point (x,y,z) dans la base (i⃗,j⃗,k⃗) via (α,β,γ)=(y/2,x/2,z/2) : <b>E(0;0;2)</b>, <b>F(0;2;2)</b>, <b>G(2;2;2)</b>, <b>A(0;0;0)</b>.</div>
+        <div class="corrige-item"><b>7-a)</b> I=(2,0,0) → <b>I(0;1;0)</b>. J=(4,2,2) → <b>J(1;2;1)</b>.</div>
+        <div class="corrige-item"><b>7-b)</b> P milieu [HE] = (0,2,4), L milieu [CG] = (4,4,2). Q, projeté orthogonal de G sur (PL), est le point de la droite (PL) tel que GQ⊥PL : on le construit en traçant, dans le plan (PLG), la perpendiculaire à (PL) passant par G ; son intersection avec (PL) donne Q (on trouve par le calcul Q(10/3 ; 11/3 ; 7/3) dans le repère (A;AB,AD,AE)).</div>
+        <div class="corrige-item"><b>8)</b> Dans la base (i⃗,j⃗,k⃗), u⃗(1,2,-2), v⃗(-2,2,1), w⃗(2,1,2). Le déterminant vaut 1(4-1)-2(-4-2)+(-2)(-2-4) = 3+12+12 = <b>27 ≠ 0</b>. Les vecteurs sont donc linéairement indépendants : <b>u⃗, v⃗, w⃗ forment une base de l'espace</b>.</div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const bareme = {
+  p1_1:{label:"1) Vrai/Faux + corrections (a à l)",pts:3},
+  p1_2a:{label:"2-a) (EF)⊥(FBC)",pts:1},
+  p1_2b:{label:"2-b) (EF)⊥(BG)",pts:1},
+  p1_2c:{label:"2-c) (BG)⊥(EFC)",pts:1},
+  p2_3:{label:"3) Construction perspective cavalière",pts:1},
+  p2_4a:{label:"4-a) (AH)⊥(AB)",pts:1},
+  p2_4b:{label:"4-b) ABGH rectangle",pts:1},
+  p2_4c:{label:"4-c) Longueurs IJ, IH, JH",pts:1},
+  p2_4d:{label:"4-d) Triangle IJH rectangle",pts:1},
+  p2_5a:{label:"5-a) BGD équilatéral",pts:1},
+  p2_5b:{label:"5-b) (DJ)⊥(BG)",pts:1},
+  p3_6a:{label:"6-a) R est un repère de l'espace",pts:1},
+  p3_6b:{label:"6-b) Coordonnées de E,F,G,A",pts:1},
+  p3_7a:{label:"7-a) Coordonnées de I et J",pts:1},
+  p3_7b:{label:"7-b) Construction du point Q",pts:1},
+  p3_8:{label:"8) u,v,w forment une base",pts:1}
+};
+
+const corrigeText = `
+Repère : A(0,0,0),B(a,0,0),C(a,a,0),D(0,a,0),E(0,0,a),F(a,0,a),G(a,a,a),H(0,a,a). I(a/2,0,0), J(a,a/2,a/2).
+1) Faux : b, k. Toutes les autres (a,c,d,e,f,g,h,i,j,l) sont vraies.
+   Correction b : toute droite parallèle à l'une des deux droites orthogonales est orthogonale à l'autre.
+   Correction k : deux vecteurs sont colinéaires si l'un est nul ou s'il existe un réel k tel que l'un = k fois l'autre.
+2-a) EF.normale(FBC)=0 colinéaire → (EF)⊥(FBC).
+2-b) EF·BG=0 → perpendiculaires.
+2-c) BG colinéaire à la normale de (EFC) → (BG)⊥(EFC).
+4-a) AH·AB=0 → perpendiculaires.
+4-b) AB=HG et angle droit en A → ABGH rectangle.
+4-c) IJ=a√3/2, IH=3a/2, JH=a√6/2.
+4-d) IJ²+JH²=IH² → rectangle en J.
+5-a) BG=BD=GD=a√2 → équilatéral.
+5-b) DJ·BG=0 → perpendiculaires.
+6-a) i,j,k orthogonaux deux à deux et non nuls → base ; R=(A;i,j,k) repère.
+6-b) E(0;0;2), F(0;2;2), G(2;2;2), A(0;0;0).
+7-a) I(0;1;0), J(1;2;1).
+7-b) Q = projeté orthogonal de G sur (PL), P milieu[HE], L milieu[CG] ; construction par perpendiculaire dans le plan (PLG).
+8) déterminant des coordonnées de u,v,w = 27 ≠ 0 → base de l'espace.
+`;
+
+function handlePhoto(input, previewId){
+  const file = input.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e=>{
+    const img = document.getElementById(previewId);
+    img.src = e.target.result;
+    img.style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+}
+
+function fileToBase64(file){
+  return new Promise((resolve,reject)=>{
+    const reader = new FileReader();
+    reader.onload = ()=> resolve(reader.result.split(',')[1]);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+async function submitExam(){
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳ Correction en cours...';
+
+  const resultCard = document.getElementById('resultCard');
+  const resultBody = document.getElementById('resultBody');
+  resultCard.classList.add('open');
+  resultBody.innerHTML = `<div class="loading-box"><div class="spinner"></div><p style="font-size:.85rem;color:var(--muted);">Ton professeur virtuel corrige ta copie...</p></div>`;
+  resultCard.scrollIntoView({behavior:'smooth', block:'start'});
+
+  let answersText = '';
+  document.querySelectorAll('.notebook').forEach(a=>{
+    const qid = a.dataset.qid;
+    const label = bareme[qid] ? bareme[qid].label : qid;
+    answersText += `\n[${qid} - ${label} - barème ${bareme[qid]?bareme[qid].pts:'?'} pt]\nRéponse de l'élève : ${a.value.trim() || '(vide)'}\n`;
+  });
+
+  const fileInput = document.getElementById('file-copie');
+  let imageContent = null;
+  if(fileInput.files[0]){
+    try{
+      const base64 = await fileToBase64(fileInput.files[0]);
+      const mime = fileInput.files[0].type || 'image/jpeg';
+      imageContent = { type:"image", source:{ type:"base64", media_type: mime, data: base64 } };
+    }catch(e){ console.error(e); }
+  }
+
+  const bloc = Object.entries(bareme).map(([qid,b])=>`${qid} (${b.label}) : ${b.pts} pt`).join('\n');
+
+  const systemPrompt = `Tu es un professeur de mathématiques béninois, rigoureux, exigeant mais bienveillant, qui corrige la copie d'un élève de Série D sur la géométrie dans l'espace (orthogonalité de droites et de plans, propriétés vrai/faux, perspective cavalière, repères et coordonnées, vecteurs et bases de l'espace).
+Corrige STRICTEMENT selon le corrigé-type fourni, en acceptant toute méthode correcte (synthétique ou vectorielle) menant au bon résultat. Pour la question 1 (vrai/faux), attribue le barème proportionnellement au nombre d'items correctement identifiés ET correctement corrigés parmi les 12 (a à l). Pour les questions de construction (3 et 7-b), base-toi principalement sur la photo de la copie si elle est fournie ; à défaut, évalue la pertinence de la description écrite.
+Barème total sur 20 points : 18 points répartis selon le barème détaillé ci-dessous, et 2 points de "perfectionnement" évaluant la clarté de la rédaction, la rigueur de la démarche, la présentation et la logique du raisonnement global.
+
+Barème détaillé (18 points) :
+${bloc}
+
+Corrigé-type de référence :
+${corrigeText}
+
+Réponds UNIQUEMENT avec un objet JSON valide (sans texte avant/après, sans balises markdown), au format exact suivant :
+{
+ "details":[
+   {"qid":"p1_1","note":X,"bareme":3,"commentaire":"commentaire court et précis"},
+   ... (un objet pour chaque qid du barème, dans le même ordre)
+ ],
+ "perfectionnement":{"note":X,"bareme":2,"commentaire":"commentaire sur la présentation et la rigueur"},
+ "total":X,
+ "appreciation":"une phrase d'appréciation générale, style bulletin scolaire",
+ "remediation":["conseil concret 1","conseil concret 2","conseil concret 3"]
+}
+Les notes doivent être cohérentes avec le barème (jamais négatives, jamais supérieures au barème de la question). Le total doit être la somme exacte des notes de détails + la note de perfectionnement, sur 20.`;
+
+  const userContent = [];
+  userContent.push({type:"text", text: `Voici les réponses tapées par l'élève :\n${answersText}\n\n${imageContent ? "L'élève a aussi joint une photo de sa copie manuscrite (voir image ci-jointe), incluant potentiellement les figures (perspective cavalière et construction de Q) : tiens-en compte pour compléter/vérifier ses réponses." : "Aucune photo de copie manuscrite n'a été jointe."}`});
+  if(imageContent) userContent.push(imageContent);
+
+  try{
+    const response = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-6",
+        max_tokens: 2500,
+        system: systemPrompt,
+        messages: [{ role:"user", content: userContent }]
+      })
+    });
+    const data = await response.json();
+    const rawText = (data.content || []).map(c=>c.text||'').join('\n');
+    const clean = rawText.replace(/```json|```/g,'').trim();
+    const result = JSON.parse(clean);
+    renderResult(result);
+  }catch(err){
+    console.error("Erreur de correction :", err);
+    resultBody.innerHTML = `<p style="font-size:.85rem;color:var(--raspberry);">⚠️ La correction automatique n'a pas pu être effectuée pour le moment. Réessaie dans un instant, ou consulte le corrigé-type ci-dessous pour t'auto-évaluer.</p>`;
+  }
+
+  btn.disabled = false;
+  btn.textContent = '✅ Soumettre mes réponses';
+  document.getElementById('corrigeLock').style.display='none';
+  document.getElementById('corrigeContent').classList.add('open');
+}
+
+function renderResult(result){
+  const resultBody = document.getElementById('resultBody');
+  let html = `
+    <div class="note-hero">
+      <div class="note-val">${result.total}<span class="note-sur">/20</span></div>
+      <div class="appreciation">${result.appreciation || ''}</div>
+    </div>
+  `;
+  (result.details || []).forEach(d=>{
+    const label = bareme[d.qid] ? bareme[d.qid].label : d.qid;
+    html += `
+      <div class="detail-item">
+        <div class="dh"><span>${label}</span><span class="dnote">${d.note}/${d.bareme}</span></div>
+        <div style="color:var(--muted);">${d.commentaire || ''}</div>
+      </div>`;
+  });
+  if(result.perfectionnement){
+    html += `
+      <div class="detail-item" style="border-left:4px solid var(--yellow);">
+        <div class="dh"><span>✨ Perfectionnement</span><span class="dnote">${result.perfectionnement.note}/${result.perfectionnement.bareme}</span></div>
+        <div style="color:var(--muted);">${result.perfectionnement.commentaire || ''}</div>
+      </div>`;
+  }
+  if(result.remediation && result.remediation.length){
+    html += `
+      <div class="remediation-box">
+        <h4>🛠️ Pistes de remédiation</h4>
+        <ul>${result.remediation.map(r=>`<li>${r}</li>`).join('')}</ul>
+      </div>`;
+  }
+  resultBody.innerHTML = html;
+  showToast('✅ Copie corrigée !');
+}
+
+let toastTimer;
+function showToast(msg){
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=> el.classList.remove('show'), 2800);
+}
+</script>
+</body>
+</html>
