@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test Révision Histoire-Géographie Tle A — Bénin</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800;900&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Nunito', sans-serif;
+  min-height: 100vh;
+  transition: background 0.7s, color 0.7s;
+}
+
+/* ── THÈMES ── */
+body.t0 { background:#FFF9C4; color:#4A148C; --cb:#7B1FA2; --ca:#F57F17; --cc:#FFF3E0; --cd:#CE93D8; }
+body.t1 { background:#E3F2FD; color:#0D47A1; --cb:#1565C0; --ca:#0288D1; --cc:#BBDEFB; --cd:#64B5F6; }
+body.t2 { background:#E8F5E9; color:#1B5E20; --cb:#2E7D32; --ca:#00796B; --cc:#C8E6C9; --cd:#81C784; }
+body.t3 { background:#FCE4EC; color:#880E4F; --cb:#AD1457; --ca:#C62828; --cc:#F8BBD0; --cd:#F48FB1; }
+
+/* ══════════════════════════════
+   PAGE DE GARDE
+══════════════════════════════ */
+#garde {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(160deg, #4A148C 0%, #7B1FA2 50%, #F57F17 100%);
+  padding: 0 20px 50px;
+  min-height: 100vh;
+}
+
+/* BOUTON COMMENCER — TOUT EN HAUT */
+.btn-top-wrap {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 18px 20px 10px;
+  background: rgba(0,0,0,0.25);
+}
+
+.btn-commencer {
+  background: #F57F17;
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  padding: 18px 48px;
+  font-family: 'Baloo 2', cursive;
+  font-size: 1.6rem;
+  font-weight: 900;
+  letter-spacing: 1px;
+  cursor: pointer;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.35);
+  transition: transform .2s, box-shadow .2s;
+  animation: pulser 1.8s infinite;
+}
+@keyframes pulser {
+  0%,100% { box-shadow: 0 6px 24px rgba(245,127,23,.5); }
+  50%      { box-shadow: 0 8px 36px rgba(245,127,23,.9); }
+}
+.btn-commencer:hover { transform: scale(1.06); }
+.btn-commencer:active { transform: scale(.97); }
+
+/* TITRE PRINCIPAL */
+.garde-titre {
+  font-family: 'Baloo 2', cursive;
+  font-size: clamp(1.7rem, 5.5vw, 3.2rem);
+  font-weight: 900;
+  color: #FFF9C4;
+  text-align: center;
+  line-height: 1.25;
+  margin-top: 32px;
+  text-shadow: 3px 3px 0 #F57F17;
+  max-width: 700px;
+  padding: 0 10px;
+}
+
+.garde-flag { font-size: 3.5rem; margin-top: 20px; animation: saut 1.2s infinite alternate; }
+@keyframes saut { from{transform:translateY(0)} to{transform:translateY(-12px)} }
+
+.garde-badge {
+  margin-top: 20px;
+  background: rgba(255,255,255,.18);
+  color: #FFF9C4;
+  border-radius: 30px;
+  padding: 8px 28px;
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+/* ══════════════════════════════
+   BARRE DE PROGRESSION
+══════════════════════════════ */
+#app { display:none; padding: 0 16px 30px; max-width: 860px; margin: 0 auto; }
+
+.prog-bar-wrap {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(255,255,255,.92);
+  backdrop-filter: blur(8px);
+  border-radius: 0 0 18px 18px;
+  padding: 10px 18px 12px;
+  margin: 0 -16px 22px;
+  box-shadow: 0 4px 16px rgba(0,0,0,.1);
+}
+.prog-info { display:flex; justify-content:space-between; align-items:center; margin-bottom:7px; }
+.prog-label { font-size:1rem; font-weight:900; color:var(--cb,#7B1FA2); }
+.prog-score { font-size:1.05rem; font-weight:900; color:var(--cb,#7B1FA2); }
+.prog-bg { height:13px; background:rgba(0,0,0,.1); border-radius:10px; overflow:hidden; }
+.prog-fill { height:100%; border-radius:10px; background:var(--cb,#7B1FA2); transition:width .5s cubic-bezier(.4,0,.2,1); }
+
+/* ══════════════════════════════
+   BANNIÈRE SA
+══════════════════════════════ */
+.sa-banner {
+  text-align:center;
+  background:var(--cb,#7B1FA2);
+  color:#fff;
+  border-radius:22px;
+  padding:26px 20px;
+  margin-bottom:24px;
+  animation:popIn .5s cubic-bezier(.4,0,.2,1);
+  box-shadow:0 8px 28px rgba(0,0,0,.2);
+}
+@keyframes popIn { from{transform:scale(.82);opacity:0} to{transform:scale(1);opacity:1} }
+.sa-banner .badge-sa {
+  display:inline-block;
+  background:rgba(255,255,255,.2);
+  border-radius:20px; padding:4px 16px;
+  font-size:.95rem; font-weight:800;
+  letter-spacing:2px; text-transform:uppercase;
+  margin-bottom:10px;
+}
+.sa-banner .sa-ico { font-size:2.8rem; display:block; margin-bottom:8px; }
+.sa-banner h2 {
+  font-family:'Baloo 2',cursive;
+  font-size:clamp(1.3rem,4vw,2rem);
+  font-weight:800; line-height:1.3;
+}
+
+/* ══════════════════════════════
+   CARTE QUESTION
+══════════════════════════════ */
+.q-card {
+  background:var(--cc,#FFF3E0);
+  border:3px solid var(--cd,#CE93D8);
+  border-radius:26px;
+  padding:26px 22px;
+  margin-bottom:20px;
+  box-shadow:0 5px 20px rgba(0,0,0,.07);
+  animation:slideIn .35s ease;
+}
+@keyframes slideIn { from{transform:translateX(36px);opacity:0} to{transform:translateX(0);opacity:1} }
+
+.q-num {
+  font-size:1rem; font-weight:900;
+  color:var(--cb,#7B1FA2);
+  background:rgba(255,255,255,.65);
+  display:inline-block; padding:4px 14px;
+  border-radius:20px; margin-bottom:12px;
+}
+.q-type {
+  display:inline-block; margin-left:8px;
+  font-size:.82rem; font-weight:800;
+  background:var(--cb,#7B1FA2); color:#fff;
+  padding:3px 12px; border-radius:18px;
+  vertical-align:middle;
+}
+.q-text {
+  font-size:clamp(1.15rem,3vw,1.45rem);
+  font-weight:700; line-height:1.55;
+  margin-bottom:20px;
+}
+
+/* OPTIONS MCQ */
+.options { display:flex; flex-direction:column; gap:11px; }
+.opt {
+  display:flex; align-items:center; gap:13px;
+  background:#fff;
+  border:3px solid var(--cd,#CE93D8);
+  border-radius:16px; padding:13px 16px;
+  cursor:pointer; text-align:left;
+  font-size:clamp(1rem,2.5vw,1.18rem);
+  font-weight:700; font-family:'Nunito',sans-serif;
+  transition:all .18s;
+  box-shadow:0 2px 7px rgba(0,0,0,.04);
+}
+.opt:hover:not(:disabled) { transform:translateX(6px); background:var(--cc,#FFF3E0); border-color:var(--cb,#7B1FA2); }
+.opt-l {
+  min-width:38px; height:38px;
+  background:var(--cb,#7B1FA2); color:#fff;
+  border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:1rem; font-weight:900; flex-shrink:0;
+}
+.opt.correct { background:#E8F5E9; border-color:#2E7D32; color:#1B5E20; }
+.opt.correct .opt-l { background:#2E7D32; }
+.opt.wrong   { background:#FFEBEE; border-color:#C62828; color:#B71C1C; }
+.opt.wrong .opt-l { background:#C62828; }
+.opt:disabled { cursor:not-allowed; }
+
+/* VRAI / FAUX */
+.tf-wrap { display:flex; gap:14px; flex-wrap:wrap; }
+.tf-btn {
+  flex:1; min-width:120px; padding:16px;
+  border-radius:16px; border:3px solid var(--cd,#CE93D8);
+  background:#fff; cursor:pointer;
+  font-size:1.25rem; font-weight:900;
+  font-family:'Nunito',sans-serif;
+  transition:all .18s;
+  display:flex; align-items:center; justify-content:center; gap:8px;
+}
+.tf-btn:hover:not(:disabled) { transform:scale(1.04); background:var(--cc,#FFF3E0); }
+.tf-btn.correct { background:#E8F5E9; border-color:#2E7D32; color:#1B5E20; }
+.tf-btn.wrong   { background:#FFEBEE; border-color:#C62828; color:#B71C1C; }
+
+/* FEEDBACK */
+.feedback {
+  margin-top:14px; padding:13px 18px;
+  border-radius:14px; font-size:1.08rem;
+  font-weight:700; line-height:1.5;
+  animation:popIn .25s ease;
+}
+.feedback.correct { background:#E8F5E9; border:2px solid #2E7D32; color:#1B5E20; }
+.feedback.wrong   { background:#FFEBEE; border:2px solid #C62828; color:#B71C1C; }
+.fb-ico { font-size:1.3rem; margin-right:6px; vertical-align:middle; }
+
+/* BOUTON SUIVANT */
+.btn-next {
+  display:block; width:100%; margin-top:16px;
+  background:var(--cb,#7B1FA2); color:#fff;
+  border:none; border-radius:50px; padding:15px;
+  font-size:1.25rem; font-weight:900;
+  font-family:'Baloo 2',cursive; cursor:pointer;
+  box-shadow:0 4px 14px rgba(0,0,0,.18);
+  transition:transform .18s, box-shadow .18s;
+  letter-spacing:.5px;
+}
+.btn-next:hover { transform:scale(1.02); box-shadow:0 6px 20px rgba(0,0,0,.28); }
+
+/* ══════════════════════════════
+   RÉSULTATS
+══════════════════════════════ */
+#results {
+  display:none; text-align:center;
+  padding:36px 18px 50px; max-width:860px; margin:0 auto;
+  animation:slideIn .45s ease;
+}
+.res-ico { font-size:5rem; margin-bottom:8px; animation:saut 1.2s infinite alternate; }
+.res-titre {
+  font-family:'Baloo 2',cursive;
+  font-size:clamp(2rem,6vw,3.2rem);
+  font-weight:900; color:var(--cb,#7B1FA2);
+  margin-bottom:8px;
+}
+.res-stars { font-size:2.4rem; margin:6px 0; }
+.res-msg { font-size:1.2rem; font-weight:700; margin-bottom:22px; }
+.res-box {
+  background:var(--cb,#7B1FA2); color:#fff;
+  border-radius:22px; padding:28px;
+  margin:0 auto 24px; max-width:380px;
+}
+.res-big { font-family:'Baloo 2',cursive; font-size:3.8rem; font-weight:900; line-height:1; }
+.res-pct { font-size:1.15rem; font-weight:700; opacity:.9; }
+.sa-rows { max-width:580px; margin:0 auto 28px; }
+.sa-row {
+  display:flex; align-items:center; gap:10px;
+  background:var(--cc,#FFF3E0); border-radius:13px;
+  padding:11px 15px; margin-bottom:9px;
+}
+.sa-row-name { flex:1; font-size:.98rem; font-weight:800; text-align:left; }
+.sa-row-pct { font-size:1.1rem; font-weight:900; color:var(--cb,#7B1FA2); }
+.btn-restart {
+  background:var(--ca,#F57F17); color:#fff;
+  border:none; border-radius:50px;
+  padding:17px 50px; font-size:1.4rem; font-weight:900;
+  font-family:'Baloo 2',cursive; cursor:pointer;
+  box-shadow:0 6px 20px rgba(0,0,0,.2);
+  transition:transform .2s;
+}
+.btn-restart:hover { transform:scale(1.05); }
+
+@media(max-width:480px){
+  .opt { font-size:.97rem; padding:11px 13px; }
+  .q-text { font-size:1.08rem; }
+  .btn-commencer { font-size:1.35rem; padding:16px 36px; }
+}
+</style>
+</head>
+<body class="t0">
+
+<!-- ══════════════ PAGE DE GARDE ══════════════ -->
+<div id="garde">
+
+  <!-- BOUTON TOUT EN HAUT -->
+  <div class="btn-top-wrap">
+    <button class="btn-commencer" onclick="lancerTest()">🚀 COMMENCER</button>
+  </div>
+
+  <!-- TITRE -->
+  <div class="garde-flag">🇧🇯</div>
+  <div class="garde-titre">
+    TEST<br>
+    Pour la Révision Générale<br>
+    en Histoire et Géographie<br>
+    Tle A — Rép. du Bénin
+  </div>
+  <div class="garde-badge">📝 150 questions • 6 Chapitres</div>
+
+</div>
+
+<!-- ══════════════ TEST ══════════════ -->
+<div id="app">
+  <div class="prog-bar-wrap">
+    <div class="prog-info">
+      <span class="prog-label" id="progLabel">Question 1 / 150</span>
+      <span class="prog-score" id="progScore">✅ 0 &nbsp;|&nbsp; ❌ 0</span>
+    </div>
+    <div class="prog-bg"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+  </div>
+  <div id="zoneQuiz"></div>
+</div>
+
+<!-- ══════════════ RÉSULTATS ══════════════ -->
+<div id="results">
+  <div class="res-ico" id="rIco">🏆</div>
+  <div class="res-titre">Tes Résultats</div>
+  <div class="res-stars" id="rStars">⭐⭐⭐</div>
+  <div class="res-msg" id="rMsg"></div>
+  <div class="res-box">
+    <div class="res-big" id="rBig">0/150</div>
+    <div class="res-pct" id="rPct">0 %</div>
+  </div>
+  <div class="sa-rows" id="rSA"></div>
+  <button class="btn-restart" onclick="relancer()">🔄 Recommencer</button>
+</div>
+
+<script>
+/* ══════════════════════════════════════════════
+   DONNÉES — 6 SA — 150 QUESTIONS
+══════════════════════════════════════════════ */
+const SA = [
+  {id:1,titre:"Organisation économique du Bénin",ico:"🇧🇯",th:0},
+  {id:2,titre:"L'ONU et la gestion du monde",ico:"🌍",th:1},
+  {id:3,titre:"Organisation économique du Japon",ico:"🇯🇵",th:2},
+  {id:4,titre:"Luttes pour l'indépendance en Afrique et au Dahomey",ico:"✊",th:3},
+  {id:5,titre:"Pays émergents : Chine et Brésil",ico:"🌏",th:0},
+  {id:6,titre:"Regroupements économiques : la CEDEAO",ico:"🤝",th:1}
+];
+
+const Q = [
+/* ── SA1 BÉNIN (25 questions) ── */
+{sa:1,t:"mcq",q:"Quelle est la capitale économique du Bénin ?",o:["Porto-Novo","Cotonou","Parakou","Abomey"],a:1,e:"Cotonou est la capitale économique et la plus grande ville du Bénin."},
+{sa:1,t:"mcq",q:"Quelle est la capitale politique officielle du Bénin ?",o:["Cotonou","Abomey-Calavi","Porto-Novo","Natitingou"],a:2,e:"Porto-Novo est la capitale politique officielle du Bénin."},
+{sa:1,t:"tf",q:"Le Bénin est classé parmi les Pays les Moins Avancés (PMA).",a:true,e:"Oui, le Bénin est bien un PMA, donc un pays à économie dominée."},
+{sa:1,t:"mcq",q:"Quel est le principal port du Bénin ?",o:["Port de Ouidah","Port Autonome de Cotonou","Port de Sèmè","Port de Lokossa"],a:1,e:"Le Port Autonome de Cotonou est le principal port du Bénin et un hub de transit régional."},
+{sa:1,t:"mcq",q:"Quel secteur occupe la majorité de la population active béninoise ?",o:["Industrie","Services","Agriculture","Mines"],a:2,e:"L'agriculture occupe environ 70 % de la population active au Bénin."},
+{sa:1,t:"mcq",q:"Quelle est la principale culture de rente du Bénin ?",o:["Le cacao","Le coton","Le café","L'arachide"],a:1,e:"Le coton est la principale culture de rente du Bénin."},
+{sa:1,t:"tf",q:"Le Bénin utilise le Franc CFA (XOF) géré par la BCEAO.",a:true,e:"Oui, le Bénin est membre de l'UEMOA et utilise le Franc CFA."},
+{sa:1,t:"mcq",q:"Quel document a cadré la politique de développement du Bénin depuis 2016 ?",o:["PRSP","PAG — Programme d'Action du Gouvernement","DSCRP","PDDAA"],a:1,e:"Le PAG (Programme d'Action du Gouvernement) est le cadre de référence sous la présidence de Patrice Talon."},
+{sa:1,t:"mcq",q:"Dans quel classement se situe le Bénin en matière de développement humain ?",o:["Pays très développé","Pays à développement humain élevé","Pays à développement humain faible (PMA)","Pays émergent"],a:2,e:"Le Bénin figure parmi les pays à développement humain faible — catégorie PMA."},
+{sa:1,t:"mcq",q:"Quel est le principal fleuve du Bénin ?",o:["Le Niger","L'Ouémé","La Volta","Le Mono"],a:1,e:"L'Ouémé est le principal fleuve du Bénin, favorisant les cultures irriguées."},
+{sa:1,t:"tf",q:"Le Bénin est membre de l'UEMOA.",a:true,e:"Oui, le Bénin est membre fondateur de l'UEMOA."},
+{sa:1,t:"mcq",q:"Quel est le principal type d'élevage au Bénin ?",o:["Camélidés","Bovins","Ovins","Porcins"],a:1,e:"L'élevage bovin est le plus important au Bénin, surtout dans les régions nord."},
+{sa:1,t:"mcq",q:"Quelle limite majeure freine l'industrie au Bénin ?",o:["Trop de main-d'œuvre","Manque de capitaux et d'infrastructures","Abondance de matières premières","Forte exportation industrielle"],a:1,e:"L'industrie béninoise est limitée par le manque de capitaux, d'infrastructures et d'énergie."},
+{sa:1,t:"mcq",q:"Quel pays est le principal partenaire de transit du Bénin ?",o:["Togo","Niger","Nigeria","Burkina Faso"],a:2,e:"Le Nigeria est le principal partenaire commercial informel et de transit du Bénin."},
+{sa:1,t:"tf",q:"Le Bénin dispose d'une façade maritime sur le golfe de Guinée.",a:true,e:"Oui, le Bénin est un pays côtier avec accès au golfe de Guinée."},
+{sa:1,t:"mcq",q:"Quel atout naturel favorise l'agriculture au sud du Bénin ?",o:["Un vaste désert","Terres cultivables et pluviométrie favorable","Un sous-sol riche en or","Des montagnes majestueuses"],a:1,e:"Les terres fertiles et les pluies régulières au sud favorisent l'agriculture."},
+{sa:1,t:"mcq",q:"Quel secteur le gouvernement béninois développe-t-il pour diversifier l'économie ?",o:["L'armement","Le tourisme et le numérique","L'exploitation pétrolière intensive","L'industrie lourde"],a:1,e:"Le Bénin mise sur le tourisme (patrimoine vaudou) et le numérique pour diversifier son économie."},
+{sa:1,t:"mcq",q:"Quelle limite structurelle fragilise les exportations du Bénin ?",o:["Dépendance aux produits agricoles bruts","Trop grande industrialisation","Surplus alimentaire chronique","Excès de main-d'œuvre qualifiée"],a:0,e:"Le Bénin exporte surtout des matières premières brutes (coton, cajou), vulnérables aux cours mondiaux."},
+{sa:1,t:"tf",q:"Le commerce de transit vers les pays enclavés (Niger, Burkina) est une source de revenus pour le Bénin.",a:true,e:"Oui, le port de Cotonou joue un rôle de transit majeur pour les pays sahéliens enclavés."},
+{sa:1,t:"mcq",q:"Quelle infrastructure est prioritaire pour le développement du Bénin ?",o:["Canaux fluviaux","Réseau routier et ferroviaire","Aéroports multiples","Transport maritime côtier"],a:1,e:"Le réseau routier et ferroviaire est prioritaire pour désenclaver les régions nord."},
+{sa:1,t:"mcq",q:"Quel est le régime politique du Bénin depuis 1990 ?",o:["Monarchie constitutionnelle","Régime militaire","Démocratie multipartite","Fédération d'États"],a:2,e:"Depuis la Conférence Nationale de 1990, le Bénin est une démocratie multipartite, modèle africain."},
+{sa:1,t:"mcq",q:"Quel pourcentage de la population béninoise vit sous le seuil de pauvreté ?",o:["Moins de 10 %","Environ 40 %","Environ 80 %","Environ 20 %"],a:1,e:"Environ 38–40 % de la population béninoise vit sous le seuil de pauvreté."},
+{sa:1,t:"tf",q:"Le Bénin est un exportateur net de pétrole.",a:false,e:"Non, le Bénin a une production pétrolière très limitée et importe l'essentiel de ses produits pétroliers."},
+{sa:1,t:"mcq",q:"Quelle est la monnaie officielle du Bénin ?",o:["Naira","Cedi","Franc CFA (XOF)","Dalasi"],a:2,e:"Le Bénin utilise le Franc CFA de l'Afrique de l'Ouest (XOF)."},
+{sa:1,t:"mcq",q:"Quelle est la principale ville du nord du Bénin ?",o:["Lokossa","Abomey","Parakou","Ouidah"],a:2,e:"Parakou est la principale ville du nord du Bénin et un grand centre commercial régional."},
+
+/* ── SA2 ONU (25 questions) ── */
+{sa:2,t:"mcq",q:"En quelle année l'ONU a-t-elle été fondée ?",o:["1939","1945","1950","1919"],a:1,e:"L'ONU a été fondée le 24 octobre 1945, après la Seconde Guerre mondiale."},
+{sa:2,t:"mcq",q:"Combien d'États fondateurs a eu l'ONU en 1945 ?",o:["51","100","136","193"],a:0,e:"L'ONU a été fondée par 51 États signataires de la Charte de San Francisco."},
+{sa:2,t:"mcq",q:"Combien de pays membres l'ONU compte-t-elle aujourd'hui ?",o:["150","172","193","210"],a:2,e:"L'ONU compte 193 États membres, la plus universelle des organisations internationales."},
+{sa:2,t:"mcq",q:"Où se trouve le siège principal de l'ONU ?",o:["Genève","Paris","New York","Bruxelles"],a:2,e:"Le siège de l'ONU est à New York (Manhattan, États-Unis)."},
+{sa:2,t:"tf",q:"La Charte des Nations Unies a été signée à San Francisco en 1945.",a:true,e:"Oui, signée le 26 juin 1945 à San Francisco."},
+{sa:2,t:"mcq",q:"Quel organe de l'ONU est responsable du maintien de la paix ?",o:["Assemblée Générale","Conseil de Sécurité","Cour Internationale de Justice","Secrétariat Général"],a:1,e:"Le Conseil de Sécurité est l'organe principal chargé du maintien de la paix et de la sécurité."},
+{sa:2,t:"mcq",q:"Combien de membres permanents compte le Conseil de Sécurité ?",o:["3","5","7","10"],a:1,e:"Le Conseil de Sécurité compte 5 membres permanents : États-Unis, Russie, Chine, France, Royaume-Uni."},
+{sa:2,t:"mcq",q:"Quel droit spécial possèdent les membres permanents du Conseil de Sécurité ?",o:["Vote double","Droit de veto","Abstention obligatoire","Présider l'ONU"],a:1,e:"Les 5 membres permanents ont le droit de veto, pouvant bloquer toute résolution."},
+{sa:2,t:"mcq",q:"Quel est l'objectif principal de l'ONU selon sa Charte ?",o:["Promouvoir le commerce","Maintenir la paix et la sécurité","Gérer les ressources naturelles","Établir un gouvernement mondial"],a:1,e:"Maintenir la paix et la sécurité internationales est l'objectif central de l'ONU."},
+{sa:2,t:"mcq",q:"Quelle agence de l'ONU s'occupe de la santé mondiale ?",o:["UNESCO","UNICEF","OMS","FAO"],a:2,e:"L'OMS (Organisation Mondiale de la Santé) est l'agence spécialisée de l'ONU pour la santé."},
+{sa:2,t:"mcq",q:"Quelle agence de l'ONU s'occupe de l'alimentation et de l'agriculture ?",o:["PNUD","FAO","OIT","FMI"],a:1,e:"La FAO (Food and Agriculture Organization) est dédiée à l'alimentation et l'agriculture."},
+{sa:2,t:"tf",q:"L'UNESCO s'occupe de l'éducation, de la science et de la culture.",a:true,e:"Oui, l'UNESCO est bien l'agence de l'ONU pour l'Éducation, la Science et la Culture."},
+{sa:2,t:"mcq",q:"Que signifie UNICEF ?",o:["Union Internationale pour l'Enfance","Fonds des Nations Unies pour l'Enfance","Union Nationale pour les Enfants","Fonds International pour l'Éducation"],a:1,e:"UNICEF = United Nations Children's Fund (Fonds des Nations Unies pour l'Enfance)."},
+{sa:2,t:"mcq",q:"Qu'appelle-t-on les 'Casques bleus' ?",o:["Les diplomates de l'ONU","Les forces de maintien de la paix","Les fonctionnaires du Secrétariat","Les juges de la CIJ"],a:1,e:"Les 'Casques bleus' sont les forces de maintien de la paix de l'ONU."},
+{sa:2,t:"tf",q:"L'ONU peut imposer des sanctions économiques à un État menaçant la paix.",a:true,e:"Oui, le Conseil de Sécurité peut décider des sanctions économiques voire militaires."},
+{sa:2,t:"mcq",q:"Quel est le rôle de la Cour Internationale de Justice (CIJ) ?",o:["Juger les criminels de guerre","Régler les différends juridiques entre États","Gérer le budget de l'ONU","Superviser les élections"],a:1,e:"La CIJ est l'organe judiciaire principal de l'ONU pour les différends entre États."},
+{sa:2,t:"mcq",q:"Quel problème paralyse souvent le Conseil de Sécurité ?",o:["Trop de membres","L'abus du droit de veto","Manque de budget","Réunions trop fréquentes"],a:1,e:"L'usage abusif du droit de veto par les 5 membres permanents paralyse souvent le Conseil de Sécurité."},
+{sa:2,t:"mcq",q:"Quelle Déclaration de l'ONU (1948) garantit les droits fondamentaux ?",o:["Déclaration de Paris","Déclaration Universelle des Droits de l'Homme","Traité de Versailles","Pacte de Varsovie"],a:1,e:"La DUDH a été adoptée par l'ONU le 10 décembre 1948."},
+{sa:2,t:"mcq",q:"Combien d'Objectifs de Développement Durable (ODD) l'ONU a-t-elle adoptés en 2015 ?",o:["8","15","17","21"],a:2,e:"L'ONU a adopté 17 ODD en 2015 pour l'Agenda 2030."},
+{sa:2,t:"tf",q:"Le budget de l'ONU est financé par les contributions des États membres.",a:true,e:"Oui, les États membres financent l'ONU selon leur richesse nationale."},
+{sa:2,t:"mcq",q:"Quel pays contribue le plus au budget de l'ONU ?",o:["Chine","Russie","États-Unis","Japon"],a:2,e:"Les États-Unis financent environ 22 % du budget régulier de l'ONU."},
+{sa:2,t:"mcq",q:"Quel principe limite l'action de l'ONU dans les conflits internes ?",o:["Manque de ressources","Principe de non-ingérence dans les affaires internes","Absence de diplomates","Refus de cotisation"],a:1,e:"Le principe de non-ingérence dans les affaires internes limite l'action de l'ONU dans les conflits intérieurs."},
+{sa:2,t:"mcq",q:"Quelle agence de l'ONU protège les réfugiés ?",o:["PNUD","HCR","OIT","ONUSIDA"],a:1,e:"Le HCR (Haut Commissariat aux Réfugiés) est chargé de la protection des réfugiés."},
+{sa:2,t:"tf",q:"L'Accord de Paris sur le climat (2015) a été négocié sous l'égide de l'ONU.",a:true,e:"Oui, l'Accord de Paris a été négocié dans le cadre de la CCNUCC, organe onusien."},
+{sa:2,t:"mcq",q:"Quel est le principal organe délibératif où tous les États membres ont la parole ?",o:["Conseil de Sécurité","Secrétariat Général","Assemblée Générale","Conseil Économique et Social"],a:2,e:"L'Assemblée Générale est le forum où tous les 193 États membres délibèrent sur les grandes questions mondiales."},
+
+/* ── SA3 JAPON (25 questions) ── */
+{sa:3,t:"mcq",q:"Quelle est la capitale du Japon ?",o:["Osaka","Kyoto","Tokyo","Hiroshima"],a:2,e:"Tokyo est la capitale du Japon, l'une des plus grandes métropoles mondiales (+37 millions d'hab.)."},
+{sa:3,t:"mcq",q:"Comment appelle-t-on la renaissance économique spectaculaire du Japon après 1945 ?",o:["Miracle chinois","Miracle japonais","Révolution Meiji","Essor Pacifique"],a:1,e:"Le 'miracle japonais' désigne la croissance spectaculaire du Japon entre 1950 et 1990."},
+{sa:3,t:"tf",q:"Le Japon est le pays le plus peuplé du monde.",a:false,e:"Non, le Japon compte environ 125 millions d'habitants. La Chine et l'Inde sont bien plus peuplées."},
+{sa:3,t:"mcq",q:"Quel rang occupe le Japon dans le classement mondial des économies ?",o:["1re","2e","3e","4e"],a:2,e:"Le Japon est la 3e économie mondiale par PIB, derrière les États-Unis et la Chine."},
+{sa:3,t:"mcq",q:"Quel est le principal facteur humain de la puissance japonaise ?",o:["Grande superficie","Main-d'œuvre qualifiée et disciplinée","Sous-sol très riche","Faible urbanisation"],a:1,e:"La main-d'œuvre japonaise est réputée pour sa qualité, sa discipline et son niveau d'éducation élevé."},
+{sa:3,t:"mcq",q:"Quelle est la principale limite naturelle qui fragilise le Japon ?",o:["Manque d'eau","Séismes, tsunamis, volcans","Déserts immenses","Forêts impénétrables"],a:1,e:"Le Japon est très exposé aux risques naturels car il se situe sur la ceinture de feu du Pacifique."},
+{sa:3,t:"tf",q:"Le Japon doit importer la quasi-totalité de ses matières premières.",a:true,e:"Oui, le Japon manque de ressources naturelles (pétrole, charbon, minerais) et les importe massivement."},
+{sa:3,t:"mcq",q:"Quel est le moteur de la puissance économique japonaise ?",o:["L'agriculture","Le tourisme","L'industrie : automobile, électronique, robotique","La pêche traditionnelle"],a:2,e:"L'industrie japonaise — automobile, électronique, robotique — est le cœur de sa puissance économique."},
+{sa:3,t:"mcq",q:"Quel est le plus grand constructeur automobile japonais ?",o:["Honda","Nissan","Toyota","Mitsubishi"],a:2,e:"Toyota est le plus grand constructeur automobile japonais et l'un des premiers mondiaux."},
+{sa:3,t:"mcq",q:"Quel défi démographique est une limite structurelle majeure du Japon ?",o:["Explosion démographique","Vieillissement et déclin de la population","Surpopulation des campagnes","Immigration incontrôlée"],a:1,e:"Le vieillissement accéléré de la population est un défi structurel majeur pour l'économie japonaise."},
+{sa:3,t:"mcq",q:"Quelle est la devise officielle du Japon ?",o:["Won","Yuan","Yen","Dollar HK"],a:2,e:"La devise officielle du Japon est le Yen (¥ / JPY)."},
+{sa:3,t:"tf",q:"La technologie et l'innovation sont des piliers majeurs de la puissance japonaise.",a:true,e:"Oui, le Japon investit massivement en R&D, notamment en robotique et intelligence artificielle."},
+{sa:3,t:"mcq",q:"Quel secteur primaire est très important malgré la faible superficie agricole ?",o:["Élevage bovin extensif","Pêche maritime","Céréaliculture extensive","Élevage porcin"],a:1,e:"La pêche est un secteur primaire très important au Japon, l'un des premiers pays pêcheurs au monde."},
+{sa:3,t:"mcq",q:"Quelle réforme a permis la modernisation du Japon à partir de 1868 ?",o:["Révolution Meiji","Réforme Shogunat","Plan Marshall japonais","Réforme Tokugawa"],a:0,e:"La Révolution Meiji (1868) a combiné traditions japonaises et technologies occidentales pour moderniser le Japon."},
+{sa:3,t:"mcq",q:"Quelle ville japonaise a été frappée par la 1re bombe atomique en août 1945 ?",o:["Tokyo","Nagasaki","Hiroshima","Osaka"],a:2,e:"Hiroshima a été dévastée par la 1re bombe atomique le 6 août 1945."},
+{sa:3,t:"mcq",q:"Quel terme japonais désigne l'amélioration continue dans les entreprises ?",o:["Origami","Kaizen","Seppuku","Manga"],a:1,e:"Le Kaizen est la philosophie japonaise d'amélioration continue, adoptée mondialement."},
+{sa:3,t:"tf",q:"Le Japon est un archipel insulaire favorable au commerce maritime.",a:true,e:"Oui, le Japon est un archipel, ce qui en fait naturellement une grande puissance maritime."},
+{sa:3,t:"mcq",q:"Quelle limite économique frappe le Japon depuis les années 1990 ?",o:["Inflation galopante","Déflation et stagnation économique persistante","Surendettement des ménages","Chômage massif"],a:1,e:"La 'décennie perdue' (stagnation + déflation) frappe le Japon depuis les années 1990."},
+{sa:3,t:"mcq",q:"Que désigne le terme 'keiretsu' au Japon ?",o:["Petite entreprise artisanale","Grand groupe industriel et financier intégré","Syndicat ouvrier","Ministère de l'économie"],a:1,e:"Le keiretsu est un réseau de grands groupes industriels, commerciaux et financiers japonais étroitement liés."},
+{sa:3,t:"mcq",q:"Quel est le taux de scolarisation au Japon ?",o:["60 %","75 %","Proche de 100 %","85 %"],a:2,e:"Le Japon affiche un taux de scolarisation quasi universel, reflet de l'importance accordée à l'éducation."},
+{sa:3,t:"mcq",q:"Pourquoi l'agriculture est-elle difficile au Japon ?",o:["Pluies acides","70 % du territoire est montagneux","Froid excessif","Chaleur tropicale constante"],a:1,e:"Le Japon est très montagneux (70 % du territoire), ce qui limite les surfaces agricoles disponibles."},
+{sa:3,t:"tf",q:"Le Japon est l'un des plus grands exportateurs mondiaux d'automobiles et d'électronique.",a:true,e:"Oui, le Japon exporte massivement automobiles, électronique et machines vers le monde entier."},
+{sa:3,t:"mcq",q:"Quel est le mont emblématique et le plus haut sommet du Japon ?",o:["Mont Everest","Mont Fuji","Mont Olympe","Kilimandjaro"],a:1,e:"Le Mont Fuji (3 776 m) est le symbole naturel et culturel du Japon."},
+{sa:3,t:"mcq",q:"Quelle catastrophe a frappé le Japon en mars 2011 ?",o:["Éruption du Fuji","Séisme et tsunami du Tōhoku + catastrophe de Fukushima","Typhon Hagibis","Séisme de Kobé"],a:1,e:"Le 11 mars 2011 : séisme 9.0 + tsunami → catastrophe nucléaire de Fukushima."},
+{sa:3,t:"mcq",q:"Comment le Japon compense-t-il son manque de ressources naturelles ?",o:["Colonisation de nouveaux territoires","Technologies d'économie d'énergie et recyclage","Réduction de la production","Augmentation des importations agricoles"],a:1,e:"Le Japon investit dans l'efficacité énergétique, les énergies renouvelables et le recyclage."},
+
+/* ── SA4 INDÉPENDANCES (25 questions) ── */
+{sa:4,t:"mcq",q:"Qu'est-ce que la décolonisation ?",o:["Conquête de nouveaux territoires","Processus par lequel les colonies accèdent à l'indépendance","Réorganisation administrative des empires","Exploitation des ressources coloniales"],a:1,e:"La décolonisation est le processus par lequel les peuples colonisés ont obtenu leur indépendance."},
+{sa:4,t:"mcq",q:"Quel mouvement culturel et politique a soutenu les luttes africaines pour l'indépendance ?",o:["Panafricanisme","Négritude","Assimilationnisme","Colonialisme bénin"],a:1,e:"La Négritude (Aimé Césaire, Léopold Sédar Senghor) a affirmé l'identité noire et soutenu la décolonisation."},
+{sa:4,t:"mcq",q:"Comment s'appelait le Bénin avant son indépendance ?",o:["Haute-Volta","Dahomey","Togoland","Sénégambie"],a:1,e:"Le Bénin s'appelait le Dahomey pendant la période coloniale."},
+{sa:4,t:"mcq",q:"Quand le Dahomey a-t-il proclamé son indépendance ?",o:["4 août 1960","1er août 1960","11 novembre 1975","3 mars 1957"],a:1,e:"Le Dahomey a proclamé son indépendance le 1er août 1960."},
+{sa:4,t:"mcq",q:"Qui fut le premier président du Dahomey indépendant ?",o:["Justin Ahomadégbé","Émile-Derlin Zinsou","Hubert Maga","Sourou Migan Apithy"],a:2,e:"Hubert Maga fut le premier président du Dahomey en 1960."},
+{sa:4,t:"mcq",q:"En quelle année le Dahomey a-t-il été rebaptisé 'République du Bénin' ?",o:["1960","1975","1990","1984"],a:1,e:"Le Dahomey fut rebaptisé République Populaire du Bénin en 1975 sous Mathieu Kérékou."},
+{sa:4,t:"mcq",q:"Quel pays fut le premier d'Afrique noire à obtenir l'indépendance (1957) ?",o:["Sénégal","Côte d'Ivoire","Ghana","Mali"],a:2,e:"Le Ghana (ex-Gold Coast britannique) obtint son indépendance le 6 mars 1957 sous Kwame Nkrumah."},
+{sa:4,t:"tf",q:"Kwame Nkrumah est le père de l'indépendance du Ghana.",a:true,e:"Oui, Kwame Nkrumah a dirigé le mouvement nationaliste ghanéen et fut le premier président du Ghana."},
+{sa:4,t:"tf",q:"La guerre d'Algérie (1954-1962) fut l'un des conflits de décolonisation les plus meurtriers.",a:true,e:"Oui, la guerre d'Algérie fut longue et très meurtrière, aboutissant à l'indépendance le 5 juillet 1962."},
+{sa:4,t:"mcq",q:"Quelle conférence de 1884-1885 a décidé du partage de l'Afrique ?",o:["Conférence de Yalta","Conférence de Berlin","Conférence de San Francisco","Conférence de Bruxelles"],a:1,e:"La Conférence de Berlin (1884-1885) a organisé le partage de l'Afrique entre les puissances coloniales."},
+{sa:4,t:"mcq",q:"Quel pays africain n'a jamais été colonisé ?",o:["Maroc","Éthiopie","Nigeria","Congo"],a:1,e:"L'Éthiopie n'a jamais été colonisée (sauf brève occupation italienne 1936-1941)."},
+{sa:4,t:"mcq",q:"Pourquoi 1960 est-elle appelée 'l'Année de l'Afrique' ?",o:["Création de l'OUA","17 pays africains ont accédé à l'indépendance","Création de l'Union Africaine","Fin de l'apartheid"],a:1,e:"En 1960, 17 pays africains ont accédé à l'indépendance, d'où le nom 'Année de l'Afrique'."},
+{sa:4,t:"mcq",q:"Quelle puissance coloniale dominait le Kenya ?",o:["France","Portugal","Belgique","Grande-Bretagne"],a:3,e:"Le Kenya était une colonie britannique. Les Mau-Mau ont accéléré son indépendance en 1963."},
+{sa:4,t:"mcq",q:"Quel leader congolais, symbole de l'indépendance, a été assassiné en 1961 ?",o:["Joseph Kasavubu","Mobutu Sese Seko","Patrice Lumumba","Laurent-Désiré Kabila"],a:2,e:"Patrice Lumumba, 1er Premier Ministre de la RDC, fut assassiné en janvier 1961."},
+{sa:4,t:"tf",q:"Le Portugal fut la dernière puissance coloniale à accorder l'indépendance à ses colonies africaines (1975).",a:true,e:"Oui, le Portugal a accordé l'indépendance à ses colonies en 1975, après la Révolution des Œillets."},
+{sa:4,t:"mcq",q:"Qu'est-ce que le panafricanisme ?",o:["Mouvement pour l'unification de tous les peuples africains","Résistance armée dans une seule colonie","Politique de ségrégation en Afrique du Sud","Retour aux langues africaines"],a:0,e:"Le panafricanisme prône l'unité et la solidarité de tous les peuples d'Afrique."},
+{sa:4,t:"mcq",q:"Quel régime de ségrégation raciale a été instauré en Afrique du Sud de 1948 à 1994 ?",o:["Jim Crow","Apartheid","Ségrégation coloniale","Régime de Pretoria"],a:1,e:"L'apartheid (mot afrikaans = 'séparation') était le régime de ségrégation institutionnalisée en Afrique du Sud."},
+{sa:4,t:"mcq",q:"Qui fut le premier président noir d'Afrique du Sud ?",o:["Desmond Tutu","Thabo Mbeki","Nelson Mandela","Cyril Ramaphosa"],a:2,e:"Nelson Mandela est devenu le 1er président noir d'Afrique du Sud en 1994, après 27 ans de prison."},
+{sa:4,t:"tf",q:"La Rhodésie du Sud est aujourd'hui le Zimbabwe.",a:true,e:"Oui, la Rhodésie du Sud (colonie britannique) est devenue le Zimbabwe le 18 avril 1980."},
+{sa:4,t:"mcq",q:"Qu'est-ce que le néo-colonialisme ?",o:["Reprise directe des colonies","Domination économique sur les États formellement indépendants","Aide au développement","Nouvelles colonies au XXIe siècle"],a:1,e:"Le néo-colonialisme est la domination économique et politique qu'exercent les ex-puissances coloniales sur les États indépendants."},
+{sa:4,t:"mcq",q:"Quel événement de 1990 a marqué le retour à la démocratie au Bénin ?",o:["Coup d'État de Kérékou","Conférence Nationale des Forces Vives de la Nation","Élection de Patrice Talon","Adhésion à l'UEMOA"],a:1,e:"La Conférence Nationale de février 1990 a instauré la démocratie multipartite au Bénin — un modèle africain."},
+{sa:4,t:"mcq",q:"Quelle organisation africaine créée en 1963 promeut l'unité du continent ?",o:["CEDEAO","UEMOA","Organisation de l'Unité Africaine (OUA)","Union Africaine"],a:2,e:"L'OUA a été fondée le 25 mai 1963 à Addis-Abeba, transformée en Union Africaine (UA) en 2002."},
+{sa:4,t:"mcq",q:"Quel concept africain exprime la solidarité et l'humanité partagée ?",o:["Négritude","Ubuntu","Panafricanisme","Assimilation"],a:1,e:"L'Ubuntu ('Je suis parce que nous sommes') est le concept philosophique africain de solidarité."},
+{sa:4,t:"mcq",q:"Comment appelle-t-on la décolonisation obtenue pacifiquement ?",o:["Décolonisation violente","Décolonisation par guérilla","Décolonisation négociée (pacifique)","Décolonisation par coup d'État"],a:2,e:"De nombreux pays africains ont obtenu leur indépendance par des négociations pacifiques, notamment les colonies françaises."},
+{sa:4,t:"mcq",q:"Quel leader a dirigé le FLN algérien dans la lutte pour l'indépendance ?",o:["Gamal Abdel Nasser","Ferhat Abbas","Ahmed Ben Bella","Houari Boumédiène"],a:2,e:"Ahmed Ben Bella, l'un des chefs historiques du FLN, devint le 1er président de l'Algérie indépendante (1962)."},
+
+/* ── SA5 CHINE & BRÉSIL (25 questions) ── */
+{sa:5,t:"mcq",q:"Qu'est-ce qu'un pays émergent ?",o:["Un pays qui vient d'obtenir son indépendance","Un pays en forte croissance qui rattrape les pays développés","Un pays pauvre recevant l'aide internationale","Un pays qui crée une nouvelle monnaie"],a:1,e:"Un pays émergent connaît une forte croissance économique et tend à rejoindre les pays développés."},
+{sa:5,t:"mcq",q:"Que signifie l'acronyme BRICS ?",o:["Brésil, Russie, Inde, Chine, Afrique du Sud","Bolivie, Russie, Indonésie, Chili, Singapour","Brésil, Roumanie, Irak, Congo, Syrie","Bangladesh, Russie, Iran, Corée, Suisse"],a:0,e:"BRICS = Brésil, Russie, Inde, Chine, Afrique du Sud."},
+{sa:5,t:"mcq",q:"Quelle est la population de la Chine ?",o:["500 millions","1 milliard","1,4 milliard","2 milliards"],a:2,e:"La Chine compte environ 1,4 milliard d'habitants — main-d'œuvre abondante et immense marché."},
+{sa:5,t:"mcq",q:"Quelle est la 2e économie mondiale par PIB ?",o:["Inde","Allemagne","Japon","Chine"],a:3,e:"La Chine est la 2e économie mondiale par PIB (derrière les États-Unis)."},
+{sa:5,t:"tf",q:"La Chine est gouvernée par le Parti Communiste Chinois (PCC) depuis 1949.",a:true,e:"Oui, la République Populaire de Chine est un État à parti unique dirigé par le PCC depuis 1949."},
+{sa:5,t:"mcq",q:"Quelle politique de réforme Deng Xiaoping a-t-il lancée en 1978 ?",o:["Grand Bond en Avant","Révolution Culturelle","Politique d'ouverture et de réformes (Gaige Kaifang)","Nouvelles Routes de la Soie"],a:2,e:"Deng Xiaoping a lancé en 1978 la politique d'ouverture intégrant des mécanismes de marché dans l'économie planifiée."},
+{sa:5,t:"mcq",q:"Que désigne la politique de 'l'enfant unique' en Chine ?",o:["Adoption d'enfants étrangers","Politique démographique limitant les familles à un enfant (1979-2015)","Aide sociale pour enfants uniques","Politique éducative spécifique"],a:1,e:"La politique de l'enfant unique (1979-2015) visait à contrôler la croissance démographique chinoise."},
+{sa:5,t:"mcq",q:"Quel taux de croissance annuel la Chine a-t-elle maintenu pendant 30 ans ?",o:["2-3 %","5-6 %","8-10 %","15-20 %"],a:2,e:"La Chine a maintenu un taux de croissance de 8 à 10 % par an pendant environ 30 ans (1980-2010)."},
+{sa:5,t:"mcq",q:"Pourquoi appelle-t-on la Chine 'l'atelier du monde' ?",o:["Parce qu'elle est le 1er producteur mondial de biens manufacturés","Pour son importance touristique","Pour sa domination culturelle","Pour ses importations massives"],a:0,e:"La Chine est l'atelier du monde car elle est le 1er producteur mondial de biens manufacturés à bas coût."},
+{sa:5,t:"tf",q:"La Chine est le premier exportateur mondial de marchandises.",a:true,e:"Oui, la Chine est le 1er exportateur mondial de marchandises depuis 2009."},
+{sa:5,t:"mcq",q:"Qu'est-ce que la 'Belt and Road Initiative' (Nouvelles Routes de la Soie) ?",o:["Routes commerciales internes à la Chine","Projet d'infrastructure mondial pour étendre l'influence chinoise","Programme touristique","Accord commercial en Asie centrale"],a:1,e:"La Belt and Road Initiative est un projet colossal d'infrastructures mondiales pour étendre l'influence économique de la Chine."},
+{sa:5,t:"mcq",q:"Quel est le principal défi environnemental de la croissance chinoise ?",o:["Désertification","Pollution de l'air, de l'eau et émissions massives de CO2","Déforestation tropicale","Érosion côtière"],a:1,e:"La Chine est le 1er émetteur mondial de gaz à effet de serre, avec une pollution grave de l'air, de l'eau et des sols."},
+{sa:5,t:"mcq",q:"Quel rang occupe le Brésil parmi les économies mondiales ?",o:["Parmi les 10 premières","25e mondial","50e mondial","100e mondial"],a:0,e:"Le Brésil est régulièrement classé parmi les 10 premières économies mondiales — la 1ère d'Amérique latine."},
+{sa:5,t:"mcq",q:"Quel est le principal atout naturel du Brésil ?",o:["Réserves pétrolières méditerranéennes","Superficie immense, Amazonie et richesses naturelles","Population de 2 milliards","Gisements d'uranium dans les Andes"],a:1,e:"Le Brésil bénéficie d'une superficie gigantesque, d'une forêt amazonienne immense et d'une richesse exceptionnelle en ressources naturelles."},
+{sa:5,t:"mcq",q:"Quel produit fait du Brésil un géant de l'agro-industrie mondiale ?",o:["Blé et orge","Soja, café, canne à sucre, élevage bovin","Riz","Épices orientales"],a:1,e:"Le Brésil est 1er producteur mondial de café, canne à sucre (éthanol), soja et un géant de l'élevage bovin."},
+{sa:5,t:"tf",q:"Le Brésil a connu une forte croissance sous les présidences de Lula da Silva (2003-2010).",a:true,e:"Oui, sous Lula, des millions de Brésiliens sont sortis de la pauvreté grâce au programme Bolsa Família."},
+{sa:5,t:"mcq",q:"Quelle est la principale limite sociale du 'miracle' brésilien ?",o:["Excès de richesse","Fortes inégalités sociales et pauvreté persistante","Absence de ressources","Surpopulation industrielle"],a:1,e:"Malgré sa puissance, le Brésil reste l'un des pays les plus inégalitaires au monde."},
+{sa:5,t:"mcq",q:"Quelle est la principale métropole économique du Brésil ?",o:["Rio de Janeiro","Brasília","São Paulo","Manaus"],a:2,e:"São Paulo est la 1ère métropole économique du Brésil et la plus grande ville d'Amérique du Sud."},
+{sa:5,t:"mcq",q:"Qu'est-ce que le 'Cerrado' au Brésil ?",o:["Zone industrielle de São Paulo","Savane tropicale transformée en grenier agricole","Cœur de la forêt amazonienne","District financier de Brasília"],a:1,e:"Le Cerrado est une savane brésilienne devenue l'une des principales zones agricoles mondiales, notamment pour le soja."},
+{sa:5,t:"mcq",q:"Quel programme social emblématique a réduit la pauvreté extrême au Brésil ?",o:["Plan Marshall brésilien","Bolsa Família","Plano Real","Plan Cruzado"],a:1,e:"Le programme Bolsa Família a sorti des dizaines de millions de Brésiliens de la pauvreté extrême."},
+{sa:5,t:"mcq",q:"Quelle ressource énergétique le Brésil exploite-t-il en offshore ?",o:["Charbon","Uranium","Pétrole offshore (pré-sal)","Gaz naturel saharien"],a:2,e:"Le Brésil a découvert d'immenses gisements de pétrole en offshore profond (pré-sal), faisant de Petrobras une géante pétrolière."},
+{sa:5,t:"tf",q:"La Chine et le Brésil font tous deux partie des BRICS.",a:true,e:"Oui, la Chine et le Brésil sont tous deux membres fondateurs des BRICS."},
+{sa:5,t:"mcq",q:"Quel problème environnemental majeur est lié au développement du Brésil ?",o:["Désertification du Cerrado","Déforestation massive de l'Amazonie","Épuisement des nappes phréatiques","Érosion côtière"],a:1,e:"La déforestation de l'Amazonie pour l'agriculture (soja, élevage) est le principal problème environnemental brésilien."},
+{sa:5,t:"mcq",q:"Quelle limite structurelle fragilise la croissance chinoise à long terme ?",o:["Manque de main-d'œuvre","Vieillissement de la population et inégalités régionales","Trop forte démocratie","Excès d'innovation"],a:1,e:"Le vieillissement dû à la politique de l'enfant unique et les inégalités régionales fragilisent la Chine à long terme."},
+{sa:5,t:"mcq",q:"Que signifie l'expression 'économie dominante' ?",o:["Un pays très peuplé","Un pays dont l'économie influence fortement l'économie mondiale","Un pays avec beaucoup de ressources naturelles","Un pays qui reçoit beaucoup d'aide internationale"],a:1,e:"Une économie dominante est une économie si puissante qu'elle influence fortement les échanges et les équilibres économiques mondiaux."},
+{sa:5,t:"mcq",q:"Quelle est la capitale du Brésil ?",o:["São Paulo","Rio de Janeiro","Brasília","Salvador"],a:2,e:"Brasília est la capitale fédérale du Brésil depuis 1960."},
+
+/* ── SA6 CEDEAO (25 questions) ── */
+{sa:6,t:"mcq",q:"Que signifie le sigle CEDEAO ?",o:["Confédération Économique des États d'Afrique de l'Ouest","Communauté Économique des États de l'Afrique de l'Ouest","Coalition Économique des États d'Afrique de l'Ouest","Coopération Économique pour l'Afrique de l'Ouest"],a:1,e:"CEDEAO = Communauté Économique Des États de l'Afrique de l'Ouest (en anglais : ECOWAS)."},
+{sa:6,t:"mcq",q:"En quelle année la CEDEAO a-t-elle été fondée ?",o:["1960","1975","1980","1963"],a:1,e:"La CEDEAO a été fondée le 28 mai 1975 à Lagos (Nigeria)."},
+{sa:6,t:"mcq",q:"Dans quelle ville la CEDEAO a-t-elle été créée ?",o:["Abidjan","Dakar","Lagos","Accra"],a:2,e:"La CEDEAO a été fondée à Lagos (Nigeria) le 28 mai 1975."},
+{sa:6,t:"mcq",q:"Combien de pays membres compte la CEDEAO ?",o:["12","15","17","20"],a:1,e:"La CEDEAO compte 15 États membres couvrant l'ensemble de l'Afrique de l'Ouest."},
+{sa:6,t:"mcq",q:"Où se trouve le siège de la CEDEAO ?",o:["Dakar","Abuja","Accra","Lagos"],a:1,e:"Le siège de la Commission de la CEDEAO est à Abuja, capitale fédérale du Nigeria."},
+{sa:6,t:"tf",q:"Le Bénin est un État membre fondateur de la CEDEAO.",a:true,e:"Oui, le Bénin est l'un des 15 membres fondateurs de la CEDEAO depuis 1975."},
+{sa:6,t:"mcq",q:"Quel est le principal objectif économique de la CEDEAO ?",o:["Créer une armée commune","Promouvoir l'intégration économique et la libre circulation","Unifier les langues","Créer un gouvernement unique"],a:1,e:"L'objectif central de la CEDEAO est l'intégration économique régionale et la libre circulation des personnes et des biens."},
+{sa:6,t:"mcq",q:"Quelle est la monnaie commune projetée par la CEDEAO ?",o:["CFA renforcé","L'ECO","NAFTA africain","Naira ouest-africain"],a:1,e:"L'ECO est la monnaie commune que la CEDEAO projette d'instaurer pour faciliter les échanges régionaux."},
+{sa:6,t:"mcq",q:"Quel est le bras militaire de la CEDEAO ?",o:["FOMUC","Force de l'UA","ECOMOG","MINUSMA"],a:2,e:"L'ECOMOG est la force militaire de la CEDEAO, intervenue dans plusieurs conflits (Libéria, Sierra Leone, Mali)."},
+{sa:6,t:"mcq",q:"Quelles sont les ressources agricoles abondantes dans l'espace CEDEAO ?",o:["Blé et orge","Cacao, café, arachide, coton, noix de cajou","Betterave sucrière","Vignes et oliviers"],a:1,e:"L'espace CEDEAO regorge de ressources tropicales : cacao (Côte d'Ivoire), café, arachide, coton (Bénin), noix de cajou."},
+{sa:6,t:"tf",q:"Le Nigeria est le pays le plus peuplé et la plus grande économie de la CEDEAO.",a:true,e:"Oui, le Nigeria (~220 millions d'hab.) est la 1ère économie africaine, dominant la CEDEAO."},
+{sa:6,t:"mcq",q:"Quel est l'un des principaux obstacles à l'intégration de la CEDEAO ?",o:["Trop de richesses","Diversité des langues, monnaies, niveaux de développement et instabilité politique","Refus des populations","Manque de ressources naturelles"],a:1,e:"Les obstacles sont nombreux : diversité linguistique, monnaies différentes, inégalités de développement, instabilité politique."},
+{sa:6,t:"mcq",q:"Quelle institution de la CEDEAO finance les projets d'intégration ?",o:["Parlement CEDEAO","Cour de Justice","BIDC — Banque d'Investissement et de Développement de la CEDEAO","Conseil des Anciens"],a:2,e:"La BIDC finance les projets d'intégration économique régionale de la CEDEAO."},
+{sa:6,t:"mcq",q:"Quelles sont les ressources minières abondantes dans l'espace CEDEAO ?",o:["Diamants, or, bauxite, fer, pétrole","Uranium exclusivement","Platine et cobalt","Charbon principalement"],a:0,e:"L'espace CEDEAO regorge de ressources : or (Ghana, Mali), diamants (Sierra Leone), bauxite (Guinée), pétrole (Nigeria)."},
+{sa:6,t:"mcq",q:"Quel événement au Niger en 2023 a conduit la CEDEAO à menacer d'intervenir militairement ?",o:["Élection contestée","Coup d'État contre le président Bazoum","Épidémie régionale","Crise frontalière"],a:1,e:"Après le coup d'État contre Mohamed Bazoum (juillet 2023), la CEDEAO a menacé d'une intervention militaire."},
+{sa:6,t:"tf",q:"Le protocole de la CEDEAO de 1979 garantit la libre circulation des personnes.",a:true,e:"Oui, le Protocole CEDEAO de 1979 garantit la libre circulation des personnes dans les 15 États membres."},
+{sa:6,t:"mcq",q:"Quelle est la principale ressource énergétique de la CEDEAO ?",o:["Charbon","Pétrole (Nigeria, Ghana)","Énergie nucléaire","Géothermie"],a:1,e:"Le pétrole est la principale ressource énergétique de la CEDEAO, dominé par le Nigeria (1er producteur africain)."},
+{sa:6,t:"mcq",q:"Qu'est-ce qu'une intégration économique régionale ?",o:["Fusion de tous les États en un seul pays","Rapprochement économique entre pays voisins pour favoriser les échanges","Accord purement militaire","Zone touristique commune"],a:1,e:"L'intégration économique régionale est un processus de coopération approfondie entre pays pour réduire les barrières commerciales."},
+{sa:6,t:"mcq",q:"Quel pays de la CEDEAO est le 1er producteur mondial de cacao ?",o:["Nigeria","Ghana","Côte d'Ivoire","Sénégal"],a:2,e:"La Côte d'Ivoire est le 1er producteur mondial de cacao (~40-45 % de la production mondiale)."},
+{sa:6,t:"mcq",q:"Quel protocole permet à un Béninois de circuler librement au Sénégal ou au Ghana ?",o:["Traité de Maastricht africain","Protocole CEDEAO sur la libre circulation","Accord de Schengen africain","Traité d'Abuja"],a:1,e:"Le Protocole CEDEAO sur la libre circulation (1979) permet aux ressortissants des 15 États membres de circuler librement."},
+{sa:6,t:"tf",q:"La Cour de Justice de la CEDEAO peut être saisie par des particuliers.",a:true,e:"Oui, la Cour de Justice de la CEDEAO peut être saisie par des particuliers pour violations des droits humains."},
+{sa:6,t:"mcq",q:"Quel projet connecte les pays de la CEDEAO par l'électricité ?",o:["Pipeline Trans-Sahara","WAPP — West African Power Pool","Réseau solaire sahélien","Barrage de Diama"],a:1,e:"Le WAPP est le système d'interconnexion électrique régionale entre les pays membres de la CEDEAO."},
+{sa:6,t:"mcq",q:"Quel défi sécuritaire majeur menace l'intégration de la CEDEAO ?",o:["Conflits pétroliers entre États","Terrorisme jihadiste au Sahel et coups d'État militaires","Guerres agriculteurs-éleveurs","Piraterie maritime uniquement"],a:1,e:"La montée du terrorisme jihadiste (Mali, Burkina, Niger) et les coups d'État militaires récents sont les principaux défis sécuritaires."},
+{sa:6,t:"mcq",q:"Quel document fondateur a créé la CEDEAO ?",o:["Traité de Maastricht","Traité de Lagos (1975)","Charte de Monrovia","Acte constitutif d'Abuja"],a:1,e:"Le Traité de Lagos (1975) est le document fondateur de la CEDEAO, révisé par le Traité d'Abuja en 1993."},
+{sa:6,t:"mcq",q:"Que représente une intégration économique réussie pour les populations de la CEDEAO ?",o:["Suppression des gouvernements nationaux","Meilleur accès aux marchés, emplois et niveau de vie amélioré","Domination d'un seul pays","Suppression des langues nationales"],a:1,e:"Une intégration réussie apporterait plus d'emplois, d'investissements et un meilleur niveau de vie pour tous."}
+];
+
+/* ══════════════════════════════════════════════
+   MOTEUR DU QUIZ
+══════════════════════════════════════════════ */
+let idx = 0, score = 0, erreurs = 0, repondu = false, saActuel = -1;
+const saStats = {};
+SA.forEach(s => { saStats[s.id] = {ok:0, tot:0}; });
+
+function lancerTest() {
+  document.getElementById('garde').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  afficherQuestion();
+}
+
+function theme(saId) {
+  return SA.find(s => s.id === saId)?.th ?? 0;
+}
+
+function afficherQuestion() {
+  if (idx >= Q.length) { afficherResultats(); return; }
+  const q = Q[idx];
+  document.body.className = 't' + theme(q.sa);
+  majProgression();
+
+  let html = '';
+
+  // Bannière SA si changement
+  if (q.sa !== saActuel) {
+    saActuel = q.sa;
+    const s = SA.find(x => x.id === q.sa);
+    html += `<div class="sa-banner">
+      <span class="sa-ico">${s.ico}</span>
+      <div class="badge-sa">Chapitre ${s.id} / 6</div>
+      <h2>${s.titre}</h2>
+    </div>`;
+  }
+
+  const labels = {mcq:'📋 QCM', tf:'✅ VRAI / FAUX'};
+  html += `<div class="q-card">
+    <div class="q-num">Question ${idx+1} <span class="q-type">${labels[q.t]||'QCM'}</span></div>
+    <div class="q-text">${q.q}</div>`;
+
+  if (q.t === 'mcq') {
+    html += `<div class="options">`;
+    ['A','B','C','D'].slice(0, q.o.length).forEach((L,i) => {
+      html += `<button class="opt" id="o${i}" onclick="repMCQ(${i})">
+        <span class="opt-l">${L}</span><span>${q.o[i]}</span>
+      </button>`;
+    });
+    html += `</div>`;
+  } else {
+    html += `<div class="tf-wrap">
+      <button class="tf-btn" id="otrue"  onclick="repTF(true)">✅ VRAI</button>
+      <button class="tf-btn" id="ofalse" onclick="repTF(false)">❌ FAUX</button>
+    </div>`;
+  }
+
+  html += `<div id="feedback" style="display:none"></div>
+    <button class="btn-next" id="btnNext" style="display:none" onclick="suivant()">
+      ${idx < Q.length-1 ? '➡️ Question suivante' : '🏁 Voir mes résultats'}
+    </button>
+  </div>`;
+
+  document.getElementById('zoneQuiz').innerHTML = html;
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function repMCQ(choix) {
+  if (repondu) return;
+  repondu = true;
+  const q = Q[idx];
+  saStats[q.sa].tot++;
+  document.querySelectorAll('.opt').forEach(b => b.disabled = true);
+  if (choix === q.a) {
+    document.getElementById('o'+choix).classList.add('correct');
+    score++; saStats[q.sa].ok++;
+    feedback(true, q.e);
+  } else {
+    document.getElementById('o'+choix).classList.add('wrong');
+    document.getElementById('o'+q.a).classList.add('correct');
+    erreurs++;
+    feedback(false, q.e);
+  }
+  document.getElementById('btnNext').style.display = 'block';
+  majProgression();
+}
+
+function repTF(choix) {
+  if (repondu) return;
+  repondu = true;
+  const q = Q[idx];
+  saStats[q.sa].tot++;
+  document.getElementById('otrue').disabled = true;
+  document.getElementById('ofalse').disabled = true;
+  const ok = choix === q.a;
+  if (ok) { score++; saStats[q.sa].ok++; }
+  else { erreurs++; }
+  document.getElementById(ok===choix ? (choix?'otrue':'ofalse') : (choix?'otrue':'ofalse')).classList.add(ok?'correct':'wrong');
+  document.getElementById(q.a?'otrue':'ofalse').classList.add('correct');
+  if (!ok) document.getElementById(!q.a?'otrue':'ofalse');
+  feedback(ok, q.e);
+  document.getElementById('btnNext').style.display = 'block';
+  majProgression();
+}
+
+function feedback(ok, expl) {
+  const el = document.getElementById('feedback');
+  el.style.display = 'block';
+  el.className = 'feedback ' + (ok ? 'correct' : 'wrong');
+  el.innerHTML = ok
+    ? `<span class="fb-ico">🎉</span><strong>Bravo ! Bonne réponse !</strong><br>${expl}`
+    : `<span class="fb-ico">💡</span><strong>Pas tout à fait !</strong><br>${expl}`;
+}
+
+function suivant() {
+  idx++; repondu = false; afficherQuestion();
+}
+
+function majProgression() {
+  const total = Q.length;
+  const pct = Math.round((idx / total) * 100);
+  document.getElementById('progLabel').textContent = `Question ${idx+1} / ${total}`;
+  document.getElementById('progScore').textContent = `✅ ${score} \u00a0|\u00a0 ❌ ${erreurs}`;
+  document.getElementById('progFill').style.width = pct + '%';
+}
+
+function afficherResultats() {
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('results').style.display = 'block';
+  document.body.className = 't2';
+  const total = Q.length;
+  const pct = Math.round((score/total)*100);
+  let ico='🏆', stars='⭐⭐⭐⭐⭐', msg='';
+  if      (pct>=90){ico='🥇';stars='⭐⭐⭐⭐⭐';msg='Excellent ! Tu es prêt(e) pour le Baccalauréat !';}
+  else if (pct>=75){ico='🥈';stars='⭐⭐⭐⭐';msg='Très bien ! Quelques révisions et le Bac est dans ta poche !';}
+  else if (pct>=60){ico='🥉';stars='⭐⭐⭐';msg='Bien ! Relis les chapitres où tu as fait des erreurs.';}
+  else if (pct>=40){ico='📚';stars='⭐⭐';msg='Continue à réviser. Relis tes cours et recommence !';}
+  else             {ico='💪';stars='⭐';msg='Ne te décourage pas ! Relis tes cours et retente. Tu peux le faire !';}
+  document.getElementById('rIco').textContent = ico;
+  document.getElementById('rStars').textContent = stars;
+  document.getElementById('rMsg').textContent = msg;
+  document.getElementById('rBig').textContent = score+'/'+total;
+  document.getElementById('rPct').textContent = pct+' % de bonnes réponses';
+  let h = '<h3 style="margin-bottom:14px;font-size:1.15rem;font-weight:900;">📊 Score par chapitre</h3>';
+  SA.forEach(s => {
+    const d = saStats[s.id];
+    const p = d.tot>0 ? Math.round((d.ok/d.tot)*100) : 0;
+    h += `<div class="sa-row">
+      <span>${s.ico}</span>
+      <span class="sa-row-name">SA${s.id} — ${s.titre.substring(0,38)}…</span>
+      <span class="sa-row-pct">${d.ok}/${d.tot} (${p}%)</span>
+    </div>`;
+  });
+  document.getElementById('rSA').innerHTML = h;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function relancer() {
+  idx=0; score=0; erreurs=0; repondu=false; saActuel=-1;
+  SA.forEach(s => { saStats[s.id]={ok:0,tot:0}; });
+  document.getElementById('results').style.display = 'none';
+  document.getElementById('garde').style.display = 'flex';
+  document.body.className = 't0';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
