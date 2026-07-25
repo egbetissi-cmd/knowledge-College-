@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test de Baccalauréat – Espagnol | Séries A & B</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg1: #FFF9C4; --bg1b: #6A0DAD;
+    --bg2: #E3F2FD; --bg2b: #0D47A1;
+    --bg3: #E8F5E9; --bg3b: #2E7D32;
+    --bg4: #FCE4EC; --bg4b: #880E4F;
+    --accent1: #6A0DAD; --accent2: #1565C0; --accent3: #2E7D32; --accent4: #AD1457;
+    --white: #fff;
+    --shadow: 0 8px 32px rgba(0,0,0,0.13);
+    --radius: 22px;
+    --font-title: 'Baloo 2', cursive;
+    --font-body: 'Nunito', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font-body);
+    min-height: 100vh;
+    transition: background 0.8s ease;
+    overflow-x: hidden;
+  }
+
+  /* ====== THEME CLASSES ====== */
+  body.theme-0 { background: linear-gradient(135deg, #FFF9C4 0%, #F3E5F5 100%); }
+  body.theme-1 { background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%); }
+  body.theme-2 { background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%); }
+  body.theme-3 { background: linear-gradient(135deg, #FCE4EC 0%, #F8BBD0 100%); }
+
+  /* ====== SPLASH SCREEN ====== */
+  #splash {
+    position: fixed; inset: 0; z-index: 999;
+    background: linear-gradient(135deg, #6A0DAD 0%, #AD1457 50%, #1565C0 100%);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    color: white; text-align: center; padding: 24px;
+    animation: splashIn 0.5s ease;
+  }
+  @keyframes splashIn { from { opacity:0; transform:scale(0.95); } to { opacity:1; transform:scale(1); } }
+  #splash .flag { font-size: 90px; margin-bottom: 10px; animation: bounce 1.5s infinite; }
+  @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-18px)} }
+  #splash h1 { font-family: var(--font-title); font-size: clamp(32px,6vw,64px); font-weight: 900; line-height: 1.1; margin-bottom: 16px; text-shadow: 0 4px 16px rgba(0,0,0,0.3); }
+  #splash p { font-size: clamp(18px,3vw,26px); opacity: 0.92; margin-bottom: 30px; max-width: 600px; }
+  #splash .badges { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-bottom: 36px; }
+  #splash .badge { background: rgba(255,255,255,0.2); border: 2px solid rgba(255,255,255,0.5); border-radius: 50px; padding: 10px 22px; font-size: 18px; font-weight: 700; }
+  #splash .start-btn {
+    background: white; color: #6A0DAD; font-family: var(--font-title); font-size: 26px; font-weight: 900;
+    padding: 18px 56px; border: none; border-radius: 60px; cursor: pointer;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.25); transition: transform 0.2s, box-shadow 0.2s;
+    letter-spacing: 1px;
+  }
+  #splash .start-btn:hover { transform: scale(1.07); box-shadow: 0 12px 40px rgba(0,0,0,0.35); }
+
+  /* ====== MAIN APP ====== */
+  #app { display: none; max-width: 860px; margin: 0 auto; padding: 20px 16px 60px; }
+
+  /* ====== HEADER ====== */
+  .quiz-header {
+    text-align: center; margin-bottom: 28px;
+    animation: fadeDown 0.6s ease;
+  }
+  @keyframes fadeDown { from { opacity:0; transform:translateY(-20px); } to { opacity:1; transform:translateY(0); } }
+  .quiz-header .logo { font-size: 50px; }
+  .quiz-header h2 { font-family: var(--font-title); font-size: clamp(22px,4vw,38px); font-weight: 900; color: #333; }
+  .quiz-header .subtitle { font-size: 18px; color: #555; font-weight: 600; margin-top: 4px; }
+
+  /* ====== PROGRESS BAR ====== */
+  .progress-wrap { background: rgba(255,255,255,0.6); border-radius: 50px; height: 18px; margin-bottom: 12px; overflow: hidden; box-shadow: inset 0 2px 6px rgba(0,0,0,0.1); }
+  .progress-bar { height: 100%; border-radius: 50px; transition: width 0.5s ease, background 0.8s; background: linear-gradient(90deg, #6A0DAD, #AD1457); }
+  .progress-info { display: flex; justify-content: space-between; font-size: 17px; font-weight: 700; color: #444; margin-bottom: 20px; }
+
+  /* ====== SCORE LIVE ====== */
+  .score-live { display: flex; justify-content: center; gap: 20px; margin-bottom: 22px; flex-wrap: wrap; }
+  .score-chip {
+    background: white; border-radius: 50px; padding: 10px 24px;
+    font-size: 19px; font-weight: 800; box-shadow: var(--shadow);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .chip-correct { color: #2E7D32; }
+  .chip-wrong { color: #C62828; }
+  .chip-total { color: #5c35a0; }
+
+  /* ====== SECTION BANNER ====== */
+  .section-banner {
+    border-radius: var(--radius); padding: 16px 24px; margin-bottom: 22px;
+    font-family: var(--font-title); font-size: 22px; font-weight: 800;
+    color: white; text-align: center; box-shadow: var(--shadow);
+    transition: background 0.8s;
+    animation: fadeDown 0.4s ease;
+  }
+
+  /* ====== QUESTION CARD ====== */
+  .question-card {
+    background: white; border-radius: var(--radius); padding: 30px 28px 24px;
+    box-shadow: var(--shadow); margin-bottom: 22px;
+    animation: cardIn 0.45s cubic-bezier(.23,1.2,.48,1);
+  }
+  @keyframes cardIn { from { opacity:0; transform:translateY(30px) scale(0.97); } to { opacity:1; transform:translateY(0) scale(1); } }
+  .q-type-tag {
+    display: inline-block; border-radius: 50px; padding: 6px 18px;
+    font-size: 15px; font-weight: 800; color: white; margin-bottom: 14px;
+    letter-spacing: 0.5px;
+  }
+  .question-text { font-size: clamp(20px,3.5vw,28px); font-weight: 800; color: #222; line-height: 1.4; margin-bottom: 24px; }
+  .question-text em { font-style: italic; color: #5c35a0; }
+
+  /* ====== OPTIONS ====== */
+  .options-grid { display: grid; gap: 14px; }
+  .option-btn {
+    background: #F8F8FF; border: 3px solid #ddd; border-radius: 16px;
+    padding: 18px 22px; font-size: clamp(17px,2.5vw,22px); font-weight: 700;
+    color: #333; cursor: pointer; text-align: left; line-height: 1.35;
+    transition: all 0.22s ease; display: flex; align-items: center; gap: 14px;
+    font-family: var(--font-body);
+  }
+  .option-btn:hover:not(:disabled) { transform: translateX(6px); border-color: #9C27B0; background: #F3E5F5; }
+  .option-btn .opt-letter { min-width: 42px; height: 42px; border-radius: 50%; background: #EEE; color: #555; font-size: 18px; font-weight: 900; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background 0.2s; }
+  .option-btn.correct { background: #E8F5E9 !important; border-color: #4CAF50 !important; color: #1B5E20 !important; transform: none !important; }
+  .option-btn.correct .opt-letter { background: #4CAF50; color: white; }
+  .option-btn.wrong { background: #FFEBEE !important; border-color: #F44336 !important; color: #B71C1C !important; transform: none !important; }
+  .option-btn.wrong .opt-letter { background: #F44336; color: white; }
+  .option-btn:disabled { cursor: default; }
+
+  /* ====== FEEDBACK ====== */
+  .feedback-box {
+    border-radius: 14px; padding: 16px 20px; margin-top: 16px;
+    font-size: 19px; font-weight: 700; line-height: 1.45;
+    display: flex; align-items: flex-start; gap: 12px;
+    animation: feedIn 0.35s ease;
+  }
+  @keyframes feedIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+  .feedback-box.ok { background: #E8F5E9; color: #1B5E20; border-left: 6px solid #4CAF50; }
+  .feedback-box.ko { background: #FFEBEE; color: #B71C1C; border-left: 6px solid #F44336; }
+  .feedback-box .fb-icon { font-size: 28px; flex-shrink: 0; }
+
+  /* ====== NEXT BUTTON ====== */
+  .next-btn {
+    width: 100%; padding: 20px; font-family: var(--font-title); font-size: 24px; font-weight: 900;
+    border: none; border-radius: 16px; cursor: pointer; color: white;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.18); transition: transform 0.2s, box-shadow 0.2s;
+    display: none; margin-top: 14px;
+  }
+  .next-btn:hover { transform: scale(1.03); box-shadow: 0 10px 30px rgba(0,0,0,0.25); }
+
+  /* ====== RESULTS ====== */
+  #results { display: none; text-align: center; padding: 20px 0 60px; animation: cardIn 0.5s ease; }
+  .result-trophy { font-size: 100px; animation: bounce 2s infinite; margin-bottom: 10px; }
+  .result-title { font-family: var(--font-title); font-size: clamp(28px,5vw,52px); font-weight: 900; margin-bottom: 12px; color: #333; }
+  .result-score-big { font-family: var(--font-title); font-size: clamp(42px,8vw,80px); font-weight: 900; margin: 14px 0; }
+  .result-mention { font-size: clamp(20px,3.5vw,32px); font-weight: 800; padding: 14px 32px; border-radius: 50px; color: white; display: inline-block; margin-bottom: 20px; }
+  .result-stats { display: flex; justify-content: center; gap: 18px; flex-wrap: wrap; margin-bottom: 30px; }
+  .result-stat-box { background: white; border-radius: 18px; padding: 18px 28px; box-shadow: var(--shadow); font-size: 20px; font-weight: 800; }
+  .restart-btn { background: linear-gradient(135deg, #6A0DAD, #AD1457); color: white; font-family: var(--font-title); font-size: 26px; font-weight: 900; padding: 18px 50px; border: none; border-radius: 60px; cursor: pointer; box-shadow: 0 8px 30px rgba(0,0,0,0.2); transition: transform 0.2s; }
+  .restart-btn:hover { transform: scale(1.06); }
+
+  .theme-0 .section-banner { background: linear-gradient(90deg, #6A0DAD, #9C27B0); }
+  .theme-1 .section-banner { background: linear-gradient(90deg, #0D47A1, #1565C0); }
+  .theme-2 .section-banner { background: linear-gradient(90deg, #1B5E20, #2E7D32); }
+  .theme-3 .section-banner { background: linear-gradient(90deg, #880E4F, #AD1457); }
+
+  .theme-0 .q-type-tag { background: #6A0DAD; }
+  .theme-1 .q-type-tag { background: #1565C0; }
+  .theme-2 .q-type-tag { background: #2E7D32; }
+  .theme-3 .q-type-tag { background: #AD1457; }
+
+  .theme-0 .progress-bar { background: linear-gradient(90deg, #6A0DAD, #9C27B0); }
+  .theme-1 .progress-bar { background: linear-gradient(90deg, #1565C0, #42A5F5); }
+  .theme-2 .progress-bar { background: linear-gradient(90deg, #2E7D32, #66BB6A); }
+  .theme-3 .progress-bar { background: linear-gradient(90deg, #AD1457, #F06292); }
+
+  .theme-0 .next-btn { background: linear-gradient(135deg, #6A0DAD, #9C27B0); }
+  .theme-1 .next-btn { background: linear-gradient(135deg, #1565C0, #42A5F5); }
+  .theme-2 .next-btn { background: linear-gradient(135deg, #2E7D32, #66BB6A); }
+  .theme-3 .next-btn { background: linear-gradient(135deg, #AD1457, #F06292); }
+
+  .stars { font-size: 28px; letter-spacing: 4px; }
+
+  @media (max-width: 600px) {
+    .option-btn { padding: 15px 16px; font-size: 16px; }
+    .option-btn .opt-letter { min-width: 36px; height: 36px; font-size: 16px; }
+    .question-card { padding: 22px 16px 20px; }
+  }
+</style>
+</head>
+<body class="theme-0">
+
+<!-- SPLASH -->
+<div id="splash">
+  <div class="flag">🇪🇸</div>
+  <h1>¡Hola, Campeón! 🏆<br>Test de Baccalauréat</h1>
+  <p>Espagnol — Séries A &amp; B<br><strong>100 questions officielles</strong> sur tout le programme</p>
+  <div class="badges">
+    <div class="badge">📚 SA1 à SA5</div>
+    <div class="badge">✏️ Grammaire</div>
+    <div class="badge">💬 Vocabulaire</div>
+    <div class="badge">📖 Compréhension</div>
+  </div>
+  <button class="start-btn" onclick="startQuiz()">🚀 Commencer le Test !</button>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <div class="quiz-header">
+    <div class="logo">🇪🇸</div>
+    <h2>Test Baccalauréat – Espagnol</h2>
+    <div class="subtitle">Séries A &amp; B — Programme officiel</div>
+  </div>
+  <div class="progress-wrap"><div class="progress-bar" id="progBar"></div></div>
+  <div class="progress-info">
+    <span id="qCounter">Question 1 / 100</span>
+    <span id="pctLabel">0%</span>
+  </div>
+  <div class="score-live">
+    <div class="score-chip chip-correct">✅ <span id="scoreOk">0</span></div>
+    <div class="score-chip chip-wrong">❌ <span id="scoreKo">0</span></div>
+    <div class="score-chip chip-total">🎯 <span id="scorePct">0%</span></div>
+  </div>
+  <div class="section-banner" id="sectionBanner">SA1 – Ética</div>
+  <div class="question-card" id="qCard">
+    <div class="q-type-tag" id="qTypeTag">Grammaire</div>
+    <div class="question-text" id="qText"></div>
+    <div class="options-grid" id="optGrid"></div>
+    <div id="feedbackBox"></div>
+  </div>
+  <button class="next-btn" id="nextBtn" onclick="nextQuestion()">Suivant ➡️</button>
+</div>
+
+<!-- RESULTS -->
+<div id="results">
+  <div class="result-trophy" id="resTrophy">🏆</div>
+  <div class="result-title">Test terminé, Bravo !</div>
+  <div class="result-score-big" id="resBig"></div>
+  <div class="result-mention" id="resMention"></div>
+  <div class="stars" id="resStars"></div>
+  <br>
+  <div class="result-stats">
+    <div class="result-stat-box">✅ Correctes<br><span id="resOk" style="font-size:32px;color:#2E7D32"></span></div>
+    <div class="result-stat-box">❌ Erreurs<br><span id="resKo" style="font-size:32px;color:#C62828"></span></div>
+    <div class="result-stat-box">📊 Score<br><span id="resPct" style="font-size:32px;color:#6A0DAD"></span></div>
+  </div>
+  <button class="restart-btn" onclick="restartQuiz()">🔄 Recommencer</button>
+</div>
+
+<script>
+const QUESTIONS = [
+  // ===== SA1 ÉTICA =====
+  { section:"SA1 – Ética", type:"Vocabulaire", theme:0,
+    q:"Que signifie le mot <em>«creencias»</em> en français ?",
+    opts:["Croyances","Créatures","Créations","Crinières"], ans:0,
+    fb:"✅ <em>Creencias</em> = les croyances. Ex : <em>Las creencias religiosas son importantes.</em>" },
+  { section:"SA1 – Ética", type:"Vocabulaire", theme:0,
+    q:"Comment dit-on <em>«la santé»</em> en espagnol ?",
+    opts:["La suerte","La salud","La sangre","La sabiduría"], ans:1,
+    fb:"✅ <em>La salud</em> = la santé. Titre du texte : <em>Tener buena salud para ser feliz.</em>" },
+  { section:"SA1 – Ética", type:"Grammaire – Subjonctif", theme:0,
+    q:"Choisissez la forme correcte du subjonctif : <em>Quiero que tú ___ feliz.</em>",
+    opts:["eres","seas","serás","fueras"], ans:1,
+    fb:"✅ Après <em>querer que</em>, on utilise le subjonctif présent → <em>seas</em> (être)." },
+  { section:"SA1 – Ética", type:"Grammaire – Subjonctif", theme:0,
+    q:"<em>Es importante que nosotros ___ la verdad.</em> Complétez avec le subjonctif correct.",
+    opts:["decimos","decíamos","digamos","dijimos"], ans:2,
+    fb:"✅ <em>Decir</em> au subjonctif présent → <em>digamos</em>. Verbe irrégulier !" },
+  { section:"SA1 – Ética", type:"Grammaire – Obligations", theme:0,
+    q:"Pour exprimer une <strong>obligation personnelle</strong>, on utilise :",
+    opts:["Hay que + infinitif","Tener que + infinitif","Se debe + infinitif","Es necesario + infinitif"], ans:1,
+    fb:"✅ <em>Tener que + infinitif</em> = obligation personnelle. Ex : <em>Tengo que estudiar.</em>" },
+  { section:"SA1 – Ética", type:"Grammaire – Obligations", theme:0,
+    q:"Pour exprimer une <strong>obligation impersonnelle</strong>, on utilise :",
+    opts:["Tener que + inf.","Deber + inf.","Hay que + inf.","Querer + inf."], ans:2,
+    fb:"✅ <em>Hay que + infinitif</em> = obligation impersonnelle (sans sujet précis). Ex : <em>Hay que respetar las normas.</em>" },
+  { section:"SA1 – Ética", type:"Grammaire – Comparatif", theme:0,
+    q:"Traduisez : <em>«Plus tu travailles, plus tu réussis.»</em>",
+    opts:["Más trabajas, más tienes éxito","Cuanto más trabajas, más éxito tienes","Como más trabajas, más éxito tienes","Mientras más trabajas, tienes éxito"], ans:1,
+    fb:"✅ <em>Cuanto más... más...</em> = plus... plus... Structure fixe du programme SA1." },
+  { section:"SA1 – Ética", type:"Grammaire – Comparatif", theme:0,
+    q:"Complétez : <em>___ menos comes, ___ menos energía tienes.</em>",
+    opts:["Cuanto / tanto","Cuanto / cuanto","Tanto / tanto","Más / más"], ans:1,
+    fb:"✅ <em>Cuanto menos... menos...</em> = moins... moins... Structure symétrique de <em>cuanto más... más.</em>" },
+  { section:"SA1 – Ética", type:"Grammaire – Costumbre", theme:0,
+    q:"Pour exprimer une habitude au présent, on utilise :",
+    opts:["Soler + infinitif","Poder + infinitif","Querer + infinitif","Deber + infinitif"], ans:0,
+    fb:"✅ <em>Soler + infinitif</em> exprime la coutume/habitude. Ex : <em>Suelo levantarme temprano.</em>" },
+  { section:"SA1 – Ética", type:"Grammaire – Simultanéité", theme:0,
+    q:"Pour exprimer la simultanéité d'actions, on utilise :",
+    opts:["Antes de + inf.","Mientras + indicatif","Después de + inf.","Para + infinitif"], ans:1,
+    fb:"✅ <em>Mientras + indicatif</em> exprime la simultanéité. Ex : <em>Mientras como, escucho música.</em>" },
+  { section:"SA1 – Ética", type:"Grammaire – Relatifs", theme:0,
+    q:"Choisissez le pronom relatif correct : <em>El libro ___ leo es interesante.</em>",
+    opts:["quien","cuyo","que","cual"], ans:2,
+    fb:"✅ <em>Que</em> est le relatif universel pour les choses. Ex : <em>el libro que leo.</em>" },
+  { section:"SA1 – Ética", type:"Grammaire – Négation double", theme:0,
+    q:"Traduisez : <em>«Je ne vois rien.»</em>",
+    opts:["No veo nada","No veo nado","No veo ninguno","No veo nadie"], ans:0,
+    fb:"✅ <em>No veo nada</em> = la double négation en espagnol. <em>No</em> + verbe + <em>nada</em>." },
+  { section:"SA1 – Ética", type:"Grammaire – Négation double", theme:0,
+    q:"<em>No vino nadie</em> signifie :",
+    opts:["Il est venu quelqu'un","Personne n'est venu","Tout le monde est venu","Il ne venait pas"], ans:1,
+    fb:"✅ <em>No vino nadie</em> = Personne n'est venu. <em>Nadie</em> = personne (double négation)." },
+  { section:"SA1 – Ética", type:"Grammaire – Subjonctif", theme:0,
+    q:"<em>Espero que ellos ___ a tiempo.</em> Choisissez le subjonctif correct du verbe <em>llegar</em>.",
+    opts:["llegan","llegarán","lleguen","llegaran"], ans:2,
+    fb:"✅ Après <em>esperar que</em>, subjonctif présent → <em>lleguen</em>." },
+  { section:"SA1 – Ética", type:"Compréhension", theme:0,
+    q:"Dans le texte <em>«Tener buena salud para ser feliz»</em>, quelle cause principale nuit à la santé ?",
+    opts:["Le manque de sport","Le tabac","La malbouffe","Le stress"], ans:1,
+    fb:"✅ La <em>cruzada contra el tabaco</em> est au cœur du texte. Le tabac est l'ennemi principal de la santé." },
+
+  // ===== SA2 HISTORIA =====
+  { section:"SA2 – Historia", type:"Vocabulaire", theme:1,
+    q:"Que signifie <em>«esclavitud»</em> en français ?",
+    opts:["Esclavage","Liberté","Salaire","Emigration"], ans:0,
+    fb:"✅ <em>La esclavitud</em> = l'esclavage. Texte de référence : <em>Esclavitud</em> (p.20)." },
+  { section:"SA2 – Historia", type:"Vocabulaire", theme:1,
+    q:"Traduisez : <em>«Los jefes»</em>",
+    opts:["Les jeunes","Les chefs","Les juges","Les frères"], ans:1,
+    fb:"✅ <em>Los jefes</em> = les chefs. Référence au texte <em>«Somos los jefes»</em>." },
+  { section:"SA2 – Historia", type:"Grammaire – Durée", theme:1,
+    q:"Complétez : <em>___ tres años que vivo aquí.</em>",
+    opts:["Desde","Hace","Llevo","Durante"], ans:1,
+    fb:"✅ <em>Hace + durée + que + verbe au présent</em> = ça fait... que. Ex : <em>Hace tres años que vivo aquí.</em>" },
+  { section:"SA2 – Historia", type:"Grammaire – Durée", theme:1,
+    q:"Comment exprimer <em>«Je travaille depuis 10 ans»</em> ?",
+    opts:["Trabajo desde hace 10 años","Trabajo hace 10 años","Llevo 10 años trabajando","A et C sont corrects"], ans:3,
+    fb:"✅ Les deux structures sont correctes : <em>trabajo desde hace 10 años</em> ET <em>llevo 10 años trabajando</em>." },
+  { section:"SA2 – Historia", type:"Grammaire – Gérondif", theme:1,
+    q:"Quelle structure exprime une action <strong>en cours de développement</strong> ?",
+    opts:["Ir + infinitif","Estar + gérondif","Seguir + infinitif","Volver a + infinitif"], ans:1,
+    fb:"✅ <em>Estar + gérondif</em> = action en cours. Ex : <em>Estoy comiendo</em> = je suis en train de manger." },
+  { section:"SA2 – Historia", type:"Grammaire – Continuité", theme:1,
+    q:"<em>Sigo trabajando duro</em> se traduit par :",
+    opts:["J'ai travaillé dur","Je vais travailler dur","Je continue à travailler dur","J'ai arrêté de travailler"], ans:2,
+    fb:"✅ <em>Seguir + gérondif</em> = continuer à + inf. <em>Sigo trabajando</em> = je continue à travailler." },
+  { section:"SA2 – Historia", type:"Grammaire – Progression", theme:1,
+    q:"Pour exprimer une progression, on utilise :",
+    opts:["Ir + gérondif","Estar + gérondif","Seguir + gérondif","Llevar + gérondif"], ans:0,
+    fb:"✅ <em>Ir + gérondif</em> = progression graduelle. Ex : <em>Va mejorando</em> = ça s'améliore progressivement." },
+  { section:"SA2 – Historia", type:"Grammaire – Impératif", theme:1,
+    q:"L'impératif <strong>positif</strong> de <em>hablar</em> à la 2ᵉ personne du singulier est :",
+    opts:["hablas","habla","hables","hablad"], ans:1,
+    fb:"✅ <em>Habla</em> (tú) = impératif positif. Même forme que la 3ᵉ personne de l'indicatif présent." },
+  { section:"SA2 – Historia", type:"Grammaire – Impératif", theme:1,
+    q:"L'impératif <strong>négatif</strong> de <em>hablar</em> à la 2ᵉ personne est :",
+    opts:["No habla","No hables","No hablar","No hablaras"], ans:1,
+    fb:"✅ <em>No hables</em> = impératif négatif → on utilise le subjonctif présent pour les impératifs négatifs." },
+  { section:"SA2 – Historia", type:"Grammaire – Vouvoiement", theme:1,
+    q:"Dans un contexte formel (politesse), pour dire <em>«Asseyez-vous»</em> à une personne, on dit :",
+    opts:["Siéntate","Siéntese","Sentaos","Sentarse"], ans:1,
+    fb:"✅ <em>Siéntese</em> = impératif de politesse (usted). <em>Siéntate</em> serait le tutoiement (tú)." },
+  { section:"SA2 – Historia", type:"Grammaire – Restriction", theme:1,
+    q:"Traduisez : <em>«Il ne fait que dormir.»</em>",
+    opts:["Solo duerme","No duerme más que","No hace más que dormir","A et C sont corrects"], ans:3,
+    fb:"✅ Les deux structures expriment la restriction : <em>solo duerme</em> et <em>no hace más que dormir</em>." },
+  { section:"SA2 – Historia", type:"Grammaire – Ne...plus", theme:1,
+    q:"Traduisez : <em>«Il ne travaille plus.»</em>",
+    opts:["No trabaja ya","Ya no trabaja","A et B sont corrects","No trabaja más que"], ans:2,
+    fb:"✅ <em>Ne... plus</em> → <em>ya no + verbe</em> OU <em>no + verbe + ya</em>. Les deux formes sont correctes !" },
+  { section:"SA2 – Historia", type:"Grammaire – Devenir", theme:1,
+    q:"<em>«Il est devenu très riche»</em> (changement progressif) se traduit par :",
+    opts:["Se hizo muy rico","Se volvió muy rico","Se puso muy rico","Se convirtió en rico"], ans:1,
+    fb:"✅ <em>Volverse</em> exprime un changement progressif (surtout psychologique ou de caractère). <em>Se volvió rico</em>." },
+  { section:"SA2 – Historia", type:"Grammaire – Devenir", theme:1,
+    q:"<em>«Elle est devenue médecin»</em> (changement par effort) se traduit par :",
+    opts:["Se volvió médica","Se puso médica","Se hizo médica","Se convirtió médica"], ans:2,
+    fb:"✅ <em>Hacerse</em> = devenir par effort/travail. <em>Se hizo médica</em> = elle est devenue médecin." },
+  { section:"SA2 – Historia", type:"Grammaire – Pronoms réfléchis", theme:1,
+    q:"Dans <em>«Me lavo las manos»</em>, le pronom <em>me</em> est :",
+    opts:["Un complément d'objet direct","Un pronom réfléchi","Un pronom indirect","Un pronom personnel sujet"], ans:1,
+    fb:"✅ <em>Me</em> dans <em>me lavo</em> est un pronom réfléchi. L'action retourne sur le sujet lui-même." },
+
+  // ===== SA3 MEDIO RURAL – MEDIO URBANO =====
+  { section:"SA3 – Medio Rural / Urbano", type:"Vocabulaire", theme:2,
+    q:"Le peuple <em>«Los Shuar»</em> habite principalement dans :",
+    opts:["Le Mexique","L'Amazonie équatorienne et péruvienne","Le Sahel africain","Les Andes boliviennes"], ans:1,
+    fb:"✅ Les Shuar sont un peuple indigène d'Amazonie (Équateur/Pérou). Texte de référence p.60." },
+  { section:"SA3 – Medio Rural / Urbano", type:"Grammaire – Comparatifs", theme:2,
+    q:"Complétez le comparatif d'infériorité : <em>El campo es ___ grande ___ la ciudad.</em>",
+    opts:["más / que","tan / como","menos / que","tanto / como"], ans:2,
+    fb:"✅ Comparatif d'infériorité : <em>menos + adjectif + que</em>. Ex : <em>menos grande que</em>." },
+  { section:"SA3 – Medio Rural / Urbano", type:"Grammaire – Comparatifs", theme:2,
+    q:"Comparatif d'égalité : <em>La vida rural es ___ tranquila ___ la ciudad.</em>",
+    opts:["más / que","tan / como","menos / que","tanto / que"], ans:1,
+    fb:"✅ Comparatif d'égalité : <em>tan + adj. + como</em>. Ex : <em>tan tranquila como</em>." },
+  { section:"SA3 – Medio Rural / Urbano", type:"Grammaire – Superlatif", theme:2,
+    q:"Comment forme-t-on le <strong>superlatif absolu</strong> en espagnol ?",
+    opts:["el más + adj.","adj. + ísimo/a","muy + adj.","B et C sont corrects"], ans:3,
+    fb:"✅ Le superlatif absolu se forme avec <em>-ísimo/a</em> OU <em>muy + adj.</em> Ex : <em>grandísimo</em> = <em>muy grande</em>." },
+  { section:"SA3 – Medio Rural / Urbano", type:"Grammaire – Superlatif", theme:2,
+    q:"Le superlatif <strong>relatif</strong> de supériorité de <em>bueno</em> est :",
+    opts:["el más bueno","el mejor","el buenísimo","el más mejor"], ans:1,
+    fb:"✅ <em>El mejor</em> = le meilleur (superlatif relatif irrégulier de <em>bueno</em>)." },
+  { section:"SA3 – Medio Rural / Urbano", type:"Grammaire – Même pas", theme:2,
+    q:"Traduisez : <em>«Il n'a même pas mangé.»</em>",
+    opts:["No ha comido nada","No ha comido ni siquiera","Ni siquiera ha comido","B et C sont corrects"], ans:3,
+    fb:"✅ <em>Ni siquiera</em> = ne... même pas. Position variable mais les deux formulations sont acceptables." },
+  { section:"SA3 – Medio Rural / Urbano", type:"Grammaire – Condition", theme:2,
+    q:"Condition <strong>réelle</strong> : <em>Si ___ dinero, compraré una casa.</em>",
+    opts:["tuviera","tengo","tenga","tuviese"], ans:1,
+    fb:"✅ Condition réelle : <em>Si + indicatif présent + futur</em>. Ex : <em>Si tengo dinero, compraré...</em>" },
+  { section:"SA3 – Medio Rural / Urbano", type:"Grammaire – Condition", theme:2,
+    q:"Condition <strong>irréelle</strong> au présent : <em>Si ___ dinero, compraría una casa.</em>",
+    opts:["tengo","tenga","tuviera","tiene"], ans:2,
+    fb:"✅ Condition irréelle présent : <em>Si + subj. imparfait + conditionnel</em>. Ex : <em>Si tuviera... compraría.</em>" },
+  { section:"SA3 – Medio Rural / Urbano", type:"Grammaire – Probabilité", theme:2,
+    q:"Pour exprimer la probabilité au présent, on utilise :",
+    opts:["Indicatif présent","Futur simple","Subjonctif présent","Conditionnel présent"], ans:1,
+    fb:"✅ Le <strong>futur simple</strong> exprime la probabilité au présent en espagnol. Ex : <em>Tendrá unos 30 años</em> = Il doit avoir environ 30 ans." },
+  { section:"SA3 – Medio Rural / Urbano", type:"Grammaire – Probabilité", theme:2,
+    q:"<em>«Il doit avoir faim»</em> (probabilité) se dit :",
+    opts:["Debe tener hambre","Deber de tener hambre","Debe de tener hambre","A et C sont corrects"], ans:3,
+    fb:"✅ <em>Deber de + inf.</em> = probabilité. <em>Deber + inf.</em> sans <em>de</em> = obligation. En pratique, les deux s'utilisent." },
+  { section:"SA3 – Medio Rural / Urbano", type:"Grammaire – Style indirect", theme:2,
+    q:"Style indirect : <em>«Tengo hambre»</em> → Il a dit qu'il... :",
+    opts:["tenga hambre","tenía hambre","tuviera hambre","tiene hambre"], ans:1,
+    fb:"✅ Au style indirect passé, le présent devient <em>imparfait</em> : <em>Dijo que tenía hambre.</em>" },
+  { section:"SA3 – Medio Rural / Urbano", type:"Compréhension", theme:2,
+    q:"Dans <em>«Cosa buena no será»</em> (p.72), quel type de conflit est abordé ?",
+    opts:["Conflit politique international","Tension entre tradition rurale et modernité urbaine","Guerre civile","Conflit économique mondial"], ans:1,
+    fb:"✅ Ce texte traite de la tension entre le mode de vie rural traditionnel et la modernisation urbaine." },
+  { section:"SA3 – Medio Rural / Urbano", type:"Grammaire – Superlatif", theme:2,
+    q:"Le superlatif absolu de <em>«fácil»</em> est :",
+    opts:["el más fácil","facilísimo","muy facilísimo","el facilísimo"], ans:1,
+    fb:"✅ <em>Fácil → facilísimo</em>. Attention : fácil → fácil + ísimo = facilísimo (le -l reste)." },
+  { section:"SA3 – Medio Rural / Urbano", type:"Grammaire – Condition", theme:2,
+    q:"Condition irréelle au passé : <em>Si hubiera estudiado, ___ aprobado.</em>",
+    opts:["habría","hubiera","habrá","haya"], ans:0,
+    fb:"✅ Condition irréelle passé : <em>Si + plus-que-parfait subj. + conditionnel passé</em> : <em>Si hubiera... habría.</em>" },
+
+  // ===== SA4 RIQUEZAS NATURALES =====
+  { section:"SA4 – Riquezas Naturales", type:"Vocabulaire", theme:3,
+    q:"Que signifie <em>«los mineros»</em> ?",
+    opts:["Les fermiers","Les mineurs","Les pêcheurs","Les marchands"], ans:1,
+    fb:"✅ <em>Los mineros</em> = les mineurs. Référence au texte <em>«Los mineros de Santa Rita»</em>." },
+  { section:"SA4 – Riquezas Naturales", type:"Vocabulaire", theme:3,
+    q:"<em>«El agua»</em> est un nom :",
+    opts:["Féminin régulier","Masculin","Féminin avec article masculin au singulier","Neutre"], ans:2,
+    fb:"✅ <em>El agua</em> est féminin mais prend l'article <em>el</em> au singulier pour éviter l'hiatus. Au pluriel : <em>las aguas</em>." },
+  { section:"SA4 – Riquezas Naturales", type:"Grammaire – Réitération", theme:3,
+    q:"Traduisez : <em>«Il a recommencé à travailler.»</em>",
+    opts:["Ha empezado a trabajar","Ha vuelto a trabajar","Ha continuado trabajando","Ha seguido trabajando"], ans:1,
+    fb:"✅ <em>Volver a + infinitif</em> = recommencer à / refaire. Ex : <em>volvió a trabajar</em>." },
+  { section:"SA4 – Riquezas Naturales", type:"Grammaire – Réitération", theme:3,
+    q:"Quel autre mot peut exprimer la réitération à la place de <em>volver a</em> ?",
+    opts:["otra vez","de nuevo","A et B sont équivalents","nunca"], ans:2,
+    fb:"✅ <em>Otra vez / de nuevo</em> sont des équivalents de <em>volver a</em> pour la réitération." },
+  { section:"SA4 – Riquezas Naturales", type:"Grammaire – Pronom ON", theme:3,
+    q:"Comment traduit-on le pronom indéfini français <em>«on»</em> en espagnol ?",
+    opts:["él","nosotros","se + verbe 3ᵉ pers.","uno/una"], ans:2,
+    fb:"✅ <em>On</em> → <em>se + verbe à la 3ᵉ personne</em> (forme impersonnelle). Ex : <em>Se dice que...</em> = On dit que..." },
+  { section:"SA4 – Riquezas Naturales", type:"Grammaire – Pronom ON", theme:3,
+    q:"Traduisez : <em>«On parle espagnol ici.»</em>",
+    opts:["Habla español aquí","Uno habla español aquí","Se habla español aquí","Nosotros hablamos español aquí"], ans:2,
+    fb:"✅ <em>Se habla español aquí</em>. La structure <em>se + verbe</em> est la traduction canonique de <em>on</em>." },
+  { section:"SA4 – Riquezas Naturales", type:"Grammaire – Como si", theme:3,
+    q:"<em>«Il parle comme s'il était le chef.»</em> Traduisez :",
+    opts:["Habla como que es el jefe","Habla como si fuera el jefe","Habla como siendo el jefe","Habla como si es el jefe"], ans:1,
+    fb:"✅ <em>Como si + subjonctif imparfait</em> = comparaison irréelle. Ex : <em>como si fuera el jefe.</em>" },
+  { section:"SA4 – Riquezas Naturales", type:"Grammaire – Antes de que", theme:3,
+    q:"Complétez : <em>Llama antes de que ___ tarde.</em>",
+    opts:["es","sea","será","fuera"], ans:1,
+    fb:"✅ <em>Antes de que</em> est toujours suivi du <strong>subjonctif</strong>. Ex : <em>antes de que sea tarde.</em>" },
+  { section:"SA4 – Riquezas Naturales", type:"Grammaire – Subjonctif", theme:3,
+    q:"<em>Antes de que nosotros ___ , ella ya había salido.</em>",
+    opts:["llegamos","llegábamos","lleguemos","llegáramos"], ans:3,
+    fb:"✅ Dans un contexte passé, <em>antes de que</em> demande le <em>subjonctif imparfait</em> → <em>llegáramos</em>." },
+  { section:"SA4 – Riquezas Naturales", type:"Compréhension", theme:3,
+    q:"Dans le texte <em>«El agua»</em> (p.88), quel problème mondial est souligné ?",
+    opts:["La pollution de l'air","La pénurie d'eau potable","La déforestation","Le changement climatique"], ans:1,
+    fb:"✅ Le texte traite de l'eau comme ressource rare et précieuse, notamment l'accès à l'eau potable." },
+  { section:"SA4 – Riquezas Naturales", type:"Grammaire – Como si", theme:3,
+    q:"<em>Gastaban el dinero como si ___ millonarios.</em>",
+    opts:["son","sean","fueran","serán"], ans:2,
+    fb:"✅ <em>Como si</em> demande toujours le <em>subjonctif imparfait</em> → <em>fueran</em>." },
+  { section:"SA4 – Riquezas Naturales", type:"Vocabulaire", theme:3,
+    q:"<em>«Las riquezas naturales»</em> se traduit par :",
+    opts:["Les richesses naturelles","Les richesses humaines","Les ressources humaines","Les ressources naturelles"], ans:3,
+    fb:"✅ <em>Las riquezas naturales</em> = les ressources/richesses naturelles. Les deux traductions sont proches !" },
+  { section:"SA4 – Riquezas Naturales", type:"Grammaire – Réitération", theme:3,
+    q:"Quelle phrase exprime la réitération avec <em>volver a</em> ?",
+    opts:["Voy a cocinar","Volví a cocinar","Estoy cocinando","Sigo cocinando"], ans:1,
+    fb:"✅ <em>Volví a cocinar</em> = j'ai recommencé à cuisiner. <em>Volver a</em> au prétérit = action refaite." },
+  { section:"SA4 – Riquezas Naturales", type:"Grammaire – Pronom ON", theme:3,
+    q:"<em>«On sait qu'il est parti.»</em> Comment le dit-on en espagnol ?",
+    opts:["Sabemos que ha salido","Se sabe que ha salido","Uno sabe que ha salido","A et B sont corrects"], ans:1,
+    fb:"✅ <em>Se sabe que...</em> est la formulation impersonnelle correcte pour <em>on sait que...</em>" },
+
+  // ===== SA5 POLÍTICA =====
+  { section:"SA5 – Política", type:"Vocabulaire", theme:0,
+    q:"<em>«La Unión Africana»</em> est :",
+    opts:["Une organisation politique africaine","Une banque africaine","Un parti politique","Un tribunal international"], ans:0,
+    fb:"✅ L'Union Africaine est une organisation intergouvernementale regroupant les pays africains. Texte p.96." },
+  { section:"SA5 – Política", type:"Grammaire – Aunque", theme:0,
+    q:"<em>Aunque + indicatif</em> exprime :",
+    opts:["Une condition irréelle","Une concession réelle (fait certain)","Une obligation","Une probabilité"], ans:1,
+    fb:"✅ <em>Aunque + indicatif</em> = bien que / même si (fait réel). Ex : <em>Aunque hace frío, salgo.</em>" },
+  { section:"SA5 – Política", type:"Grammaire – Aunque", theme:0,
+    q:"<em>Aunque + subjonctif</em> exprime :",
+    opts:["Un fait certain","Une concession hypothétique ou éventuelle","Une obligation","Une habitude"], ans:1,
+    fb:"✅ <em>Aunque + subjonctif</em> = même si (hypothèse). Ex : <em>Aunque llueva, saldré.</em> (même s'il pleut...)" },
+  { section:"SA5 – Política", type:"Grammaire – Aunque", theme:0,
+    q:"Choisissez la bonne forme : <em>Aunque ___ cansado, seguirá trabajando.</em> (fait réel)",
+    opts:["esté","estar","está","estuviera"], ans:2,
+    fb:"✅ Fait réel → <em>aunque + indicatif</em> → <em>está</em>. Il est fatigué (c'est un fait avéré)." },
+  { section:"SA5 – Política", type:"Grammaire – Apocope", theme:0,
+    q:"Quelle est la forme apocopée de <em>«bueno»</em> devant un nom masculin singulier ?",
+    opts:["buena","bueno","buen","bien"], ans:2,
+    fb:"✅ Apocope : <em>bueno → buen</em> devant nom masc. sing. Ex : <em>un buen amigo</em>." },
+  { section:"SA5 – Política", type:"Grammaire – Apocope", theme:0,
+    q:"Quelle est la forme apocopée de <em>«grande»</em> devant un nom ?",
+    opts:["gran","grandes","granda","grana"], ans:0,
+    fb:"✅ <em>Grande → gran</em> devant tout nom singulier (masc. ou fém.). Ex : <em>un gran hombre, una gran mujer.</em>" },
+  { section:"SA5 – Política", type:"Grammaire – Apocope", theme:0,
+    q:"<em>«Primer»</em> est la forme apocopée de quel adjectif ?",
+    opts:["primero","primera","prime","primerísimo"], ans:0,
+    fb:"✅ <em>Primero → primer</em> devant nom masculin singulier. Ex : <em>el primer ministro.</em>" },
+  { section:"SA5 – Política", type:"Grammaire – Ambos", theme:0,
+    q:"<em>«Ambos»</em> signifie :",
+    opts:["Les uns et les autres","Les deux / l'un et l'autre","Quelques-uns","Tous"], ans:1,
+    fb:"✅ <em>Ambos/ambas</em> = les deux, l'un et l'autre. Ex : <em>Ambos países firmaron el acuerdo.</em>" },
+  { section:"SA5 – Política", type:"Grammaire – Sendos", theme:0,
+    q:"<em>«Sendos»</em> exprime :",
+    opts:["Les deux ensemble","Un par un, chacun le sien","Tous ensemble","Quelques-uns"], ans:1,
+    fb:"✅ <em>Sendos/as</em> = un(e) pour chacun(e), distributif. Ex : <em>Les deux présidents tenaient sendas banderas</em> = chacun tenait son drapeau." },
+  { section:"SA5 – Política", type:"Grammaire – Aunque", theme:0,
+    q:"Equivalents de <em>«aunque»</em> pour la concession en espagnol :",
+    opts:["A pesar de que / aun cuando","Sin embargo / no obstante","A et B sont des équivalents","Por más que / si bien"], ans:2,
+    fb:"✅ <em>A pesar de que, aun cuando, por más que, si bien</em> sont tous des équivalents concessifs de <em>aunque</em>." },
+
+  // ===== RÉVISIONS TRANSVERSALES =====
+  { section:"Révision – Grammaire générale", type:"Conjugaison", theme:1,
+    q:"Le prétérit indéfini de <em>«ir»</em> à la 3ᵉ personne du pluriel est :",
+    opts:["fueron","iban","han ido","fueran"], ans:0,
+    fb:"✅ <em>Fueron</em> = ils sont allés (prétérit indéfini). Attention : <em>ir</em> et <em>ser</em> ont la même conjugaison au prétérit !" },
+  { section:"Révision – Grammaire générale", type:"Conjugaison", theme:1,
+    q:"<em>«Haber»</em> à la 3ᵉ personne du singulier du présent de l'indicatif (auxiliaire) est :",
+    opts:["ha","hay","hubo","haya"], ans:0,
+    fb:"✅ <em>Ha</em> est l'auxiliaire pour le passé composé. Ex : <em>Ella ha comido.</em>" },
+  { section:"Révision – Grammaire générale", type:"Conjugaison", theme:1,
+    q:"Le subjonctif présent de <em>«tener»</em> à la 1ᵉ personne du singulier est :",
+    opts:["tengo","tenga","tuviera","tendré"], ans:1,
+    fb:"✅ <em>Tenga</em> = subjonctif présent de <em>tener</em>. Radical irrrégulier : teng-." },
+  { section:"Révision – Grammaire générale", type:"Conjugaison", theme:1,
+    q:"L'imparfait de l'indicatif de <em>«ser»</em> à la 1ᵉ personne du pluriel est :",
+    opts:["somos","seríamos","éramos","fuimos"], ans:2,
+    fb:"✅ <em>Éramos</em> = nous étions (imparfait de <em>ser</em>). Irrégulier : er- pour le radical." },
+  { section:"Révision – Grammaire générale", type:"Conjugaison", theme:1,
+    q:"Le conditionnel de <em>«poder»</em> à la 3ᵉ personne du singulier est :",
+    opts:["puede","podrá","podría","pudiera"], ans:2,
+    fb:"✅ <em>Podría</em> = conditionnel de <em>poder</em>. Radical irrégulier : podr-." },
+  { section:"Révision – Grammaire générale", type:"Lexique", theme:2,
+    q:"L'antonyme (contraire) de <em>«siempre»</em> est :",
+    opts:["también","nunca","todavía","jamás"], ans:1,
+    fb:"✅ <em>Nunca</em> = jamais (contraire de <em>siempre</em> = toujours). <em>Jamás</em> est aussi correct !" },
+  { section:"Révision – Grammaire générale", type:"Lexique", theme:2,
+    q:"Le contraire de <em>«alguien»</em> est :",
+    opts:["algo","nada","nadie","ningún"], ans:2,
+    fb:"✅ <em>Alguien</em> (quelqu'un) → <em>nadie</em> (personne). Indéfinis contraires." },
+  { section:"Révision – Grammaire générale", type:"Lexique", theme:2,
+    q:"Le contraire de <em>«algo»</em> est :",
+    opts:["alguien","nadie","nada","ningún"], ans:2,
+    fb:"✅ <em>Algo</em> (quelque chose) → <em>nada</em> (rien). Indéfinis contraires." },
+  { section:"Révision – Grammaire générale", type:"Lexique", theme:2,
+    q:"Le contraire de <em>«alguno»</em> est :",
+    opts:["ninguno","nadie","nada","nunca"], ans:0,
+    fb:"✅ <em>Alguno</em> (un certain, quelqu'un de) → <em>ninguno</em> (aucun). Indéfinis contraires." },
+  { section:"Révision – Grammaire générale", type:"Grammaire – Relatifs", theme:2,
+    q:"<em>«La persona de ___ te hablé»</em> (dont) : quel relatif convient ?",
+    opts:["que","quien","la que","de quien"], ans:3,
+    fb:"✅ Pour les personnes après une préposition : <em>de quien</em>. <em>La persona de quien te hablé.</em>" },
+  { section:"Révision – Grammaire générale", type:"Grammaire – Relatifs", theme:2,
+    q:"<em>«El libro ___ me habló»</em> : quel relatif (chose, après préposition) ?",
+    opts:["que","quien","del que","el cual"], ans:3,
+    fb:"✅ Après préposition, pour les choses : <em>el cual / el que</em>. Ex : <em>el libro del que me habló</em>." },
+  { section:"Révision – Grammaire générale", type:"Orthographe", theme:3,
+    q:"Quelle est la bonne orthographe ? <em>«el también / el tambien»</em>",
+    opts:["también","tambien","tambén","tambíen"], ans:0,
+    fb:"✅ <em>También</em> prend un accent sur le <em>é</em> : tam-bién. Adverbe d'affirmation." },
+  { section:"Révision – Grammaire générale", type:"Orthographe", theme:3,
+    q:"Quelle est l'orthographe correcte du mot signifiant «encore» ?",
+    opts:["todavía","todavia","todavìa","todávía"], ans:0,
+    fb:"✅ <em>Todavía</em> = encore, toujours. Accent sur le <em>í</em> : toda-vía." },
+  { section:"Révision – Grammaire générale", type:"Grammaire – Corrélation", theme:3,
+    q:"Corrélation des temps : phrase au passé. <em>Esperaba que él ___ a tiempo.</em>",
+    opts:["llegue","llegará","llegara","llega"], ans:2,
+    fb:"✅ Corrélation des temps : verbe principal au passé → subjonctif imparfait dans la subordonnée → <em>llegara</em>." },
+  { section:"Révision – Grammaire générale", type:"Grammaire – Corrélation", theme:3,
+    q:"Corrélation des temps : verbe principal au présent. <em>Quiero que ella ___ aquí.</em>",
+    opts:["venga","viniera","viene","vendrá"], ans:0,
+    fb:"✅ Verbe principal au présent → subjonctif présent dans la subordonnée → <em>venga</em>." },
+
+  // ===== QUESTIONS SUPPLÉMENTAIRES POUR ATTEINDRE 100 =====
+  { section:"SA1 – Ética (suite)", type:"Grammaire – Subjonctif", theme:0,
+    q:"<em>No creo que él ___ la verdad.</em>",
+    opts:["dice","diga","dirá","dijera"], ans:1,
+    fb:"✅ Après <em>no creer que</em>, on utilise le subjonctif → <em>diga</em>." },
+  { section:"SA1 – Ética (suite)", type:"Grammaire – Relatifs", theme:0,
+    q:"<em>El hombre ___ vive aquí es famoso.</em>",
+    opts:["quien","cuyo","que","cual"], ans:0,
+    fb:"✅ Pour une personne, sujet de la relative : <em>quien</em> ou <em>que</em>. Ici <em>quien</em> est la meilleure réponse." },
+  { section:"SA2 – Historia (suite)", type:"Grammaire – Tuteo / Politesse", theme:1,
+    q:"En Espagne, quelle forme désigne le vouvoiement singulier ?",
+    opts:["tú","vos","usted","vosotros"], ans:2,
+    fb:"✅ <em>Usted</em> = vouvoiement singulier en espagnol. Vosotros est le pluriel familier (Espagne seulement)." },
+  { section:"SA2 – Historia (suite)", type:"Grammaire – Devenir", theme:1,
+    q:"<em>«Le ciel est devenu rouge»</em> (changement soudain visible) :",
+    opts:["Se hizo rojo","Se volvió rojo","Se puso rojo","Se convirtió en rojo"], ans:2,
+    fb:"✅ <em>Ponerse</em> = devenir pour changements soudains / visibles (couleurs, états physiques). <em>El cielo se puso rojo.</em>" },
+  { section:"SA3 – Medio Rural / Urbano (suite)", type:"Grammaire – Comparatifs", theme:2,
+    q:"Le comparatif irrégulier de supériorité de <em>«malo»</em> est :",
+    opts:["el más malo","el peor","el malísimo","el mayor"], ans:1,
+    fb:"✅ <em>El peor</em> = le pire (comparatif irrégulier de <em>malo</em>). Comme en français : mauvais → pire." },
+  { section:"SA3 – Medio Rural / Urbano (suite)", type:"Grammaire – Style indirect", theme:2,
+    q:"Style indirect passé : <em>«Vendré mañana»</em> → Il dit qu'il... :",
+    opts:["vendrá al día siguiente","vendría al día siguiente","viene al día siguiente","viniera al día siguiente"], ans:1,
+    fb:"✅ Le futur devient conditionnel au style indirect passé : <em>Dijo que vendría al día siguiente.</em>" },
+  { section:"SA4 – Riquezas Naturales (suite)", type:"Grammaire – Como si", theme:3,
+    q:"<em>«Viaja como si ___ mucho dinero.»</em> (mais il n'en a pas)",
+    opts:["tiene","tenga","tuviera","tendría"], ans:2,
+    fb:"✅ <em>Como si + subjonctif imparfait</em> pour l'irréel présent. → <em>tuviera</em>." },
+  { section:"SA4 – Riquezas Naturales (suite)", type:"Grammaire – Antes de que", theme:3,
+    q:"<em>«Avant qu'il parte»</em> se traduit par :",
+    opts:["Antes de que sale","Antes de que salga","Antes de salir","B et C sont corrects"], ans:1,
+    fb:"✅ <em>Antes de que</em> + subjonctif → <em>antes de que salga</em>. (Note : <em>antes de + inf.</em> est possible sans changement de sujet.)" },
+  { section:"SA5 – Política (suite)", type:"Grammaire – Ambos / Sendos", theme:0,
+    q:"<em>Los dos embajadores firmaron ___ documentos.</em> (chacun le sien)",
+    opts:["ambos","sendos","los dos","varios"], ans:1,
+    fb:"✅ <em>Sendos</em> = distributif, chacun le sien. <em>Firmaron sendos documentos</em> = chacun signa son document." },
+  { section:"SA5 – Política (suite)", type:"Grammaire – Apocope", theme:0,
+    q:"<em>«ningún»</em> est la forme apocopée de :",
+    opts:["ninguna","ninguno","ningún (invariable)","ningunas"], ans:1,
+    fb:"✅ <em>Ninguno → ningún</em> devant un nom masculin singulier. Ex : <em>ningún problema.</em>" },
+  { section:"Révision globale", type:"Culture hispanique", theme:2,
+    q:"Quelle est la langue officielle du Mexique ?",
+    opts:["Le mexicain","L'espagnol","Le nahuatl","Le portugais"], ans:1,
+    fb:"✅ L'espagnol est la langue officielle du Mexique, même si des langues indigènes comme le nahuatl sont reconnues." },
+  { section:"Révision globale", type:"Culture hispanique", theme:2,
+    q:"Combien de pays ont l'espagnol comme langue officielle ?",
+    opts:["15","20","21","25"], ans:2,
+    fb:"✅ 21 pays ont l'espagnol comme langue officielle, notamment en Amérique latine et en Espagne." },
+  { section:"Révision globale", type:"Grammaire – Ser / Estar", theme:3,
+    q:"<em>«El agua ___ fría»</em> (température actuelle) :",
+    opts:["es","está","son","están"], ans:1,
+    fb:"✅ <em>Estar</em> pour les états temporaires. La température de l'eau est temporaire → <em>está fría.</em>" },
+  { section:"Révision globale", type:"Grammaire – Ser / Estar", theme:3,
+    q:"<em>«El agua ___ necesaria para vivir»</em> (caractéristique permanente) :",
+    opts:["está","son","es","estará"], ans:2,
+    fb:"✅ <em>Ser</em> pour les caractéristiques permanentes/essentielles. → <em>El agua es necesaria.</em>" },
+  { section:"Révision globale", type:"Grammaire – Por / Para", theme:3,
+    q:"<em>«Trabajo ___ ganar dinero.»</em>",
+    opts:["por","para","de","a"], ans:1,
+    fb:"✅ <em>Para</em> exprime le but / la finalité. Je travaille <em>pour</em> (dans le but de) gagner de l'argent." },
+  { section:"Révision globale", type:"Grammaire – Por / Para", theme:0,
+    q:"<em>«Lo hizo ___ amor.»</em> (cause, motif)",
+    opts:["para","por","de","con"], ans:1,
+    fb:"✅ <em>Por</em> exprime la cause/motivation. Il l'a fait <em>par</em> amour (à cause de l'amour)." },
+  { section:"Révision globale", type:"Grammaire – Ser / Estar", theme:0,
+    q:"<em>«Mi hermano ___ médico.»</em> (profession)",
+    opts:["está","es","sea","estará"], ans:1,
+    fb:"✅ <em>Ser</em> s'utilise pour la profession. Ex : <em>Mi hermano es médico.</em>" },
+  { section:"Révision globale", type:"Grammaire – Passé composé", theme:1,
+    q:"<em>«J'ai mangé»</em> en espagnol :",
+    opts:["Comí","He comido","Había comido","Comiera"], ans:1,
+    fb:"✅ <em>He comido</em> = passé composé (pretérito perfecto). Auxiliaire <em>haber</em> + participe passé." },
+  { section:"Révision globale", type:"Grammaire – Prétérit", theme:1,
+    q:"<em>«Ayer comí con mi familia»</em> : quel temps est utilisé ?",
+    opts:["Passé composé","Imparfait","Prétérit indéfini","Plus-que-parfait"], ans:2,
+    fb:"✅ <em>Comí</em> = pretérito indefinido (passé simple). Utilisé pour des actions passées précises et achevées." },
+  { section:"Révision globale", type:"Grammaire – Futur", theme:1,
+    q:"Le futur simple de <em>«hacer»</em> à la 1ᵉ personne du singulier est :",
+    opts:["hago","haré","hiciera","haré"], ans:1,
+    fb:"✅ <em>Haré</em> = je ferai. <em>Hacer</em> a un radical irrégulier au futur : har-." },
+  { section:"Révision globale", type:"Grammaire – Adverbes", theme:2,
+    q:"L'adverbe formé à partir de l'adjectif <em>«rápido»</em> est :",
+    opts:["rápidamente","rápidamente","rápido","con rapidez"], ans:0,
+    fb:"✅ Adverbe en -mente : <em>rápida + mente = rápidamente</em>. Les deux formes rápidamente et con rapidez sont correctes." },
+  { section:"Révision globale", type:"Grammaire – Subjonctif imparfait", theme:2,
+    q:"Le subjonctif imparfait de <em>«hablar»</em> à la 1ᵉ pers. du singulier est :",
+    opts:["hablara","hablase","A et B sont corrects","hablaría"], ans:2,
+    fb:"✅ Deux formes du subjonctif imparfait coexistent : <em>-ara/-ase</em>. <em>Hablara</em> et <em>hablase</em> sont tous deux corrects." },
+  { section:"Révision globale", type:"Grammaire – Passif", theme:3,
+    q:"Comment forme-t-on la voix passive en espagnol ?",
+    opts:["Se + verbe actif","Ser + participe passé + por","Estar + participe passé","A et B sont corrects"], ans:1,
+    fb:"✅ Voix passive : <em>ser + participe passé + por</em>. Ex : <em>El libro fue escrito por el autor.</em>" },
+  { section:"Révision globale", type:"Grammaire – Passif", theme:3,
+    q:"<em>«La maison a été construite par les ouvriers.»</em>",
+    opts:["La casa fue construida por los obreros","La casa estaba construida","Los obreros construyeron la casa","La casa se construyó"], ans:0,
+    fb:"✅ <em>La casa fue construida por los obreros</em> = voix passive complète avec agent (<em>por</em>)." },
+  { section:"Révision globale", type:"Grammaire – Discours indirect", theme:3,
+    q:"Au discours indirect, <em>«¿Dónde vives?»</em> devient :",
+    opts:["Preguntó dónde vivía","Preguntó dónde vives","Preguntó dónde vivías","Preguntó dónde vivirás"], ans:0,
+    fb:"✅ Discours indirect : <em>¿Dónde vives?</em> → <em>Preguntó dónde vivía</em>. Le présent devient imparfait." },
+  { section:"Révision globale", type:"Vocabulaire thématique", theme:0,
+    q:"Dans le contexte de <em>«Ritos y creencias»</em>, que signifie <em>«el rito»</em> ?",
+    opts:["Le réseau","Le rite / rituel","Le risque","La récolte"], ans:1,
+    fb:"✅ <em>El rito</em> = le rite, le rituel. Essentiel pour comprendre les traditions culturelles hispaniques." },
+  { section:"Révision globale", type:"Vocabulaire thématique", theme:0,
+    q:"<em>«Los atentados»</em> (texte Pays Basque) signifie :",
+    opts:["Les tentatives","Les attentats","Les arrestations","Les audiences"], ans:1,
+    fb:"✅ <em>Los atentados</em> = les attentats. Texte sur les violences au Pays Basque (ETA)." },
+  { section:"Révision globale", type:"Vocabulaire thématique", theme:1,
+    q:"<em>«Somos los jefes»</em> : quel registre de langue ?",
+    opts:["Langue soutenue","Langue familière / argotique","Langue administrative","Langue poétique"], ans:1,
+    fb:"✅ <em>Somos los jefes</em> est une expression de langue familière/populaire, caractéristique du texte." },
+  { section:"Révision globale", type:"Grammaire – Gérondif", theme:1,
+    q:"Le gérondif de <em>«dormir»</em> est :",
+    opts:["durmiendo","dormiendo","dormiéndo","durmendo"], ans:0,
+    fb:"✅ <em>Durmiendo</em> = en dormant. Gérondif irrégulier (changement e→u dans le radical)." },
+  { section:"Révision globale", type:"Grammaire – Gérondif", theme:1,
+    q:"Le gérondif de <em>«leer»</em> est :",
+    opts:["leendo","leyendo","leiendo","leyéndo"], ans:1,
+    fb:"✅ <em>Leyendo</em> = en lisant. Changement orthographique : -iendo → -yendo pour les verbes en -er/-ir avec hiatus." },
+  { section:"Révision globale", type:"Grammaire – Superlatif", theme:2,
+    q:"Le superlatif absolu de <em>«rico»</em> est :",
+    opts:["el más rico","muy rico","riquísimo","A et C sont corrects"], ans:2,
+    fb:"✅ <em>Rico → riquísimo</em>. Changement orthographique : c→qu devant -ísimo." },
+  { section:"Révision globale", type:"Grammaire – Corrélation des temps", theme:2,
+    q:"<em>«Il espère que tu viendras.»</em> → <em>Espera que tú...</em>",
+    opts:["vengas","vendrás","vinieras","venías"], ans:0,
+    fb:"✅ Espera (présent) → subjonctif présent → <em>vengas</em>. Corrélation des temps présent/présent." },
+  { section:"Révision globale", type:"Grammaire – Obligation", theme:3,
+    q:"<em>«Debes estudiar más»</em> exprime :",
+    opts:["Une probabilité","Une obligation personnelle","Une habitude","Un souhait"], ans:1,
+    fb:"✅ <em>Deber + infinitif</em> (sans <em>de</em>) = obligation. <em>Debes estudiar más</em> = tu dois étudier davantage." },
+  { section:"Révision globale", type:"Grammaire – Ne...plus", theme:3,
+    q:"<em>«Ya no quiero ir»</em> signifie :",
+    opts:["Je veux encore y aller","Je ne veux plus y aller","Je veux y aller maintenant","Je voudrai y aller"], ans:1,
+    fb:"✅ <em>Ya no + verbe</em> = ne... plus. <em>Ya no quiero ir</em> = je ne veux plus y aller." },
+  { section:"Révision globale", type:"Grammaire – Ser / Estar", theme:0,
+    q:"<em>«Estoy cansado»</em> signifie :",
+    opts:["Je suis fatigant","Je suis fatigué (en ce moment)","Je suis toujours fatigué","J'étais fatigué"], ans:1,
+    fb:"✅ <em>Estar + adjectif</em> = état temporaire. <em>Estoy cansado</em> = je suis fatigué (état actuel)." },
+  { section:"Révision globale", type:"Vocabulaire thématique", theme:0,
+    q:"<em>«La internacionalización»</em> signifie :",
+    opts:["L'internationalisation","L'intervention","L'interrogation","L'interprétation"], ans:0,
+    fb:"✅ <em>La internacionalización</em> = l'internationalisation. Texte SA5 sur la politique mondiale." },
+  { section:"Révision globale", type:"Grammaire – Relatifs composés", theme:1,
+    q:"<em>«Lo que»</em> est un relatif qui signifie :",
+    opts:["celui qui","ce qui / ce que","lequel","dont"], ans:1,
+    fb:"✅ <em>Lo que</em> = ce qui / ce que (relatif neutre). Ex : <em>Lo que dices es verdad.</em> = Ce que tu dis est vrai." },
+  { section:"Révision globale", type:"Grammaire – Cuyo", theme:1,
+    q:"<em>«El autor cuya novela leí»</em> : que signifie <em>cuya</em> ?",
+    opts:["qui","que","dont / de qui","lequel"], ans:2,
+    fb:"✅ <em>Cuyo/a/os/as</em> = dont (possessif relatif). Il s'accorde avec le nom qui suit (novela → féminin = cuya)." },
+  { section:"Révision globale", type:"Grammaire – Probabilité", theme:2,
+    q:"<em>«¿Dónde estará Pedro?»</em> exprime :",
+    opts:["Une question rhétorique","Une probabilité / supposition","Un ordre","Un souhait"], ans:1,
+    fb:"✅ Le futur exprime la probabilité/supposition. <em>¿Dónde estará?</em> = Où peut-il bien être ?" },
+  { section:"Révision globale", type:"Grammaire – Impératif", theme:2,
+    q:"L'impératif positif de <em>«venir»</em> (tú) est :",
+    opts:["vienes","vengas","ven","viene"], ans:2,
+    fb:"✅ <em>Ven</em> = viens ! Impératif irrégulier de <em>venir</em> (tú). À retenir : ven, di, haz, ve, pon, sal, sé, ten." },
+  { section:"Révision globale", type:"Grammaire – Impératif", theme:2,
+    q:"L'impératif positif de <em>«decir»</em> (tú) est :",
+    opts:["dices","di","diga","dile"], ans:1,
+    fb:"✅ <em>Di</em> = dis ! Impératif irrégulier de <em>decir</em>. L'un des 8 impératifs irréguliers fondamentaux." },
+  { section:"Révision globale", type:"Grammaire – Aunque", theme:3,
+    q:"<em>«Bien que tu aies raison, je ne suis pas d'accord.»</em>",
+    opts:["Aunque tengas razón, no estoy de acuerdo","Aunque tienes razón, no estoy de acuerdo","A et B sont corrects selon le sens","Aunque tendrías razón"], ans:2,
+    fb:"✅ <em>Aunque tienes razón</em> (fait avéré, indicatif) et <em>aunque tengas razón</em> (concession hypothétique, subjonctif) sont tous deux possibles selon la nuance." },
+  { section:"Révision globale", type:"Grammaire – Durée", theme:3,
+    q:"<em>«Llevo dos horas estudiando»</em> signifie :",
+    opts:["J'ai étudié deux heures","Je vais étudier deux heures","Ça fait deux heures que j'étudie","J'ai commencé à étudier il y a deux heures"], ans:2,
+    fb:"✅ <em>Llevar + durée + gérondif</em> = ça fait... que + présent. Action encore en cours au moment où l'on parle." },
+  { section:"SA1 – Ética (supplément)", type:"Vocabulaire", theme:0,
+    q:"<em>«El tabaco»</em> est considéré comme :",
+    opts:["Una droga legal","Un medicamento","Una bebida alcohólica","Un producto natural inofensivo"], ans:0,
+    fb:"✅ <em>El tabaco</em> = le tabac, une drogue légale mais nocive. C'est le cœur de la <em>cruzada contra el tabaco</em>." },
+  { section:"SA2 – Historia (supplément)", type:"Grammaire – Continuité", theme:1,
+    q:"<em>«Continúa lloviendo»</em> signifie :",
+    opts:["Il a arrêté de pleuvoir","Il recommence à pleuvoir","Il continue à pleuvoir","Il va pleuvoir"], ans:2,
+    fb:"✅ <em>Continuar + gérondif</em> = continuer à + inf. Synonyme de <em>seguir + gérondif</em>." },
+  { section:"SA3 – Medio Rural (supplément)", type:"Grammaire – Condition", theme:2,
+    q:"<em>Si hubiera tenido tiempo, ___ viajado.</em> (passé irréel)",
+    opts:["habría","hubiera","habrá","habré"], ans:0,
+    fb:"✅ Condition passée irréelle : Si + plus-que-parfait subj. + <em>conditionnel passé</em> → <em>habría viajado</em>." },
+  { section:"SA4 – Riquezas (supplément)", type:"Grammaire – Réitération", theme:3,
+    q:"<em>«He vuelto a leer ese libro»</em> signifie :",
+    opts:["J'ai lu ce livre pour la première fois","J'ai relu ce livre","Je vais relire ce livre","J'avais relu ce livre"], ans:1,
+    fb:"✅ <em>Volver a + infinitif</em> = faire de nouveau. <em>He vuelto a leer</em> = j'ai relu (passé composé)." },
+  { section:"SA5 – Política (supplément)", type:"Grammaire – Aunque + équivalents", theme:0,
+    q:"<em>«A pesar de que está enfermo, trabaja.»</em> équivaut à :",
+    opts:["Aunque está enfermo, trabaja","Aunque esté enfermo, trabaja","Cuando está enfermo, trabaja","Para que esté enfermo, trabaja"], ans:0,
+    fb:"✅ <em>A pesar de que + indicatif</em> = <em>aunque + indicatif</em> (fait réel). Les deux expriment une concession réelle." },
+  { section:"Révision finale", type:"Bilan SA1-SA5", theme:1,
+    q:"La structure <em>«Ir + gérondif»</em> exprime :",
+    opts:["La simultanéité","La progression graduelle","La continuité","La réitération"], ans:1,
+    fb:"✅ <em>Ir + gérondif</em> = progression. Ex : <em>Va aprendiendo poco a poco</em> = il apprend petit à petit (progressivement)." },
+  { section:"Révision finale", type:"Bilan SA1-SA5", theme:1,
+    q:"Quelle est la différence principale entre <em>«ser»</em> et <em>«estar»</em> ?",
+    opts:["Ser pour les êtres vivants, estar pour les objets","Ser pour les caractéristiques permanentes, estar pour les états temporaires","Ser au singulier, estar au pluriel","Aucune différence"], ans:1,
+    fb:"✅ <em>Ser</em> = permanent/essentiel (identité, nationalité, profession). <em>Estar</em> = temporaire/accidentel (état, lieu, humeur)." },
+  { section:"Révision finale", type:"Bilan SA1-SA5", theme:1,
+    q:"<em>«Ne… que»</em> (restriction) se traduit par :",
+    opts:["no… nada","no… más que / solo","no… ya","no… ni siquiera"], ans:1,
+    fb:"✅ <em>Ne… que</em> (restriction) → <em>no… más que</em> ou <em>solo</em>. Ex : <em>No como más que verduras / Solo como verduras.</em>" },
+];
+
+let currentQ = 0;
+let score = 0;
+let wrongs = 0;
+let answered = false;
+
+function startQuiz() {
+  document.getElementById('splash').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  renderQuestion();
+}
+
+function getTheme(q) {
+  return (q.theme !== undefined) ? q.theme : Math.floor(currentQ / 25) % 4;
+}
+
+function setTheme(t) {
+  document.body.className = 'theme-' + t;
+}
+
+function renderQuestion() {
+  if (currentQ >= QUESTIONS.length) { showResults(); return; }
+  const q = QUESTIONS[currentQ];
+  const theme = getTheme(q);
+  setTheme(theme);
+  answered = false;
+
+  const total = QUESTIONS.length;
+  const pct = Math.round((currentQ / total) * 100);
+  document.getElementById('progBar').style.width = pct + '%';
+  document.getElementById('qCounter').textContent = `Question ${currentQ + 1} / ${total}`;
+  document.getElementById('pctLabel').textContent = pct + '%';
+  document.getElementById('scoreOk').textContent = score;
+  document.getElementById('scoreKo').textContent = wrongs;
+  const livePct = currentQ > 0 ? Math.round((score / currentQ) * 100) : 0;
+  document.getElementById('scorePct').textContent = livePct + '%';
+  document.getElementById('sectionBanner').textContent = q.section;
+  document.getElementById('qTypeTag').textContent = q.type;
+  document.getElementById('qText').innerHTML = q.q;
+  document.getElementById('feedbackBox').innerHTML = '';
+
+  const letters = ['A', 'B', 'C', 'D'];
+  const grid = document.getElementById('optGrid');
+  grid.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.innerHTML = `<span class="opt-letter">${letters[i]}</span><span>${opt}</span>`;
+    btn.onclick = () => selectAnswer(i, btn);
+    grid.appendChild(btn);
+  });
+
+  const nb = document.getElementById('nextBtn');
+  nb.style.display = 'none';
+  nb.textContent = currentQ < QUESTIONS.length - 1 ? 'Question suivante ➡️' : '🏁 Voir les résultats';
+}
+
+function selectAnswer(idx, btn) {
+  if (answered) return;
+  answered = true;
+  const q = QUESTIONS[currentQ];
+  const btns = document.querySelectorAll('.option-btn');
+
+  btns.forEach(b => b.disabled = true);
+
+  // Mark correct
+  btns[q.ans].classList.add('correct');
+
+  if (idx === q.ans) {
+    score++;
+    btn.classList.add('correct');
+    showFeedback(true, q.fb);
+    triggerConfetti();
+  } else {
+    btn.classList.add('wrong');
+    wrongs++;
+    showFeedback(false, q.fb);
+  }
+
+  document.getElementById('nextBtn').style.display = 'block';
+}
+
+function showFeedback(ok, text) {
+  const box = document.getElementById('feedbackBox');
+  box.innerHTML = `<div class="feedback-box ${ok ? 'ok' : 'ko'}">
+    <span class="fb-icon">${ok ? '🎉' : '💡'}</span>
+    <span>${ok ? '<strong>Bravo !</strong> ' : '<strong>La bonne réponse est :</strong> '}${text}</span>
+  </div>`;
+}
+
+function nextQuestion() {
+  currentQ++;
+  renderQuestion();
+}
+
+function showResults() {
+  document.getElementById('app').style.display = 'none';
+  const res = document.getElementById('results');
+  res.style.display = 'block';
+  document.body.className = 'theme-0';
+
+  const total = QUESTIONS.length;
+  const pct = Math.round((score / total) * 100);
+
+  document.getElementById('resBig').textContent = `${score} / ${total}`;
+  document.getElementById('resOk').textContent = score;
+  document.getElementById('resKo').textContent = wrongs;
+  document.getElementById('resPct').textContent = pct + '%';
+
+  let mention, trophy, stars, color;
+  if (pct >= 90) { mention = '🏆 Mention TRÈS BIEN – ¡Excelente!'; trophy='🏆'; stars='⭐⭐⭐⭐⭐'; color='#2E7D32'; }
+  else if (pct >= 70) { mention = '🥇 Mention BIEN – ¡Muy bien!'; trophy='🥇'; stars='⭐⭐⭐⭐'; color='#1565C0'; }
+  else if (pct >= 50) { mention = '🥈 Mention ASSEZ BIEN – ¡Bien!'; trophy='🥈'; stars='⭐⭐⭐'; color='#F9A825'; }
+  else if (pct >= 30) { mention = '📚 À approfondir – ¡Sigue adelante!'; trophy='📚'; stars='⭐⭐'; color='#E65100'; }
+  else { mention = '💪 Courage ! – ¡No te rindas!'; trophy='💪'; stars='⭐'; color='#C62828'; }
+
+  document.getElementById('resTrophy').textContent = trophy;
+  const mDiv = document.getElementById('resMention');
+  mDiv.textContent = mention;
+  mDiv.style.background = color;
+  document.getElementById('resStars').textContent = stars;
+  triggerConfetti();
+}
+
+function restartQuiz() {
+  currentQ = 0; score = 0; wrongs = 0; answered = false;
+  document.getElementById('results').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  renderQuestion();
+}
+
+// Mini confetti
+function triggerConfetti() {
+  const colors = ['#6A0DAD','#AD1457','#1565C0','#2E7D32','#F9A825','#FF5722'];
+  for (let i = 0; i < 28; i++) {
+    const d = document.createElement('div');
+    const size = 8 + Math.random() * 10;
+    d.style.cssText = `
+      position:fixed; width:${size}px; height:${size}px;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      border-radius:${Math.random()>0.5?'50%':'2px'};
+      left:${Math.random()*100}vw; top:-10px; z-index:9999;
+      opacity:1; pointer-events:none;
+      animation: fall ${1.2+Math.random()*1.5}s ease forwards;
+    `;
+    document.body.appendChild(d);
+    setTimeout(() => d.remove(), 3000);
+  }
+}
+
+const styleEl = document.createElement('style');
+styleEl.textContent = `
+@keyframes fall {
+  0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(${360*3}deg); opacity: 0; }
+}`;
+document.head.appendChild(styleEl);
+</script>
+</body>
+</html>
